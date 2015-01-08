@@ -3,7 +3,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       Title="VMware Machine Hardware Version Updater"
-                       Width="1000" Height="700" EnableDWMDropShadow="True"
+                       Width="1000" Height="700" EnableDWMDropShadow="True" Icon="b.ico"
                       GlowBrush="{DynamicResource AccentColorBrush}">
 
     <controls:MetroWindow.RightWindowCommands>
@@ -13,13 +13,19 @@
     </controls:MetroWindow.RightWindowCommands>
     <Grid>
         <DataGrid Name="VmDataGrid" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" AutoGenerateColumns="False"
-                  GridLinesVisibility="Horizontal" CanUserDeleteRows="False" Margin="10,10,10,10">
+                  GridLinesVisibility="Horizontal" MouseDoubleClick="VmDataGridOnMouseDoubleClick" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False" Margin="10,10,10,10">
         <DataGrid.Columns>
                 <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="250" IsReadOnly="True" />
                 <DataGridTextColumn Header="Path" Binding="{Binding Path}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="175" IsReadOnly="True" />
                 <controls:DataGridNumericUpDownColumn Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Width="100" IsReadOnly="False" />
             </DataGrid.Columns>
-    </DataGrid>
+            <DataGrid.ContextMenu>
+                <ContextMenu Name="MovieContextMenu" StaysOpen="True">
+                    <MenuItem Name="EditMenuItem" Header="Start..." Click="StartClick" />
+                    <MenuItem Name="DeleteMenuItem" Header="Go to path..." Click="GoToClick" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
     </Grid>
 </controls:MetroWindow>

@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Internal;
 
@@ -11,6 +15,8 @@ namespace VmMachineHwVersionUpdater
     public partial class MainWindow : MetroWindow
 // ReSharper restore RedundantExtendsListEntry
     {
+        private Machine _currentMachine;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,6 +45,49 @@ namespace VmMachineHwVersionUpdater
             var settings = new Settings();
             settings.Show();
             settings.Closed += (o, args) => LoadGrid();
+        }
+
+        private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(VmDataGrid.SelectedItem == null)
+            {
+                return;
+            }
+            _currentMachine = (Machine) VmDataGrid.SelectedItem;
+        }
+
+        private void StartClick(object sender, RoutedEventArgs e)
+        {
+            StartVm();
+        }
+
+        private void VmDataGridOnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            StartVm();
+        }
+
+        private void GoToClick(object sender, RoutedEventArgs e)
+        {
+            if(File.Exists(_currentMachine.Path))
+            {
+                var path = Path.GetDirectoryName(_currentMachine.Path);
+                if(!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+                {
+                    Process.Start(path);
+                }
+            }
+        }
+
+        private void StartVm()
+        {
+            var vm = new Process
+            {
+                StartInfo =
+                {
+                    FileName = _currentMachine.Path
+                }
+            };
+            vm.Start();
         }
 
         //private async void ShowErrorDialog()
