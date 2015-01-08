@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using VmMachineHwVersionUpdater.Extensions;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
@@ -37,46 +38,50 @@ namespace VmMachineHwVersionUpdater.Internal
             var machineList = new List<Machine>();
             foreach(var dir in Directory.GetDirectories(machinePath))
             {
-                foreach(var path in Directory.GetFiles(dir, "*.vmx"))
+                if(dir.IsAccessible())
                 {
-                    if(!path.EndsWith("f"))
+                    foreach(var path in Directory.GetFiles(dir, "*.vmx"))
                     {
-                        var readAllLines = File.ReadAllLines(path);
-                        //virtualHW.version = "10"
-                        //displayName = "Chromixium"
-                        //guestOS = "ubuntu-64"
-
-                        var hwVersion = "";
-                        var displayName = "";
-                        var guestOs = "";
-
-                        foreach(var lineToLower in readAllLines.Select(line => line.ToLower()))
+                        if(!path.EndsWith("f"))
                         {
-                            if(lineToLower.Contains("virtualhw.version"))
+                            var readAllLines = File.ReadAllLines(path);
+                            //virtualHW.version = "10"
+                            //displayName = "Chromixium"
+                            //guestOS = "ubuntu-64"
+
+                            var hwVersion = "";
+                            var displayName = "";
+                            var guestOs = "";
+
+                            foreach(var lineToLower in readAllLines.Select(line => line.ToLower()))
                             {
-                                hwVersion = lineToLower.Replace('"', ' ').Trim();
-                                hwVersion = hwVersion.Replace("virtualhw.version = ", "");
+                                if(lineToLower.Contains("virtualhw.version"))
+                                {
+                                    hwVersion = lineToLower.Replace('"', ' ').Trim();
+                                    hwVersion = hwVersion.Replace("virtualhw.version = ", "");
+                                }
+                                if(lineToLower.Contains("displayname"))
+                                {
+                                    displayName = lineToLower.Replace('"', ' ').Trim();
+                                    displayName = displayName.Replace("displayname = ", "");
+                                }
+                                if(lineToLower.Contains("guestos"))
+                                {
+                                    guestOs = lineToLower.Replace('"', ' ').Trim();
+                                    guestOs = guestOs.Replace("guestos = ", "");
+                                }
                             }
-                            if(lineToLower.Contains("displayname"))
+
+                            var machine = new Machine
                             {
-                                displayName = lineToLower.Replace('"', ' ').Trim();
-                                displayName = displayName.Replace("displayname = ", "");
-                            }
-                            if(lineToLower.Contains("guestos"))
-                            {
-                                guestOs = lineToLower.Replace('"', ' ').Trim();
-                                guestOs = guestOs.Replace("guestos = ", "");
-                            }
+                                Id = Guid.NewGuid().ToString(),
+                                HwVersion = Convert.ToInt32(hwVersion),
+                                DisplayName = displayName.Trim(),
+                                GuestOs = MappingExtensions.GetGuestOsFullName(guestOs.Trim()),
+                                Path = path.Trim()
+                            };
+                            machineList.Add(machine);
                         }
-                        var machine = new Machine
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            HwVersion = Convert.ToInt32(hwVersion),
-                            DisplayName = displayName,
-                            GuestOs = guestOs,
-                            Path = path
-                        };
-                        machineList.Add(machine);
                     }
                 }
             }

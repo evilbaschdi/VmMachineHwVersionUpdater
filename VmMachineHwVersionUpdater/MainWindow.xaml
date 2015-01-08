@@ -17,7 +17,7 @@
         <DataGrid.Columns>
                 <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="250" IsReadOnly="True" />
                 <DataGridTextColumn Header="Path" Binding="{Binding Path}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="150" IsReadOnly="True" />
+                <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="175" IsReadOnly="True" />
                 <controls:DataGridNumericUpDownColumn Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Width="100" IsReadOnly="False" />
             </DataGrid.Columns>
     </DataGrid>

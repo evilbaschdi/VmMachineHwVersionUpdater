@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Internal;
 
 namespace VmMachineHwVersionUpdater
@@ -15,12 +14,10 @@ namespace VmMachineHwVersionUpdater
         public MainWindow()
         {
             InitializeComponent();
-            var machinePath = Properties.Settings.Default.VMwarePool;
 
-            if(!string.IsNullOrWhiteSpace(machinePath))
+            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
             {
-                var hardwareVersion = new HardwareVersion();
-                VmDataGrid.ItemsSource = hardwareVersion.ReadFromPath(machinePath);
+                LoadGrid();
             }
             else
             {
@@ -31,19 +28,32 @@ namespace VmMachineHwVersionUpdater
             }
         }
 
-        private async void ShowErrorDialog()
+        private void LoadGrid()
         {
-            var options = new MetroDialogSettings
-            {
-                ColorScheme = MetroDialogColorScheme.Theme
-            };
-
-            MetroDialogOptions = options;
-
-            await
-                this.ShowMessageAsync("Please set your vmware parent folder.",
-                    "This is the folder where all your vmware machines are located.");
+            var hardwareVersion = new HardwareVersion();
+            VmDataGrid.ItemsSource = hardwareVersion.ReadFromPath(Properties.Settings.Default.VMwarePool);
         }
+
+        private void SettingsClick(object sender, RoutedEventArgs e)
+        {
+            var settings = new Settings();
+            settings.Show();
+            settings.Closed += (o, args) => LoadGrid();
+        }
+
+        //private async void ShowErrorDialog()
+        //{
+        //    var options = new MetroDialogSettings
+        //    {
+        //        ColorScheme = MetroDialogColorScheme.Theme
+        //    };
+
+        //    MetroDialogOptions = options;
+
+        //    await
+        //        this.ShowMessageAsync("Please set your vmware parent folder.",
+        //            "This is the folder where all your vmware machines are located.");
+        //}
 
         //public async void ShowUpdateDialog(string displayName, int newVersion)
         //{
@@ -57,11 +67,5 @@ namespace VmMachineHwVersionUpdater
         //    await this.ShowMessageAsync(string.Format("The hardware version of '{0}' was changed:", displayName),
         //        string.Format("New Hardwareversion: '{0}'", newVersion));
         //}
-
-        private void SettingsClick(object sender, RoutedEventArgs e)
-        {
-            var settings = new Settings();
-            settings.Show();
-        }
     }
 }

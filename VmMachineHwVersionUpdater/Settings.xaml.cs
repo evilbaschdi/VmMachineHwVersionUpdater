@@ -22,6 +22,7 @@ namespace VmMachineHwVersionUpdater
         {
             Properties.Settings.Default.VMwarePool = Path.Text;
             Properties.Settings.Default.Save();
+            Close();
         }
 
         private void BrowseClick(object sender, RoutedEventArgs e)
