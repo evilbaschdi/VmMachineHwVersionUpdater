@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater
+﻿namespace VmMachineHwVersionUpdater.Internal
 {
     public interface IMachine
     {

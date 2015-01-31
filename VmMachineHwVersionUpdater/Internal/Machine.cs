@@ -1,7 +1,6 @@
 using System.ComponentModel;
-using VmMachineHwVersionUpdater.Internal;
 
-namespace VmMachineHwVersionUpdater
+namespace VmMachineHwVersionUpdater.Internal
 {
     public class Machine : INotifyPropertyChanged
     {
