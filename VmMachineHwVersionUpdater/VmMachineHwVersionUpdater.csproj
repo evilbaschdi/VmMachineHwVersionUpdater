@@ -67,9 +67,6 @@
     <Compile Include="Extensions\DirectoryExtensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Extensions\OldWindow.cs" />
-    <Compile Include="Settings.xaml.cs">
-      <DependentUpon>Settings.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Extensions\WpfExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -91,10 +88,6 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Settings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

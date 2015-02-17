@@ -2,8 +2,10 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
+using VmMachineHwVersionUpdater.Extensions;
 using VmMachineHwVersionUpdater.Internal;
 
 namespace VmMachineHwVersionUpdater
@@ -24,13 +26,11 @@ namespace VmMachineHwVersionUpdater
             if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
             {
                 LoadGrid();
+                VmPath.Text = Properties.Settings.Default.VMwarePool;
             }
             else
             {
-                //ShowErrorDialog();
-                var settings = new Settings();
-                settings.Show();
-                settings.BringIntoView();
+                ToggleSettingsFlyout();
             }
         }
 
@@ -42,9 +42,26 @@ namespace VmMachineHwVersionUpdater
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            var settings = new Settings();
-            settings.Show();
-            settings.Closed += (o, args) => LoadGrid();
+            ToggleSettingsFlyout();
+        }
+
+        private void ToggleSettingsFlyout()
+        {
+            var flyout = (Flyout) Flyouts.Items[0];
+
+            if(flyout == null)
+            {
+                return;
+            }
+
+            flyout.IsOpen = !flyout.IsOpen;
+            flyout.ClosingFinished += SaveSettings;
+        }
+
+        private void SaveSettings(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.VMwarePool = VmPath.Text;
+            Properties.Settings.Default.Save();
         }
 
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -90,31 +107,12 @@ namespace VmMachineHwVersionUpdater
             vm.Start();
         }
 
-        //private async void ShowErrorDialog()
-        //{
-        //    var options = new MetroDialogSettings
-        //    {
-        //        ColorScheme = MetroDialogColorScheme.Theme
-        //    };
+        private void BrowseClick(object sender, RoutedEventArgs e)
+        {
+            var folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.ShowDialog(this.GetIWin32Window());
 
-        //    MetroDialogOptions = options;
-
-        //    await
-        //        this.ShowMessageAsync("Please set your vmware parent folder.",
-        //            "This is the folder where all your vmware machines are located.");
-        //}
-
-        //public async void ShowUpdateDialog(string displayName, int newVersion)
-        //{
-        //    var options = new MetroDialogSettings
-        //    {
-        //        ColorScheme = MetroDialogColorScheme.Theme
-        //    };
-
-        //    MetroDialogOptions = options;
-
-        //    await this.ShowMessageAsync(string.Format("The hardware version of '{0}' was changed:", displayName),
-        //        string.Format("New Hardwareversion: '{0}'", newVersion));
-        //}
+            VmPath.Text = folderBrowserDialog.SelectedPath;
+        }
     }
 }
