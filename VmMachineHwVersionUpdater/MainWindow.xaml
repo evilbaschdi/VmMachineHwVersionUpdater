@@ -3,7 +3,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       Title="VMware Machine Hardware Version Updater"
-                      Width="1000" Height="700" EnableDWMDropShadow="True" Icon="b.ico"
+                      Width="1000" Height="700" Icon="b.ico"
                       GlowBrush="{DynamicResource AccentColorBrush}">
     <Window.Resources>
         <ResourceDictionary>
@@ -30,13 +30,13 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <DataGrid Name="VmDataGrid" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" AutoGenerateColumns="False"
-                  GridLinesVisibility="Horizontal" MouseDoubleClick="VmDataGridOnMouseDoubleClick" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False" Margin="10,10,10,10">
+        <DataGrid Name="VmDataGrid" Margin="10,10,10,10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
+                  AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
         <DataGrid.Columns>
-                <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="250" IsReadOnly="True" />
+                <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Path" Binding="{Binding Path}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="175" IsReadOnly="True" />
-                <controls:DataGridNumericUpDownColumn Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1" Width="100" IsReadOnly="False" />
+                <DataGridTextColumn Width="175" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
+                <controls:DataGridNumericUpDownColumn Width="100" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1" IsReadOnly="False" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu Name="MovieContextMenu" StaysOpen="True">
@@ -49,16 +49,16 @@
 
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
-            <controls:Flyout AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings" Position="Right" Width="500">
+            <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings" Position="Right" Theme="Accent">
                 <StackPanel Orientation="Horizontal">
                     <!--Label-->
-                    <Label Content="Path" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
+                    <Label Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Path" />
 
                     <!--TextBox-->
-                    <TextBox Name="VmPath" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" IsReadOnly="True" />
+                    <TextBox Name="VmPath" Width="350" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" />
 
                     <!--Button-->
-                    <Button Name="Browse" Click="BrowseClick" Content="Browse" Width="75" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" />
+                    <Button Name="Browse" Width="75" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowseClick" Content="Browse" />
                 </StackPanel>
             </controls:Flyout>
         </controls:FlyoutsControl>
