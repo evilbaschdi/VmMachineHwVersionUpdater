@@ -44,7 +44,7 @@ namespace VmMachineHwVersionUpdater.Extensions
                 //Windows 10.
                 new KeyValuePair<string, string>("windows9", "Windows 10"),
                 new KeyValuePair<string, string>("windows9-64", "Windows 10 x64"),
-                new KeyValuePair<string, string>("windows9srv-64", "Windows Server 2015 x64"),
+                new KeyValuePair<string, string>("windows9srv-64", "Windows Server 2016 x64"),
                 //Linux.
                 new KeyValuePair<string, string>("otherlinux", "Other Linux 2.2.x kernel"),
                 new KeyValuePair<string, string>("otherlinux-64", "Other Linux 2.2.x kernel x64"),
@@ -74,7 +74,8 @@ namespace VmMachineHwVersionUpdater.Extensions
                 new KeyValuePair<string, string>("debian7", "Debian 7"),
                 new KeyValuePair<string, string>("debian7-64", "Debian 7 x64"),
                 //Other.
-                new KeyValuePair<string, string>("winhyperv", "Hyper-V")
+                new KeyValuePair<string, string>("winhyperv", "Hyper-V"),
+                new KeyValuePair<string, string>("vmkernel6", "VMware vSphere 6")
             };
 
             return list;

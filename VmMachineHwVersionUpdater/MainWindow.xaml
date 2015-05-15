@@ -5,39 +5,38 @@
                       Title="VMware Machine Hardware Version Updater"
                       Width="1000" Height="700" Icon="b.ico"
                       GlowBrush="{DynamicResource AccentColorBrush}">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Resources/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+    <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
+            <!-- Settings -->
             <Button Name="Settings" Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
-                <Rectangle Width="20" Height="20"
+                    <Rectangle Width="20" Height="20"
                    Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill"
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
                          Visual="{StaticResource appbar_settings}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
 
-                <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Settings" />
+                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Settings" />
                 </StackPanel>
             </Button>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
+    <!--  Grid  -->
     <Grid>
+        <!--  DataGrid  -->
         <DataGrid Name="VmDataGrid" Margin="10,10,10,10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
                   AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
-        <DataGrid.Columns>
+            <!--  Columns  -->
+            <DataGrid.Columns>
                 <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Path" Binding="{Binding Path}" IsReadOnly="True" />
-                <DataGridTextColumn Width="175" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
+                <DataGridTextColumn Width="200" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
                 <controls:DataGridNumericUpDownColumn Width="100" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1" IsReadOnly="False" />
             </DataGrid.Columns>
+            <!--  ContextMenu  -->
             <DataGrid.ContextMenu>
                 <ContextMenu Name="MovieContextMenu" StaysOpen="True">
                     <MenuItem Name="EditMenuItem" Header="Start..." Click="StartClick" />
@@ -46,19 +45,54 @@
             </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
-
+    <!--  Flyouts  -->
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
+            <!--  Settings Flyout  -->
             <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings" Position="Right" Theme="Accent">
-                <StackPanel Orientation="Horizontal">
-                    <!--Label-->
-                    <Label Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Path" />
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <!--Label-->
+                        <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Path" />
 
-                    <!--TextBox-->
-                    <TextBox Name="VmPath" Width="350" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" />
+                        <!--TextBox-->
+                        <TextBox Name="VmPath" Width="330" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" />
 
-                    <!--Button-->
-                    <Button Name="Browse" Width="75" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowseClick" Content="Browse" />
+                        <!--Button-->
+                        <Button Name="Browse" Width="75" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowseClick" Content="Browse" />
+                    </StackPanel>
+                    <!-- Horizontal Line -->
+                    <StackPanel Margin="0,10,0,0" Orientation="Vertical">
+                        <Rectangle Width="470" VerticalAlignment="Stretch" Stroke="{DynamicResource AccentColorBrush}" />
+                    </StackPanel>
+                    <!--Application Style-->
+                    <StackPanel>
+                        <!-- Theme -->
+                        <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
+                            <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Theme" />
+                            <RadioButton Name="Dark" Margin="10,0,5,0" Checked="Theme" Content="Dark" />
+                            <RadioButton Name="Light" Margin="10,0,5,0" Checked="Theme" Content="Light" IsChecked="True" />
+                        </StackPanel>
+                        <!-- Accent -->
+                        <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
+                            <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Accent" />
+                            <ComboBox Name="Accent" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                SelectionChanged="AccentOnSelectionChanged" />
+                        </StackPanel>
+                        <!-- Save Style -->
+                        <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
+                            <Button Name="SaveStyle" Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Width="16" Height="16" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save style" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </controls:Flyout>
         </controls:FlyoutsControl>

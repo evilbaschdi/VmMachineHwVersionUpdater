@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
+﻿using MahApps.Metro.Controls;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using System.Windows.Input;
-using MahApps.Metro.Controls;
+using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Extensions;
 using VmMachineHwVersionUpdater.Internal;
 
@@ -15,15 +15,18 @@ namespace VmMachineHwVersionUpdater
     /// </summary>
 // ReSharper disable RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
-// ReSharper restore RedundantExtendsListEntry
+    // ReSharper restore RedundantExtendsListEntry
     {
         private Machine _currentMachine;
+        private readonly ApplicationStyle _style;
 
         public MainWindow()
         {
+            _style = new ApplicationStyle(this);
             InitializeComponent();
+            _style.Load();
 
-            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
+            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
             {
                 LoadGrid();
                 VmPath.Text = Properties.Settings.Default.VMwarePool;
@@ -47,9 +50,9 @@ namespace VmMachineHwVersionUpdater
 
         private void ToggleSettingsFlyout()
         {
-            var flyout = (Flyout) Flyouts.Items[0];
+            var flyout = (Flyout)Flyouts.Items[0];
 
-            if(flyout == null)
+            if (flyout == null)
             {
                 return;
             }
@@ -66,11 +69,11 @@ namespace VmMachineHwVersionUpdater
 
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(VmDataGrid.SelectedItem == null)
+            if (VmDataGrid.SelectedItem == null)
             {
                 return;
             }
-            _currentMachine = (Machine) VmDataGrid.SelectedItem;
+            _currentMachine = (Machine)VmDataGrid.SelectedItem;
         }
 
         private void StartClick(object sender, RoutedEventArgs e)
@@ -78,17 +81,17 @@ namespace VmMachineHwVersionUpdater
             StartVm();
         }
 
-        private void VmDataGridOnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            StartVm();
-        }
+        //private void VmDataGridOnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    StartVm();
+        //}
 
         private void GoToClick(object sender, RoutedEventArgs e)
         {
-            if(File.Exists(_currentMachine.Path))
+            if (File.Exists(_currentMachine.Path))
             {
                 var path = Path.GetDirectoryName(_currentMachine.Path);
-                if(!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+                if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
                 {
                     Process.Start(path);
                 }
@@ -113,6 +116,21 @@ namespace VmMachineHwVersionUpdater
             folderBrowserDialog.ShowDialog(this.GetIWin32Window());
 
             VmPath.Text = folderBrowserDialog.SelectedPath;
+        }
+
+        private void SaveStyleClick(object sender, RoutedEventArgs e)
+        {
+            _style.SaveStyle();
+        }
+
+        private void Theme(object sender, RoutedEventArgs e)
+        {
+            _style.SetTheme(sender, e);
+        }
+
+        private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _style.SetAccent(sender, e);
         }
     }
 }
