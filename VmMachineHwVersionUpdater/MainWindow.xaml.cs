@@ -1,9 +1,11 @@
-﻿using MahApps.Metro.Controls;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Extensions;
 using VmMachineHwVersionUpdater.Internal;
@@ -13,12 +15,13 @@ namespace VmMachineHwVersionUpdater
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-// ReSharper disable RedundantExtendsListEntry
+    // ReSharper disable RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
-    // ReSharper restore RedundantExtendsListEntry
+        // ReSharper restore RedundantExtendsListEntry
     {
         private Machine _currentMachine;
         private readonly ApplicationStyle _style;
+        private IEnumerable<Machine> _currentItemSource;
 
         public MainWindow()
         {
@@ -26,7 +29,7 @@ namespace VmMachineHwVersionUpdater
             InitializeComponent();
             _style.Load();
 
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
+            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
             {
                 LoadGrid();
                 VmPath.Text = Properties.Settings.Default.VMwarePool;
@@ -40,7 +43,8 @@ namespace VmMachineHwVersionUpdater
         private void LoadGrid()
         {
             var hardwareVersion = new HardwareVersion();
-            VmDataGrid.ItemsSource = hardwareVersion.ReadFromPath(Properties.Settings.Default.VMwarePool);
+            _currentItemSource = hardwareVersion.ReadFromPath(Properties.Settings.Default.VMwarePool);
+            VmDataGrid.ItemsSource = _currentItemSource;
         }
 
         private void SettingsClick(object sender, RoutedEventArgs e)
@@ -50,9 +54,9 @@ namespace VmMachineHwVersionUpdater
 
         private void ToggleSettingsFlyout()
         {
-            var flyout = (Flyout)Flyouts.Items[0];
+            var flyout = (Flyout) Flyouts.Items[0];
 
-            if (flyout == null)
+            if(flyout == null)
             {
                 return;
             }
@@ -65,15 +69,24 @@ namespace VmMachineHwVersionUpdater
         {
             Properties.Settings.Default.VMwarePool = VmPath.Text;
             Properties.Settings.Default.Save();
+            LoadGrid();
         }
 
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (VmDataGrid.SelectedItem == null)
+            if(VmDataGrid.SelectedItem == null)
             {
                 return;
             }
-            _currentMachine = (Machine)VmDataGrid.SelectedItem;
+            _currentMachine = (Machine) VmDataGrid.SelectedItem;
+        }
+
+        private void UpdateAllClick(object sender, RoutedEventArgs e)
+        {
+            foreach(var machine in _currentItemSource)
+            {
+                machine.HwVersion = Convert.ToInt32(UpdateAllHwVersion.Value);
+            }
         }
 
         private void StartClick(object sender, RoutedEventArgs e)
@@ -81,20 +94,16 @@ namespace VmMachineHwVersionUpdater
             StartVm();
         }
 
-        //private void VmDataGridOnMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        //{
-        //    StartVm();
-        //}
-
         private void GoToClick(object sender, RoutedEventArgs e)
         {
-            if (File.Exists(_currentMachine.Path))
+            if(!File.Exists(_currentMachine.Path))
             {
-                var path = Path.GetDirectoryName(_currentMachine.Path);
-                if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
-                {
-                    Process.Start(path);
-                }
+                return;
+            }
+            var path = Path.GetDirectoryName(_currentMachine.Path);
+            if(!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+            {
+                Process.Start(path);
             }
         }
 

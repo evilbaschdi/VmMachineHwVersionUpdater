@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace VmMachineHwVersionUpdater.Extensions
 {
@@ -20,6 +21,12 @@ namespace VmMachineHwVersionUpdater.Extensions
                 //if exception is not accesible
                 return false;
             }
+        }
+
+        public static double GetDirectorySize(this DirectoryInfo dir)
+        {
+            var sum = dir.GetFiles().Aggregate<FileInfo, double>(0, (current, file) => current + file.Length);
+            return dir.GetDirectories().Aggregate(sum, (current, dir1) => current + GetDirectorySize(dir1));
         }
     }
 }

@@ -27,7 +27,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// <param name="mainWindow"></param>
         public ApplicationStyle(MainWindow mainWindow)
         {
-            if (mainWindow == null)
+            if(mainWindow == null)
             {
                 throw new ArgumentNullException(nameof(mainWindow));
             }
@@ -38,18 +38,22 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         public void Load()
         {
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.Accent))
+            _mainWindow.Width = SystemParameters.PrimaryScreenWidth - 400;
+            _mainWindow.Height = SystemParameters.PrimaryScreenHeight - 400;
+            _mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.Accent))
             {
                 _styleAccent = ThemeManager.GetAccent(Properties.Settings.Default.Accent);
             }
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.Theme))
+            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.Theme))
             {
                 _styleTheme = ThemeManager.GetAppTheme(Properties.Settings.Default.Theme);
             }
 
             _mainWindow.Accent.SelectedValue = _styleAccent.Name;
 
-            switch (_styleTheme.Name)
+            switch(_styleTheme.Name)
             {
                 case "BaseDark":
                     _mainWindow.Dark.IsChecked = true;
@@ -64,7 +68,7 @@ namespace VmMachineHwVersionUpdater.Core
 
             SetStyle();
 
-            foreach (var accent in ThemeManager.Accents)
+            foreach(var accent in ThemeManager.Accents)
             {
                 _mainWindow.Accent.Items.Add(accent.Name);
             }
@@ -98,10 +102,10 @@ namespace VmMachineHwVersionUpdater.Core
             // get the theme from the current application
             var style = ThemeManager.DetectAppStyle(Application.Current);
 
-            var radiobutton = (RadioButton)sender;
+            var radiobutton = (RadioButton) sender;
             _styleTheme = style.Item1;
 
-            switch (radiobutton.Name)
+            switch(radiobutton.Name)
             {
                 case "Dark":
                     _styleTheme = ThemeManager.GetAppTheme("BaseDark");
