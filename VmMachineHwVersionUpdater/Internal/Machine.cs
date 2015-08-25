@@ -8,7 +8,13 @@ namespace VmMachineHwVersionUpdater.Internal
 
         public string DisplayName { get; set; }
 
+        public string ShortPath { get; set; }
+
         public string Path { get; set; }
+
+        public string DirectorySize { get; set; }
+
+        public double DirectorySizeGb { get; set; }
 
         public int HwVersion
         {

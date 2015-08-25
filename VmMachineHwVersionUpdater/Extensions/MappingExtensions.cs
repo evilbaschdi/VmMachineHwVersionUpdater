@@ -83,11 +83,7 @@ namespace VmMachineHwVersionUpdater.Extensions
 
         public static string GetGuestOsFullName(string guestOs)
         {
-            var fullName = string.Empty;
-            foreach(var guestOsMapping in GuestOsMappings().Where(guestOsMapping => guestOsMapping.Key == guestOs))
-            {
-                fullName = guestOsMapping.Value;
-            }
+            var fullName = GuestOsMappings().FirstOrDefault(mapping => mapping.Key == guestOs).Value;
 
             return !string.IsNullOrWhiteSpace(fullName) ? fullName : guestOs;
         }

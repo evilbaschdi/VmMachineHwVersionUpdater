@@ -8,6 +8,21 @@
     <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
+            <!-- Update all -->
+            <Button Name="UpdateAll" Click="UpdateAllClick">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20" Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_progress}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+
+                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Update all to" />
+                </StackPanel>
+            </Button>
+            <controls:NumericUpDown Name="UpdateAllHwVersion" Minimum="1" Value="1" />
             <!-- Settings -->
             <Button Name="Settings" Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
@@ -32,7 +47,25 @@
             <!--  Columns  -->
             <DataGrid.Columns>
                 <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Path" Binding="{Binding Path}" IsReadOnly="True" />
+
+                <DataGridTemplateColumn Header="Path" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding ShortPath}"
+                                ToolTipService.ToolTip="{Binding Path}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Text="{Binding DirectorySizeGb}"
+                                ToolTipService.ToolTip="{Binding DirectorySize}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTextColumn Width="200" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
                 <controls:DataGridNumericUpDownColumn Width="100" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1" IsReadOnly="False" />
             </DataGrid.Columns>
