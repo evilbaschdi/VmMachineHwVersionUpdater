@@ -15,14 +15,14 @@
                    Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill"
-                         Visual="{StaticResource appbar_reset}" />
+                         Visual="{StaticResource appbar_progress}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
 
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Update all to" />
                 </StackPanel>
             </Button>
-            <controls:NumericUpDown Name="UpdateAllHwVersion" Minimum="1" />
+            <controls:NumericUpDown Name="UpdateAllHwVersion" Minimum="1" Value="1" />
             <!-- Settings -->
             <Button Name="Settings" Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
