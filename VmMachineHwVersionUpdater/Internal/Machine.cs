@@ -2,7 +2,7 @@ using System.ComponentModel;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
-    public class Machine : INotifyPropertyChanged
+    public class Machine : INotifyPropertyChanged, IMachine
     {
         public string Id { get; set; }
 

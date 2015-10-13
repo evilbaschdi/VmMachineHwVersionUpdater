@@ -2,6 +2,9 @@
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      mc:Ignorable="d"
                       Title="VMware Machine Hardware Version Updater"
                       Width="1000" Height="700" Icon="b.ico"
                       GlowBrush="{DynamicResource AccentColorBrush}">
@@ -19,7 +22,7 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
 
-                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Update all to" />
+                    <TextBlock Name="UpdateAllTextBlock" Margin="5 0 0 0" VerticalAlignment="Center" Text="Update all to" />
                 </StackPanel>
             </Button>
             <controls:NumericUpDown Name="UpdateAllHwVersion" Minimum="1" Value="1" />
@@ -48,7 +51,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
 
-                <DataGridTemplateColumn Header="Path" IsReadOnly="True">
+                <DataGridTemplateColumn Header="Path" IsReadOnly="True" SortMemberPath="ShortPath">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock  Text="{Binding ShortPath}"
@@ -57,7 +60,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True">
+                <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True" SortMemberPath="DirectorySizeGb">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock  Text="{Binding DirectorySizeGb}"
