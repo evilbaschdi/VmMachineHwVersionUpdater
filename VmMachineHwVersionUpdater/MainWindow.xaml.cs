@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -46,10 +47,12 @@ namespace VmMachineHwVersionUpdater
             var hardwareVersion = new HardwareVersion();
             _currentItemSource = hardwareVersion.ReadFromPath(Properties.Settings.Default.VMwarePool);
             var currentItemSource = _currentItemSource as IList<Machine> ?? _currentItemSource.ToList();
-            VmDataGrid.ItemsSource = currentItemSource;
+            DataContext = currentItemSource;
+            VmDataGrid.ItemsSource = currentItemSource.OrderBy(vm => vm.DisplayName);
 
             if(currentItemSource.Any())
             {
+                UpdateAllTextBlock.Text = "Update all " + currentItemSource.Count + " machines to version";
                 GetLatestHwVersionForUpdateAll();
             }
         }
@@ -100,10 +103,8 @@ namespace VmMachineHwVersionUpdater
             var localList = _currentItemSource.Where(vm => vm.HwVersion != version);
             var hardwareVersion = new HardwareVersion();
 
-            foreach(var machine in localList)
-            {
-                hardwareVersion.Update(machine.Path, version);
-            }
+            Parallel.ForEach(localList, machine => { hardwareVersion.Update(machine.Path, version); });
+            //todo: handling taskleiste usw.
             LoadGrid();
         }
 
