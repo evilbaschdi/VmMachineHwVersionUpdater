@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Extensions;
 using VmMachineHwVersionUpdater.Internal;
@@ -33,7 +33,7 @@ namespace VmMachineHwVersionUpdater
 
             if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
             {
-                LoadGrid();
+                //LoadGrid();
                 VmPath.Text = Properties.Settings.Default.VMwarePool;
             }
             else
@@ -52,7 +52,7 @@ namespace VmMachineHwVersionUpdater
 
             if(currentItemSource.Any())
             {
-                UpdateAllTextBlock.Text = "Update all " + currentItemSource.Count + " machines to version";
+                UpdateAllTextBlock.Text = $"Update all {currentItemSource.Count} machines to version";
                 GetLatestHwVersionForUpdateAll();
             }
         }
@@ -159,6 +159,11 @@ namespace VmMachineHwVersionUpdater
         private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _style.SetAccent(sender, e);
+        }
+
+        private void LoadClick(object sender, RoutedEventArgs e)
+        {
+            LoadGrid();
         }
     }
 }

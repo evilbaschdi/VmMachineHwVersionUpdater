@@ -11,6 +11,20 @@
     <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
+            <!-- Load -->
+            <Button Name="Load" Click="LoadClick">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20" Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_reset}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+
+                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Load" />
+                </StackPanel>
+            </Button>
             <!-- Update all -->
             <Button Name="UpdateAll" Click="UpdateAllClick">
                 <StackPanel Orientation="Horizontal">
