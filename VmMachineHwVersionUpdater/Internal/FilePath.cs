@@ -16,7 +16,7 @@ namespace VmMachineHwVersionUpdater.Internal
         public List<string> GetFileList(string initialDirectory)
         {
             var fileList = new List<string>();
-            if (initialDirectory.IsAccessible())
+            if(initialDirectory.IsAccessible())
             {
                 var initialDirectoryFileList = Directory.GetFiles(initialDirectory).ToList();
                 Parallel.ForEach(initialDirectoryFileList.Where(file => IsValidFileName(file, fileList)),
@@ -38,7 +38,7 @@ namespace VmMachineHwVersionUpdater.Internal
 
             var directoryInfo = new FileInfo(file).Directory;
 
-            if (directoryInfo == null)
+            if(directoryInfo == null)
             {
                 return false;
             }

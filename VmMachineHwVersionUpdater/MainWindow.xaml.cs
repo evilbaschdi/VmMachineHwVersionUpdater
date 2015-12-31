@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Extensions;
 using VmMachineHwVersionUpdater.Internal;
@@ -19,7 +19,7 @@ namespace VmMachineHwVersionUpdater
     /// </summary>
     // ReSharper disable RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
-    // ReSharper restore RedundantExtendsListEntry
+        // ReSharper restore RedundantExtendsListEntry
     {
         private Machine _currentMachine;
         private readonly ApplicationStyle _style;
@@ -31,7 +31,7 @@ namespace VmMachineHwVersionUpdater
             InitializeComponent();
             _style.Load();
 
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
+            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
             {
                 //LoadGrid();
                 VmPath.Text = Properties.Settings.Default.VMwarePool;
@@ -50,7 +50,7 @@ namespace VmMachineHwVersionUpdater
             DataContext = currentItemSource;
             VmDataGrid.ItemsSource = currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
 
-            if (currentItemSource.Any())
+            if(currentItemSource.Any())
             {
                 UpdateAllTextBlock.Text = $"Update all {currentItemSource.Count} machines to version";
                 GetLatestHwVersionForUpdateAll();
@@ -70,9 +70,9 @@ namespace VmMachineHwVersionUpdater
 
         private void ToggleSettingsFlyout()
         {
-            var flyout = (Flyout)Flyouts.Items[0];
+            var flyout = (Flyout) Flyouts.Items[0];
 
-            if (flyout == null)
+            if(flyout == null)
             {
                 return;
             }
@@ -90,11 +90,11 @@ namespace VmMachineHwVersionUpdater
 
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (VmDataGrid.SelectedItem == null)
+            if(VmDataGrid.SelectedItem == null)
             {
                 return;
             }
-            _currentMachine = (Machine)VmDataGrid.SelectedItem;
+            _currentMachine = (Machine) VmDataGrid.SelectedItem;
         }
 
         private void UpdateAllClick(object sender, RoutedEventArgs e)
@@ -115,12 +115,12 @@ namespace VmMachineHwVersionUpdater
 
         private void GoToClick(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(_currentMachine.Path))
+            if(!File.Exists(_currentMachine.Path))
             {
                 return;
             }
             var path = Path.GetDirectoryName(_currentMachine.Path);
-            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+            if(!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
             {
                 Process.Start(path);
             }
