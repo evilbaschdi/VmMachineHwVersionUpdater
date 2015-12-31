@@ -1,13 +1,13 @@
-﻿using MahApps.Metro;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using MahApps.Metro;
 
 namespace VmMachineHwVersionUpdater.Core
 {
     /// <summary>
     /// </summary>
-    public class ApplicationStyle
+    public class AppStyle : IAppStyle
     {
         /// <summary>
         ///     Accent of Application Style.
@@ -20,18 +20,25 @@ namespace VmMachineHwVersionUpdater.Core
         private AppTheme _styleTheme = ThemeManager.DetectAppStyle(Application.Current).Item1;
 
         private readonly MainWindow _mainWindow;
+        private readonly IAppSettings _appSettings;
 
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
         /// <param name="mainWindow"></param>
-        public ApplicationStyle(MainWindow mainWindow)
+        /// <param name="appSettings"></param>
+        public AppStyle(MainWindow mainWindow, IAppSettings appSettings)
         {
             if(mainWindow == null)
             {
                 throw new ArgumentNullException(nameof(mainWindow));
             }
+            if(appSettings == null)
+            {
+                throw new ArgumentNullException(nameof(appSettings));
+            }
             _mainWindow = mainWindow;
+            _appSettings = appSettings;
         }
 
         /// <summary>
@@ -42,13 +49,13 @@ namespace VmMachineHwVersionUpdater.Core
             _mainWindow.Height = SystemParameters.PrimaryScreenHeight - 400;
             _mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.Accent))
+            if(!string.IsNullOrWhiteSpace(_appSettings.Accent))
             {
-                _styleAccent = ThemeManager.GetAccent(Properties.Settings.Default.Accent);
+                _styleAccent = ThemeManager.GetAccent(_appSettings.Accent);
             }
-            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.Theme))
+            if(!string.IsNullOrWhiteSpace(_appSettings.Theme))
             {
-                _styleTheme = ThemeManager.GetAppTheme(Properties.Settings.Default.Theme);
+                _styleTheme = ThemeManager.GetAppTheme(_appSettings.Theme);
             }
 
             _mainWindow.Accent.SelectedValue = _styleAccent.Name;
@@ -127,9 +134,8 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         public void SaveStyle()
         {
-            Properties.Settings.Default.Accent = _styleAccent.Name;
-            Properties.Settings.Default.Theme = _styleTheme.Name;
-            Properties.Settings.Default.Save();
+            _appSettings.Accent = _styleAccent.Name;
+            _appSettings.Theme = _styleTheme.Name;
         }
     }
 }

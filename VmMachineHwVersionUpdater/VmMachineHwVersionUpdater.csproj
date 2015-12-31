@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\VmMachineHwVersionUpdater.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\VmMachineHwVersionUpdater.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>b.ico</ApplicationIcon>
@@ -66,7 +68,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\ApplicationStyle.cs" />
+    <Compile Include="Core\AppBasics.cs">
+      <DependentUpon>IAppBasics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\AppSettings.cs">
+      <DependentUpon>IAppSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\AppStyle.cs">
+      <DependentUpon>IAppStyle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\IAppBasics.cs" />
+    <Compile Include="Core\IAppSettings.cs" />
+    <Compile Include="Core\IAppStyle.cs" />
     <Compile Include="Extensions\DirectoryExtensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Extensions\OldWindow.cs" />
@@ -80,12 +93,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Internal\FileLocked.cs" />
+    <Compile Include="Internal\HardwareVersion.cs">
+      <DependentUpon>IHardwareVersion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Internal\IFilePath.cs" />
     <Compile Include="Internal\FilePath.cs">
       <DependentUpon>IFilePath.cs</DependentUpon>
     </Compile>
+    <Compile Include="Internal\IHardwareVersion.cs" />
     <Compile Include="Internal\IMachine.cs" />
-    <Compile Include="Internal\HardwareVersion.cs" />
     <Compile Include="Internal\Machine.cs">
       <DependentUpon>IMachine.cs</DependentUpon>
     </Compile>

@@ -98,14 +98,10 @@
             <!--  Settings Flyout  -->
             <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings" Position="Right" Theme="Accent">
                 <StackPanel>
+                    <!-- VM Pool -->
                     <StackPanel Orientation="Horizontal">
-                        <!--Label-->
                         <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Path" />
-
-                        <!--TextBox-->
                         <TextBox Name="VmPath" Height="30" Width="310" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" />
-
-                        <!--Button-->
                         <Button Name="Browse" Width="95" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowseClick">
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">

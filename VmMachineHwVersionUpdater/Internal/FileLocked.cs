@@ -10,6 +10,8 @@ using VmMachineHwVersionUpdater.Annotations;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
+    /// <summary>
+    /// </summary>
     public class FileLocked
     {
         //http://dotnet-snippets.de/snippet/ermitteln-des-prozesses-der-eine-datei-gesperrt-hat-bzw-geoeffnet/10006

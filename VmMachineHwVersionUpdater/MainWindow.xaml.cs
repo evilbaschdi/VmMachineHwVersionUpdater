@@ -6,10 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Core;
-using VmMachineHwVersionUpdater.Extensions;
 using VmMachineHwVersionUpdater.Internal;
 
 namespace VmMachineHwVersionUpdater
@@ -22,12 +20,23 @@ namespace VmMachineHwVersionUpdater
         // ReSharper restore RedundantExtendsListEntry
     {
         private Machine _currentMachine;
-        private readonly ApplicationStyle _style;
+        private readonly IAppStyle _style;
+        private readonly IAppBasics _basics;
+        private IHardwareVersion _hardwareVersion;
         private IEnumerable<Machine> _currentItemSource;
 
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private readonly IAppSettings _settings;
+
+        #region General
+
+        /// <summary>
+        /// </summary>
         public MainWindow()
         {
-            _style = new ApplicationStyle(this);
+            _settings = new AppSettings();
+            _basics = new AppBasics(_settings);
+            _style = new AppStyle(this, _settings);
             InitializeComponent();
             _style.Load();
 
@@ -42,10 +51,15 @@ namespace VmMachineHwVersionUpdater
             }
         }
 
+        private void LoadClick(object sender, RoutedEventArgs e)
+        {
+            LoadGrid();
+        }
+
         private void LoadGrid()
         {
-            var hardwareVersion = new HardwareVersion();
-            _currentItemSource = hardwareVersion.ReadFromPath(Properties.Settings.Default.VMwarePool);
+            _hardwareVersion = new HardwareVersion();
+            _currentItemSource = _hardwareVersion.ReadFromPath(_basics.GetVMwarePool());
             var currentItemSource = _currentItemSource as IList<Machine> ?? _currentItemSource.ToList();
             DataContext = currentItemSource;
             VmDataGrid.ItemsSource = currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
@@ -57,11 +71,77 @@ namespace VmMachineHwVersionUpdater
             }
         }
 
+        private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(VmDataGrid.SelectedItem == null)
+            {
+                return;
+            }
+            _currentMachine = (Machine) VmDataGrid.SelectedItem;
+        }
+
+        private void BrowseClick(object sender, RoutedEventArgs e)
+        {
+            _basics.BrowseFolder();
+            VmPath.Text = _basics.GetVMwarePool();
+        }
+
+        #endregion General
+
+        #region Update
+
         private void GetLatestHwVersionForUpdateAll()
         {
             var latest = _currentItemSource.Select(machine => machine.HwVersion).Max();
             UpdateAllHwVersion.Value = latest;
         }
+
+        private void UpdateAllClick(object sender, RoutedEventArgs e)
+        {
+            var version = Convert.ToInt32(UpdateAllHwVersion.Value);
+            var localList = _currentItemSource.Where(vm => vm.HwVersion != version);
+            Parallel.ForEach(localList, machine => { _hardwareVersion.Update(machine.Path, version); });
+            //todo: handling taskleiste usw.
+            LoadGrid();
+        }
+
+        #endregion Update
+
+        #region VM Tools
+
+        private void StartClick(object sender, RoutedEventArgs e)
+        {
+            StartVm();
+        }
+
+        private void StartVm()
+        {
+            var vm = new Process
+            {
+                StartInfo =
+                {
+                    FileName = _currentMachine.Path
+                }
+            };
+            vm.Start();
+        }
+
+        private void GoToClick(object sender, RoutedEventArgs e)
+        {
+            if(!File.Exists(_currentMachine.Path))
+            {
+                return;
+            }
+            var path = Path.GetDirectoryName(_currentMachine.Path);
+            if(!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+            {
+                Process.Start(path);
+            }
+        }
+
+        # endregion VM Tools
+
+        #region Settings
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
@@ -83,68 +163,12 @@ namespace VmMachineHwVersionUpdater
 
         private void SaveSettings(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.VMwarePool = VmPath.Text;
-            Properties.Settings.Default.Save();
             LoadGrid();
         }
 
-        private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if(VmDataGrid.SelectedItem == null)
-            {
-                return;
-            }
-            _currentMachine = (Machine) VmDataGrid.SelectedItem;
-        }
+        #endregion Settings
 
-        private void UpdateAllClick(object sender, RoutedEventArgs e)
-        {
-            var version = Convert.ToInt32(UpdateAllHwVersion.Value);
-            var localList = _currentItemSource.Where(vm => vm.HwVersion != version);
-            var hardwareVersion = new HardwareVersion();
-
-            Parallel.ForEach(localList, machine => { hardwareVersion.Update(machine.Path, version); });
-            //todo: handling taskleiste usw.
-            LoadGrid();
-        }
-
-        private void StartClick(object sender, RoutedEventArgs e)
-        {
-            StartVm();
-        }
-
-        private void GoToClick(object sender, RoutedEventArgs e)
-        {
-            if(!File.Exists(_currentMachine.Path))
-            {
-                return;
-            }
-            var path = Path.GetDirectoryName(_currentMachine.Path);
-            if(!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
-            {
-                Process.Start(path);
-            }
-        }
-
-        private void StartVm()
-        {
-            var vm = new Process
-            {
-                StartInfo =
-                {
-                    FileName = _currentMachine.Path
-                }
-            };
-            vm.Start();
-        }
-
-        private void BrowseClick(object sender, RoutedEventArgs e)
-        {
-            var folderBrowserDialog = new FolderBrowserDialog();
-            folderBrowserDialog.ShowDialog(this.GetIWin32Window());
-
-            VmPath.Text = folderBrowserDialog.SelectedPath;
-        }
+        #region Style
 
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
@@ -161,9 +185,6 @@ namespace VmMachineHwVersionUpdater
             _style.SetAccent(sender, e);
         }
 
-        private void LoadClick(object sender, RoutedEventArgs e)
-        {
-            LoadGrid();
-        }
+        #endregion Style
     }
 }

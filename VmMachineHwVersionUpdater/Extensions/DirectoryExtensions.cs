@@ -4,8 +4,12 @@ using System.Linq;
 
 namespace VmMachineHwVersionUpdater.Extensions
 {
+    /// <summary>
+    /// </summary>
     public static class DirectoryExtensions
     {
+        /// <summary>
+        /// </summary>
         public static bool IsAccessible(this string path)
         {
             //get directory info
@@ -23,6 +27,8 @@ namespace VmMachineHwVersionUpdater.Extensions
             }
         }
 
+        /// <summary>
+        /// </summary>
         public static double GetDirectorySize(this DirectoryInfo dir)
         {
             var sum = dir.GetFiles().Aggregate<FileInfo, double>(0, (current, file) => current + file.Length);

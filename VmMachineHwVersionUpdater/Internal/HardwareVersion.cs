@@ -7,8 +7,14 @@ using VmMachineHwVersionUpdater.Extensions;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
-    public class HardwareVersion
+    /// <summary>
+    /// </summary>
+    public class HardwareVersion : IHardwareVersion
     {
+        /// <summary>
+        /// </summary>
+        /// <param name="vmxPath"></param>
+        /// <param name="newVersion"></param>
         public void Update(string vmxPath, int newVersion)
         {
             var readAllLines = File.ReadAllLines(vmxPath);
@@ -35,6 +41,10 @@ namespace VmMachineHwVersionUpdater.Internal
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="machinePath"></param>
+        /// <returns></returns>
         public IEnumerable<Machine> ReadFromPath(string machinePath)
         {
             var filePath = new FilePath();

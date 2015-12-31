@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace VmMachineHwVersionUpdater.Extensions
 {
+    /// <summary>
+    /// </summary>
     public class MappingExtensions
     {
         private static IEnumerable<KeyValuePair<string, string>> GuestOsMappings()
@@ -81,6 +83,8 @@ namespace VmMachineHwVersionUpdater.Extensions
             return list;
         }
 
+        /// <summary>
+        /// </summary>
         public static string GetGuestOsFullName(string guestOs)
         {
             var fullName = GuestOsMappings().FirstOrDefault(mapping => mapping.Key == guestOs).Value;

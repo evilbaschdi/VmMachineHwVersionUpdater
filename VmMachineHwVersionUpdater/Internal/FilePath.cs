@@ -6,6 +6,8 @@ using VmMachineHwVersionUpdater.Extensions;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
+    /// <summary>
+    /// </summary>
     public class FilePath : IFilePath
     {
         private IEnumerable<string> GetSubdirectoriesContainingOnlyFiles(string path)
@@ -13,6 +15,10 @@ namespace VmMachineHwVersionUpdater.Internal
             return Directory.GetDirectories(path, "*", SearchOption.AllDirectories).Where(dir => dir.IsAccessible()).ToList();
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="initialDirectory"></param>
+        /// <returns></returns>
         public List<string> GetFileList(string initialDirectory)
         {
             var fileList = new List<string>();
