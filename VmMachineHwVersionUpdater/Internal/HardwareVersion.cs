@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VmMachineHwVersionUpdater.Extensions;
 
@@ -58,8 +59,9 @@ namespace VmMachineHwVersionUpdater.Internal
                 var displayName = "";
                 var guestOs = "";
 
-                Parallel.ForEach(readAllLines.Select(line => line.ToLower()), lineToLower =>
+                Parallel.ForEach(readAllLines, line =>
                 {
+                    var lineToLower = line.ToLower();
                     if(lineToLower.Contains("virtualhw.version"))
                     {
                         hwVersion = lineToLower.Replace('"', ' ').Trim();
@@ -67,8 +69,8 @@ namespace VmMachineHwVersionUpdater.Internal
                     }
                     if(lineToLower.Contains("displayname"))
                     {
-                        displayName = lineToLower.Replace('"', ' ').Trim();
-                        displayName = displayName.Replace("displayname = ", "");
+                        displayName = line.Replace('"', ' ').Trim();
+                        displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase);
                     }
                     if(lineToLower.Contains("guestos"))
                     {
@@ -76,6 +78,8 @@ namespace VmMachineHwVersionUpdater.Internal
                         guestOs = guestOs.Replace("guestos = ", "");
                     }
                 });
+
+
                 var directoryInfo = new FileInfo(file).Directory;
                 var size = directoryInfo.GetDirectorySize();
                 var machine = new Machine
