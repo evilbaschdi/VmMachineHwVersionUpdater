@@ -40,6 +40,9 @@
     <ApplicationIcon>b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EvilBaschdi.Core">
+      <HintPath>..\..\EvilBaschdi.Core\EvilBaschdi.Core\bin\Release\EvilBaschdi.Core.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.0.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -74,12 +77,9 @@
     <Compile Include="Core\AppSettings.cs">
       <DependentUpon>IAppSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\AppStyle.cs">
-      <DependentUpon>IAppStyle.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Core\CoreSettings.cs" />
     <Compile Include="Core\IAppBasics.cs" />
     <Compile Include="Core\IAppSettings.cs" />
-    <Compile Include="Core\IAppStyle.cs" />
     <Compile Include="Extensions\DirectoryExtensions.cs" />
     <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Extensions\OldWindow.cs" />
@@ -156,6 +156,9 @@
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>"$(DevEnvDir)\devenv" "$(ProjectDir)\..\..\EvilBaschdi.Core\EvilBaschdi.Core\EvilBaschdi.Core.csproj" /Rebuild "Release|AnyCPU"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

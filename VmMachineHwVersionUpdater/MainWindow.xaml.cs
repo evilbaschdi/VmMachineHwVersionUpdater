@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using EvilBaschdi.Core.Application;
+using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Internal;
@@ -20,13 +22,15 @@ namespace VmMachineHwVersionUpdater
         // ReSharper restore RedundantExtendsListEntry
     {
         private Machine _currentMachine;
-        private readonly IAppStyle _style;
+        private readonly IMetroStyle _style;
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private readonly ISettings _coreSettings;
         private readonly IAppBasics _basics;
         private IHardwareVersion _hardwareVersion;
         private IEnumerable<Machine> _currentItemSource;
-
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly IAppSettings _settings;
+        private int _overrideProtection;
 
         #region General
 
@@ -35,10 +39,11 @@ namespace VmMachineHwVersionUpdater
         public MainWindow()
         {
             _settings = new AppSettings();
+            _coreSettings = new CoreSettings();
             _basics = new AppBasics(_settings);
-            _style = new AppStyle(this, _settings);
             InitializeComponent();
-            _style.Load();
+            _style = new MetroStyle(this, Accent, Dark, Light, _coreSettings);
+            _style.Load(true, false);
 
             if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
             {
@@ -69,6 +74,8 @@ namespace VmMachineHwVersionUpdater
                 UpdateAllTextBlock.Text = $"Update all {currentItemSource.Count} machines to version";
                 GetLatestHwVersionForUpdateAll();
             }
+
+            _overrideProtection = 1;
         }
 
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -168,23 +175,35 @@ namespace VmMachineHwVersionUpdater
 
         #endregion Settings
 
-        #region Style
+        #region MetroStyle
 
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
+            if(_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SaveStyle();
         }
 
         private void Theme(object sender, RoutedEventArgs e)
         {
+            if(_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SetTheme(sender, e);
         }
 
         private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SetAccent(sender, e);
         }
 
-        #endregion Style
+        #endregion MetroStyle
     }
 }
