@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using EvilBaschdi.Core.Application;
+using EvilBaschdi.Core.Browsers;
 using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Core;
@@ -17,15 +18,13 @@ namespace VmMachineHwVersionUpdater
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    // ReSharper disable RedundantExtendsListEntry
+    // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
-        // ReSharper restore RedundantExtendsListEntry
     {
         private Machine _currentMachine;
         private readonly IMetroStyle _style;
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly ISettings _coreSettings;
-        private readonly IAppBasics _basics;
         private IHardwareVersion _hardwareVersion;
         private IEnumerable<Machine> _currentItemSource;
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
@@ -40,15 +39,13 @@ namespace VmMachineHwVersionUpdater
         {
             _settings = new AppSettings();
             _coreSettings = new CoreSettings();
-            _basics = new AppBasics(_settings);
             InitializeComponent();
             _style = new MetroStyle(this, Accent, Dark, Light, _coreSettings);
             _style.Load(true, false);
 
-            if(!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
+            if(!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
             {
-                //LoadGrid();
-                VmPath.Text = Properties.Settings.Default.VMwarePool;
+                VmPath.Text = _settings.VMwarePool;
             }
             else
             {
@@ -64,7 +61,7 @@ namespace VmMachineHwVersionUpdater
         private void LoadGrid()
         {
             _hardwareVersion = new HardwareVersion();
-            _currentItemSource = _hardwareVersion.ReadFromPath(_basics.GetVMwarePool());
+            _currentItemSource = _hardwareVersion.ReadFromPath(_settings.VMwarePool);
             var currentItemSource = _currentItemSource as IList<Machine> ?? _currentItemSource.ToList();
             DataContext = currentItemSource;
             VmDataGrid.ItemsSource = currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
@@ -89,8 +86,15 @@ namespace VmMachineHwVersionUpdater
 
         private void BrowseClick(object sender, RoutedEventArgs e)
         {
-            _basics.BrowseFolder();
-            VmPath.Text = _basics.GetVMwarePool();
+            VmPath.Text = _settings.VMwarePool;
+
+            var browser = new ExplorerFolderBrower
+            {
+                SelectedPath = VmPath.Text
+            };
+            browser.ShowDialog();
+            _settings.VMwarePool = browser.SelectedPath;
+            VmPath.Text = browser.SelectedPath;
         }
 
         #endregion General
