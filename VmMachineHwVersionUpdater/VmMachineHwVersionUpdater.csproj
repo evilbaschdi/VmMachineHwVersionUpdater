@@ -96,10 +96,6 @@
     <Compile Include="Internal\HardwareVersion.cs">
       <DependentUpon>IHardwareVersion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Internal\IFilePath.cs" />
-    <Compile Include="Internal\FilePath.cs">
-      <DependentUpon>IFilePath.cs</DependentUpon>
-    </Compile>
     <Compile Include="Internal\IHardwareVersion.cs" />
     <Compile Include="Internal\IMachine.cs" />
     <Compile Include="Internal\Machine.cs">

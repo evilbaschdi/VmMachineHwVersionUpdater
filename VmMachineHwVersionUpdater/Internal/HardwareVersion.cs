@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using EvilBaschdi.Core.DirectoryExtensions;
 using VmMachineHwVersionUpdater.Extensions;
 
 namespace VmMachineHwVersionUpdater.Internal
@@ -50,7 +51,12 @@ namespace VmMachineHwVersionUpdater.Internal
         {
             var filePath = new FilePath();
             var machineList = new List<Machine>();
-            var fileList = filePath.GetFileList(machinePath).Distinct().ToList();
+            var includeExtensionList = new List<string>
+            {
+                "vmx"
+            };
+            
+            var fileList = filePath.GetFileList(machinePath,includeExtensionList,null).Distinct().ToList();
 
             Parallel.ForEach(fileList, file =>
             {
@@ -81,7 +87,7 @@ namespace VmMachineHwVersionUpdater.Internal
 
 
                 var directoryInfo = new FileInfo(file).Directory;
-                var size = directoryInfo.GetDirectorySize();
+                var size = DirectoryExtensions.GetDirectorySize(directoryInfo);
                 var machine = new Machine
                 {
                     Id = Guid.NewGuid().ToString(),

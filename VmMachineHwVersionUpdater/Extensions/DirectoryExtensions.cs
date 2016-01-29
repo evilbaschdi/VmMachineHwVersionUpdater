@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 
 namespace VmMachineHwVersionUpdater.Extensions
@@ -8,25 +7,6 @@ namespace VmMachineHwVersionUpdater.Extensions
     /// </summary>
     public static class DirectoryExtensions
     {
-        /// <summary>
-        /// </summary>
-        public static bool IsAccessible(this string path)
-        {
-            //get directory info
-            var realpath = new DirectoryInfo(path);
-            try
-            {
-                //if GetDirectories works then is accessible
-                realpath.GetDirectories();
-                return true;
-            }
-            catch(Exception)
-            {
-                //if exception is not accesible
-                return false;
-            }
-        }
-
         /// <summary>
         /// </summary>
         public static double GetDirectorySize(this DirectoryInfo dir)
