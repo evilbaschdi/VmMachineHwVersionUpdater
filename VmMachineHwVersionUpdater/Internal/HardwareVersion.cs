@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.DirectoryExtensions;
+using EvilBaschdi.Core.MultiThreading;
 using VmMachineHwVersionUpdater.Extensions;
 
 namespace VmMachineHwVersionUpdater.Internal
@@ -49,8 +51,9 @@ namespace VmMachineHwVersionUpdater.Internal
         /// <returns></returns>
         public IEnumerable<Machine> ReadFromPath(string machinePath)
         {
-            var filePath = new FilePath();
-            var machineList = new List<Machine>();
+            var multiThreadingHelper= new MultiThreadingHelper();
+            var filePath = new FilePath(multiThreadingHelper);
+            var machineList = new ConcurrentBag<Machine>();
             var includeExtensionList = new List<string>
             {
                 "vmx"
