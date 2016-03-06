@@ -29,7 +29,7 @@ namespace VmMachineHwVersionUpdater
         private IEnumerable<Machine> _currentItemSource;
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly IAppSettings _settings;
-        private int _overrideProtection;
+        private readonly int _overrideProtection;
 
         #region General
 
@@ -43,7 +43,7 @@ namespace VmMachineHwVersionUpdater
             _style = new MetroStyle(this, Accent, Dark, Light, _coreSettings);
             _style.Load(true, false);
 
-            if(!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
+            if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
             {
                 VmPath.Text = _settings.VMwarePool;
             }
@@ -51,6 +51,8 @@ namespace VmMachineHwVersionUpdater
             {
                 ToggleSettingsFlyout();
             }
+
+            _overrideProtection = 1;
         }
 
         private void LoadClick(object sender, RoutedEventArgs e)
@@ -66,18 +68,16 @@ namespace VmMachineHwVersionUpdater
             DataContext = currentItemSource;
             VmDataGrid.ItemsSource = currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
 
-            if(currentItemSource.Any())
+            if (currentItemSource.Any())
             {
                 UpdateAllTextBlock.Text = $"Update all {currentItemSource.Count} machines to version";
                 GetLatestHwVersionForUpdateAll();
             }
-
-            _overrideProtection = 1;
         }
 
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(VmDataGrid.SelectedItem == null)
+            if (VmDataGrid.SelectedItem == null)
             {
                 return;
             }
@@ -89,9 +89,9 @@ namespace VmMachineHwVersionUpdater
             VmPath.Text = _settings.VMwarePool;
 
             var browser = new ExplorerFolderBrower
-            {
-                SelectedPath = VmPath.Text
-            };
+                          {
+                              SelectedPath = VmPath.Text
+                          };
             browser.ShowDialog();
             _settings.VMwarePool = browser.SelectedPath;
             VmPath.Text = browser.SelectedPath;
@@ -128,23 +128,23 @@ namespace VmMachineHwVersionUpdater
         private void StartVm()
         {
             var vm = new Process
-            {
-                StartInfo =
-                {
-                    FileName = _currentMachine.Path
-                }
-            };
+                     {
+                         StartInfo =
+                         {
+                             FileName = _currentMachine.Path
+                         }
+                     };
             vm.Start();
         }
 
         private void GoToClick(object sender, RoutedEventArgs e)
         {
-            if(!File.Exists(_currentMachine.Path))
+            if (!File.Exists(_currentMachine.Path))
             {
                 return;
             }
             var path = Path.GetDirectoryName(_currentMachine.Path);
-            if(!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
             {
                 Process.Start(path);
             }
@@ -163,7 +163,7 @@ namespace VmMachineHwVersionUpdater
         {
             var flyout = (Flyout) Flyouts.Items[0];
 
-            if(flyout == null)
+            if (flyout == null)
             {
                 return;
             }
@@ -183,7 +183,7 @@ namespace VmMachineHwVersionUpdater
 
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
-            if(_overrideProtection == 0)
+            if (_overrideProtection == 0)
             {
                 return;
             }
@@ -192,7 +192,7 @@ namespace VmMachineHwVersionUpdater
 
         private void Theme(object sender, RoutedEventArgs e)
         {
-            if(_overrideProtection == 0)
+            if (_overrideProtection == 0)
             {
                 return;
             }
@@ -201,7 +201,7 @@ namespace VmMachineHwVersionUpdater
 
         private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(_overrideProtection == 0)
+            if (_overrideProtection == 0)
             {
                 return;
             }
