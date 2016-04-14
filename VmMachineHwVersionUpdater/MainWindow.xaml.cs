@@ -1,5 +1,4 @@
-﻿using MahApps.Metro.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
+using EvilBaschdi.Core.Application;
+using EvilBaschdi.Core.Browsers;
+using EvilBaschdi.Core.Wpf;
+using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Core;
-using VmMachineHwVersionUpdater.Extensions;
 using VmMachineHwVersionUpdater.Internal;
 
 namespace VmMachineHwVersionUpdater
@@ -17,35 +18,52 @@ namespace VmMachineHwVersionUpdater
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    // ReSharper disable RedundantExtendsListEntry
+    // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
-    // ReSharper restore RedundantExtendsListEntry
     {
         private Machine _currentMachine;
-        private readonly ApplicationStyle _style;
+        private readonly IMetroStyle _style;
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private readonly ISettings _coreSettings;
+        private IHardwareVersion _hardwareVersion;
         private IEnumerable<Machine> _currentItemSource;
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private readonly IAppSettings _settings;
+        private readonly int _overrideProtection;
 
+        #region General
+
+        /// <summary>
+        /// </summary>
         public MainWindow()
         {
-            _style = new ApplicationStyle(this);
+            _settings = new AppSettings();
+            _coreSettings = new CoreSettings();
             InitializeComponent();
-            _style.Load();
+            _style = new MetroStyle(this, Accent, Dark, Light, _coreSettings);
+            _style.Load(true, false);
 
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool))
+            if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
             {
-                //LoadGrid();
-                VmPath.Text = Properties.Settings.Default.VMwarePool;
+                VmPath.Text = _settings.VMwarePool;
             }
             else
             {
                 ToggleSettingsFlyout();
             }
+
+            _overrideProtection = 1;
+        }
+
+        private void LoadClick(object sender, RoutedEventArgs e)
+        {
+            LoadGrid();
         }
 
         private void LoadGrid()
         {
-            var hardwareVersion = new HardwareVersion();
-            _currentItemSource = hardwareVersion.ReadFromPath(Properties.Settings.Default.VMwarePool);
+            _hardwareVersion = new HardwareVersion();
+            _currentItemSource = _hardwareVersion.ReadFromPath(_settings.VMwarePool);
             var currentItemSource = _currentItemSource as IList<Machine> ?? _currentItemSource.ToList();
             DataContext = currentItemSource;
             VmDataGrid.ItemsSource = currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
@@ -57,60 +75,66 @@ namespace VmMachineHwVersionUpdater
             }
         }
 
-        private void GetLatestHwVersionForUpdateAll()
-        {
-            var latest = _currentItemSource.Select(machine => machine.HwVersion).Max();
-            UpdateAllHwVersion.Value = latest;
-        }
-
-        private void SettingsClick(object sender, RoutedEventArgs e)
-        {
-            ToggleSettingsFlyout();
-        }
-
-        private void ToggleSettingsFlyout()
-        {
-            var flyout = (Flyout)Flyouts.Items[0];
-
-            if (flyout == null)
-            {
-                return;
-            }
-
-            flyout.IsOpen = !flyout.IsOpen;
-            flyout.ClosingFinished += SaveSettings;
-        }
-
-        private void SaveSettings(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.VMwarePool = VmPath.Text;
-            Properties.Settings.Default.Save();
-            LoadGrid();
-        }
-
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (VmDataGrid.SelectedItem == null)
             {
                 return;
             }
-            _currentMachine = (Machine)VmDataGrid.SelectedItem;
+            _currentMachine = (Machine) VmDataGrid.SelectedItem;
+        }
+
+        private void BrowseClick(object sender, RoutedEventArgs e)
+        {
+            VmPath.Text = _settings.VMwarePool;
+
+            var browser = new ExplorerFolderBrower
+                          {
+                              SelectedPath = VmPath.Text
+                          };
+            browser.ShowDialog();
+            _settings.VMwarePool = browser.SelectedPath;
+            VmPath.Text = browser.SelectedPath;
+        }
+
+        #endregion General
+
+        #region Update
+
+        private void GetLatestHwVersionForUpdateAll()
+        {
+            var latest = _currentItemSource.Select(machine => machine.HwVersion).Max();
+            UpdateAllHwVersion.Value = latest;
         }
 
         private void UpdateAllClick(object sender, RoutedEventArgs e)
         {
             var version = Convert.ToInt32(UpdateAllHwVersion.Value);
             var localList = _currentItemSource.Where(vm => vm.HwVersion != version);
-            var hardwareVersion = new HardwareVersion();
-
-            Parallel.ForEach(localList, machine => { hardwareVersion.Update(machine.Path, version); });
+            Parallel.ForEach(localList, machine => { _hardwareVersion.Update(machine.Path, version); });
             //todo: handling taskleiste usw.
             LoadGrid();
         }
 
+        #endregion Update
+
+        #region VM Tools
+
         private void StartClick(object sender, RoutedEventArgs e)
         {
             StartVm();
+        }
+
+        private void StartVm()
+        {
+            var vm = new Process
+                     {
+                         StartInfo =
+                         {
+                             FileName = _currentMachine.Path
+                         }
+                     };
+            vm.Start();
         }
 
         private void GoToClick(object sender, RoutedEventArgs e)
@@ -126,44 +150,64 @@ namespace VmMachineHwVersionUpdater
             }
         }
 
-        private void StartVm()
+        # endregion VM Tools
+
+        #region Settings
+
+        private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            var vm = new Process
+            ToggleSettingsFlyout();
+        }
+
+        private void ToggleSettingsFlyout()
+        {
+            var flyout = (Flyout) Flyouts.Items[0];
+
+            if (flyout == null)
             {
-                StartInfo =
-                {
-                    FileName = _currentMachine.Path
-                }
-            };
-            vm.Start();
+                return;
+            }
+
+            flyout.IsOpen = !flyout.IsOpen;
+            flyout.ClosingFinished += SaveSettings;
         }
 
-        private void BrowseClick(object sender, RoutedEventArgs e)
+        private void SaveSettings(object sender, RoutedEventArgs e)
         {
-            var folderBrowserDialog = new FolderBrowserDialog();
-            folderBrowserDialog.ShowDialog(this.GetIWin32Window());
-
-            VmPath.Text = folderBrowserDialog.SelectedPath;
+            LoadGrid();
         }
+
+        #endregion Settings
+
+        #region MetroStyle
 
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
+            if (_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SaveStyle();
         }
 
         private void Theme(object sender, RoutedEventArgs e)
         {
+            if (_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SetTheme(sender, e);
         }
 
         private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (_overrideProtection == 0)
+            {
+                return;
+            }
             _style.SetAccent(sender, e);
         }
 
-        private void LoadClick(object sender, RoutedEventArgs e)
-        {
-            LoadGrid();
-        }
+        #endregion MetroStyle
     }
 }

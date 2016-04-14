@@ -2,20 +2,36 @@ using System.ComponentModel;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
+    /// <summary>
+    /// </summary>
     public class Machine : INotifyPropertyChanged, IMachine
     {
+        /// <summary>
+        /// </summary>
         public string Id { get; set; }
 
+        /// <summary>
+        /// </summary>
         public string DisplayName { get; set; }
 
+        /// <summary>
+        /// </summary>
         public string ShortPath { get; set; }
 
+        /// <summary>
+        /// </summary>
         public string Path { get; set; }
 
+        /// <summary>
+        /// </summary>
         public string DirectorySize { get; set; }
 
+        /// <summary>
+        /// </summary>
         public double DirectorySizeGb { get; set; }
 
+        /// <summary>
+        /// </summary>
         public int HwVersion
         {
             get { return _hwVersion; }
@@ -31,8 +47,12 @@ namespace VmMachineHwVersionUpdater.Internal
 
         private int _hwVersion;
 
+        /// <summary>
+        /// </summary>
         public string GuestOs { get; set; }
 
+        /// <summary>
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         // This method is called by the Set accessor of each property.

@@ -1,14 +1,24 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using EvilBaschdi.Core.DirectoryExtensions;
+using EvilBaschdi.Core.MultiThreading;
 using VmMachineHwVersionUpdater.Extensions;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
-    public class HardwareVersion
+    /// <summary>
+    /// </summary>
+    public class HardwareVersion : IHardwareVersion
     {
+        /// <summary>
+        /// </summary>
+        /// <param name="vmxPath"></param>
+        /// <param name="newVersion"></param>
         public void Update(string vmxPath, int newVersion)
         {
             var readAllLines = File.ReadAllLines(vmxPath);
@@ -35,11 +45,21 @@ namespace VmMachineHwVersionUpdater.Internal
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="machinePath"></param>
+        /// <returns></returns>
         public IEnumerable<Machine> ReadFromPath(string machinePath)
         {
-            var filePath = new FilePath();
-            var machineList = new List<Machine>();
-            var fileList = filePath.GetFileList(machinePath).Distinct().ToList();
+            var multiThreadingHelper= new MultiThreadingHelper();
+            var filePath = new FilePath(multiThreadingHelper);
+            var machineList = new ConcurrentBag<Machine>();
+            var includeExtensionList = new List<string>
+            {
+                "vmx"
+            };
+            
+            var fileList = filePath.GetFileList(machinePath,includeExtensionList,null).Distinct().ToList();
 
             Parallel.ForEach(fileList, file =>
             {
@@ -48,8 +68,9 @@ namespace VmMachineHwVersionUpdater.Internal
                 var displayName = "";
                 var guestOs = "";
 
-                Parallel.ForEach(readAllLines.Select(line => line.ToLower()), lineToLower =>
+                Parallel.ForEach(readAllLines, line =>
                 {
+                    var lineToLower = line.ToLower();
                     if(lineToLower.Contains("virtualhw.version"))
                     {
                         hwVersion = lineToLower.Replace('"', ' ').Trim();
@@ -57,8 +78,8 @@ namespace VmMachineHwVersionUpdater.Internal
                     }
                     if(lineToLower.Contains("displayname"))
                     {
-                        displayName = lineToLower.Replace('"', ' ').Trim();
-                        displayName = displayName.Replace("displayname = ", "");
+                        displayName = line.Replace('"', ' ').Trim();
+                        displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase);
                     }
                     if(lineToLower.Contains("guestos"))
                     {
@@ -66,8 +87,10 @@ namespace VmMachineHwVersionUpdater.Internal
                         guestOs = guestOs.Replace("guestos = ", "");
                     }
                 });
+
+
                 var directoryInfo = new FileInfo(file).Directory;
-                var size = directoryInfo.GetDirectorySize();
+                var size = DirectoryExtensions.GetDirectorySize(directoryInfo);
                 var machine = new Machine
                 {
                     Id = Guid.NewGuid().ToString(),

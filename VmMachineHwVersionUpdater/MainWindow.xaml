@@ -2,9 +2,6 @@
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      mc:Ignorable="d"
                       Title="VMware Machine Hardware Version Updater"
                       Width="1000" Height="700" Icon="b.ico"
                       GlowBrush="{DynamicResource AccentColorBrush}">
@@ -15,10 +12,10 @@
             <Button Name="Load" Click="LoadClick">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="20" Height="20"
-                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill"
-                         Visual="{StaticResource appbar_reset}" />
+                                         Visual="{StaticResource appbar_reset}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
 
@@ -29,14 +26,15 @@
             <Button Name="UpdateAll" Click="UpdateAllClick">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="20" Height="20"
-                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill"
-                         Visual="{StaticResource appbar_progress}" />
+                                         Visual="{StaticResource appbar_progress}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
 
-                    <TextBlock Name="UpdateAllTextBlock" Margin="5 0 0 0" VerticalAlignment="Center" Text="Update all to" />
+                    <TextBlock Name="UpdateAllTextBlock" Margin="5 0 0 0" VerticalAlignment="Center"
+                               Text="Update all to" />
                 </StackPanel>
             </Button>
             <controls:NumericUpDown Name="UpdateAllHwVersion" Minimum="1" Value="1" />
@@ -44,10 +42,10 @@
             <Button Name="Settings" Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="20" Height="20"
-                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill"
-                         Visual="{StaticResource appbar_settings}" />
+                                         Visual="{StaticResource appbar_settings}" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
 
@@ -60,7 +58,8 @@
     <Grid>
         <!--  DataGrid  -->
         <DataGrid Name="VmDataGrid" Margin="10,10,10,10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
-                  AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
+                  AutoGenerateColumns="False" GridLinesVisibility="Horizontal"
+                  SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
             <!--  Columns  -->
             <DataGrid.Columns>
                 <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
@@ -68,23 +67,26 @@
                 <DataGridTemplateColumn Header="Path" IsReadOnly="True" SortMemberPath="ShortPath">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock  Text="{Binding ShortPath}"
-                                ToolTipService.ToolTip="{Binding Path}" />
+                            <TextBlock Text="{Binding ShortPath}"
+                                       ToolTipService.ToolTip="{Binding Path}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True" SortMemberPath="DirectorySizeGb">
+                <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True"
+                                        SortMemberPath="DirectorySizeGb">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock  Text="{Binding DirectorySizeGb}"
-                                ToolTipService.ToolTip="{Binding DirectorySize}" />
+                            <TextBlock Text="{Binding DirectorySizeGb}"
+                                       ToolTipService.ToolTip="{Binding DirectorySize}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
                 <DataGridTextColumn Width="200" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
-                <controls:DataGridNumericUpDownColumn Width="100" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1" IsReadOnly="False" />
+                <controls:DataGridNumericUpDownColumn Width="100" Header="Version"
+                                                      Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}"
+                                                      Minimum="1" IsReadOnly="False" />
             </DataGrid.Columns>
             <!--  ContextMenu  -->
             <DataGrid.ContextMenu>
@@ -99,19 +101,20 @@
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
             <!--  Settings Flyout  -->
-            <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings" Position="Right" Theme="Accent">
+            <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings"
+                             Position="Right" Theme="Accent">
                 <StackPanel>
+                    <!-- VM Pool -->
                     <StackPanel Orientation="Horizontal">
-                        <!--Label-->
-                        <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Path" />
-
-                        <!--TextBox-->
-                        <TextBox Name="VmPath" Height="30" Width="310" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" />
-
-                        <!--Button-->
-                        <Button Name="Browse" Width="95" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowseClick">
+                        <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Content="Path" />
+                        <TextBox Name="VmPath" Height="30" Width="310" Margin="10,0,0,0" HorizontalAlignment="Left"
+                                 VerticalAlignment="Top" IsReadOnly="True" />
+                        <Button Name="Browse" Width="95" Margin="10,0,0,0" HorizontalAlignment="Right"
+                                VerticalAlignment="Top" Click="BrowseClick">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                <Rectangle Width="20" Height="20"
+                                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_folder}" />
                                     </Rectangle.OpacityMask>
@@ -128,21 +131,26 @@
                     <StackPanel>
                         <!-- Theme -->
                         <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                            <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Theme" />
+                            <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Content="Theme" />
                             <RadioButton Name="Dark" Margin="10,5,5,0" Checked="Theme" Content="Dark" />
-                            <RadioButton Name="Light" Margin="10,5,5,0" Checked="Theme" Content="Light" IsChecked="True" />
+                            <RadioButton Name="Light" Margin="10,5,5,0" Checked="Theme" Content="Light"
+                                         IsChecked="True" />
                         </StackPanel>
                         <!-- Accent -->
                         <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                            <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Accent" />
-                            <ComboBox Name="Accent" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                SelectionChanged="AccentOnSelectionChanged" />
+                            <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   Content="Accent" />
+                            <ComboBox Name="Accent" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left"
+                                      VerticalAlignment="Top"
+                                      SelectionChanged="AccentOnSelectionChanged" />
                         </StackPanel>
                         <!-- Save Style -->
                         <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                             <Button Name="SaveStyle" Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
                                 <StackPanel Orientation="Horizontal">
-                                    <Rectangle Width="16" Height="16" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                                    <Rectangle Width="16" Height="16"
+                                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_save}" />
                                         </Rectangle.OpacityMask>
