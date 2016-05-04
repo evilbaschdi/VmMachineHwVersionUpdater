@@ -23,12 +23,16 @@ namespace VmMachineHwVersionUpdater
     {
         private Machine _currentMachine;
         private readonly IMetroStyle _style;
+
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly ISettings _coreSettings;
+
         private IHardwareVersion _hardwareVersion;
         private IEnumerable<Machine> _currentItemSource;
+
         // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly IAppSettings _settings;
+
         private readonly int _overrideProtection;
 
         #region General
@@ -57,6 +61,11 @@ namespace VmMachineHwVersionUpdater
 
         private void LoadClick(object sender, RoutedEventArgs e)
         {
+            if (sender == null)
+            {
+                throw new ArgumentNullException(nameof(sender));
+            }
+
             LoadGrid();
         }
 

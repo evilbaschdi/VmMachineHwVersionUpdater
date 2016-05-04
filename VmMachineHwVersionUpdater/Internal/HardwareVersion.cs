@@ -23,11 +23,11 @@ namespace VmMachineHwVersionUpdater.Internal
         {
             var readAllLines = File.ReadAllLines(vmxPath);
 
-            foreach(var line in readAllLines)
+            foreach (var line in readAllLines)
             {
                 var lineToLower = line.ToLower();
 
-                if(!lineToLower.Contains("virtualhw.version"))
+                if (!lineToLower.Contains("virtualhw.version"))
                 {
                     continue;
                 }
@@ -51,60 +51,60 @@ namespace VmMachineHwVersionUpdater.Internal
         /// <returns></returns>
         public IEnumerable<Machine> ReadFromPath(string machinePath)
         {
-            var multiThreadingHelper= new MultiThreadingHelper();
+            var multiThreadingHelper = new MultiThreadingHelper();
             var filePath = new FilePath(multiThreadingHelper);
             var machineList = new ConcurrentBag<Machine>();
             var includeExtensionList = new List<string>
-            {
-                "vmx"
-            };
-            
-            var fileList = filePath.GetFileList(machinePath,includeExtensionList,null).Distinct().ToList();
+                                       {
+                                           "vmx"
+                                       };
+
+            var fileList = filePath.GetFileList(machinePath, includeExtensionList, null).Distinct().ToList();
 
             Parallel.ForEach(fileList, file =>
-            {
-                var readAllLines = File.ReadAllLines(file);
-                var hwVersion = "";
-                var displayName = "";
-                var guestOs = "";
+                                       {
+                                           var readAllLines = File.ReadAllLines(file);
+                                           var hwVersion = "";
+                                           var displayName = "";
+                                           var guestOs = "";
 
-                Parallel.ForEach(readAllLines, line =>
-                {
-                    var lineToLower = line.ToLower();
-                    if(lineToLower.Contains("virtualhw.version"))
-                    {
-                        hwVersion = lineToLower.Replace('"', ' ').Trim();
-                        hwVersion = hwVersion.Replace("virtualhw.version = ", "");
-                    }
-                    if(lineToLower.Contains("displayname"))
-                    {
-                        displayName = line.Replace('"', ' ').Trim();
-                        displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase);
-                    }
-                    if(lineToLower.Contains("guestos"))
-                    {
-                        guestOs = lineToLower.Replace('"', ' ').Trim();
-                        guestOs = guestOs.Replace("guestos = ", "");
-                    }
-                });
+                                           Parallel.ForEach(readAllLines, line =>
+                                                                          {
+                                                                              var lineToLower = line.ToLower();
+                                                                              if (lineToLower.Contains("virtualhw.version"))
+                                                                              {
+                                                                                  hwVersion = lineToLower.Replace('"', ' ').Trim();
+                                                                                  hwVersion = hwVersion.Replace("virtualhw.version = ", "");
+                                                                              }
+                                                                              if (lineToLower.Contains("displayname"))
+                                                                              {
+                                                                                  displayName = line.Replace('"', ' ').Trim();
+                                                                                  displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase);
+                                                                              }
+                                                                              if (lineToLower.Contains("guestos"))
+                                                                              {
+                                                                                  guestOs = lineToLower.Replace('"', ' ').Trim();
+                                                                                  guestOs = guestOs.Replace("guestos = ", "");
+                                                                              }
+                                                                          });
 
 
-                var directoryInfo = new FileInfo(file).Directory;
-                var size = DirectoryExtensions.GetDirectorySize(directoryInfo);
-                var machine = new Machine
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    HwVersion = Convert.ToInt32(hwVersion),
-                    DisplayName = displayName.Trim(),
-                    GuestOs = MappingExtensions.GetGuestOsFullName(guestOs.Trim()),
-                    Path = file.Trim(),
-                    ShortPath = file.Replace(machinePath, "").Trim(),
-                    DirectorySizeGb = Math.Round(size/(1024*1024*1024), 2),
-                    DirectorySize =
-                        $"MB: {Math.Round(size/(1024*1024), 2)} | KB: {Math.Round(size/(1024), 2)}"
-                };
-                machineList.Add(machine);
-            });
+                                           var directoryInfo = new FileInfo(file).Directory;
+                                           var size = DirectoryExtensions.GetDirectorySize(directoryInfo);
+                                           var machine = new Machine
+                                                         {
+                                                             Id = Guid.NewGuid().ToString(),
+                                                             HwVersion = Convert.ToInt32(hwVersion),
+                                                             DisplayName = displayName.Trim(),
+                                                             GuestOs = MappingExtensions.GetGuestOsFullName(guestOs.Trim()),
+                                                             Path = file.Trim(),
+                                                             ShortPath = file.Replace(machinePath, "").Trim(),
+                                                             DirectorySizeGb = Math.Round(size/(1024*1024*1024), 2),
+                                                             DirectorySize =
+                                                                 $"MB: {Math.Round(size/(1024*1024), 2)} | KB: {Math.Round(size/(1024), 2)}"
+                                                         };
+                                           machineList.Add(machine);
+                                       });
 
             return machineList;
         }
