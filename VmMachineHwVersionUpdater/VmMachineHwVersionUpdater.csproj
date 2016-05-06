@@ -50,6 +50,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -82,8 +83,6 @@
     <Compile Include="Core\CoreSettings.cs" />
     <Compile Include="Core\IAppBasics.cs" />
     <Compile Include="Core\IAppSettings.cs" />
-    <Compile Include="Extensions\DirectoryExtensions.cs" />
-    <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Extensions\OldWindow.cs" />
     <Compile Include="Extensions\WpfExtensions.cs" />
     <Page Include="MainWindow.xaml">
@@ -94,10 +93,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Internal\FileLocked.cs" />
+    <Compile Include="Internal\GuestOsOutputStringMapping.cs">
+      <DependentUpon>IGuestOsOutputStringMapping.cs</DependentUpon>
+    </Compile>
     <Compile Include="Internal\HardwareVersion.cs">
       <DependentUpon>IHardwareVersion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Internal\IGuestOsOutputStringMapping.cs" />
     <Compile Include="Internal\IHardwareVersion.cs" />
     <Compile Include="Internal\IMachine.cs" />
     <Compile Include="Internal\Machine.cs">
@@ -111,9 +113,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
