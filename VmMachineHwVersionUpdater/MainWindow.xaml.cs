@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,12 +25,11 @@ namespace VmMachineHwVersionUpdater
     {
         private Machine _currentMachine;
         private readonly IMetroStyle _style;
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
-        private readonly ISettings _coreSettings;
         private IHardwareVersion _hardwareVersion;
         private IEnumerable<Machine> _currentItemSource;
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
+        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IAppSettings _settings;
+
         private readonly int _overrideProtection;
 
         #region General
@@ -38,10 +39,11 @@ namespace VmMachineHwVersionUpdater
         public MainWindow()
         {
             _settings = new AppSettings();
-            _coreSettings = new CoreSettings();
+            var coreSettings = new CoreSettings();
             InitializeComponent();
-            _style = new MetroStyle(this, Accent, Dark, Light, _coreSettings);
+            _style = new MetroStyle(this, Accent, Dark, Light, coreSettings);
             _style.Load(true, false);
+            _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
             if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
             {
@@ -51,18 +53,24 @@ namespace VmMachineHwVersionUpdater
             {
                 ToggleSettingsFlyout();
             }
-
+            var linkerTime = Assembly.GetExecutingAssembly().GetLinkerTime();
+            LinkerTime.Content = linkerTime.ToString(CultureInfo.InvariantCulture);
             _overrideProtection = 1;
         }
 
         private void LoadClick(object sender, RoutedEventArgs e)
         {
+            if (sender == null)
+            {
+                throw new ArgumentNullException(nameof(sender));
+            }
+
             LoadGrid();
         }
 
         private void LoadGrid()
         {
-            _hardwareVersion = new HardwareVersion();
+            _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
             _currentItemSource = _hardwareVersion.ReadFromPath(_settings.VMwarePool);
             var currentItemSource = _currentItemSource as IList<Machine> ?? _currentItemSource.ToList();
             DataContext = currentItemSource;

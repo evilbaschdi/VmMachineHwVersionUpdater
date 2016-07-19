@@ -42,14 +42,16 @@
     <ApplicationIcon>b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EvilBaschdi.Core">
-      <HintPath>..\..\EvilBaschdi.Core\EvilBaschdi.Core\bin\Release\EvilBaschdi.Core.dll</HintPath>
-    </Reference>
+   <ProjectReference Include="..\..\EvilBaschdi.Core\EvilBaschdi.Core\EvilBaschdi.Core.csproj">
+      <Project>{8a06a423-244f-404f-aad8-53de2ee2aed7}</Project>
+      <Name>EvilBaschdi.Core</Name>
+    </ProjectReference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -82,8 +84,6 @@
     <Compile Include="Core\CoreSettings.cs" />
     <Compile Include="Core\IAppBasics.cs" />
     <Compile Include="Core\IAppSettings.cs" />
-    <Compile Include="Extensions\DirectoryExtensions.cs" />
-    <Compile Include="Extensions\MappingExtensions.cs" />
     <Compile Include="Extensions\OldWindow.cs" />
     <Compile Include="Extensions\WpfExtensions.cs" />
     <Page Include="MainWindow.xaml">
@@ -94,10 +94,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Internal\FileLocked.cs" />
+    <Compile Include="Internal\GuestOsOutputStringMapping.cs">
+      <DependentUpon>IGuestOsOutputStringMapping.cs</DependentUpon>
+    </Compile>
     <Compile Include="Internal\HardwareVersion.cs">
       <DependentUpon>IHardwareVersion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Internal\IGuestOsOutputStringMapping.cs" />
     <Compile Include="Internal\IHardwareVersion.cs" />
     <Compile Include="Internal\IMachine.cs" />
     <Compile Include="Internal\Machine.cs">
@@ -111,9 +114,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -154,9 +160,6 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PreBuildEvent>"$(DevEnvDir)\devenv" "$(ProjectDir)\..\..\EvilBaschdi.Core\EvilBaschdi.Core\EvilBaschdi.Core.csproj" /Rebuild "Release|AnyCPU"</PreBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

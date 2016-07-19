@@ -37,7 +37,7 @@ namespace VmMachineHwVersionUpdater.Internal
             get { return _hwVersion; }
             set
             {
-                if(_hwVersion != value)
+                if (_hwVersion != value)
                 {
                     _hwVersion = value;
                     NotifyPropertyChanged(Path, _hwVersion);
@@ -60,9 +60,10 @@ namespace VmMachineHwVersionUpdater.Internal
         // parameter causes the property name of the caller to be substituted as an argument.
         private void NotifyPropertyChanged(string path, int newVersion)
         {
-            if(PropertyChanged != null)
+            if (PropertyChanged != null)
             {
-                var hardwareVersion = new HardwareVersion();
+                var guestOsOutputStringMapping = new GuestOsOutputStringMapping();
+                var hardwareVersion = new HardwareVersion(guestOsOutputStringMapping);
                 hardwareVersion.Update(path, newVersion);
             }
         }
