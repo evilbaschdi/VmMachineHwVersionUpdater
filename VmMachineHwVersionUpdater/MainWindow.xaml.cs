@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -8,6 +9,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Shell;
 using EvilBaschdi.Core.Application;
 using EvilBaschdi.Core.Browsers;
 using EvilBaschdi.Core.Wpf;
@@ -29,8 +32,10 @@ namespace VmMachineHwVersionUpdater
         private IEnumerable<Machine> _currentItemSource;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IAppSettings _settings;
-
+        private readonly BackgroundWorker _bw;
         private readonly int _overrideProtection;
+        private int _executionCount;
+        private int _updateAllHwVersion;
 
         #region General
 
@@ -41,8 +46,9 @@ namespace VmMachineHwVersionUpdater
             _settings = new AppSettings();
             var coreSettings = new CoreSettings();
             InitializeComponent();
+            _bw = new BackgroundWorker();
             _style = new MetroStyle(this, Accent, Dark, Light, coreSettings);
-            _style.Load(true, false);
+            _style.Load(true, true);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
             if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
@@ -71,17 +77,58 @@ namespace VmMachineHwVersionUpdater
         private void LoadGrid()
         {
             _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
-            _currentItemSource = _hardwareVersion.ReadFromPath(_settings.VMwarePool);
-            var currentItemSource = _currentItemSource as IList<Machine> ?? _currentItemSource.ToList();
-            DataContext = currentItemSource;
-            VmDataGrid.ItemsSource = currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
+            _currentItemSource = _hardwareVersion.ReadFromPath(_settings.VMwarePool).ToList();
+            DataContext = _currentItemSource;
+            VmDataGrid.ItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
 
-            if (currentItemSource.Any())
+            if (_currentItemSource.Any())
             {
-                UpdateAllTextBlock.Text = $"Update all {currentItemSource.Count} machines to version";
+                foreach (var machine in _currentItemSource.OrderBy(m => m.GuestOs))
+                {
+                    if (!SearchOs.Items.Contains(machine.GuestOs))
+                    {
+                        SearchOs.Items.Add(machine.GuestOs);
+                    }
+                }
+
+                UpdateAllTextBlock.Text = $"Update all {_currentItemSource.Count()} machines to version";
                 GetLatestHwVersionForUpdateAll();
+                SearchFilter.IsReadOnly = false;
+                SearchOs.IsEnabled = true;
+                UpdateAll.IsEnabled = true;
             }
         }
+
+        private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(SearchFilter.Text))
+            {
+                var filter = _currentItemSource.Where(vm => vm.DisplayName.ToLower().Contains(SearchFilter.Text.ToLower()));
+                DataContext = filter;
+                VmDataGrid.ItemsSource = filter.OrderBy(vm => vm.DisplayName).ToList();
+            }
+            else
+            {
+                DataContext = _currentItemSource;
+                VmDataGrid.ItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
+            }
+        }
+
+        private void SearchOsOnDropDownClosed(object sender, EventArgs e)
+        {
+            if (SearchOs.Text != "(no filter)")
+            {
+                var filter = _currentItemSource.Where(vm => vm.GuestOs.ToLower().Equals(SearchOs.Text.ToLower()));
+                DataContext = filter;
+                VmDataGrid.ItemsSource = filter.OrderBy(vm => vm.DisplayName).ToList();
+            }
+            else
+            {
+                DataContext = _currentItemSource;
+                VmDataGrid.ItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
+            }
+        }
+
 
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -117,10 +164,35 @@ namespace VmMachineHwVersionUpdater
 
         private void UpdateAllClick(object sender, RoutedEventArgs e)
         {
-            var version = Convert.ToInt32(UpdateAllHwVersion.Value);
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
+            ConfigureUpdate();
+        }
+
+        private void ConfigureUpdate()
+        {
+            _executionCount++;
+            Cursor = Cursors.Wait;
+            _updateAllHwVersion = Convert.ToInt32(UpdateAllHwVersion.Value);
+            if (_executionCount == 1)
+            {
+                _bw.DoWork += (o, args) => Update();
+                _bw.WorkerReportsProgress = true;
+                _bw.RunWorkerCompleted += BackgroundWorkerRunWorkerCompleted;
+            }
+            _bw.RunWorkerAsync();
+        }
+
+        private void Update()
+        {
+            var version = _updateAllHwVersion;
             var localList = _currentItemSource.Where(vm => vm.HwVersion != version);
             Parallel.ForEach(localList, machine => { _hardwareVersion.Update(machine.Path, version); });
-            //todo: handling taskleiste usw.
+        }
+
+        private void BackgroundWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            Cursor = Cursors.Arrow;
             LoadGrid();
         }
 

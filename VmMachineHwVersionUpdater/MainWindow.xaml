@@ -8,6 +8,13 @@
     <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
+            <!--  Search  -->
+            <TextBox Name="SearchFilter" Width="250" Height="20" TextChanged="SearchOnTextChanged" TextWrapping="Wrap" IsReadOnly="True"
+                     controls:TextBoxHelper.ClearTextButton="True"
+                     controls:TextBoxHelper.Watermark="enter search term" />
+            <ComboBox Name="SearchOs" Width="250" Height="20" DropDownClosed="SearchOsOnDropDownClosed" IsReadOnly="True" IsEnabled="False">
+                <ComboBoxItem Content="(no filter)" />
+            </ComboBox>
             <!-- Load -->
             <Button Name="Load" Click="LoadClick">
                 <StackPanel Orientation="Horizontal">
@@ -23,7 +30,7 @@
                 </StackPanel>
             </Button>
             <!-- Update all -->
-            <Button Name="UpdateAll" Click="UpdateAllClick">
+            <Button Name="UpdateAll" Click="UpdateAllClick" IsEnabled="False">
                 <StackPanel Orientation="Horizontal">
                     <Rectangle Width="20" Height="20"
                                Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
@@ -54,6 +61,10 @@
             </Button>
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
+    <!-- TaskbarItemInfo -->
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo />
+    </Window.TaskbarItemInfo>
     <!--  Grid  -->
     <Grid>
         <!--  DataGrid  -->
@@ -82,6 +93,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
+                <DataGridTextColumn Width="130" Header="Last Log Entry" Binding="{Binding LogLastDate}" IsReadOnly="True" />
 
                 <DataGridTextColumn Width="200" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
                 <controls:DataGridNumericUpDownColumn Width="100" Header="Version"
