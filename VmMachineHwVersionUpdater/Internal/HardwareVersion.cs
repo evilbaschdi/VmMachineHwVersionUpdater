@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.DirectoryExtensions;
-using EvilBaschdi.Core.MultiThreading;
+using EvilBaschdi.Core.Threading;
 
 namespace VmMachineHwVersionUpdater.Internal
 {

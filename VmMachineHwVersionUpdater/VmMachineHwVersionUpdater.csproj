@@ -41,6 +41,9 @@
   <PropertyGroup>
     <ApplicationIcon>b.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\EvilBaschdi.Core\EvilBaschdi.Core\EvilBaschdi.Core.csproj">
       <Project>{8a06a423-244f-404f-aad8-53de2ee2aed7}</Project>
@@ -137,6 +140,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
