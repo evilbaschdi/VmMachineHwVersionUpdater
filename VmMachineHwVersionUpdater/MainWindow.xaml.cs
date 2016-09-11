@@ -47,7 +47,7 @@ namespace VmMachineHwVersionUpdater
             var coreSettings = new CoreSettings();
             InitializeComponent();
             _bw = new BackgroundWorker();
-            _style = new MetroStyle(this, Accent, Dark, Light, coreSettings);
+            _style = new MetroStyle(this, Accent, ThemeSwitch, coreSettings);
             _style.Load(true, true);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
@@ -143,7 +143,7 @@ namespace VmMachineHwVersionUpdater
         {
             VmPath.Text = _settings.VMwarePool;
 
-            var browser = new ExplorerFolderBrower
+            var browser = new ExplorerFolderBrowser
                           {
                               SelectedPath = VmPath.Text
                           };
@@ -270,13 +270,21 @@ namespace VmMachineHwVersionUpdater
             _style.SaveStyle();
         }
 
-        private void Theme(object sender, RoutedEventArgs e)
+        private void Theme(object sender, EventArgs e)
         {
             if (_overrideProtection == 0)
             {
                 return;
             }
-            _style.SetTheme(sender, e);
+            var routedEventArgs = e as RoutedEventArgs;
+            if (routedEventArgs != null)
+            {
+                _style.SetTheme(sender, routedEventArgs);
+            }
+            else
+            {
+                _style.SetTheme(sender);
+            }
         }
 
         private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -145,9 +145,9 @@
                         <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
                             <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                                    Content="Theme" />
-                            <RadioButton Name="Dark" Margin="10,5,5,0" Checked="Theme" Content="Dark" />
-                            <RadioButton Name="Light" Margin="10,5,5,0" Checked="Theme" Content="Light"
-                                         IsChecked="True" />
+                            <controls:ToggleSwitch Name="ThemeSwitch" Margin="10,1,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="12" IsCheckedChanged="Theme"
+                                                   OnSwitchBrush="{DynamicResource AccentColorBrush}" OnLabel="Dark"
+                                                   OffSwitchBrush="{DynamicResource AccentColorBrush}" OffLabel="Light" />
                         </StackPanel>
                         <!-- Accent -->
                         <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
@@ -176,10 +176,10 @@
                     <StackPanel Margin="0,10,0,0" Orientation="Vertical">
                         <Rectangle Width="470" VerticalAlignment="Stretch" Stroke="{DynamicResource AccentColorBrush}" />
                     </StackPanel>
-
+                    <!-- Build / Linker Time -->
                     <StackPanel Orientation="Horizontal">
                         <Label Width="50" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Build" />
-                        <Label Width="310" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Name="LinkerTime" />
+                        <Label Width="310" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Name="LinkerTime" />
                     </StackPanel>
                 </StackPanel>
             </controls:Flyout>
