@@ -54,6 +54,7 @@ namespace VmMachineHwVersionUpdater
             if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
             {
                 VmPath.Text = _settings.VMwarePool;
+                LoadGrid();
             }
             else
             {
@@ -141,6 +142,7 @@ namespace VmMachineHwVersionUpdater
 
         private void BrowseClick(object sender, RoutedEventArgs e)
         {
+            var currentVmwarePool = _settings.VMwarePool;
             VmPath.Text = _settings.VMwarePool;
 
             var browser = new ExplorerFolderBrowser
@@ -150,6 +152,10 @@ namespace VmMachineHwVersionUpdater
             browser.ShowDialog();
             _settings.VMwarePool = browser.SelectedPath;
             VmPath.Text = browser.SelectedPath;
+            if (!string.Equals(currentVmwarePool, _settings.VMwarePool, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_settings.VMwarePool))
+            {
+                LoadGrid();
+            }
         }
 
         #endregion General
@@ -249,12 +255,6 @@ namespace VmMachineHwVersionUpdater
             }
 
             flyout.IsOpen = !flyout.IsOpen;
-            flyout.ClosingFinished += SaveSettings;
-        }
-
-        private void SaveSettings(object sender, RoutedEventArgs e)
-        {
-            LoadGrid();
         }
 
         #endregion Settings
