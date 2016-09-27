@@ -17,6 +17,7 @@ namespace VmMachineHwVersionUpdater.Internal
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
 
         /// <summary>Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.</summary>
+        /// <exception cref="ArgumentNullException"><paramref name="guestOsOutputStringMapping" /> is <see langword="null" />.</exception>
         public HardwareVersion(IGuestOsOutputStringMapping guestOsOutputStringMapping)
         {
             if (guestOsOutputStringMapping == null)
