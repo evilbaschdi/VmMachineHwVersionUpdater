@@ -36,6 +36,10 @@ namespace VmMachineHwVersionUpdater.Internal
 
         /// <summary>
         /// </summary>
+        public string LogLastDateDiff { get; set; }
+
+        /// <summary>
+        /// </summary>
         public int HwVersion
         {
             get { return _hwVersion; }

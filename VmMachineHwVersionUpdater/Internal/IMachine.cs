@@ -35,5 +35,9 @@
         /// <summary>
         /// </summary>
         string GuestOs { get; set; }
+
+        /// <summary>
+        /// </summary>
+        string LogLastDateDiff { get; set; }
     }
 }

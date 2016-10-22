@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -106,10 +107,14 @@ namespace VmMachineHwVersionUpdater.Internal
                     var directoryInfo = fileInfo.Directory;
                     var log = File.Exists($@"{directoryInfo?.FullName}\vmware.log") ? $@"{directoryInfo?.FullName}\vmware.log" : null;
                     var logLastDate = string.Empty;
+                    var logLastDateDiff = string.Empty;
                     if (!string.IsNullOrWhiteSpace(log) && !log.IsFileLocked())
                     {
                         var logLastLine = File.ReadAllLines(log).Last();
-                        logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 16);
+                        logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23).Replace(".", ",");
+                        var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
+                        var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
+                        logLastDateDiff = $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
                     }
 
                     var size = directoryInfo.GetDirectorySize();
@@ -123,7 +128,8 @@ namespace VmMachineHwVersionUpdater.Internal
                                       ShortPath = fileInfo.FullName.Replace(machinePath.ToLower(), ""),
                                       DirectorySizeGb = Math.Round(size/(1024*1024*1024), 2),
                                       DirectorySize = $"MB: {Math.Round(size/(1024*1024), 2)} | KB: {Math.Round(size/(1024), 2)}",
-                                      LogLastDate = logLastDate
+                                      LogLastDate = logLastDate.Substring(0, 16),
+                                      LogLastDateDiff = logLastDateDiff
                                   };
                     machineList.Add(machine);
                 });

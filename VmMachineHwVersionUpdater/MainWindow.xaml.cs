@@ -30,6 +30,7 @@ namespace VmMachineHwVersionUpdater
         private readonly IMetroStyle _style;
         private IHardwareVersion _hardwareVersion;
         private IEnumerable<Machine> _currentItemSource;
+        private IEnumerable<Machine> _filteredItemSource;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IAppSettings _settings;
         private readonly BackgroundWorker _bw;
@@ -95,6 +96,8 @@ namespace VmMachineHwVersionUpdater
                 UpdateAllTextBlock.Text = $"Update all {_currentItemSource.Count()} machines to version";
                 GetLatestHwVersionForUpdateAll();
                 SearchFilter.IsReadOnly = false;
+                SearchOs.Text = "(no filter)";
+                SearchFilter.Text = string.Empty;
                 SearchOs.IsEnabled = true;
                 UpdateAll.IsEnabled = true;
             }
@@ -102,32 +105,30 @@ namespace VmMachineHwVersionUpdater
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(SearchFilter.Text))
-            {
-                var filter = _currentItemSource.Where(vm => vm.DisplayName.ToLower().Contains(SearchFilter.Text.ToLower()));
-                DataContext = filter;
-                VmDataGrid.ItemsSource = filter.OrderBy(vm => vm.DisplayName).ToList();
-            }
-            else
-            {
-                DataContext = _currentItemSource;
-                VmDataGrid.ItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
-            }
+            FilterItemSource();
         }
 
         private void SearchOsOnDropDownClosed(object sender, EventArgs e)
         {
+            FilterItemSource();
+        }
+
+        private void FilterItemSource()
+        {
+            _filteredItemSource = _currentItemSource;
+
+            if (!string.IsNullOrWhiteSpace(SearchFilter.Text))
+            {
+                _filteredItemSource = _filteredItemSource.Where(vm => vm.DisplayName.ToLower().Contains(SearchFilter.Text.ToLower()));
+            }
+
             if (SearchOs.Text != "(no filter)")
             {
-                var filter = _currentItemSource.Where(vm => vm.GuestOs.ToLower().Equals(SearchOs.Text.ToLower()));
-                DataContext = filter;
-                VmDataGrid.ItemsSource = filter.OrderBy(vm => vm.DisplayName).ToList();
+                _filteredItemSource = _filteredItemSource.Where(vm => vm.GuestOs.ToLower().Equals(SearchOs.Text.ToLower()));
             }
-            else
-            {
-                DataContext = _currentItemSource;
-                VmDataGrid.ItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
-            }
+
+            DataContext = _filteredItemSource;
+            VmDataGrid.ItemsSource = _filteredItemSource.OrderBy(vm => vm.DisplayName).ToList();
         }
 
 
