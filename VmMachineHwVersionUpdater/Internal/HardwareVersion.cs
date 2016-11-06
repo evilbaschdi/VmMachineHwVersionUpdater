@@ -108,6 +108,7 @@ namespace VmMachineHwVersionUpdater.Internal
                     var log = File.Exists($@"{directoryInfo?.FullName}\vmware.log") ? $@"{directoryInfo?.FullName}\vmware.log" : null;
                     var logLastDate = string.Empty;
                     var logLastDateDiff = string.Empty;
+
                     if (!string.IsNullOrWhiteSpace(log) && !log.IsFileLocked())
                     {
                         var logLastLine = File.ReadAllLines(log).Last();
@@ -116,6 +117,7 @@ namespace VmMachineHwVersionUpdater.Internal
                         var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
                         logLastDateDiff = $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
                     }
+
 
                     var size = directoryInfo.GetDirectorySize();
                     var machine = new Machine
@@ -128,7 +130,7 @@ namespace VmMachineHwVersionUpdater.Internal
                                       ShortPath = fileInfo.FullName.Replace(machinePath.ToLower(), ""),
                                       DirectorySizeGb = Math.Round(size/(1024*1024*1024), 2),
                                       DirectorySize = $"MB: {Math.Round(size/(1024*1024), 2)} | KB: {Math.Round(size/(1024), 2)}",
-                                      LogLastDate = logLastDate.Substring(0, 16),
+                                      LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
                                       LogLastDateDiff = logLastDateDiff
                                   };
                     machineList.Add(machine);

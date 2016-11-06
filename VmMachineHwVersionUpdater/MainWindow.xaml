@@ -66,7 +66,7 @@
         <TaskbarItemInfo />
     </Window.TaskbarItemInfo>
     <!--  Grid  -->
-    <Grid>
+    <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True" Drop="GridOnDrop" DragOver="GridOnDragOver" Background="Transparent">
         <!--  DataGrid  -->
         <DataGrid Name="VmDataGrid" Margin="10,10,10,10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
                   AutoGenerateColumns="False" GridLinesVisibility="Horizontal"
@@ -125,7 +125,7 @@
             <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings" Position="Right" Theme="Accent">
                 <StackPanel>
                     <!-- VM Pool -->
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Name="VmPoolPanel">
                         <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                                Content="Path" />
                         <TextBox Name="VmPath" Height="30" Width="310" Margin="10,0,0,0" HorizontalAlignment="Left"

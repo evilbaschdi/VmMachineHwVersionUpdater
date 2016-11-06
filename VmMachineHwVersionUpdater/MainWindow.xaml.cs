@@ -15,6 +15,7 @@ using EvilBaschdi.Core.Application;
 using EvilBaschdi.Core.Browsers;
 using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Internal;
 
@@ -37,6 +38,7 @@ namespace VmMachineHwVersionUpdater
         private readonly int _overrideProtection;
         private int _executionCount;
         private int _updateAllHwVersion;
+        private string _dragAndDropPath;
 
         #region General
 
@@ -72,14 +74,15 @@ namespace VmMachineHwVersionUpdater
             {
                 throw new ArgumentNullException(nameof(sender));
             }
-
+            _dragAndDropPath = string.Empty;
             LoadGrid();
+            VmPoolPanel.IsEnabled = true;
         }
 
         private void LoadGrid()
         {
             _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
-            _currentItemSource = _hardwareVersion.ReadFromPath(_settings.VMwarePool).ToList();
+            _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath()).ToList();
             DataContext = _currentItemSource;
             VmDataGrid.ItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
 
@@ -101,6 +104,11 @@ namespace VmMachineHwVersionUpdater
                 SearchOs.IsEnabled = true;
                 UpdateAll.IsEnabled = true;
             }
+        }
+
+        private string VMwarePoolPath()
+        {
+            return !string.IsNullOrWhiteSpace(_dragAndDropPath) ? _dragAndDropPath : _settings.VMwarePool;
         }
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
@@ -262,6 +270,22 @@ namespace VmMachineHwVersionUpdater
 
         #region MetroStyle
 
+        /// <summary>
+        ///     Show MetroDialog Message
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        public async void ShowMessage(string title, string message)
+        {
+            var options = new MetroDialogSettings
+                          {
+                              ColorScheme = MetroDialogColorScheme.Theme
+                          };
+
+            MetroDialogOptions = options;
+            await this.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, options);
+        }
+
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
             if (_overrideProtection == 0)
@@ -298,5 +322,81 @@ namespace VmMachineHwVersionUpdater
         }
 
         #endregion MetroStyle
+
+        #region Drag and Drop
+
+        private void GridOnDrop(object sender, DragEventArgs e)
+        {
+            if (null != e.Data && e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                var droppedElements = (string[]) e.Data.GetData(DataFormats.FileDrop, true);
+                if (droppedElements != null)
+                {
+                    if (droppedElements.Length > 1)
+                    {
+                        ShowMessage("Drag & Drop", "Please drag & drop only one item!");
+                    }
+                    else
+                    {
+                        var droppedElement = droppedElements.First();
+                        try
+                        {
+                            var fileAttributes = File.GetAttributes(droppedElement);
+                            var isDirectory = (fileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
+                            if (isDirectory)
+                            {
+                                _dragAndDropPath = droppedElement;
+                                LoadGrid();
+                                VmPoolPanel.IsEnabled = false;
+                            }
+                            else
+                            {
+                                ShowMessage("Drag & Drop", "Drag & drop of files is not supported!");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.InnerException != null)
+                            {
+                                MessageBox.Show(ex.InnerException.Message + " - " + ex.InnerException.StackTrace);
+                            }
+                            MessageBox.Show(ex.Message + " - " + ex.StackTrace);
+                            throw;
+                        }
+                    }
+                }
+            }
+            e.Handled = true;
+        }
+
+        private void GridOnDragOver(object sender, DragEventArgs e)
+        {
+            bool isCorrect = true;
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                var droppedElements = (string[]) e.Data.GetData(DataFormats.FileDrop, true);
+                if (droppedElements != null)
+                {
+                    foreach (string droppedElement in droppedElements)
+                    {
+                        var fileAttributes = File.GetAttributes(droppedElement);
+                        var isDirectory = (fileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
+                        if (isDirectory)
+                        {
+                            if (!Directory.Exists(droppedElement))
+                            {
+                                isCorrect = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            e.Effects = isCorrect ? DragDropEffects.All : DragDropEffects.None;
+            e.Handled = true;
+        }
+
+        #endregion
     }
 }
