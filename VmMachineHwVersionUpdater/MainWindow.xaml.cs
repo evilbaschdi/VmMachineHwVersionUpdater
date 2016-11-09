@@ -76,7 +76,6 @@ namespace VmMachineHwVersionUpdater
             }
             _dragAndDropPath = string.Empty;
             LoadGrid();
-            VmPoolPanel.IsEnabled = true;
         }
 
         private void LoadGrid()
@@ -347,7 +346,7 @@ namespace VmMachineHwVersionUpdater
                             {
                                 _dragAndDropPath = droppedElement;
                                 LoadGrid();
-                                VmPoolPanel.IsEnabled = false;
+                                _dragAndDropPath = string.Empty;
                             }
                             else
                             {
