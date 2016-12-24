@@ -44,7 +44,7 @@
                                Text="Update all to" />
                 </StackPanel>
             </Button>
-            <controls:NumericUpDown Name="UpdateAllHwVersion" Minimum="1" Value="1" />
+            <controls:NumericUpDown Name="UpdateAllHwVersion" Minimum="1" Value="1" ValueChanged="UpdateAllHwVersionOnValueChanged" />
             <!-- Settings -->
             <Button Name="Settings" Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
