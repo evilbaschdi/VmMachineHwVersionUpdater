@@ -55,7 +55,7 @@ namespace VmMachineHwVersionUpdater
             if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
             {
                 VmPath.Text = _settings.VMwarePool;
-                Init();
+                LoadAsync();
             }
             else
             {
@@ -73,10 +73,10 @@ namespace VmMachineHwVersionUpdater
                 throw new ArgumentNullException(nameof(sender));
             }
             _dragAndDropPath = string.Empty;
-            Init();
+            LoadAsync();
         }
 
-        private async void Init()
+        private async void LoadAsync()
         {
             var task = Task.Factory.StartNew(LoadGrid);
             await task;
