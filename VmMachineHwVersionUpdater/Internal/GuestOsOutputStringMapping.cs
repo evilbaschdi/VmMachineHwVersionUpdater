@@ -1,4 +1,7 @@
-﻿namespace VmMachineHwVersionUpdater.Internal
+﻿using System;
+using System.Configuration;
+
+namespace VmMachineHwVersionUpdater.Internal
 {
     /// <summary>
     /// </summary>
@@ -7,9 +10,13 @@
         /// <summary>
         ///     Reads guestOs name string from app.config.
         /// </summary>
-        public string GetGuestOsFullName(string guestOs)
+        public string ValueFor(string guestOs)
         {
-            var fullName = System.Configuration.ConfigurationManager.AppSettings[guestOs];
+            if (guestOs == null)
+            {
+                throw new ArgumentNullException(nameof(guestOs));
+            }
+            var fullName = ConfigurationManager.AppSettings[guestOs];
             return !string.IsNullOrWhiteSpace(fullName) ? fullName : guestOs;
         }
     }

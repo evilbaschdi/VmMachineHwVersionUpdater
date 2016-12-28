@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater.Internal
 {

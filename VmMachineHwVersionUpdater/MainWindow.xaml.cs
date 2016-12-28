@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -17,6 +16,7 @@ using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Internal;
+using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater
 {
@@ -33,10 +33,10 @@ namespace VmMachineHwVersionUpdater
         private IEnumerable<Machine> _filteredItemSource;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IAppSettings _settings;
-        private readonly BackgroundWorker _bw;
+        private readonly IDialogService _dialogService;
         private readonly int _overrideProtection;
-        private int _executionCount;
         private int _updateAllHwVersion;
+        private string _dragAndDropPath;
 
         #region General
 
@@ -44,18 +44,20 @@ namespace VmMachineHwVersionUpdater
         /// </summary>
         public MainWindow()
         {
-            _settings = new AppSettings();
-            var coreSettings = new CoreSettings();
             InitializeComponent();
-            _bw = new BackgroundWorker();
-            _style = new MetroStyle(this, Accent, ThemeSwitch, coreSettings);
+
+            ISettings coreSettings = new CoreSettings(Properties.Settings.Default);
+            IThemeManagerHelper themeManagerHelper = new ThemeManagerHelper();
+            _settings = new AppSettings();
+            _style = new MetroStyle(this, Accent, ThemeSwitch, coreSettings, themeManagerHelper);
             _style.Load(true, true);
+            _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
             if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
             {
                 VmPath.Text = _settings.VMwarePool;
-                LoadGrid();
+                LoadAsync();
             }
             else
             {
@@ -72,35 +74,55 @@ namespace VmMachineHwVersionUpdater
             {
                 throw new ArgumentNullException(nameof(sender));
             }
-
-            LoadGrid();
+            _dragAndDropPath = string.Empty;
+            LoadAsync();
         }
 
-        private void LoadGrid()
+        private async void LoadAsync()
         {
-            _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
-            _currentItemSource = _hardwareVersion.ReadFromPath(_settings.VMwarePool).ToList();
+            var task = Task.Factory.StartNew(LoadGrid);
+            await task;
+
+            var loadHelper = task.Result;
             DataContext = _currentItemSource;
-            VmDataGrid.ItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
+            VmDataGrid.ItemsSource = loadHelper.VmDataGridItemsSource;
+            UpdateAllTextBlock.Text = loadHelper.UpdateAllTextBlox;
+            UpdateAllHwVersion.Value = loadHelper.UpdateAllHwVersion;
+            loadHelper.SearchOsItems.ForEach(x => SearchOs.Items.Add(x));
+
+            SearchOs.Text = "(no filter)";
+            SearchFilter.Text = string.Empty;
+
+            SearchFilter.IsReadOnly = !_currentItemSource.Any();
+            SearchOs.IsEnabled = _currentItemSource.Any();
+            UpdateAll.IsEnabled = _currentItemSource.Any();
+        }
+
+        private LoadHelper LoadGrid()
+        {
+            var loadHelper = new LoadHelper();
+            _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
+            _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath()).ToList();
 
             if (_currentItemSource.Any())
             {
-                foreach (var machine in _currentItemSource.OrderBy(m => m.GuestOs))
+                var searchOsItems = new List<string>();
+                foreach (var machine in _currentItemSource.OrderBy(m => m.GuestOs).Where(item => !searchOsItems.Contains(item.GuestOs)))
                 {
-                    if (!SearchOs.Items.Contains(machine.GuestOs))
-                    {
-                        SearchOs.Items.Add(machine.GuestOs);
-                    }
+                    searchOsItems.Add(machine.GuestOs);
                 }
 
-                UpdateAllTextBlock.Text = $"Update all {_currentItemSource.Count()} machines to version";
-                GetLatestHwVersionForUpdateAll();
-                SearchFilter.IsReadOnly = false;
-                SearchOs.Text = "(no filter)";
-                SearchFilter.Text = string.Empty;
-                SearchOs.IsEnabled = true;
-                UpdateAll.IsEnabled = true;
+                loadHelper.UpdateAllTextBlox = $"Update all {_currentItemSource.Count()} machines to version";
+                loadHelper.VmDataGridItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
+                loadHelper.UpdateAllHwVersion = _currentItemSource.Select(machine => machine.HwVersion).Max();
+                loadHelper.SearchOsItems = searchOsItems;
             }
+            return loadHelper;
+        }
+
+        private string VMwarePoolPath()
+        {
+            return !string.IsNullOrWhiteSpace(_dragAndDropPath) ? _dragAndDropPath : _settings.VMwarePool;
         }
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
@@ -163,30 +185,22 @@ namespace VmMachineHwVersionUpdater
 
         #region Update
 
-        private void GetLatestHwVersionForUpdateAll()
+        private async void UpdateAllClick(object sender, RoutedEventArgs e)
         {
-            var latest = _currentItemSource.Select(machine => machine.HwVersion).Max();
-            UpdateAllHwVersion.Value = latest;
+            await ConfigureUpdate();
         }
 
-        private void UpdateAllClick(object sender, RoutedEventArgs e)
+        private async Task ConfigureUpdate()
         {
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
-            ConfigureUpdate();
-        }
-
-        private void ConfigureUpdate()
-        {
-            _executionCount++;
             Cursor = Cursors.Wait;
-            _updateAllHwVersion = Convert.ToInt32(UpdateAllHwVersion.Value);
-            if (_executionCount == 1)
-            {
-                _bw.DoWork += (o, args) => Update();
-                _bw.WorkerReportsProgress = true;
-                _bw.RunWorkerCompleted += BackgroundWorkerRunWorkerCompleted;
-            }
-            _bw.RunWorkerAsync();
+
+            var task = Task.Factory.StartNew(Update);
+            await task;
+
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            Cursor = Cursors.Arrow;
+            LoadGrid();
         }
 
         private void Update()
@@ -196,11 +210,12 @@ namespace VmMachineHwVersionUpdater
             Parallel.ForEach(localList, machine => { _hardwareVersion.Update(machine.Path, version); });
         }
 
-        private void BackgroundWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void UpdateAllHwVersionOnValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
         {
-            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
-            Cursor = Cursors.Arrow;
-            LoadGrid();
+            if (UpdateAllHwVersion.Value != null)
+            {
+                _updateAllHwVersion = (int) UpdateAllHwVersion.Value;
+            }
         }
 
         #endregion Update
@@ -298,5 +313,76 @@ namespace VmMachineHwVersionUpdater
         }
 
         #endregion MetroStyle
+
+        #region Drag and Drop
+
+        private void GridOnDrop(object sender, DragEventArgs e)
+        {
+            if (null != e.Data && e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                var droppedElements = (string[]) e.Data.GetData(DataFormats.FileDrop, true);
+                if (droppedElements != null)
+                {
+                    if (droppedElements.Length > 1)
+                    {
+                        _dialogService.ShowMessage("Drag & Drop", "Please drag & drop only one item!");
+                    }
+                    else
+                    {
+                        var droppedElement = droppedElements.First();
+                        try
+                        {
+                            var fileAttributes = File.GetAttributes(droppedElement);
+                            var isDirectory = (fileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
+                            if (isDirectory)
+                            {
+                                _dragAndDropPath = droppedElement;
+                                LoadAsync();
+                                _dragAndDropPath = string.Empty;
+                            }
+                            else
+                            {
+                                _dialogService.ShowMessage("Drag & Drop", "Drag & drop of files is not supported!");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.InnerException != null)
+                            {
+                                MessageBox.Show(ex.InnerException.Message + " - " + ex.InnerException.StackTrace);
+                            }
+                            MessageBox.Show(ex.Message + " - " + ex.StackTrace);
+                            throw;
+                        }
+                    }
+                }
+            }
+            e.Handled = true;
+        }
+
+        private void GridOnDragOver(object sender, DragEventArgs e)
+        {
+            bool isCorrect = true;
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
+            {
+                var droppedElements = (string[]) e.Data.GetData(DataFormats.FileDrop, true);
+                if (droppedElements != null)
+                {
+                    if ((from droppedElement in droppedElements
+                         let fileAttributes = File.GetAttributes(droppedElement)
+                         let isDirectory = (fileAttributes & FileAttributes.Directory) == FileAttributes.Directory
+                         where isDirectory
+                         select droppedElement).Any(droppedElement => !Directory.Exists(droppedElement)))
+                    {
+                        isCorrect = false;
+                    }
+                }
+            }
+            e.Effects = isCorrect ? DragDropEffects.All : DragDropEffects.None;
+            e.Handled = true;
+        }
+
+        #endregion
     }
 }

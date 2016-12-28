@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.DirectoryExtensions;
 using EvilBaschdi.Core.Threading;
+using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
@@ -108,6 +109,7 @@ namespace VmMachineHwVersionUpdater.Internal
                     var log = File.Exists($@"{directoryInfo?.FullName}\vmware.log") ? $@"{directoryInfo?.FullName}\vmware.log" : null;
                     var logLastDate = string.Empty;
                     var logLastDateDiff = string.Empty;
+
                     if (!string.IsNullOrWhiteSpace(log) && !log.IsFileLocked())
                     {
                         var logLastLine = File.ReadAllLines(log).Last();
@@ -117,18 +119,19 @@ namespace VmMachineHwVersionUpdater.Internal
                         logLastDateDiff = $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
                     }
 
+
                     var size = directoryInfo.GetDirectorySize();
                     var machine = new Machine
                                   {
                                       Id = Guid.NewGuid().ToString(),
                                       HwVersion = Convert.ToInt32(hwVersion),
                                       DisplayName = displayName.Trim(),
-                                      GuestOs = _guestOsOutputStringMapping.GetGuestOsFullName(guestOs.Trim()),
+                                      GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
                                       Path = fileInfo.FullName,
                                       ShortPath = fileInfo.FullName.Replace(machinePath.ToLower(), ""),
-                                      DirectorySizeGb = Math.Round(size/(1024*1024*1024), 2),
-                                      DirectorySize = $"MB: {Math.Round(size/(1024*1024), 2)} | KB: {Math.Round(size/(1024), 2)}",
-                                      LogLastDate = logLastDate.Substring(0, 16),
+                                      DirectorySizeGb = Math.Round(size / (1024 * 1024 * 1024), 2),
+                                      DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / (1024), 2)}",
+                                      LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
                                       LogLastDateDiff = logLastDateDiff
                                   };
                     machineList.Add(machine);
