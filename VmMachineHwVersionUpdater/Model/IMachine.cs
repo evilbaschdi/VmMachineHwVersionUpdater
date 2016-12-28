@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Internal
+﻿namespace VmMachineHwVersionUpdater.Model
 {
     /// <summary>
     /// </summary>

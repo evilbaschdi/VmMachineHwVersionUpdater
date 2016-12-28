@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.DirectoryExtensions;
 using EvilBaschdi.Core.Threading;
+using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
@@ -125,11 +126,11 @@ namespace VmMachineHwVersionUpdater.Internal
                                       Id = Guid.NewGuid().ToString(),
                                       HwVersion = Convert.ToInt32(hwVersion),
                                       DisplayName = displayName.Trim(),
-                                      GuestOs = _guestOsOutputStringMapping.GetGuestOsFullName(guestOs.Trim()),
+                                      GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
                                       Path = fileInfo.FullName,
                                       ShortPath = fileInfo.FullName.Replace(machinePath.ToLower(), ""),
-                                      DirectorySizeGb = Math.Round(size/(1024*1024*1024), 2),
-                                      DirectorySize = $"MB: {Math.Round(size/(1024*1024), 2)} | KB: {Math.Round(size/(1024), 2)}",
+                                      DirectorySizeGb = Math.Round(size / (1024 * 1024 * 1024), 2),
+                                      DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / (1024), 2)}",
                                       LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
                                       LogLastDateDiff = logLastDateDiff
                                   };

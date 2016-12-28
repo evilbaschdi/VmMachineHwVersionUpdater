@@ -1,12 +1,10 @@
-﻿namespace VmMachineHwVersionUpdater.Internal
+﻿using EvilBaschdi.Core.DotNetExtensions;
+
+namespace VmMachineHwVersionUpdater.Internal
 {
     /// <summary>
     /// </summary>
-    public interface IGuestOsOutputStringMapping
+    public interface IGuestOsOutputStringMapping : IValueFor<string, string>
     {
-        /// <summary>
-        ///     Reads guestOs name string from app.config.
-        /// </summary>
-        string GetGuestOsFullName(string guestOs);
     }
 }

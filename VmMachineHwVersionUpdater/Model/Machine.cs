@@ -1,6 +1,7 @@
 using System.ComponentModel;
+using VmMachineHwVersionUpdater.Internal;
 
-namespace VmMachineHwVersionUpdater.Internal
+namespace VmMachineHwVersionUpdater.Model
 {
     /// <summary>
     /// </summary>

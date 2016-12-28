@@ -86,8 +86,6 @@
     </Compile>
     <Compile Include="Core\IAppBasics.cs" />
     <Compile Include="Core\IAppSettings.cs" />
-    <Compile Include="Extensions\OldWindow.cs" />
-    <Compile Include="Extensions\WpfExtensions.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -104,8 +102,12 @@
     </Compile>
     <Compile Include="Internal\IGuestOsOutputStringMapping.cs" />
     <Compile Include="Internal\IHardwareVersion.cs" />
-    <Compile Include="Internal\IMachine.cs" />
-    <Compile Include="Internal\Machine.cs">
+    <Compile Include="Model\ILoadHelper.cs" />
+    <Compile Include="Model\IMachine.cs" />
+    <Compile Include="Model\LoadHelper.cs">
+      <DependentUpon>ILoadHelper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Machine.cs">
       <DependentUpon>IMachine.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -122,7 +124,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\LoadHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

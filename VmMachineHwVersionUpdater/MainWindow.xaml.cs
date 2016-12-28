@@ -14,10 +14,9 @@ using EvilBaschdi.Core.Application;
 using EvilBaschdi.Core.Browsers;
 using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Internal;
-using VmMachineHwVersionUpdater.Models;
+using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater
 {
@@ -34,6 +33,7 @@ namespace VmMachineHwVersionUpdater
         private IEnumerable<Machine> _filteredItemSource;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IAppSettings _settings;
+        private readonly IDialogService _dialogService;
         private readonly int _overrideProtection;
         private int _updateAllHwVersion;
         private string _dragAndDropPath;
@@ -45,11 +45,13 @@ namespace VmMachineHwVersionUpdater
         public MainWindow()
         {
             InitializeComponent();
-            _settings = new AppSettings();
+
             ISettings coreSettings = new CoreSettings(Properties.Settings.Default);
             IThemeManagerHelper themeManagerHelper = new ThemeManagerHelper();
+            _settings = new AppSettings();
             _style = new MetroStyle(this, Accent, ThemeSwitch, coreSettings, themeManagerHelper);
             _style.Load(true, true);
+            _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
             if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
@@ -275,22 +277,6 @@ namespace VmMachineHwVersionUpdater
 
         #region MetroStyle
 
-        /// <summary>
-        ///     Show MetroDialog Message
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="message"></param>
-        public async void ShowMessage(string title, string message)
-        {
-            var options = new MetroDialogSettings
-                          {
-                              ColorScheme = MetroDialogColorScheme.Theme
-                          };
-
-            MetroDialogOptions = options;
-            await this.ShowMessageAsync(title, message, MessageDialogStyle.Affirmative, options);
-        }
-
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
             if (_overrideProtection == 0)
@@ -339,7 +325,7 @@ namespace VmMachineHwVersionUpdater
                 {
                     if (droppedElements.Length > 1)
                     {
-                        ShowMessage("Drag & Drop", "Please drag & drop only one item!");
+                        _dialogService.ShowMessage("Drag & Drop", "Please drag & drop only one item!");
                     }
                     else
                     {
@@ -351,12 +337,12 @@ namespace VmMachineHwVersionUpdater
                             if (isDirectory)
                             {
                                 _dragAndDropPath = droppedElement;
-                                LoadGrid();
+                                LoadAsync();
                                 _dragAndDropPath = string.Empty;
                             }
                             else
                             {
-                                ShowMessage("Drag & Drop", "Drag & drop of files is not supported!");
+                                _dialogService.ShowMessage("Drag & Drop", "Drag & drop of files is not supported!");
                             }
                         }
                         catch (Exception ex)

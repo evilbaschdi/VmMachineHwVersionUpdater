@@ -1,18 +1,25 @@
 ﻿using System.Collections.Generic;
-using VmMachineHwVersionUpdater.Internal;
 
-namespace VmMachineHwVersionUpdater.Models
+namespace VmMachineHwVersionUpdater.Model
 {
     /// <summary>
     /// </summary>
-    public class LoadHelper
+    public class LoadHelper : ILoadHelper
     {
+        /// <summary>
+        /// </summary>
         public string UpdateAllTextBlox { get; set; }
 
+        /// <summary>
+        /// </summary>
         public List<Machine> VmDataGridItemsSource { get; set; }
 
+        /// <summary>
+        /// </summary>
         public double? UpdateAllHwVersion { get; set; }
 
+        /// <summary>
+        /// </summary>
         public List<string> SearchOsItems { get; set; }
     }
 }
