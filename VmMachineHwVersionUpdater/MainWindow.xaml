@@ -3,7 +3,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       Title="VM Machine Hardware Version Updater"
-                      Width="1000" Height="700" Icon="b.ico"
+                      Width="1000" Height="700" Icon="b.ico" ShowIconOnTitleBar="False"
                       GlowBrush="{DynamicResource AccentColorBrush}">
     <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
@@ -12,7 +12,7 @@
             <TextBox Name="SearchFilter" Width="250" Height="20" TextChanged="SearchOnTextChanged" TextWrapping="Wrap" IsReadOnly="True"
                      controls:TextBoxHelper.ClearTextButton="True"
                      controls:TextBoxHelper.Watermark="enter search term" />
-            <ComboBox Name="SearchOs" Width="250" Height="20" DropDownClosed="SearchOsOnDropDownClosed" IsReadOnly="True" IsEnabled="False" >
+            <ComboBox Name="SearchOs" Width="250" Height="20" DropDownClosed="SearchOsOnDropDownClosed" IsReadOnly="True" IsEnabled="False">
                 <ComboBoxItem Content="(no filter)" />
             </ComboBox>
             <!-- Load -->
