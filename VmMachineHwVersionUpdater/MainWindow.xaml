@@ -144,8 +144,8 @@
                         </Button>
                     </StackPanel>
                     <!-- Horizontal Line -->
-                    <StackPanel Margin="0,10,0,0" Orientation="Vertical">
-                        <Rectangle Width="470" VerticalAlignment="Stretch" Stroke="{DynamicResource AccentColorBrush}" />
+                    <StackPanel Margin="10,10,10,0" Orientation="Vertical">
+                        <Separator Background="{DynamicResource AccentColorBrush}"/>
                     </StackPanel>
                     <!--Application Style-->
                     <StackPanel>
@@ -181,8 +181,8 @@
                         </StackPanel>
                     </StackPanel>
                     <!-- Horizontal Line -->
-                    <StackPanel Margin="0,10,0,0" Orientation="Vertical">
-                        <Rectangle Width="470" VerticalAlignment="Stretch" Stroke="{DynamicResource AccentColorBrush}" />
+                    <StackPanel Margin="10,10,10,0" Orientation="Vertical">
+                        <Separator Background="{DynamicResource AccentColorBrush}"/>
                     </StackPanel>
                     <!-- Build / Linker Time -->
                     <StackPanel Orientation="Horizontal">
