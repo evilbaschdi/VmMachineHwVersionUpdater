@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using EvilBaschdi.Core.DirectoryExtensions;
 using EvilBaschdi.Core.Threading;
 using VmMachineHwVersionUpdater.Model;
+using VmMachineHwVersionUpdater.Core;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
@@ -65,6 +66,7 @@ namespace VmMachineHwVersionUpdater.Internal
         /// <returns></returns>
         public IEnumerable<Machine> ReadFromPath(string machinePath)
         {
+            
             var multiThreadingHelper = new MultiThreadingHelper();
             var filePath = new FilePath(multiThreadingHelper);
             var machineList = new ConcurrentBag<Machine>();
@@ -86,21 +88,20 @@ namespace VmMachineHwVersionUpdater.Internal
                     Parallel.ForEach(readAllLines,
                         line =>
                         {
-                            var lineToLower = line.ToLower();
-                            if (lineToLower.Contains("virtualhw.version"))
+                            if (line.Contains("virtualhw.version", StringComparison.CurrentCultureIgnoreCase))
                             {
-                                hwVersion = lineToLower.Replace('"', ' ').Trim();
-                                hwVersion = hwVersion.Replace("virtualhw.version = ", "");
+                                hwVersion = line.Replace('"', ' ').Trim();
+                                hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "", RegexOptions.IgnoreCase);
                             }
-                            if (lineToLower.Contains("displayname"))
+                            if (line.Contains("displayname", StringComparison.CurrentCultureIgnoreCase))
                             {
                                 displayName = line.Replace('"', ' ').Trim();
                                 displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase);
                             }
-                            if (lineToLower.Contains("guestos"))
+                            if (line.Contains("guestos", StringComparison.CurrentCultureIgnoreCase))
                             {
-                                guestOs = lineToLower.Replace('"', ' ').Trim();
-                                guestOs = guestOs.Replace("guestos = ", "");
+                                guestOs = line.Replace('"', ' ').Trim();
+                                guestOs = Regex.Replace(guestOs, "guestos = ", "", RegexOptions.IgnoreCase);
                             }
                         });
 
@@ -121,14 +122,15 @@ namespace VmMachineHwVersionUpdater.Internal
 
 
                     var size = directoryInfo.GetDirectorySize();
+                    var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
                     var machine = new Machine
                                   {
                                       Id = Guid.NewGuid().ToString(),
                                       HwVersion = Convert.ToInt32(hwVersion),
                                       DisplayName = displayName.Trim(),
                                       GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
-                                      Path = fileInfo.FullName,
-                                      ShortPath = fileInfo.FullName.Replace(machinePath.ToLower(), ""),
+                                      Path = properFilePathCapitalization,
+                                      ShortPath = properFilePathCapitalization.Replace(machinePath, "", StringComparison.CurrentCultureIgnoreCase),
                                       DirectorySizeGb = Math.Round(size / (1024 * 1024 * 1024), 2),
                                       DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / (1024), 2)}",
                                       LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
