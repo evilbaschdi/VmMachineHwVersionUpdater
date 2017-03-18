@@ -14,6 +14,7 @@ using EvilBaschdi.Core.Application;
 using EvilBaschdi.Core.Browsers;
 using EvilBaschdi.Core.Wpf;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Internal;
 using VmMachineHwVersionUpdater.Model;
@@ -249,6 +250,42 @@ namespace VmMachineHwVersionUpdater
             if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
             {
                 Process.Start(path);
+            }
+        }
+
+        private async void DeleteClick(object sender, RoutedEventArgs e)
+        {
+            await DeleteClickAsync();
+        }
+
+        private async Task DeleteClickAsync()
+        {
+            var result = await _dialogService.ShowMessage("Delete machine...", $"Are you sure you want to delete '{_currentMachine.DisplayName}'",
+                MessageDialogStyle.AffirmativeAndNegative);
+            if (result == MessageDialogResult.Affirmative)
+            {
+                CallDelete();
+            }
+        }
+
+        private void CallDelete()
+        {
+            if (!File.Exists(_currentMachine.Path))
+            {
+                return;
+            }
+            var path = Path.GetDirectoryName(_currentMachine.Path);
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                try
+                {
+                    Directory.Delete(path);
+                    LoadAsync();
+                }
+                catch (IOException ioException)
+                {
+                    _dialogService.ShowMessage("'Delete machine' was canceled", ioException.Message);
+                }
             }
         }
 
