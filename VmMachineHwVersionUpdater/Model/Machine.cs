@@ -39,6 +39,16 @@ namespace VmMachineHwVersionUpdater.Model
         /// </summary>
         public string LogLastDateDiff { get; set; }
 
+
+        /// <summary>
+        /// </summary>
+        public bool SyncTimeWithHost { get; set; }
+
+
+        /// <summary>
+        /// </summary>
+        public bool AutoUpdateTools { get; set; }
+
         /// <summary>
         /// </summary>
         public int HwVersion
@@ -64,7 +74,7 @@ namespace VmMachineHwVersionUpdater.Model
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // This method is called by the Set accessor of each property.
+        // This method is called by the Set accessors of each property.
         // The CallerMemberName attribute that is applied to the optional propertyName
         // parameter causes the property name of the caller to be substituted as an argument.
         private void NotifyPropertyChanged(string path, int newVersion)

@@ -20,6 +20,7 @@
         /// </summary>
         string Path { get; set; }
 
+
         /// <summary>
         /// </summary>
         string DirectorySize { get; set; }
@@ -39,5 +40,13 @@
         /// <summary>
         /// </summary>
         string LogLastDateDiff { get; set; }
+
+        /// <summary>
+        /// </summary>
+        bool SyncTimeWithHost { get; set; }
+
+        /// <summary>
+        /// </summary>
+        bool AutoUpdateTools { get; set; }
     }
 }

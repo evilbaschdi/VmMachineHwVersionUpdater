@@ -15,6 +15,18 @@ namespace VmMachineHwVersionUpdater.Internal
 
         /// <summary>
         /// </summary>
+        /// <param name="vmxPath"></param>
+        /// <param name="syncTimeWithHost"></param>
+        void EnableSyncTimeWithHost(string vmxPath, bool syncTimeWithHost);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="vmxPath"></param>
+        /// <param name="toolsAutoUpdate"></param>
+        void EnableToolsAutoUpdate(string vmxPath, bool toolsAutoUpdate);
+
+        /// <summary>
+        /// </summary>
         /// <param name="machinePath"></param>
         /// <returns></returns>
         IEnumerable<Machine> ReadFromPath(string machinePath);

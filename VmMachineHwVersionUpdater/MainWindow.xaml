@@ -47,12 +47,13 @@
     <!--  Grid  -->
     <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True" Drop="GridOnDrop" DragOver="GridOnDragOver" Background="Transparent">
         <!--  DataGrid  -->
-        <DataGrid Name="VmDataGrid" Margin="10,10,10,10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
+        <DataGrid Name="VmDataGrid" Margin="10,10,10,10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single"
                   AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
             <!--  Columns  -->
             <DataGrid.Columns>
+                <!--  Display Name  -->
                 <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
-
+                <!--  Path  -->
                 <DataGridTemplateColumn Header="Path" IsReadOnly="True" SortMemberPath="ShortPath">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -60,7 +61,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
+                <!--  Directory Size (GB)  -->
                 <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True" SortMemberPath="DirectorySizeGb">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -68,7 +69,25 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
+                <!--  Guest OS  -->
+                <DataGridTextColumn Width="200" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
+                <!--  Sync Time  -->
+                <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True" SortMemberPath="SyncTimeWithHost">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding SyncTimeWithHost}" HorizontalAlignment="Center" Click="SyncTimeWithHostCheckBoxClick" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--  Auto Update Tools  -->
+                <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True" SortMemberPath="AutoUpdateTools">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding AutoUpdateTools}" HorizontalAlignment="Center" Click="AutoUpdateToolsCheckBoxClick" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--  Last Log Entry  -->
                 <DataGridTemplateColumn Width="130" Header="Last Log Entry" IsReadOnly="True" SortMemberPath="LogLastDate">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -76,8 +95,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
-                <DataGridTextColumn Width="200" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
+                <!--  Version  -->
                 <controls:DataGridNumericUpDownColumn Width="100" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1"
                                                       IsReadOnly="False" />
             </DataGrid.Columns>

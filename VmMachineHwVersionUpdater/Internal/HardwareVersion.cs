@@ -8,8 +8,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.DirectoryExtensions;
 using EvilBaschdi.Core.Threading;
-using VmMachineHwVersionUpdater.Model;
 using VmMachineHwVersionUpdater.Core;
+using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
@@ -50,9 +50,9 @@ namespace VmMachineHwVersionUpdater.Internal
                 var text = inputStreamReader.ReadToEnd();
                 inputStreamReader.Close();
 
-                var newLine = $"virtualhw.version = \"{newVersion}\"";
+                var hwversion = $"virtualhw.version = \"{newVersion}\"";
 
-                text = text.Replace(line, newLine);
+                text = text.Replace(line, hwversion);
 
                 var outputStreamWriter = File.CreateText(vmxPath);
                 outputStreamWriter.Write(text);
@@ -62,11 +62,79 @@ namespace VmMachineHwVersionUpdater.Internal
 
         /// <summary>
         /// </summary>
+        /// <param name="vmxPath"></param>
+        /// <param name="syncTimeWithHost"></param>
+        public void EnableSyncTimeWithHost(string vmxPath, bool syncTimeWithHost)
+        {
+            var readAllLines = File.ReadAllLines(vmxPath);
+
+            foreach (var line in readAllLines)
+            {
+                var lineToLower = line.ToLower();
+
+                if (!lineToLower.Contains("tools.synctime"))
+                {
+                    continue;
+                }
+                var inputStreamReader = File.OpenText(vmxPath);
+                var text = inputStreamReader.ReadToEnd();
+                inputStreamReader.Close();
+                var syncTimeWithHostString = syncTimeWithHost ? "TRUE" : "FALSE";
+                var newLine = $"tools.syncTime = \"{syncTimeWithHostString}\"";
+
+                text = text.Replace(line, newLine);
+
+                var outputStreamWriter = File.CreateText(vmxPath);
+                outputStreamWriter.Write(text);
+                outputStreamWriter.Close();
+            }
+
+            EnableToolsAutoUpdate(vmxPath, true);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="vmxPath"></param>
+        /// <param name="toolsAutoUpdate"></param>
+        public void EnableToolsAutoUpdate(string vmxPath, bool toolsAutoUpdate)
+        {
+            var readAllLines = File.ReadAllLines(vmxPath);
+            var lineContained = false;
+            var inputStreamReader = File.OpenText(vmxPath);
+            var text = inputStreamReader.ReadToEnd();
+            inputStreamReader.Close();
+
+            var newLine = toolsAutoUpdate ? "tools.upgrade.policy = \"upgradeAtPowerCycle\"" : "tools.upgrade.policy = \"useGlobal\"";
+
+            foreach (var line in readAllLines)
+            {
+                var lineToLower = line.ToLower();
+                //tools.upgrade.policy = "upgradeAtPowerCycle"
+                if (!lineToLower.Contains("tools.upgrade.policy"))
+                {
+                    continue;
+                }
+                lineContained = true;
+
+                text = text.Replace(line, newLine);
+            }
+
+            if (!lineContained)
+            {
+                text = $"{text}{Environment.NewLine}{newLine}";
+            }
+
+            var outputStreamWriter = File.CreateText(vmxPath);
+            outputStreamWriter.Write(text);
+            outputStreamWriter.Close();
+        }
+
+        /// <summary>
+        /// </summary>
         /// <param name="machinePath"></param>
         /// <returns></returns>
         public IEnumerable<Machine> ReadFromPath(string machinePath)
         {
-            
             var multiThreadingHelper = new MultiThreadingHelper();
             var filePath = new FilePath(multiThreadingHelper);
             var machineList = new ConcurrentBag<Machine>();
@@ -84,6 +152,8 @@ namespace VmMachineHwVersionUpdater.Internal
                     var hwVersion = "";
                     var displayName = "";
                     var guestOs = "";
+                    var syncTimeWithHost = "";
+                    var toolsUpgradePolicy = "";
 
                     Parallel.ForEach(readAllLines,
                         line =>
@@ -91,17 +161,29 @@ namespace VmMachineHwVersionUpdater.Internal
                             if (line.Contains("virtualhw.version", StringComparison.CurrentCultureIgnoreCase))
                             {
                                 hwVersion = line.Replace('"', ' ').Trim();
-                                hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "", RegexOptions.IgnoreCase);
+                                hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "", RegexOptions.IgnoreCase).Trim();
                             }
                             if (line.Contains("displayname", StringComparison.CurrentCultureIgnoreCase))
                             {
                                 displayName = line.Replace('"', ' ').Trim();
-                                displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase);
+                                displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase).Trim();
                             }
                             if (line.Contains("guestos", StringComparison.CurrentCultureIgnoreCase))
                             {
                                 guestOs = line.Replace('"', ' ').Trim();
-                                guestOs = Regex.Replace(guestOs, "guestos = ", "", RegexOptions.IgnoreCase);
+                                guestOs = Regex.Replace(guestOs, "guestos = ", "", RegexOptions.IgnoreCase).Trim();
+                            }
+
+                            if (line.Contains("tools.syncTime", StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                syncTimeWithHost = line.Replace('"', ' ').Trim();
+                                syncTimeWithHost = Regex.Replace(syncTimeWithHost, "tools.syncTime = ", "", RegexOptions.IgnoreCase).Trim();
+                            }
+
+                            if (line.Contains("tools.upgrade.policy", StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                toolsUpgradePolicy = line.Replace('"', ' ').Trim();
+                                toolsUpgradePolicy = Regex.Replace(toolsUpgradePolicy, "tools.upgrade.policy = ", "", RegexOptions.IgnoreCase).Trim();
                             }
                         });
 
@@ -134,7 +216,9 @@ namespace VmMachineHwVersionUpdater.Internal
                                       DirectorySizeGb = Math.Round(size / (1024 * 1024 * 1024), 2),
                                       DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / (1024), 2)}",
                                       LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
-                                      LogLastDateDiff = logLastDateDiff
+                                      LogLastDateDiff = logLastDateDiff,
+                                      AutoUpdateTools = !string.IsNullOrWhiteSpace(toolsUpgradePolicy) && toolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
+                                      SyncTimeWithHost = bool.Parse(syncTimeWithHost)
                                   };
                     machineList.Add(machine);
                 });

@@ -219,6 +219,24 @@ namespace VmMachineHwVersionUpdater
             }
         }
 
+        private void SyncTimeWithHostCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            var checkBox = ((CheckBox) sender).IsChecked;
+            if (checkBox.HasValue)
+            {
+                _hardwareVersion.EnableSyncTimeWithHost(_currentMachine.Path, checkBox.Value);
+            }
+        }
+
+        private void AutoUpdateToolsCheckBoxClick(object sender, RoutedEventArgs e)
+        {
+            var checkBox = ((CheckBox) sender).IsChecked;
+            if (checkBox.HasValue)
+            {
+                _hardwareVersion.EnableToolsAutoUpdate(_currentMachine.Path, checkBox.Value);
+            }
+        }
+
         #endregion Update
 
         #region VM Tools
@@ -279,7 +297,7 @@ namespace VmMachineHwVersionUpdater
             {
                 try
                 {
-                    Directory.Delete(path);
+                    Directory.Delete(path, true);
                     LoadAsync();
                 }
                 catch (IOException ioException)
