@@ -25,6 +25,10 @@ namespace VmMachineHwVersionUpdater.Model
 
         /// <summary>
         /// </summary>
+        public string Directory { get; set; }
+
+        /// <summary>
+        /// </summary>
         public string DirectorySize { get; set; }
 
         /// <summary>

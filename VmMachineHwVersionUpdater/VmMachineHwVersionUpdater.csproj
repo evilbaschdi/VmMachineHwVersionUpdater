@@ -102,6 +102,7 @@
     <Compile Include="Core\AppSettings.cs">
       <DependentUpon>IAppSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\DirectoryExtensions.cs" />
     <Compile Include="Core\FileInfoExtensions.cs" />
     <Compile Include="Core\IAppSettings.cs" />
     <Page Include="MainWindow.xaml">

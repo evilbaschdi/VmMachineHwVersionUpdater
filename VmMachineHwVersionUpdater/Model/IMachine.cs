@@ -20,6 +20,9 @@
         /// </summary>
         string Path { get; set; }
 
+        /// <summary>
+        /// </summary>
+        string Directory { get; set; }
 
         /// <summary>
         /// </summary>

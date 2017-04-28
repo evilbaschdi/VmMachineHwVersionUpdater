@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Shell;
 using EvilBaschdi.Core.Application;
@@ -55,7 +56,10 @@ namespace VmMachineHwVersionUpdater
             _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
-            if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && Directory.Exists(_settings.VMwarePool))
+            var pathsFromSetting = _settings.VMwarePool.SplitToList(";");
+            var existingPaths = pathsFromSetting.GetExistingDirectories();
+
+            if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && existingPaths.Any())
             {
                 VmPath.Text = _settings.VMwarePool;
                 LoadAsync();
@@ -86,7 +90,10 @@ namespace VmMachineHwVersionUpdater
 
             var loadHelper = task.Result;
             DataContext = _currentItemSource;
-            VmDataGrid.ItemsSource = loadHelper.VmDataGridItemsSource;
+            var listCollectionView = new ListCollectionView(loadHelper.VmDataGridItemsSource);
+            listCollectionView.GroupDescriptions?.Add(new PropertyGroupDescription("Directory"));
+            VmDataGrid.ItemsSource = listCollectionView;
+
             UpdateAllTextBlock.Text = loadHelper.UpdateAllTextBlox;
             UpdateAllHwVersion.Value = loadHelper.UpdateAllHwVersion;
             loadHelper.SearchOsItems.ForEach(x => SearchOs.Items.Add(x));
@@ -103,6 +110,7 @@ namespace VmMachineHwVersionUpdater
         {
             var loadHelper = new LoadHelper();
             _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
+
             _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath()).ToList();
 
             if (_currentItemSource.Any())
@@ -151,7 +159,9 @@ namespace VmMachineHwVersionUpdater
             }
 
             DataContext = _filteredItemSource;
-            VmDataGrid.ItemsSource = _filteredItemSource.OrderBy(vm => vm.DisplayName).ToList();
+            var listCollectionView = new ListCollectionView(_filteredItemSource.OrderBy(vm => vm.DisplayName).ToList());
+            listCollectionView.GroupDescriptions?.Add(new PropertyGroupDescription("Directory"));
+            VmDataGrid.ItemsSource = listCollectionView;
         }
 
 
@@ -178,8 +188,16 @@ namespace VmMachineHwVersionUpdater
             VmPath.Text = browser.SelectedPath;
             if (!string.Equals(currentVmwarePool, _settings.VMwarePool, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_settings.VMwarePool))
             {
-                LoadGrid();
+                LoadAsync();
             }
+        }
+
+        private void VmPathOnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var pathsFromSetting = VmPath.Text.SplitToList(";");
+            var existingPaths = pathsFromSetting.GetExistingDirectories();
+            _settings.VMwarePool = string.Join(";", existingPaths);
+            LoadAsync();
         }
 
         #endregion General
@@ -201,7 +219,7 @@ namespace VmMachineHwVersionUpdater
 
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
             Cursor = Cursors.Arrow;
-            LoadGrid();
+            LoadAsync();
         }
 
         private void Update()

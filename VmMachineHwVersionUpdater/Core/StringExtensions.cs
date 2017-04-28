@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace VmMachineHwVersionUpdater.Core
 {
@@ -44,10 +45,29 @@ namespace VmMachineHwVersionUpdater.Core
             // Remove the old text
             source = source.Remove(index, oldValue.Length);
 
-            // Add the replacemenet text
+            // Add the replacement text
             source = source.Insert(index, newValue);
 
             return source;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
+        public static List<string> SplitToList(this string value, string separator)
+        {
+            var list = new List<string>();
+            if (value.Contains(separator))
+            {
+                list.AddRange(value.Split(separator.ToCharArray()[0]));
+            }
+            else
+            {
+                list.Add(value);
+            }
+            return list;
         }
     }
 }

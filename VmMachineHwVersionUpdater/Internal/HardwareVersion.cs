@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.DirectoryExtensions;
+using EvilBaschdi.Core.DotNetExtensions;
 using EvilBaschdi.Core.Threading;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Model;
@@ -143,86 +144,101 @@ namespace VmMachineHwVersionUpdater.Internal
                                            "vmx"
                                        };
 
-            var fileList = filePath.GetFileList(machinePath, includeExtensionList).Distinct().ToList();
 
-            Parallel.ForEach(fileList,
-                file =>
-                {
-                    var readAllLines = File.ReadAllLines(file);
-                    var hwVersion = "";
-                    var displayName = "";
-                    var guestOs = "";
-                    var syncTimeWithHost = "";
-                    var toolsUpgradePolicy = "";
+            var machinePaths = machinePath.SplitToList(";");
 
-                    Parallel.ForEach(readAllLines,
-                        line =>
-                        {
-                            if (line.Contains("virtualhw.version", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                hwVersion = line.Replace('"', ' ').Trim();
-                                hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "", RegexOptions.IgnoreCase).Trim();
-                            }
-                            if (line.Contains("displayname", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                displayName = line.Replace('"', ' ').Trim();
-                                displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase).Trim();
-                            }
-                            if (line.Contains("guestos", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                guestOs = line.Replace('"', ' ').Trim();
-                                guestOs = Regex.Replace(guestOs, "guestos = ", "", RegexOptions.IgnoreCase).Trim();
-                            }
+            Parallel.ForEach(machinePaths, path =>
+                                           {
+                                               if (!Directory.Exists(path))
+                                               {
+                                                   return;
+                                               }
+                                               var fileList = filePath.GetFileList(path, includeExtensionList).Distinct().ToList();
 
-                            if (line.Contains("tools.syncTime", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                syncTimeWithHost = line.Replace('"', ' ').Trim();
-                                syncTimeWithHost = Regex.Replace(syncTimeWithHost, "tools.syncTime = ", "", RegexOptions.IgnoreCase).Trim();
-                            }
+                                               Parallel.ForEach(fileList,
+                                                   file =>
+                                                   {
+                                                       var readAllLines = File.ReadAllLines(file);
+                                                       var hwVersion = "";
+                                                       var displayName = "";
+                                                       var guestOs = "";
+                                                       var syncTimeWithHost = "";
+                                                       var toolsUpgradePolicy = "";
 
-                            if (line.Contains("tools.upgrade.policy", StringComparison.CurrentCultureIgnoreCase))
-                            {
-                                toolsUpgradePolicy = line.Replace('"', ' ').Trim();
-                                toolsUpgradePolicy = Regex.Replace(toolsUpgradePolicy, "tools.upgrade.policy = ", "", RegexOptions.IgnoreCase).Trim();
-                            }
-                        });
+                                                       Parallel.ForEach(readAllLines,
+                                                           line =>
+                                                           {
+                                                               if (line.Contains("virtualhw.version", StringComparison.CurrentCultureIgnoreCase))
+                                                               {
+                                                                   hwVersion = line.Replace('"', ' ').Trim();
+                                                                   hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "", RegexOptions.IgnoreCase).Trim();
+                                                               }
+                                                               if (line.Contains("displayname", StringComparison.CurrentCultureIgnoreCase))
+                                                               {
+                                                                   displayName = line.Replace('"', ' ').Trim();
+                                                                   displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase).Trim();
+                                                               }
+                                                               if (line.Contains("guestos", StringComparison.CurrentCultureIgnoreCase))
+                                                               {
+                                                                   guestOs = line.Replace('"', ' ').Trim();
+                                                                   guestOs = Regex.Replace(guestOs, "guestos = ", "", RegexOptions.IgnoreCase).Trim();
+                                                               }
 
-                    var fileInfo = new FileInfo(file);
-                    var directoryInfo = fileInfo.Directory;
-                    var log = File.Exists($@"{directoryInfo?.FullName}\vmware.log") ? $@"{directoryInfo?.FullName}\vmware.log" : null;
-                    var logLastDate = string.Empty;
-                    var logLastDateDiff = string.Empty;
+                                                               if (line.Contains("tools.syncTime", StringComparison.CurrentCultureIgnoreCase))
+                                                               {
+                                                                   syncTimeWithHost = line.Replace('"', ' ').Trim();
+                                                                   syncTimeWithHost = Regex.Replace(syncTimeWithHost, "tools.syncTime = ", "", RegexOptions.IgnoreCase).Trim();
+                                                               }
 
-                    if (!string.IsNullOrWhiteSpace(log) && !log.IsFileLocked())
-                    {
-                        var logLastLine = File.ReadAllLines(log).Last();
-                        logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23).Replace(".", ",");
-                        var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
-                        var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
-                        logLastDateDiff = $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
-                    }
+                                                               if (line.Contains("tools.upgrade.policy", StringComparison.CurrentCultureIgnoreCase))
+                                                               {
+                                                                   toolsUpgradePolicy = line.Replace('"', ' ').Trim();
+                                                                   toolsUpgradePolicy = Regex
+                                                                       .Replace(toolsUpgradePolicy, "tools.upgrade.policy = ", "", RegexOptions.IgnoreCase)
+                                                                       .Trim();
+                                                               }
+                                                           });
+
+                                                       var fileInfo = new FileInfo(file);
+                                                       var directoryInfo = fileInfo.Directory;
+                                                       var log = File.Exists($@"{directoryInfo?.FullName}\vmware.log") ? $@"{directoryInfo?.FullName}\vmware.log" : null;
+                                                       var logLastDate = string.Empty;
+                                                       var logLastDateDiff = string.Empty;
+
+                                                       if (!string.IsNullOrWhiteSpace(log) && !log.IsFileLocked())
+                                                       {
+                                                           var logLastLine = File.ReadAllLines(log).Last();
+                                                           logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23).Replace(".", ",");
+                                                           var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
+                                                           var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
+                                                           logLastDateDiff =
+                                                               $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
+                                                       }
 
 
-                    var size = directoryInfo.GetDirectorySize();
-                    var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
-                    var machine = new Machine
-                                  {
-                                      Id = Guid.NewGuid().ToString(),
-                                      HwVersion = Convert.ToInt32(hwVersion),
-                                      DisplayName = displayName.Trim(),
-                                      GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
-                                      Path = properFilePathCapitalization,
-                                      ShortPath = properFilePathCapitalization.Replace(machinePath, "", StringComparison.CurrentCultureIgnoreCase),
-                                      DirectorySizeGb = Math.Round(size / (1024 * 1024 * 1024), 2),
-                                      DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / (1024), 2)}",
-                                      LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
-                                      LogLastDateDiff = logLastDateDiff,
-                                      AutoUpdateTools = !string.IsNullOrWhiteSpace(toolsUpgradePolicy) && toolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
-                                      SyncTimeWithHost = bool.Parse(syncTimeWithHost)
-                                  };
-                    machineList.Add(machine);
-                });
-
+                                                       var size = directoryInfo.GetDirectorySize();
+                                                       var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
+                                                       var machine = new Machine
+                                                                     {
+                                                                         Id = Guid.NewGuid().ToString(),
+                                                                         HwVersion = Convert.ToInt32(hwVersion),
+                                                                         DisplayName = displayName.Trim(),
+                                                                         GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
+                                                                         Path = properFilePathCapitalization,
+                                                                         Directory = path,
+                                                                         ShortPath =
+                                                                             properFilePathCapitalization.Replace(path, "", StringComparison.CurrentCultureIgnoreCase),
+                                                                         DirectorySizeGb = Math.Round(size / (1024 * 1024 * 1024), 2),
+                                                                         DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / (1024), 2)}",
+                                                                         LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
+                                                                         LogLastDateDiff = logLastDateDiff,
+                                                                         AutoUpdateTools =
+                                                                             !string.IsNullOrWhiteSpace(toolsUpgradePolicy) && toolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
+                                                                         SyncTimeWithHost = bool.Parse(syncTimeWithHost)
+                                                                     };
+                                                       machineList.Add(machine);
+                                                   });
+                                           });
             return machineList;
         }
     }

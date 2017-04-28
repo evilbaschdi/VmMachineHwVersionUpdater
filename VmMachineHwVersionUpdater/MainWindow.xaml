@@ -5,6 +5,9 @@
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       Title="VM Machine Hardware Version Updater"
                       Width="1000" Height="700" Icon="b.ico" ShowIconOnTitleBar="False"
+                      LeftWindowCommandsOverlayBehavior="Never"
+                      RightWindowCommandsOverlayBehavior="Never"
+                      WindowButtonCommandsOverlayBehavior="Never"
                       GlowBrush="{DynamicResource AccentColorBrush}">
     <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
@@ -51,6 +54,7 @@
                   AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
             <!--  Columns  -->
             <DataGrid.Columns>
+
                 <!--  Display Name  -->
                 <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
                 <!--  Path  -->
@@ -99,6 +103,32 @@
                 <controls:DataGridNumericUpDownColumn Width="100" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1"
                                                       IsReadOnly="False" />
             </DataGrid.Columns>
+            <!--  GroupStyle  -->
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
             <!--  ContextMenu  -->
             <DataGrid.ContextMenu>
                 <ContextMenu Name="MovieContextMenu" StaysOpen="True">
@@ -131,7 +161,7 @@
                     <!-- VM Pool -->
                     <StackPanel Orientation="Horizontal" Name="VmPoolPanel">
                         <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Path" />
-                        <TextBox Name="VmPath" Height="30" Width="310" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" />
+                        <TextBox Name="VmPath" Height="30" Width="310" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="VmPathOnLostFocus" />
                         <Button Name="Browse" Width="95" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowseClick">
                             <StackPanel Orientation="Horizontal">
                                 <iconPacks:PackIconMaterial Kind="FolderOutline" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
