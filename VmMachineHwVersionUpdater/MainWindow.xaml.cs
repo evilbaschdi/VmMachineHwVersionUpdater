@@ -28,17 +28,17 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
-        private Machine _currentMachine;
-        private readonly IMetroStyle _style;
-        private IHardwareVersion _hardwareVersion;
-        private IEnumerable<Machine> _currentItemSource;
-        private IEnumerable<Machine> _filteredItemSource;
-        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
-        private readonly IAppSettings _settings;
         private readonly IDialogService _dialogService;
+        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly int _overrideProtection;
-        private int _updateAllHwVersion;
+        private readonly IAppSettings _settings;
+        private readonly IMetroStyle _style;
+        private IEnumerable<Machine> _currentItemSource;
+        private Machine _currentMachine;
         private string _dragAndDropPath;
+        private IEnumerable<Machine> _filteredItemSource;
+        private IHardwareVersion _hardwareVersion;
+        private int _updateAllHwVersion;
 
         #region General
 
@@ -86,7 +86,7 @@ namespace VmMachineHwVersionUpdater
         private async void LoadAsync()
         {
             var task = Task.Factory.StartNew(LoadGrid);
-            await task;
+            await task.ConfigureAwait(true);
 
             var loadHelper = task.Result;
             DataContext = _currentItemSource;
@@ -196,8 +196,11 @@ namespace VmMachineHwVersionUpdater
         {
             var pathsFromSetting = VmPath.Text.SplitToList(";");
             var existingPaths = pathsFromSetting.GetExistingDirectories();
-            _settings.VMwarePool = string.Join(";", existingPaths);
-            LoadAsync();
+            if (existingPaths.Any())
+            {
+                _settings.VMwarePool = string.Join(";", existingPaths);
+                LoadAsync();
+            }
         }
 
         #endregion General
@@ -338,12 +341,10 @@ namespace VmMachineHwVersionUpdater
         {
             var flyout = (Flyout) Flyouts.Items[0];
 
-            if (flyout == null)
+            if (flyout != null)
             {
-                return;
+                flyout.IsOpen = !flyout.IsOpen;
             }
-
-            flyout.IsOpen = !flyout.IsOpen;
         }
 
         #endregion Settings
@@ -352,25 +353,15 @@ namespace VmMachineHwVersionUpdater
 
         private void SaveStyleClick(object sender, RoutedEventArgs e)
         {
-            if (_overrideProtection == 0)
+            if (_overrideProtection != 0)
             {
-                return;
+                _style.SaveStyle();
             }
-            _style.SaveStyle();
         }
 
         private void Theme(object sender, EventArgs e)
         {
-            if (_overrideProtection == 0)
-            {
-                return;
-            }
-            var routedEventArgs = e as RoutedEventArgs;
-            if (routedEventArgs != null)
-            {
-                _style.SetTheme(sender, routedEventArgs);
-            }
-            else
+            if (_overrideProtection != 0)
             {
                 _style.SetTheme(sender);
             }
@@ -378,11 +369,10 @@ namespace VmMachineHwVersionUpdater
 
         private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_overrideProtection == 0)
+            if (_overrideProtection != 0)
             {
-                return;
+                _style.SetAccent(sender, e);
             }
-            _style.SetAccent(sender, e);
         }
 
         #endregion MetroStyle
@@ -435,7 +425,7 @@ namespace VmMachineHwVersionUpdater
 
         private void GridOnDragOver(object sender, DragEventArgs e)
         {
-            bool isCorrect = true;
+            var isCorrect = true;
 
             if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
             {

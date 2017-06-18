@@ -33,7 +33,7 @@
                     <TextBlock Name="UpdateAllTextBlock" Margin="5 0 0 0" VerticalAlignment="Center" Text="Update all to" />
                 </StackPanel>
             </Button>
-            <controls:NumericUpDown Name="UpdateAllHwVersion" Minimum="1" Value="1" ValueChanged="UpdateAllHwVersionOnValueChanged" />
+            <controls:NumericUpDown Name="UpdateAllHwVersion" Height="20" Minimum="1" Value="1" ValueChanged="UpdateAllHwVersionOnValueChanged" />
             <!-- Settings -->
             <Button Name="Settings" Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
@@ -50,8 +50,9 @@
     <!--  Grid  -->
     <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True" Drop="GridOnDrop" DragOver="GridOnDragOver" Background="Transparent">
         <!--  DataGrid  -->
-        <DataGrid Name="VmDataGrid" Margin="10,10,10,10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single"
+        <DataGrid Name="VmDataGrid" Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single"
                   AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
+        
             <!--  Columns  -->
             <DataGrid.Columns>
 
@@ -105,11 +106,11 @@
             </DataGrid.Columns>
             <!--  GroupStyle  -->
             <DataGrid.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
+                <GroupStyle >
+                    <GroupStyle.ContainerStyle >
                         <Style TargetType="{x:Type GroupItem}">
                             <Setter Property="Margin" Value="0,0,0,5" />
-                            <Setter Property="Template">
+                            <Setter Property="Template" >
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <Expander IsExpanded="True">
@@ -119,8 +120,11 @@
                                                 </DockPanel>
                                             </Expander.Header>
                                             <Expander.Content>
-                                                <ItemsPresenter />
+                                                    <ItemsPresenter />
                                             </Expander.Content>
+                                            <!--<ScrollViewer>
+                                                <ItemsPresenter/>
+                                            </ScrollViewer>-->
                                         </Expander>
                                     </ControlTemplate>
                                 </Setter.Value>

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.DirectoryExtensions;
-using EvilBaschdi.Core.DotNetExtensions;
 using EvilBaschdi.Core.Threading;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Model;
@@ -128,6 +127,7 @@ namespace VmMachineHwVersionUpdater.Internal
             var outputStreamWriter = File.CreateText(vmxPath);
             outputStreamWriter.Write(text);
             outputStreamWriter.Close();
+            //SetApplyHostDisplayScalingToGuest(vmxPath, false);
         }
 
         /// <summary>
@@ -168,29 +168,29 @@ namespace VmMachineHwVersionUpdater.Internal
                                                        Parallel.ForEach(readAllLines,
                                                            line =>
                                                            {
-                                                               if (line.Contains("virtualhw.version", StringComparison.CurrentCultureIgnoreCase))
+                                                               if (line.StartsWith("virtualhw.version", StringComparison.CurrentCultureIgnoreCase))
                                                                {
                                                                    hwVersion = line.Replace('"', ' ').Trim();
                                                                    hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "", RegexOptions.IgnoreCase).Trim();
                                                                }
-                                                               if (line.Contains("displayname", StringComparison.CurrentCultureIgnoreCase))
+                                                               if (line.StartsWith("displayname", StringComparison.CurrentCultureIgnoreCase))
                                                                {
                                                                    displayName = line.Replace('"', ' ').Trim();
                                                                    displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase).Trim();
                                                                }
-                                                               if (line.Contains("guestos", StringComparison.CurrentCultureIgnoreCase))
+                                                               if (line.StartsWith("guestos", StringComparison.CurrentCultureIgnoreCase))
                                                                {
                                                                    guestOs = line.Replace('"', ' ').Trim();
                                                                    guestOs = Regex.Replace(guestOs, "guestos = ", "", RegexOptions.IgnoreCase).Trim();
                                                                }
 
-                                                               if (line.Contains("tools.syncTime", StringComparison.CurrentCultureIgnoreCase))
+                                                               if (line.StartsWith("tools.syncTime", StringComparison.CurrentCultureIgnoreCase))
                                                                {
                                                                    syncTimeWithHost = line.Replace('"', ' ').Trim();
                                                                    syncTimeWithHost = Regex.Replace(syncTimeWithHost, "tools.syncTime = ", "", RegexOptions.IgnoreCase).Trim();
                                                                }
 
-                                                               if (line.Contains("tools.upgrade.policy", StringComparison.CurrentCultureIgnoreCase))
+                                                               if (line.StartsWith("tools.upgrade.policy", StringComparison.CurrentCultureIgnoreCase))
                                                                {
                                                                    toolsUpgradePolicy = line.Replace('"', ' ').Trim();
                                                                    toolsUpgradePolicy = Regex
@@ -229,17 +229,55 @@ namespace VmMachineHwVersionUpdater.Internal
                                                                          ShortPath =
                                                                              properFilePathCapitalization.Replace(path, "", StringComparison.CurrentCultureIgnoreCase),
                                                                          DirectorySizeGb = Math.Round(size / (1024 * 1024 * 1024), 2),
-                                                                         DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / (1024), 2)}",
+                                                                         DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / 1024, 2)}",
                                                                          LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
                                                                          LogLastDateDiff = logLastDateDiff,
                                                                          AutoUpdateTools =
                                                                              !string.IsNullOrWhiteSpace(toolsUpgradePolicy) && toolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
-                                                                         SyncTimeWithHost = bool.Parse(syncTimeWithHost)
+                                                                         SyncTimeWithHost = !string.IsNullOrWhiteSpace(syncTimeWithHost) && bool.Parse(syncTimeWithHost)
                                                                      };
                                                        machineList.Add(machine);
                                                    });
                                            });
             return machineList;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="vmxPath"></param>
+        /// <param name="isEnabled"></param>
+        public void SetApplyHostDisplayScalingToGuest(string vmxPath, bool isEnabled)
+        {
+            var readAllLines = File.ReadAllLines(vmxPath);
+            var lineContained = false;
+            var inputStreamReader = File.OpenText(vmxPath);
+            var text = inputStreamReader.ReadToEnd();
+            inputStreamReader.Close();
+
+            var newLine = isEnabled ? "gui.applyHostDisplayScalingToGuest = \"TRUE\"" : "gui.applyHostDisplayScalingToGuest = \"FALSE\"";
+
+            foreach (var line in readAllLines)
+            {
+                var lineToLower = line.ToLower();
+
+                //gui.applyHostDisplayScalingToGuest
+                if (!lineToLower.Contains("gui.applyHostDisplayScalingToGuest"))
+                {
+                    continue;
+                }
+                lineContained = true;
+
+                text = text.Replace(line, newLine);
+            }
+
+            if (!lineContained)
+            {
+                text = $"{text}{Environment.NewLine}{newLine}";
+            }
+
+            var outputStreamWriter = File.CreateText(vmxPath);
+            outputStreamWriter.Write(text);
+            outputStreamWriter.Close();
         }
     }
 }
