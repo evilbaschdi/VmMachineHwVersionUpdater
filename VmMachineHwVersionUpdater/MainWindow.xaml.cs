@@ -209,16 +209,16 @@ namespace VmMachineHwVersionUpdater
 
         private async void UpdateAllClick(object sender, RoutedEventArgs e)
         {
-            await ConfigureUpdate();
+            await ConfigureUpdateAsync().ConfigureAwait(true);
         }
 
-        private async Task ConfigureUpdate()
+        private async Task ConfigureUpdateAsync()
         {
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
             Cursor = Cursors.Wait;
 
             var task = Task.Factory.StartNew(Update);
-            await task;
+            await task.ConfigureAwait(true);
 
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
             Cursor = Cursors.Arrow;
@@ -294,13 +294,13 @@ namespace VmMachineHwVersionUpdater
 
         private async void DeleteClick(object sender, RoutedEventArgs e)
         {
-            await DeleteClickAsync();
+            await DeleteClickAsync().ConfigureAwait(true);
         }
 
         private async Task DeleteClickAsync()
         {
             var result = await _dialogService.ShowMessage("Delete machine...", $"Are you sure you want to delete '{_currentMachine.DisplayName}'",
-                MessageDialogStyle.AffirmativeAndNegative);
+                MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
             if (result == MessageDialogResult.Affirmative)
             {
                 CallDelete();
