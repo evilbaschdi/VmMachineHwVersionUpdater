@@ -13,8 +13,7 @@ using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
-    /// <summary>
-    /// </summary>
+    /// <inheritdoc />
     public class HardwareVersion : IHardwareVersion
     {
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
@@ -30,8 +29,7 @@ namespace VmMachineHwVersionUpdater.Internal
             _guestOsOutputStringMapping = guestOsOutputStringMapping;
         }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         /// <param name="vmxPath"></param>
         /// <param name="newVersion"></param>
         public void Update(string vmxPath, int newVersion)
@@ -60,8 +58,7 @@ namespace VmMachineHwVersionUpdater.Internal
             }
         }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         /// <param name="vmxPath"></param>
         /// <param name="syncTimeWithHost"></param>
         public void EnableSyncTimeWithHost(string vmxPath, bool syncTimeWithHost)
@@ -92,8 +89,7 @@ namespace VmMachineHwVersionUpdater.Internal
             EnableToolsAutoUpdate(vmxPath, true);
         }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         /// <param name="vmxPath"></param>
         /// <param name="toolsAutoUpdate"></param>
         public void EnableToolsAutoUpdate(string vmxPath, bool toolsAutoUpdate)
@@ -130,8 +126,7 @@ namespace VmMachineHwVersionUpdater.Internal
             //SetApplyHostDisplayScalingToGuest(vmxPath, false);
         }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         /// <param name="machinePath"></param>
         /// <returns></returns>
         public IEnumerable<Machine> ReadFromPath(string machinePath)
@@ -145,7 +140,7 @@ namespace VmMachineHwVersionUpdater.Internal
                                        };
 
 
-            var machinePaths = machinePath.SplitToList(";");
+            var machinePaths = machinePath.SplitToEnumerable(";");
 
             Parallel.ForEach(machinePaths, path =>
                                            {
@@ -201,7 +196,7 @@ namespace VmMachineHwVersionUpdater.Internal
 
                                                        var fileInfo = new FileInfo(file);
                                                        var directoryInfo = fileInfo.Directory;
-                                                       var log = File.Exists($@"{directoryInfo?.FullName}\vmware.log") ? $@"{directoryInfo?.FullName}\vmware.log" : null;
+                                                       var log = File.Exists($@"{directoryInfo.FullName}\vmware.log") ? $@"{directoryInfo.FullName}\vmware.log" : null;
                                                        var logLastDate = string.Empty;
                                                        var logLastDateDiff = string.Empty;
 
@@ -246,6 +241,7 @@ namespace VmMachineHwVersionUpdater.Internal
         /// </summary>
         /// <param name="vmxPath"></param>
         /// <param name="isEnabled"></param>
+        // ReSharper disable once UnusedMember.Global
         public void SetApplyHostDisplayScalingToGuest(string vmxPath, bool isEnabled)
         {
             var readAllLines = File.ReadAllLines(vmxPath);

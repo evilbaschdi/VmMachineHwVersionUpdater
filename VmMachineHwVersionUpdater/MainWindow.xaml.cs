@@ -56,7 +56,7 @@ namespace VmMachineHwVersionUpdater
             _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
-            var pathsFromSetting = _settings.VMwarePool.SplitToList(";");
+            var pathsFromSetting = _settings.VMwarePool.SplitToEnumerable(";").ToList();
             var existingPaths = pathsFromSetting.GetExistingDirectories();
 
             if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && existingPaths.Any())
@@ -176,17 +176,21 @@ namespace VmMachineHwVersionUpdater
 
         private void BrowseClick(object sender, RoutedEventArgs e)
         {
-            var currentVmwarePool = _settings.VMwarePool;
-            VmPath.Text = _settings.VMwarePool;
+            var oldPath = _settings.VMwarePool;
+            var currentVmwarePool = oldPath.SplitToEnumerable(";").ToArray();
+            VmPath.Text = oldPath;
 
             var browser = new ExplorerFolderBrowser
                           {
-                              SelectedPath = VmPath.Text
+                              SelectedPath = currentVmwarePool.First(),
+                              Multiselect = true
                           };
             browser.ShowDialog();
-            _settings.VMwarePool = browser.SelectedPath;
-            VmPath.Text = browser.SelectedPath;
-            if (!string.Equals(currentVmwarePool, _settings.VMwarePool, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_settings.VMwarePool))
+            var newPath = string.Join(";", browser.SelectedPaths);
+            _settings.VMwarePool = newPath;
+            VmPath.Text = newPath;
+
+            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_settings.VMwarePool))
             {
                 LoadAsync();
             }
@@ -194,7 +198,7 @@ namespace VmMachineHwVersionUpdater
 
         private void VmPathOnLostFocus(object sender, RoutedEventArgs e)
         {
-            var pathsFromSetting = VmPath.Text.SplitToList(";");
+            var pathsFromSetting = VmPath.Text.SplitToEnumerable(";").ToList();
             var existingPaths = pathsFromSetting.GetExistingDirectories();
             if (existingPaths.Any())
             {

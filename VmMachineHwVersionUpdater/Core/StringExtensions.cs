@@ -12,7 +12,7 @@ namespace VmMachineHwVersionUpdater.Core
         ///     Contains <see cref="System.StringComparison" /> statt.
         /// </summary>
         /// <param name="source">Die Zeichenfolge in der gesucht werden soll.</param>
-        /// <param name="value">Die zu suchende Zeichenfogle.</param>
+        /// <param name="value">Die zu suchende Zeichenfolge.</param>
         /// <param name="comparisonType">Der Modus der beim Vergleichen angewendet werden soll.</param>
         /// <returns>
         ///     <c>true</c> wenn <paramref name="value" /> in <paramref name="source" /> gefunden wurde; andernfalls
@@ -56,7 +56,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// <param name="value"></param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static List<string> SplitToList(this string value, string separator)
+        public static IEnumerable<string> SplitToEnumerable(this string value, string separator)
         {
             var list = new List<string>();
             if (value.Contains(separator))
