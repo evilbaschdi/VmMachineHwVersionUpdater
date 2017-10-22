@@ -20,7 +20,7 @@
                 <ComboBoxItem Content="(no filter)" />
             </ComboBox>
             <!-- Load -->
-            <Button Name="Load" Click="LoadClick">
+            <Button Click="LoadClick">
                 <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconMaterial Kind="Reload" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Reload" />
@@ -35,7 +35,7 @@
             </Button>
             <controls:NumericUpDown Name="UpdateAllHwVersion" Height="20" Minimum="1" Value="1" ValueChanged="UpdateAllHwVersionOnValueChanged" />
             <!-- Settings -->
-            <Button Name="Settings" Click="SettingsClick">
+            <Button Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconMaterial Kind="Settings" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="settings" />
@@ -50,12 +50,10 @@
     <!--  Grid  -->
     <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True" Drop="GridOnDrop" DragOver="GridOnDragOver" Background="Transparent">
         <!--  DataGrid  -->
-        <DataGrid Name="VmDataGrid" Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single"
+        <DataGrid Name="VmDataGrid" Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single" Sorting="VmDataGridSorting"
                   AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
-        
             <!--  Columns  -->
             <DataGrid.Columns>
-
                 <!--  Display Name  -->
                 <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
                 <!--  Path  -->
@@ -101,16 +99,16 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <!--  Version  -->
-                <controls:DataGridNumericUpDownColumn Width="100" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1"
+                <controls:DataGridNumericUpDownColumn Width="90" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1"
                                                       IsReadOnly="False" />
             </DataGrid.Columns>
             <!--  GroupStyle  -->
             <DataGrid.GroupStyle>
-                <GroupStyle >
-                    <GroupStyle.ContainerStyle >
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
                         <Style TargetType="{x:Type GroupItem}">
                             <Setter Property="Margin" Value="0,0,0,5" />
-                            <Setter Property="Template" >
+                            <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <Expander IsExpanded="True">
@@ -120,7 +118,7 @@
                                                 </DockPanel>
                                             </Expander.Header>
                                             <Expander.Content>
-                                                    <ItemsPresenter />
+                                                <ItemsPresenter />
                                             </Expander.Content>
                                             <!--<ScrollViewer>
                                                 <ItemsPresenter/>
@@ -135,19 +133,28 @@
             </DataGrid.GroupStyle>
             <!--  ContextMenu  -->
             <DataGrid.ContextMenu>
-                <ContextMenu Name="MovieContextMenu" StaysOpen="True">
-                    <MenuItem Name="StartMenuItem" Header="Start machine..." Click="StartClick">
+                <ContextMenu StaysOpen="True">
+                    <!-- Start -->
+                    <MenuItem Header="Start machine..." Click="StartClick">
                         <MenuItem.Icon>
                             <iconPacks:PackIconMaterial Kind="Power" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Name="GotToPathMenuItem" Header="Go to path..." Click="GoToClick">
+                    <!-- Go to -->
+                    <MenuItem Header="Go to path..." Click="GoToClick">
                         <MenuItem.Icon>
                             <iconPacks:PackIconMaterial Kind="FolderOutline" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Name="DeleteMenuItem" Header="Delete machine..." Click="DeleteClick">
+                    <!-- Archive -->
+                    <MenuItem Header="Archive machine..." Click="ArchiveClick">
+                        <MenuItem.Icon>
+                            <iconPacks:PackIconMaterial Kind="Archive" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <!-- Delete -->
+                    <MenuItem Header="Delete machine..." Click="DeleteClick">
                         <MenuItem.Icon>
                             <iconPacks:PackIconMaterial Kind="DeleteVariant" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </MenuItem.Icon>
@@ -163,15 +170,28 @@
             <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings" Position="Right" Theme="Accent">
                 <StackPanel>
                     <!-- VM Pool -->
-                    <StackPanel Orientation="Horizontal" Name="VmPoolPanel">
+                    <StackPanel Orientation="Horizontal">
                         <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Path" />
                         <TextBox Name="VmPath" Height="30" Width="310" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" LostFocus="VmPathOnLostFocus" />
-                        <Button Name="Browse" Width="95" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowseClick">
+                        <Button Width="95" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowsePoolClick">
                             <StackPanel Orientation="Horizontal">
                                 <iconPacks:PackIconMaterial Kind="FolderOutline" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Browse" />
                             </StackPanel>
                         </Button>
+                    </StackPanel>
+                    <!-- VM Archive -->
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="50" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Archive" />
+                        <TextBox Name="VmArchivePath" Height="30" Width="310" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                 LostFocus="VmArchiveOnLostFocus" />
+                        <Button Width="95" Margin="10,10,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BrowseArchiveClick">
+                            <StackPanel Orientation="Horizontal">
+                                <iconPacks:PackIconMaterial Kind="FolderOutline" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Browse" />
+                            </StackPanel>
+                        </Button>
+
                     </StackPanel>
                     <!-- Horizontal Line -->
                     <StackPanel Margin="10,10,10,0" Orientation="Vertical">
@@ -194,12 +214,11 @@
                         </StackPanel>
                         <!-- Save Style -->
                         <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                            <Button Name="SaveStyle" Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
+                            <Button Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
                                 <StackPanel Orientation="Horizontal">
                                     <iconPacks:PackIconMaterial Kind="ContentSaveSettings" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save style" />
                                 </StackPanel>
-
                             </Button>
                         </StackPanel>
                     </StackPanel>

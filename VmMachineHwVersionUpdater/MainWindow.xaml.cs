@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -40,6 +41,10 @@ namespace VmMachineHwVersionUpdater
         private IHardwareVersion _hardwareVersion;
         private int _updateAllHwVersion;
 
+        string _sortHeader;
+        string _prevSortHeader;
+        SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
+
         #region General
 
         /// <summary>
@@ -56,15 +61,23 @@ namespace VmMachineHwVersionUpdater
             _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
-            var pathsFromSetting = _settings.VMwarePool.SplitToEnumerable(";").ToList();
-            var existingPaths = pathsFromSetting.GetExistingDirectories();
+            var vMwarePoolFromSetting = _settings.VMwarePool.SplitToEnumerable(";").ToList();
+            var existingPaths = vMwarePoolFromSetting.GetExistingDirectories();
 
+            var vMwareArchiveFromSetting = _settings.ArchivePath;
+
+            var toogle = true;
             if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && existingPaths.Any())
             {
                 VmPath.Text = _settings.VMwarePool;
-                LoadAsync();
+                if (!string.IsNullOrWhiteSpace(vMwareArchiveFromSetting) && Directory.Exists(vMwareArchiveFromSetting))
+                {
+                    VmArchivePath.Text = vMwareArchiveFromSetting;
+                    toogle = false;
+                    LoadAsync();
+                }
             }
-            else
+            if (toogle)
             {
                 ToggleSettingsFlyout();
             }
@@ -104,6 +117,19 @@ namespace VmMachineHwVersionUpdater
             SearchFilter.IsReadOnly = !_currentItemSource.Any();
             SearchOs.IsEnabled = _currentItemSource.Any();
             UpdateAll.IsEnabled = _currentItemSource.Any();
+
+            VmDataGrid.Items.SortDescriptions.Clear();
+
+            VmDataGrid.Items.SortDescriptions.Add(_sd);
+        }
+
+
+        private void VmDataGridSorting(object sender, DataGridSortingEventArgs e)
+        {
+            _sortHeader = e.Column.SortMemberPath;
+
+            _sd = _sortHeader == _prevSortHeader ? new SortDescription(_sortHeader, ListSortDirection.Descending) : new SortDescription(_sortHeader, ListSortDirection.Ascending);
+            _prevSortHeader = _sortHeader;
         }
 
         private LoadHelper LoadGrid()
@@ -111,7 +137,7 @@ namespace VmMachineHwVersionUpdater
             var loadHelper = new LoadHelper();
             _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
 
-            _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath()).ToList();
+            _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath(), _settings.ArchivePath).ToList();
 
             if (_currentItemSource.Any())
             {
@@ -122,7 +148,7 @@ namespace VmMachineHwVersionUpdater
                 }
 
                 loadHelper.UpdateAllTextBlox = $"Update all {_currentItemSource.Count()} machines to version";
-                loadHelper.VmDataGridItemsSource = _currentItemSource.OrderBy(vm => vm.DisplayName).ToList();
+                loadHelper.VmDataGridItemsSource = _currentItemSource.ToList();
                 loadHelper.UpdateAllHwVersion = _currentItemSource.Select(machine => machine.HwVersion).Max();
                 loadHelper.SearchOsItems = searchOsItems;
             }
@@ -174,7 +200,7 @@ namespace VmMachineHwVersionUpdater
             _currentMachine = (Machine) VmDataGrid.SelectedItem;
         }
 
-        private void BrowseClick(object sender, RoutedEventArgs e)
+        private void BrowsePoolClick(object sender, RoutedEventArgs e)
         {
             var oldPath = _settings.VMwarePool;
             var currentVmwarePool = oldPath.SplitToEnumerable(";").ToArray();
@@ -196,6 +222,27 @@ namespace VmMachineHwVersionUpdater
             }
         }
 
+        private void BrowseArchiveClick(object sender, RoutedEventArgs e)
+        {
+            var oldPath = _settings.ArchivePath;
+            VmPath.Text = oldPath;
+
+            var browser = new ExplorerFolderBrowser
+                          {
+                              SelectedPath = oldPath,
+                              Multiselect = false
+                          };
+            browser.ShowDialog();
+            var newPath = browser.SelectedPath;
+            _settings.ArchivePath = newPath;
+            VmArchivePath.Text = newPath;
+
+            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_settings.ArchivePath))
+            {
+                LoadAsync();
+            }
+        }
+
         private void VmPathOnLostFocus(object sender, RoutedEventArgs e)
         {
             var pathsFromSetting = VmPath.Text.SplitToEnumerable(";").ToList();
@@ -203,6 +250,18 @@ namespace VmMachineHwVersionUpdater
             if (existingPaths.Any())
             {
                 _settings.VMwarePool = string.Join(";", existingPaths);
+                LoadAsync();
+            }
+        }
+
+
+        private void VmArchiveOnLostFocus(object sender, RoutedEventArgs e)
+        {
+            var pathFromSetting = VmArchivePath.Text;
+
+            if (Directory.Exists(pathFromSetting))
+            {
+                _settings.ArchivePath = pathFromSetting;
                 LoadAsync();
             }
         }
@@ -296,18 +355,57 @@ namespace VmMachineHwVersionUpdater
             }
         }
 
+        private async void ArchiveClick(object sender, RoutedEventArgs e)
+        {
+            await ArchiveClickAsync().ConfigureAwait(true);
+        }
+
         private async void DeleteClick(object sender, RoutedEventArgs e)
         {
             await DeleteClickAsync().ConfigureAwait(true);
         }
 
+        private async Task ArchiveClickAsync()
+        {
+            var result = await _dialogService.ShowMessage("Archive machine...", $"Are you sure you want to archive machine '{_currentMachine.DisplayName}'?",
+                MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
+            if (result == MessageDialogResult.Affirmative)
+            {
+                CallArchive();
+                LoadAsync();
+            }
+        }
+
         private async Task DeleteClickAsync()
         {
-            var result = await _dialogService.ShowMessage("Delete machine...", $"Are you sure you want to delete '{_currentMachine.DisplayName}'",
+            var result = await _dialogService.ShowMessage("Delete machine...", $"Are you sure you want to delete '{_currentMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
             if (result == MessageDialogResult.Affirmative)
             {
                 CallDelete();
+                LoadAsync();
+            }
+        }
+
+        private void CallArchive()
+        {
+            if (!File.Exists(_currentMachine.Path))
+            {
+                return;
+            }
+            var path = Path.GetDirectoryName(_currentMachine.Path);
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+                try
+                {
+                    var machineDirectoryWithoutPath = path.ToLower().Replace(_currentMachine.Directory.ToLower() + "\\", "");
+                    var destination = Path.Combine(_settings.ArchivePath.ToLower(), machineDirectoryWithoutPath.ToLower());
+                    Directory.Move(path.ToLower(), destination.ToLower());
+                }
+                catch (IOException ioException)
+                {
+                    _dialogService.ShowMessage("'Archive machine' was canceled", ioException.Message);
+                }
             }
         }
 

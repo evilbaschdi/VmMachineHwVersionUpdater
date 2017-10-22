@@ -57,7 +57,7 @@ namespace VmMachineHwVersionUpdater.Model
         /// </summary>
         public int HwVersion
         {
-            get { return _hwVersion; }
+            get => _hwVersion;
             set
             {
                 if (_hwVersion != value)
