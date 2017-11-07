@@ -22,11 +22,7 @@ namespace VmMachineHwVersionUpdater.Internal
         /// <exception cref="ArgumentNullException"><paramref name="guestOsOutputStringMapping" /> is <see langword="null" />.</exception>
         public HardwareVersion(IGuestOsOutputStringMapping guestOsOutputStringMapping)
         {
-            if (guestOsOutputStringMapping == null)
-            {
-                throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
-            }
-            _guestOsOutputStringMapping = guestOsOutputStringMapping;
+            _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
         }
 
         /// <inheritdoc />
