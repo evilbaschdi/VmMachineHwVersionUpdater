@@ -28,7 +28,8 @@ namespace VmMachineHwVersionUpdater.Internal
         /// <summary>
         /// </summary>
         /// <param name="machinePath"></param>
+        /// <param name="archivePath"></param>
         /// <returns></returns>
-        IEnumerable<Machine> ReadFromPath(string machinePath);
+        IEnumerable<Machine> ReadFromPath(string machinePath, string archivePath);
     }
 }
