@@ -23,31 +23,33 @@ using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater
 {
+    /// <inheritdoc cref="MetroWindow" />
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
-        private readonly IDialogService _dialogService;
-        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
-        private readonly int _overrideProtection;
-        private readonly IAppSettings _settings;
-        private readonly IMetroStyle _style;
         private IEnumerable<Machine> _currentItemSource;
-        private Machine _currentMachine;
-        private string _dragAndDropPath;
         private IEnumerable<Machine> _filteredItemSource;
         private IHardwareVersion _hardwareVersion;
+        private readonly IDialogService _dialogService;
+        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
+        private readonly IAppSettings _settings;
+        private readonly IMetroStyle _style;
+        private Machine _currentMachine;
+        private SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
+        private string _dragAndDropPath;
+        private string _sortHeader;
+        private string _prevSortHeader;
+        private readonly int _overrideProtection;
         private int _updateAllHwVersion;
-
-        string _sortHeader;
-        string _prevSortHeader;
-        SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
 
         #region General
 
+        /// <inheritdoc />
         /// <summary>
+        ///     Constructor
         /// </summary>
         public MainWindow()
         {
@@ -77,10 +79,12 @@ namespace VmMachineHwVersionUpdater
                     LoadAsync();
                 }
             }
+
             if (toogle)
             {
                 ToggleSettingsFlyout();
             }
+
             var linkerTime = Assembly.GetExecutingAssembly().GetLinkerTime();
             LinkerTime.Content = linkerTime.ToString(CultureInfo.InvariantCulture);
             _overrideProtection = 1;
@@ -92,6 +96,7 @@ namespace VmMachineHwVersionUpdater
             {
                 throw new ArgumentNullException(nameof(sender));
             }
+
             _dragAndDropPath = string.Empty;
             LoadAsync();
         }
@@ -104,7 +109,7 @@ namespace VmMachineHwVersionUpdater
             var loadHelper = task.Result;
             DataContext = _currentItemSource;
             var listCollectionView = new ListCollectionView(loadHelper.VmDataGridItemsSource);
-            listCollectionView.GroupDescriptions?.Add(new PropertyGroupDescription("Directory"));
+            listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
             VmDataGrid.ItemsSource = listCollectionView;
 
             UpdateAllTextBlock.Text = loadHelper.UpdateAllTextBlox;
@@ -152,6 +157,7 @@ namespace VmMachineHwVersionUpdater
                 loadHelper.UpdateAllHwVersion = _currentItemSource.Select(machine => machine.HwVersion).Max();
                 loadHelper.SearchOsItems = searchOsItems;
             }
+
             return loadHelper;
         }
 
@@ -186,7 +192,7 @@ namespace VmMachineHwVersionUpdater
 
             DataContext = _filteredItemSource;
             var listCollectionView = new ListCollectionView(_filteredItemSource.OrderBy(vm => vm.DisplayName).ToList());
-            listCollectionView.GroupDescriptions?.Add(new PropertyGroupDescription("Directory"));
+            listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
             VmDataGrid.ItemsSource = listCollectionView;
         }
 
@@ -197,6 +203,7 @@ namespace VmMachineHwVersionUpdater
             {
                 return;
             }
+
             _currentMachine = (Machine) VmDataGrid.SelectedItem;
         }
 
@@ -348,6 +355,7 @@ namespace VmMachineHwVersionUpdater
             {
                 return;
             }
+
             var path = Path.GetDirectoryName(_currentMachine.Path);
             if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
             {
@@ -393,6 +401,7 @@ namespace VmMachineHwVersionUpdater
             {
                 return;
             }
+
             var path = Path.GetDirectoryName(_currentMachine.Path);
             if (!string.IsNullOrWhiteSpace(path))
             {
@@ -415,6 +424,7 @@ namespace VmMachineHwVersionUpdater
             {
                 return;
             }
+
             var path = Path.GetDirectoryName(_currentMachine.Path);
             if (!string.IsNullOrWhiteSpace(path))
             {
@@ -516,12 +526,14 @@ namespace VmMachineHwVersionUpdater
                             {
                                 MessageBox.Show(ex.InnerException.Message + " - " + ex.InnerException.StackTrace);
                             }
+
                             MessageBox.Show(ex.Message + " - " + ex.StackTrace);
                             throw;
                         }
                     }
                 }
             }
+
             e.Handled = true;
         }
 
@@ -544,6 +556,7 @@ namespace VmMachineHwVersionUpdater
                     }
                 }
             }
+
             e.Effects = isCorrect ? DragDropEffects.All : DragDropEffects.None;
             e.Handled = true;
         }

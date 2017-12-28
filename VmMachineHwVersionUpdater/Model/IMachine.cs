@@ -51,5 +51,9 @@
         /// <summary>
         /// </summary>
         bool AutoUpdateTools { get; set; }
+
+        /// <summary>
+        /// </summary>
+        string LogLastDate { get; set; }
     }
 }

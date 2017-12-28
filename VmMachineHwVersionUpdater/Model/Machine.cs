@@ -1,60 +1,60 @@
+using System;
 using System.ComponentModel;
 using VmMachineHwVersionUpdater.Internal;
 
 namespace VmMachineHwVersionUpdater.Model
 {
-    /// <summary>
-    /// </summary>
+    /// <inheritdoc cref="INotifyPropertyChanged" />
+    /// <inheritdoc cref="IMachine" />
     public class Machine : INotifyPropertyChanged, IMachine
     {
+        private readonly IHardwareVersion _hardwareVersion;
+
         /// <summary>
+        ///     Constructor
         /// </summary>
+        /// <param name="hardwareVersion"></param>
+        public Machine(IHardwareVersion hardwareVersion)
+        {
+            _hardwareVersion = hardwareVersion ?? throw new ArgumentNullException(nameof(hardwareVersion));
+        }
+
+        /// <inheritdoc />
         public string Id { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public string DisplayName { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public string ShortPath { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public string Path { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public string Directory { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public string DirectorySize { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public double DirectorySizeGb { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public string LogLastDate { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public string LogLastDateDiff { get; set; }
 
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public bool SyncTimeWithHost { get; set; }
 
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public bool AutoUpdateTools { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public int HwVersion
         {
             get => _hwVersion;
@@ -70,12 +70,10 @@ namespace VmMachineHwVersionUpdater.Model
 
         private int _hwVersion;
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public string GuestOs { get; set; }
 
-        /// <summary>
-        /// </summary>
+        /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
         // This method is called by the Set accessors of each property.
@@ -85,9 +83,9 @@ namespace VmMachineHwVersionUpdater.Model
         {
             if (PropertyChanged != null)
             {
-                var guestOsOutputStringMapping = new GuestOsOutputStringMapping();
-                var hardwareVersion = new HardwareVersion(guestOsOutputStringMapping);
-                hardwareVersion.Update(path, newVersion);
+                //var guestOsOutputStringMapping = new GuestOsOutputStringMapping();
+                //var hardwareVersion = new HardwareVersion(guestOsOutputStringMapping);
+                _hardwareVersion.Update(path, newVersion);
             }
         }
     }

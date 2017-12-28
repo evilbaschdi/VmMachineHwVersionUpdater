@@ -40,6 +40,7 @@ namespace VmMachineHwVersionUpdater.Internal
                 {
                     continue;
                 }
+
                 var inputStreamReader = File.OpenText(vmxPath);
                 var text = inputStreamReader.ReadToEnd();
                 inputStreamReader.Close();
@@ -69,6 +70,7 @@ namespace VmMachineHwVersionUpdater.Internal
                 {
                     continue;
                 }
+
                 var inputStreamReader = File.OpenText(vmxPath);
                 var text = inputStreamReader.ReadToEnd();
                 inputStreamReader.Close();
@@ -106,6 +108,7 @@ namespace VmMachineHwVersionUpdater.Internal
                 {
                     continue;
                 }
+
                 lineContained = true;
 
                 text = text.Replace(line, newLine);
@@ -151,10 +154,17 @@ namespace VmMachineHwVersionUpdater.Internal
                 Parallel.ForEach(fileList,
                     file =>
                     {
-                        if (!path.Equals(archivePath, StringComparison.CurrentCultureIgnoreCase) && file.StartsWith(archivePath, StringComparison.CurrentCultureIgnoreCase))
+                        if (file.IsFileLocked())
                         {
                             return;
                         }
+
+                        if (!path.Equals(archivePath, StringComparison.CurrentCultureIgnoreCase) &&
+                            file.StartsWith(archivePath, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            return;
+                        }
+
                         var readAllLines = File.ReadAllLines(file);
                         var hwVersion = "";
                         var displayName = "";
@@ -170,11 +180,13 @@ namespace VmMachineHwVersionUpdater.Internal
                                     hwVersion = line.Replace('"', ' ').Trim();
                                     hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "", RegexOptions.IgnoreCase).Trim();
                                 }
+
                                 if (line.StartsWith("displayname", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     displayName = line.Replace('"', ' ').Trim();
                                     displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase).Trim();
                                 }
+
                                 if (line.StartsWith("guestos", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     guestOs = line.Replace('"', ' ').Trim();
@@ -191,8 +203,8 @@ namespace VmMachineHwVersionUpdater.Internal
                                 {
                                     toolsUpgradePolicy = line.Replace('"', ' ').Trim();
                                     toolsUpgradePolicy = Regex
-                                        .Replace(toolsUpgradePolicy, "tools.upgrade.policy = ", "", RegexOptions.IgnoreCase)
-                                        .Trim();
+                                                         .Replace(toolsUpgradePolicy, "tools.upgrade.policy = ", "", RegexOptions.IgnoreCase)
+                                                         .Trim();
                                 }
                             });
 
@@ -214,7 +226,7 @@ namespace VmMachineHwVersionUpdater.Internal
 
                         var size = directoryInfo.GetDirectorySize();
                         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
-                        var machine = new Machine
+                        var machine = new Machine(this)
                                       {
                                           Id = Guid.NewGuid().ToString(),
                                           HwVersion = Convert.ToInt32(hwVersion),
@@ -263,6 +275,7 @@ namespace VmMachineHwVersionUpdater.Internal
                 {
                     continue;
                 }
+
                 lineContained = true;
 
                 text = text.Replace(line, newLine);
