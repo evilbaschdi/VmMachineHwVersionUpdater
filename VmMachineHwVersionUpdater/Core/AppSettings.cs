@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using EvilBaschdi.CoreExtended.AppHelpers;
 
 namespace VmMachineHwVersionUpdater.Core
 {
@@ -7,19 +9,25 @@ namespace VmMachineHwVersionUpdater.Core
     /// </summary>
     public class AppSettings : IAppSettings
     {
+        private readonly IAppSettingsBase _appSettingsBase;
+
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="applicationSettingsBase"></param>
+        public AppSettings(IAppSettingsBase applicationSettingsBase)
+        {
+            _appSettingsBase = applicationSettingsBase ?? throw new ArgumentNullException(nameof(applicationSettingsBase));
+        }
+
         /// <summary>
         ///     Path of VMware machines
         /// </summary>
         public string VMwarePool
         {
-            get => !string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool)
-                ? Properties.Settings.Default.VMwarePool
-                : "";
-            set
-            {
-                Properties.Settings.Default.VMwarePool = value;
-                Properties.Settings.Default.Save();
-            }
+            get => _appSettingsBase.Get("VMwarePool", "");
+
+            set => _appSettingsBase.Set("VMwarePool", value);
         }
 
         /// <summary>
@@ -27,16 +35,10 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         public string ArchivePath
         {
-            get => !string.IsNullOrWhiteSpace(Properties.Settings.Default.ArchivePath)
-                ? Properties.Settings.Default.ArchivePath
-                : !string.IsNullOrWhiteSpace(Properties.Settings.Default.VMwarePool)
-                    ? Path.Combine(Properties.Settings.Default.VMwarePool, "_archive")
-                    : "";
-            set
-            {
-                Properties.Settings.Default.ArchivePath = value;
-                Properties.Settings.Default.Save();
-            }
+            get => _appSettingsBase.Get("ArchivePath", !string.IsNullOrWhiteSpace(VMwarePool)
+                ? Path.Combine(VMwarePool, "_archive")
+                : "");
+            set => _appSettingsBase.Set("ArchivePath", value);
         }
     }
 }

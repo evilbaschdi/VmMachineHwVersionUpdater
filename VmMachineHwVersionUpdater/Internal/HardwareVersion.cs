@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using EvilBaschdi.Core.DirectoryExtensions;
-using EvilBaschdi.Core.Threading;
-using VmMachineHwVersionUpdater.Core;
+using EvilBaschdi.Core.Extensions;
+using EvilBaschdi.Core.Internal;
+using EvilBaschdi.Core.Model;
 using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater.Internal
@@ -131,13 +131,19 @@ namespace VmMachineHwVersionUpdater.Internal
         /// <returns></returns>
         public IEnumerable<Machine> ReadFromPath(string machinePath, string archivePath)
         {
-            var multiThreadingHelper = new MultiThreadingHelper();
-            var filePath = new FilePath(multiThreadingHelper);
+            var multiThreading = new MultiThreading();
+            var fileListFromPath = new FileListFromPath(multiThreading);
             var machineList = new ConcurrentBag<Machine>();
-            var includeExtensionList = new List<string>
-                                       {
-                                           "vmx"
-                                       };
+            var filterExtensionsToEqual = new List<string>
+                                          {
+                                              "vmx"
+                                          };
+
+
+            var fileListFromPathFilter = new FileListFromPathFilter
+                                         {
+                                             FilterExtensionsToEqual = filterExtensionsToEqual
+                                         };
 
             var machinePaths = machinePath.SplitToEnumerable(";").ToList();
             machinePaths.Add(archivePath);
@@ -149,12 +155,12 @@ namespace VmMachineHwVersionUpdater.Internal
                     continue;
                 }
 
-                var fileList = filePath.GetFileList(path, includeExtensionList).Distinct().ToList();
+                var fileList = fileListFromPath.ValueFor(path, fileListFromPathFilter).Distinct().ToList();
 
                 Parallel.ForEach(fileList,
                     file =>
                     {
-                        if (file.IsFileLocked())
+                        if (file.FileInfo().IsFileLocked())
                         {
                             return;
                         }
@@ -214,7 +220,7 @@ namespace VmMachineHwVersionUpdater.Internal
                         var logLastDate = string.Empty;
                         var logLastDateDiff = string.Empty;
 
-                        if (!string.IsNullOrWhiteSpace(log) && !log.IsFileLocked())
+                        if (!string.IsNullOrWhiteSpace(log) && !log.FileInfo().IsFileLocked())
                         {
                             var logLastLine = File.ReadAllLines(log).Last();
                             logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23).Replace(".", ",");

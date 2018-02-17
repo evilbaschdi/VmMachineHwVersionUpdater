@@ -12,14 +12,17 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Shell;
-using EvilBaschdi.Core.Application;
-using EvilBaschdi.Core.Browsers;
-using EvilBaschdi.Core.Wpf;
+using EvilBaschdi.Core.Extensions;
+using EvilBaschdi.CoreExtended;
+using EvilBaschdi.CoreExtended.AppHelpers;
+using EvilBaschdi.CoreExtended.Browsers;
+using EvilBaschdi.CoreExtended.Metro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Internal;
 using VmMachineHwVersionUpdater.Model;
+using VmMachineHwVersionUpdater.Properties;
 
 namespace VmMachineHwVersionUpdater
 {
@@ -35,8 +38,8 @@ namespace VmMachineHwVersionUpdater
         private IHardwareVersion _hardwareVersion;
         private readonly IDialogService _dialogService;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
-        private readonly IAppSettings _settings;
-        private readonly IMetroStyle _style;
+        private readonly IApplicationStyle _applicationStyle;
+        private readonly IAppSettings _appSettings;
         private Machine _currentMachine;
         private SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
         private string _dragAndDropPath;
@@ -55,23 +58,25 @@ namespace VmMachineHwVersionUpdater
         {
             InitializeComponent();
 
-            ISettings coreSettings = new CoreSettings(Properties.Settings.Default);
+            
             IThemeManagerHelper themeManagerHelper = new ThemeManagerHelper();
-            _settings = new AppSettings();
-            _style = new MetroStyle(this, Accent, ThemeSwitch, coreSettings, themeManagerHelper);
-            _style.Load(true, true);
+            IAppSettingsBase applicationSettingsBase = new AppSettingsBase(Settings.Default);
+            IApplicationStyleSettings applicationStyleSettings = new ApplicationStyleSettings(applicationSettingsBase);
+            _appSettings = new AppSettings(applicationSettingsBase);
+            _applicationStyle = new ApplicationStyle(this, Accent, ThemeSwitch, applicationStyleSettings, themeManagerHelper);
+            _applicationStyle.Load(true, true);
             _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
-            var vMwarePoolFromSetting = _settings.VMwarePool.SplitToEnumerable(";").ToList();
+            var vMwarePoolFromSetting = _appSettings.VMwarePool.SplitToEnumerable(";").ToList();
             var existingPaths = vMwarePoolFromSetting.GetExistingDirectories();
 
-            var vMwareArchiveFromSetting = _settings.ArchivePath;
+            var vMwareArchiveFromSetting = _appSettings.ArchivePath;
 
             var toogle = true;
-            if (!string.IsNullOrWhiteSpace(_settings.VMwarePool) && existingPaths.Any())
+            if (!string.IsNullOrWhiteSpace(_appSettings.VMwarePool) && existingPaths.Any())
             {
-                VmPath.Text = _settings.VMwarePool;
+                VmPath.Text = _appSettings.VMwarePool;
                 if (!string.IsNullOrWhiteSpace(vMwareArchiveFromSetting) && Directory.Exists(vMwareArchiveFromSetting))
                 {
                     VmArchivePath.Text = vMwareArchiveFromSetting;
@@ -142,7 +147,7 @@ namespace VmMachineHwVersionUpdater
             var loadHelper = new LoadHelper();
             _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
 
-            _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath(), _settings.ArchivePath).ToList();
+            _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath(), _appSettings.ArchivePath).ToList();
 
             if (_currentItemSource.Any())
             {
@@ -163,7 +168,7 @@ namespace VmMachineHwVersionUpdater
 
         private string VMwarePoolPath()
         {
-            return !string.IsNullOrWhiteSpace(_dragAndDropPath) ? _dragAndDropPath : _settings.VMwarePool;
+            return !string.IsNullOrWhiteSpace(_dragAndDropPath) ? _dragAndDropPath : _appSettings.VMwarePool;
         }
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
@@ -209,7 +214,7 @@ namespace VmMachineHwVersionUpdater
 
         private void BrowsePoolClick(object sender, RoutedEventArgs e)
         {
-            var oldPath = _settings.VMwarePool;
+            var oldPath = _appSettings.VMwarePool;
             var currentVmwarePool = oldPath.SplitToEnumerable(";").ToArray();
             VmPath.Text = oldPath;
 
@@ -220,10 +225,10 @@ namespace VmMachineHwVersionUpdater
                           };
             browser.ShowDialog();
             var newPath = string.Join(";", browser.SelectedPaths);
-            _settings.VMwarePool = newPath;
+            _appSettings.VMwarePool = newPath;
             VmPath.Text = newPath;
 
-            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_settings.VMwarePool))
+            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_appSettings.VMwarePool))
             {
                 LoadAsync();
             }
@@ -231,7 +236,7 @@ namespace VmMachineHwVersionUpdater
 
         private void BrowseArchiveClick(object sender, RoutedEventArgs e)
         {
-            var oldPath = _settings.ArchivePath;
+            var oldPath = _appSettings.ArchivePath;
             VmPath.Text = oldPath;
 
             var browser = new ExplorerFolderBrowser
@@ -241,10 +246,10 @@ namespace VmMachineHwVersionUpdater
                           };
             browser.ShowDialog();
             var newPath = browser.SelectedPath;
-            _settings.ArchivePath = newPath;
+            _appSettings.ArchivePath = newPath;
             VmArchivePath.Text = newPath;
 
-            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_settings.ArchivePath))
+            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_appSettings.ArchivePath))
             {
                 LoadAsync();
             }
@@ -256,7 +261,7 @@ namespace VmMachineHwVersionUpdater
             var existingPaths = pathsFromSetting.GetExistingDirectories();
             if (existingPaths.Any())
             {
-                _settings.VMwarePool = string.Join(";", existingPaths);
+                _appSettings.VMwarePool = string.Join(";", existingPaths);
                 LoadAsync();
             }
         }
@@ -268,7 +273,7 @@ namespace VmMachineHwVersionUpdater
 
             if (Directory.Exists(pathFromSetting))
             {
-                _settings.ArchivePath = pathFromSetting;
+                _appSettings.ArchivePath = pathFromSetting;
                 LoadAsync();
             }
         }
@@ -408,7 +413,7 @@ namespace VmMachineHwVersionUpdater
                 try
                 {
                     var machineDirectoryWithoutPath = path.ToLower().Replace(_currentMachine.Directory.ToLower() + "\\", "");
-                    var destination = Path.Combine(_settings.ArchivePath.ToLower(), machineDirectoryWithoutPath.ToLower());
+                    var destination = Path.Combine(_appSettings.ArchivePath.ToLower(), machineDirectoryWithoutPath.ToLower());
                     Directory.Move(path.ToLower(), destination.ToLower());
                 }
                 catch (IOException ioException)
@@ -467,7 +472,7 @@ namespace VmMachineHwVersionUpdater
         {
             if (_overrideProtection != 0)
             {
-                _style.SaveStyle();
+                _applicationStyle.SaveStyle();
             }
         }
 
@@ -475,7 +480,7 @@ namespace VmMachineHwVersionUpdater
         {
             if (_overrideProtection != 0)
             {
-                _style.SetTheme(sender);
+                _applicationStyle.SetTheme(sender);
             }
         }
 
@@ -483,7 +488,7 @@ namespace VmMachineHwVersionUpdater
         {
             if (_overrideProtection != 0)
             {
-                _style.SetAccent(sender, e);
+                _applicationStyle.SetAccent(sender, e);
             }
         }
 
