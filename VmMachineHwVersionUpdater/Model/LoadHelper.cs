@@ -17,6 +17,5 @@ namespace VmMachineHwVersionUpdater.Model
 
         /// <inheritdoc />
         public List<string> SearchOsItems { get; set; }
-
     }
 }

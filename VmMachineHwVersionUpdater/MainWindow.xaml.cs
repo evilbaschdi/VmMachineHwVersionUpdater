@@ -58,7 +58,7 @@ namespace VmMachineHwVersionUpdater
         {
             InitializeComponent();
 
-            
+
             IThemeManagerHelper themeManagerHelper = new ThemeManagerHelper();
             IAppSettingsBase applicationSettingsBase = new AppSettingsBase(Settings.Default);
             IApplicationStyleSettings applicationStyleSettings = new ApplicationStyleSettings(applicationSettingsBase);
@@ -412,7 +412,7 @@ namespace VmMachineHwVersionUpdater
             {
                 try
                 {
-                    var machineDirectoryWithoutPath = path.ToLower().Replace(_currentMachine.Directory.ToLower() + "\\", "");
+                    var machineDirectoryWithoutPath = path.ToLower().Replace($"{_currentMachine.Directory.ToLower()}\\", "");
                     var destination = Path.Combine(_appSettings.ArchivePath.ToLower(), machineDirectoryWithoutPath.ToLower());
                     Directory.Move(path.ToLower(), destination.ToLower());
                 }
@@ -529,10 +529,10 @@ namespace VmMachineHwVersionUpdater
                         {
                             if (ex.InnerException != null)
                             {
-                                MessageBox.Show(ex.InnerException.Message + " - " + ex.InnerException.StackTrace);
+                                MessageBox.Show($"{ex.InnerException.Message} - {ex.InnerException.StackTrace}");
                             }
 
-                            MessageBox.Show(ex.Message + " - " + ex.StackTrace);
+                            MessageBox.Show($"{ex.Message} - {ex.StackTrace}");
                             throw;
                         }
                     }

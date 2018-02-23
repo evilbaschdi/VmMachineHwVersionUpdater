@@ -51,11 +51,22 @@
     <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True" Drop="GridOnDrop" DragOver="GridOnDragOver" Background="Transparent">
         <!--  DataGrid  -->
         <DataGrid Name="VmDataGrid" Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single" Sorting="VmDataGridSorting"
-                  AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged" CanUserDeleteRows="False">
+                  Style="{DynamicResource AzureDataGrid}" AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged"
+                  CanUserDeleteRows="False">
             <!--  Columns  -->
             <DataGrid.Columns>
                 <!--  Display Name  -->
                 <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
+                <!-- Play -->
+                <DataGridTemplateColumn Header="Play" IsReadOnly="False" Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="StartClick">
+                                <iconPacks:PackIconMaterial Kind="{Binding MachineState}" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <!--  Path  -->
                 <DataGridTemplateColumn Header="Path" IsReadOnly="True" SortMemberPath="ShortPath">
                     <DataGridTemplateColumn.CellTemplate>

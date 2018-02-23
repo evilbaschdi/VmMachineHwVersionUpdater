@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using EvilBaschdi.Core.Extensions;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;
+using MahApps.Metro.IconPacks;
 using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater.Internal
@@ -231,6 +232,7 @@ namespace VmMachineHwVersionUpdater.Internal
                         }
 
                         var size = directoryInfo.GetDirectorySize();
+                        var paused = directoryInfo?.GetFiles("*.vmem").Any();
                         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
                         var machine = new Machine(this)
                                       {
@@ -248,7 +250,8 @@ namespace VmMachineHwVersionUpdater.Internal
                                           LogLastDateDiff = logLastDateDiff,
                                           AutoUpdateTools =
                                               !string.IsNullOrWhiteSpace(toolsUpgradePolicy) && toolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
-                                          SyncTimeWithHost = !string.IsNullOrWhiteSpace(syncTimeWithHost) && bool.Parse(syncTimeWithHost)
+                                          SyncTimeWithHost = !string.IsNullOrWhiteSpace(syncTimeWithHost) && bool.Parse(syncTimeWithHost),
+                                          MachineState = paused.HasValue && paused.Value ? PackIconMaterialKind.Pause : PackIconMaterialKind.Power
                                       };
                         machineList.Add(machine);
                     });

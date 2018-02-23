@@ -1,4 +1,6 @@
-﻿namespace VmMachineHwVersionUpdater.Model
+﻿using MahApps.Metro.IconPacks;
+
+namespace VmMachineHwVersionUpdater.Model
 {
     /// <summary>
     /// </summary>
@@ -34,6 +36,10 @@
 
         /// <summary>
         /// </summary>
+        PackIconMaterialKind MachineState { get; set; }
+
+        /// <summary>
+        /// </summary>
         int HwVersion { get; set; }
 
         /// <summary>
@@ -51,6 +57,7 @@
         /// <summary>
         /// </summary>
         bool AutoUpdateTools { get; set; }
+
 
         /// <summary>
         /// </summary>

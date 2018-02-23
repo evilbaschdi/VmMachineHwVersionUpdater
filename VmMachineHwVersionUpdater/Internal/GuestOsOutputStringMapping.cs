@@ -16,6 +16,7 @@ namespace VmMachineHwVersionUpdater.Internal
             {
                 throw new ArgumentNullException(nameof(guestOs));
             }
+
             var fullName = ConfigurationManager.AppSettings[guestOs];
             return !string.IsNullOrWhiteSpace(fullName) ? fullName : guestOs;
         }
