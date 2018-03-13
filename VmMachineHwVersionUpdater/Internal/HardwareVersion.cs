@@ -232,7 +232,7 @@ namespace VmMachineHwVersionUpdater.Internal
                         }
 
                         var size = directoryInfo.GetDirectorySize();
-                        var paused = directoryInfo?.GetFiles("*.vmem").Any();
+                        var paused = directoryInfo?.GetFiles("*.vmss").Any();
                         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
                         var machine = new Machine(this)
                                       {
