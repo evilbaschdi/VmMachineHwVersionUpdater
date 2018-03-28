@@ -6,8 +6,7 @@ using VmMachineHwVersionUpdater.Internal;
 namespace VmMachineHwVersionUpdater.Model
 {
     /// <inheritdoc cref="INotifyPropertyChanged" />
-    /// <inheritdoc cref="IMachine" />
-    public class Machine : INotifyPropertyChanged, IMachine
+    public class Machine : INotifyPropertyChanged
     {
         private readonly IHardwareVersion _hardwareVersion;
 
@@ -20,65 +19,72 @@ namespace VmMachineHwVersionUpdater.Model
             _hardwareVersion = hardwareVersion ?? throw new ArgumentNullException(nameof(hardwareVersion));
         }
 
-        /// <inheritdoc />
+        // ReSharper disable UnusedAutoPropertyAccessor.Global
+        /// <summary />
+
         public string Id { get; set; }
 
-        /// <inheritdoc />
+
+        /// <summary />
         public string DisplayName { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public string ShortPath { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public string Path { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public string Directory { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public string DirectorySize { get; set; }
 
-        /// <inheritdoc />
+        /// <summary> </summary>
         public double DirectorySizeGb { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public string LogLastDate { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public string LogLastDateDiff { get; set; }
 
 
-        /// <inheritdoc />
+        /// <summary />
         public bool SyncTimeWithHost { get; set; }
 
 
-        /// <inheritdoc />
+        /// <summary />
         public bool AutoUpdateTools { get; set; }
 
 
-        /// <inheritdoc />
+        /// <summary />
         public PackIconMaterialKind MachineState { get; set; }
+        // ReSharper restore UnusedAutoPropertyAccessor.Global
 
-        /// <inheritdoc />
+        /// <summary />
         public int HwVersion
         {
             get => _hwVersion;
             set
             {
-                if (_hwVersion != value)
+                if (_hwVersion == value)
                 {
-                    _hwVersion = value;
-                    NotifyPropertyChanged(Path, _hwVersion);
+                    return;
                 }
+
+                _hwVersion = value;
+                NotifyPropertyChanged(Path, _hwVersion);
             }
         }
 
         private int _hwVersion;
 
-        /// <inheritdoc />
+        /// <summary />
         public string GuestOs { get; set; }
 
         /// <inheritdoc />
+        /// <summary />
         public event PropertyChangedEventHandler PropertyChanged;
 
         // This method is called by the Set accessors of each property.

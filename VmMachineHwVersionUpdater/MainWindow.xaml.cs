@@ -121,6 +121,9 @@ namespace VmMachineHwVersionUpdater
             UpdateAllHwVersion.Value = loadHelper.UpdateAllHwVersion;
             loadHelper.SearchOsItems.ForEach(x => SearchOs.Items.Add(x));
 
+            SearchOs.Items.Add(new Separator());
+            _guestOsOutputStringMapping.Value.OrderBy(x => x).ToList().ForEach(x => SearchOs.Items.Add(x));
+
             SearchOs.Text = "(no filter)";
             SearchFilter.Text = string.Empty;
 
@@ -149,19 +152,21 @@ namespace VmMachineHwVersionUpdater
 
             _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath(), _appSettings.ArchivePath).ToList();
 
-            if (_currentItemSource.Any())
+            if (!_currentItemSource.Any())
             {
-                var searchOsItems = new List<string>();
-                foreach (var machine in _currentItemSource.OrderBy(m => m.GuestOs).Where(item => !searchOsItems.Contains(item.GuestOs)))
-                {
-                    searchOsItems.Add(machine.GuestOs);
-                }
-
-                loadHelper.UpdateAllTextBlox = $"Update all {_currentItemSource.Count()} machines to version";
-                loadHelper.VmDataGridItemsSource = _currentItemSource.ToList();
-                loadHelper.UpdateAllHwVersion = _currentItemSource.Select(machine => machine.HwVersion).Max();
-                loadHelper.SearchOsItems = searchOsItems;
+                return loadHelper;
             }
+
+            var searchOsItems = new List<string>();
+            foreach (var machine in _currentItemSource.OrderBy(m => m.GuestOs).Where(item => !searchOsItems.Contains(item.GuestOs)))
+            {
+                searchOsItems.Add(machine.GuestOs);
+            }
+
+            loadHelper.UpdateAllTextBlox = $"Update all {_currentItemSource.Count()} machines to version";
+            loadHelper.VmDataGridItemsSource = _currentItemSource.ToList();
+            loadHelper.UpdateAllHwVersion = _currentItemSource.Select(machine => machine.HwVersion).Max();
+            loadHelper.SearchOsItems = searchOsItems;
 
             return loadHelper;
         }
@@ -192,7 +197,7 @@ namespace VmMachineHwVersionUpdater
 
             if (SearchOs.Text != "(no filter)")
             {
-                _filteredItemSource = _filteredItemSource.Where(vm => vm.GuestOs.ToLower().Equals(SearchOs.Text.ToLower()));
+                _filteredItemSource = _filteredItemSource.Where(vm => vm.GuestOs.StartsWith(SearchOs.Text, StringComparison.InvariantCultureIgnoreCase));
             }
 
             DataContext = _filteredItemSource;
@@ -259,11 +264,13 @@ namespace VmMachineHwVersionUpdater
         {
             var pathsFromSetting = VmPath.Text.SplitToEnumerable(";").ToList();
             var existingPaths = pathsFromSetting.GetExistingDirectories();
-            if (existingPaths.Any())
+            if (!existingPaths.Any())
             {
-                _appSettings.VMwarePool = string.Join(";", existingPaths);
-                LoadAsync();
+                return;
             }
+
+            _appSettings.VMwarePool = string.Join(";", existingPaths);
+            LoadAsync();
         }
 
 
@@ -271,11 +278,13 @@ namespace VmMachineHwVersionUpdater
         {
             var pathFromSetting = VmArchivePath.Text;
 
-            if (Directory.Exists(pathFromSetting))
+            if (!Directory.Exists(pathFromSetting))
             {
-                _appSettings.ArchivePath = pathFromSetting;
-                LoadAsync();
+                return;
             }
+
+            _appSettings.ArchivePath = pathFromSetting;
+            LoadAsync();
         }
 
         #endregion General
@@ -303,7 +312,8 @@ namespace VmMachineHwVersionUpdater
         private void Update()
         {
             var version = _updateAllHwVersion;
-            var localList = _currentItemSource.Where(vm => vm.HwVersion != version);
+            var localList = _currentItemSource.Where(vm => vm.HwVersion != version).ToList();
+
             Parallel.ForEach(localList, machine => { _hardwareVersion.Update(machine.Path, version); });
         }
 
@@ -408,18 +418,20 @@ namespace VmMachineHwVersionUpdater
             }
 
             var path = Path.GetDirectoryName(_currentMachine.Path);
-            if (!string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
-                try
-                {
-                    var machineDirectoryWithoutPath = path.ToLower().Replace($"{_currentMachine.Directory.ToLower()}\\", "");
-                    var destination = Path.Combine(_appSettings.ArchivePath.ToLower(), machineDirectoryWithoutPath.ToLower());
-                    Directory.Move(path.ToLower(), destination.ToLower());
-                }
-                catch (IOException ioException)
-                {
-                    _dialogService.ShowMessage("'Archive machine' was canceled", ioException.Message);
-                }
+                return;
+            }
+
+            try
+            {
+                var machineDirectoryWithoutPath = path.ToLower().Replace($@"{_currentMachine.Directory.ToLower()}\", "");
+                var destination = Path.Combine(_appSettings.ArchivePath.ToLower(), machineDirectoryWithoutPath.ToLower());
+                Directory.Move(path.ToLower(), destination.ToLower());
+            }
+            catch (IOException ioException)
+            {
+                _dialogService.ShowMessage("'Archive machine' was canceled", ioException.Message);
             }
         }
 
@@ -431,17 +443,19 @@ namespace VmMachineHwVersionUpdater
             }
 
             var path = Path.GetDirectoryName(_currentMachine.Path);
-            if (!string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(path))
             {
-                try
-                {
-                    Directory.Delete(path, true);
-                    LoadAsync();
-                }
-                catch (IOException ioException)
-                {
-                    _dialogService.ShowMessage("'Delete machine' was canceled", ioException.Message);
-                }
+                return;
+            }
+
+            try
+            {
+                Directory.Delete(path, true);
+                LoadAsync();
+            }
+            catch (IOException ioException)
+            {
+                _dialogService.ShowMessage("'Delete machine' was canceled", ioException.Message);
             }
         }
 

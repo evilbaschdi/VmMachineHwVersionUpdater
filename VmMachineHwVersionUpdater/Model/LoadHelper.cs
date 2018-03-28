@@ -2,20 +2,20 @@
 
 namespace VmMachineHwVersionUpdater.Model
 {
-    /// <inheritdoc />
-    public class LoadHelper : ILoadHelper
+    /// <summary />
+    public class LoadHelper
     {
-        /// <inheritdoc />
+        /// <summary />
 
         public string UpdateAllTextBlox { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public List<Machine> VmDataGridItemsSource { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public double? UpdateAllHwVersion { get; set; }
 
-        /// <inheritdoc />
+        /// <summary />
         public List<string> SearchOsItems { get; set; }
     }
 }

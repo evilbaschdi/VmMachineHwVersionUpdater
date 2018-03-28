@@ -206,6 +206,7 @@ namespace VmMachineHwVersionUpdater.Internal
                                     syncTimeWithHost = Regex.Replace(syncTimeWithHost, "tools.syncTime = ", "", RegexOptions.IgnoreCase).Trim();
                                 }
 
+                                // ReSharper disable once InvertIf
                                 if (line.StartsWith("tools.upgrade.policy", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     toolsUpgradePolicy = line.Replace('"', ' ').Trim();

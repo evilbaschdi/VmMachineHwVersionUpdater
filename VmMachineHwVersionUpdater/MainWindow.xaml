@@ -56,7 +56,7 @@
             <!--  Columns  -->
             <DataGrid.Columns>
                 <!--  Display Name  -->
-                <DataGridTextColumn Width="250" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
+                <DataGridTextColumn Width="300" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
                 <!-- Play -->
                 <DataGridTemplateColumn Header="Play" IsReadOnly="False" Width="50">
                     <DataGridTemplateColumn.CellTemplate>

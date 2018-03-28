@@ -4,6 +4,7 @@ using EvilBaschdi.CoreExtended.AppHelpers;
 
 namespace VmMachineHwVersionUpdater.Core
 {
+    /// <inheritdoc />
     /// <summary>
     ///     Wrapper for Default Settings.
     /// </summary>
@@ -20,6 +21,7 @@ namespace VmMachineHwVersionUpdater.Core
             _appSettingsBase = applicationSettingsBase ?? throw new ArgumentNullException(nameof(applicationSettingsBase));
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Path of VMware machines
         /// </summary>
@@ -30,6 +32,7 @@ namespace VmMachineHwVersionUpdater.Core
             set => _appSettingsBase.Set("VMwarePool", value);
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Path of VMware machine archive
         /// </summary>

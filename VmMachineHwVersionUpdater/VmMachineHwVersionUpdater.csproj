@@ -76,8 +76,8 @@
       <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro.IconPacks, Version=2.1.0.15, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.2.1.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
+    <Reference Include="MahApps.Metro.IconPacks, Version=2.2.0.12, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.2.2.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -122,20 +122,14 @@
     </Compile>
     <Compile Include="Internal\IGuestOsOutputStringMapping.cs" />
     <Compile Include="Internal\IHardwareVersion.cs" />
-    <Compile Include="Model\ILoadHelper.cs" />
-    <Compile Include="Model\IMachine.cs" />
-    <Compile Include="Model\LoadHelper.cs">
-      <DependentUpon>ILoadHelper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Machine.cs">
-      <DependentUpon>IMachine.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Model\LoadHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Machine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
