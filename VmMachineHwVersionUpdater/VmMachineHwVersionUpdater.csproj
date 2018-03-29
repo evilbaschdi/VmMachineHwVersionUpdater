@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -10,13 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
     <AssemblyName>VmMachineHwVersionUpdater</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -63,23 +62,13 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
-    </Reference>
-    <Reference Include="EvilBaschdi.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EvilBaschdi.Core.2018.2.12.1\lib\netstandard2.0\EvilBaschdi.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="EvilBaschdi.CoreExtended, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EvilBaschdi.CoreExtended.2018.216.10.5\lib\net462\EvilBaschdi.CoreExtended.dll</HintPath>
-    </Reference>
-    <Reference Include="MahApps.Metro, Version=1.6.1.4, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\MahApps.Metro.1.6.1\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MahApps.Metro.IconPacks, Version=2.2.0.12, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.2.2.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <PackageReference Include="ControlzEx" Version="3.0.2.4" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2018.2.12.1" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2018.216.10.5" />
+    <PackageReference Include="MahApps.Metro" Version="1.6.1" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -148,9 +137,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
