@@ -3,6 +3,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      xmlns:internal="clr-namespace:VmMachineHwVersionUpdater.Internal"
                       Title="VM Machine Hardware Version Updater"
                       Width="1000" Height="700" Icon="b.ico" ShowIconOnTitleBar="False"
                       LeftWindowCommandsOverlayBehavior="Never"
@@ -123,17 +124,23 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <Expander IsExpanded="True">
+                                            <Expander.Resources>
+                                                <internal:DirectorySizeConverter x:Key="DirectorySizeConverter" />
+                                            </Expander.Resources>
+
                                             <Expander.Header>
                                                 <DockPanel>
-                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                    <TextBlock Text="{Binding Path=Name}" Margin="0,0,5,0" />
+                                                    <TextBlock Text="|" Margin="0,0,5,0" />
+                                                    <TextBlock Text="{Binding Path=ItemCount}" Margin="0,0,5,0" />
+                                                    <TextBlock Text="machines" Margin="0,0,5,0" />
+                                                    <TextBlock Text="|" Margin="0,0,5,0" />
+                                                    <TextBlock Text="{Binding Items, Converter={StaticResource DirectorySizeConverter}}" />
                                                 </DockPanel>
                                             </Expander.Header>
                                             <Expander.Content>
                                                 <ItemsPresenter />
                                             </Expander.Content>
-                                            <!--<ScrollViewer>
-                                                <ItemsPresenter/>
-                                            </ScrollViewer>-->
                                         </Expander>
                                     </ControlTemplate>
                                 </Setter.Value>

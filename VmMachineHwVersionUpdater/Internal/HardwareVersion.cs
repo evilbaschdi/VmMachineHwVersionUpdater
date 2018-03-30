@@ -10,6 +10,7 @@ using EvilBaschdi.Core.Extensions;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;
 using MahApps.Metro.IconPacks;
+using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Model;
 
 namespace VmMachineHwVersionUpdater.Internal
@@ -245,8 +246,8 @@ namespace VmMachineHwVersionUpdater.Internal
                                           Directory = path,
                                           ShortPath =
                                               properFilePathCapitalization.Replace(path, "", StringComparison.CurrentCultureIgnoreCase),
-                                          DirectorySizeGb = Math.Round(size / (1024 * 1024 * 1024), 2),
-                                          DirectorySize = $"MB: {Math.Round(size / (1024 * 1024), 2)} | KB: {Math.Round(size / 1024, 2)}",
+                                          DirectorySizeGb = Math.Round(size.KibibytesToGibibytes(), 2),
+                                          DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),
                                           LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
                                           LogLastDateDiff = logLastDateDiff,
                                           AutoUpdateTools =
