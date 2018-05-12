@@ -93,7 +93,25 @@ namespace VmMachineHwVersionUpdater
             var linkerTime = Assembly.GetExecutingAssembly().GetLinkerTime();
             LinkerTime.Content = linkerTime.ToString(CultureInfo.InvariantCulture);
             _overrideProtection = 1;
+
+
+            ContentRendered += MainWindow_ContentRendered;
         }
+
+        //private void FixExpanderWith()
+        //{
+        //    Collection<Expander> collection = VisualTreeHelper.GetVisualChildren<Expander>(VmDataGrid);
+        //    foreach (Expander expander in collection)
+        //    {
+        //        expander.Width = Width-50;
+        //    }
+        //}
+
+        private void MainWindow_ContentRendered(object sender, EventArgs e)
+        {
+            //FixExpanderWith();
+        }
+
 
         private void LoadClick(object sender, RoutedEventArgs e)
         {
@@ -104,6 +122,7 @@ namespace VmMachineHwVersionUpdater
 
             _dragAndDropPath = string.Empty;
             LoadAsync();
+            //FixExpanderWith();
         }
 
         private async void LoadAsync()
@@ -119,8 +138,12 @@ namespace VmMachineHwVersionUpdater
 
             UpdateAllTextBlock.Text = loadHelper.UpdateAllTextBlox;
             UpdateAllHwVersion.Value = loadHelper.UpdateAllHwVersion;
-            loadHelper.SearchOsItems.ForEach(x => SearchOs.Items.Add(x));
 
+            //SearchOs filter
+            SearchOs.Items.Clear();
+            SearchOs.Items.Add("(no filter)");
+            SearchOs.Items.Add(new Separator());
+            loadHelper.SearchOsItems.ForEach(x => SearchOs.Items.Add(x));
             SearchOs.Items.Add(new Separator());
             _guestOsOutputStringMapping.Value.OrderBy(x => x).ToList().ForEach(x => SearchOs.Items.Add(x));
 
@@ -132,7 +155,6 @@ namespace VmMachineHwVersionUpdater
             UpdateAll.IsEnabled = _currentItemSource.Any();
 
             VmDataGrid.Items.SortDescriptions.Clear();
-
             VmDataGrid.Items.SortDescriptions.Add(_sd);
         }
 
@@ -179,11 +201,13 @@ namespace VmMachineHwVersionUpdater
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
         {
             FilterItemSource();
+            //FixExpanderWith();
         }
 
         private void SearchOsOnDropDownClosed(object sender, EventArgs e)
         {
             FilterItemSource();
+            //FixExpanderWith();
         }
 
         private void FilterItemSource()
@@ -204,6 +228,7 @@ namespace VmMachineHwVersionUpdater
             var listCollectionView = new ListCollectionView(_filteredItemSource.OrderBy(vm => vm.DisplayName).ToList());
             listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
             VmDataGrid.ItemsSource = listCollectionView;
+            //FixExpanderWith();
         }
 
 

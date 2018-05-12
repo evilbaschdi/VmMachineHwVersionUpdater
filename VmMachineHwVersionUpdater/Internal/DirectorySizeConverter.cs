@@ -51,4 +51,6 @@ namespace VmMachineHwVersionUpdater.Internal
             throw new NotImplementedException();
         }
     }
+
+ 
 }

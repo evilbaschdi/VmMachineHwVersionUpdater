@@ -50,10 +50,11 @@
     </Window.TaskbarItemInfo>
     <!--  Grid  -->
     <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True" Drop="GridOnDrop" DragOver="GridOnDragOver" Background="Transparent">
+
         <!--  DataGrid  -->
         <DataGrid Name="VmDataGrid" Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single" Sorting="VmDataGridSorting"
-                  Style="{DynamicResource AzureDataGrid}" AutoGenerateColumns="False" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged"
-                  CanUserDeleteRows="False">
+                  Style="{DynamicResource AzureDataGrid}" GridLinesVisibility="Horizontal" SelectionChanged="VmDataGridSelectionChanged"
+                  CanUserDeleteRows="False" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <!--  Columns  -->
             <DataGrid.Columns>
                 <!--  Display Name  -->
@@ -127,7 +128,6 @@
                                             <Expander.Resources>
                                                 <internal:DirectorySizeConverter x:Key="DirectorySizeConverter" />
                                             </Expander.Resources>
-
                                             <Expander.Header>
                                                 <DockPanel>
                                                     <TextBlock Text="{Binding Path=Name}" Margin="0,0,5,0" />
@@ -180,6 +180,7 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
+
     </Grid>
     <!--  Flyouts  -->
     <controls:MetroWindow.Flyouts>
