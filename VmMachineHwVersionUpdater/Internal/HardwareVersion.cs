@@ -225,12 +225,21 @@ namespace VmMachineHwVersionUpdater.Internal
 
                         if (!string.IsNullOrWhiteSpace(log) && !log.FileInfo().IsFileLocked())
                         {
-                            var logLastLine = File.ReadAllLines(log).Last();
-                            logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23).Replace(".", ",");
-                            var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
-                            var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
-                            logLastDateDiff =
-                                $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
+                            try
+                            {
+                                var logLastLine = File.ReadAllLines(log).Last();
+                                logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23).Replace(".", ",");
+                                var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
+                                var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
+                                logLastDateDiff =
+                                    $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                                
+                            }
+                         
                         }
 
                         var size = directoryInfo.GetDirectorySize();

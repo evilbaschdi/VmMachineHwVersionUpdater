@@ -91,7 +91,7 @@
                 <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True" SortMemberPath="SyncTimeWithHost">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding SyncTimeWithHost}" HorizontalAlignment="Center" Click="SyncTimeWithHostCheckBoxClick" />
+                            <CheckBox IsChecked="{Binding SyncTimeWithHost}" HorizontalAlignment="Center" Click="SyncTimeWithHostCheckBoxClick" Background="White" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -99,7 +99,7 @@
                 <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True" SortMemberPath="AutoUpdateTools">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding AutoUpdateTools}" HorizontalAlignment="Center" Click="AutoUpdateToolsCheckBoxClick" />
+                            <CheckBox IsChecked="{Binding AutoUpdateTools}" HorizontalAlignment="Center" Click="AutoUpdateToolsCheckBoxClick" Background="White" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
