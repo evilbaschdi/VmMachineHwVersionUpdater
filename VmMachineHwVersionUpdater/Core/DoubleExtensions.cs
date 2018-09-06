@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System;
+using System.Globalization;
 
 namespace VmMachineHwVersionUpdater.Core
 {
@@ -12,7 +12,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static double GibibytesToKibibytes(this double? input)
+        public static double GiBiBytesToKiBiBytes(this double? input)
         {
             return input * 1073741824d ?? 0d;
         }
@@ -22,7 +22,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static double GibibytesToKibibytes(this double input)
+        public static double GiBiBytesToKiBiBytes(this double input)
         {
             return input * 1073741824d;
         }
@@ -32,7 +32,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static double KibibytesToGibibytes(this double? input)
+        public static double KiBiBytesToGiBiBytes(this double? input)
         {
             return input / 1073741824d ?? 0d;
         }
@@ -42,78 +42,52 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static double KibibytesToGibibytes(this double input)
+        public static double KiBiBytesToGiBiBytes(this double input)
         {
             return input / 1073741824d;
         }
-    }
 
-    public static class VisualTreeHelper
-    {
-        /// <summary>
-        /// Get visual tree children of a type
-        /// </summary>
-        /// <typeparam name="T">Visual tree children type</typeparam>
-        /// <param name="visual">A DependencyObject reference</param>
-        /// <param name="children">A collection of one visual tree children type</param>
-        private static void GetVisualChildren<T>(DependencyObject current, Collection<T> children) where T : DependencyObject
-        {
-            if (current != null)
-            {
-                if (current.GetType() == typeof(T))
-                {
-                    children.Add((T)current);
-                }
-
-                for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(current); i++)
-                {
-                    GetVisualChildren<T>(System.Windows.Media.VisualTreeHelper.GetChild(current, i), children);
-                }
-            }
-        }
 
         /// <summary>
-        /// Get visual tree children of a type
+        ///     Converts a double into FileSize string
         /// </summary>
-        /// <typeparam name="T">Visaul tree children type</typeparam>
-        /// <param name="visual">A DependencyObject reference</param>
-        /// <returns>Returns a collection of one visual tree children type</returns>
-        public static Collection<T> GetVisualChildren<T>(DependencyObject current) where T : DependencyObject
+        /// <param name="d"></param>
+        /// <param name="precision"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
+        public static string ToFileSize(this double d, int precision, CultureInfo culture)
         {
-            if (current == null)
+            var size = Convert.ToUInt64(d);
+
+            if (size < 1024d)
             {
-                return null;
+                return $"{size.ToString("F0", culture)} bytes";
             }
 
-            Collection<T> children = new Collection<T>();
-
-            GetVisualChildren<T>(current, children);
-
-            return children;
-        }
-
-        /// <summary>
-        /// Get the first visual child from a FrameworkElement Template
-        /// </summary>
-        /// <typeparam name="P">FrameworkElement type</typeparam>
-        /// <typeparam name="T">FrameworkElement type</typeparam>
-        /// <param name="p">A FrameworkElement typeof P</param>
-        /// <returns>Returns a FrameworkElement visual child typeof T if found one; returns null otherwise</returns>
-        public static T GetVisualChild<T, P>(P templatedParent)
-            where T : FrameworkElement
-            where P : FrameworkElement
-        {
-            Collection<T> children = VisualTreeHelper.GetVisualChildren<T>(templatedParent);
-
-            foreach (T child in children)
+            if (size >> 10 < 1024d)
             {
-                if (child.TemplatedParent == templatedParent)
-                {
-                    return child;
-                }
+                return $"{(size / (float) 1024d).ToString($"F{precision}", culture)} KB";
             }
 
-            return null;
+            if (size >> 20 < 1024d)
+            {
+                return $"{((size >> 10) / (float) 1024d).ToString($"F{precision}", culture)} MB";
+            }
+
+            if (size >> 30 < 1024d)
+            {
+                return $"{((size >> 20) / (float) 1024d).ToString($"F{precision}", culture)} GB";
+            }
+
+            if (!(size >> 40 < 1024d))
+            {
+                return size >> 50 < 1024d
+                    ? $"{((size >> 40) / (float) 1024d).ToString($"F{precision}", culture)} PB"
+                    : $"{((size >> 50) / (float) 1024d).ToString($"F{precision}", culture)} EB";
+            }
+
+            var workaround = size / 1000 * 1024;
+            return $"{((workaround >> 30) / (float) 1024d).ToString($"F{precision}", culture)} TB";
         }
     }
 }

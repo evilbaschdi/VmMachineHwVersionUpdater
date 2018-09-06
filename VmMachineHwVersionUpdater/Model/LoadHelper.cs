@@ -6,16 +6,16 @@ namespace VmMachineHwVersionUpdater.Model
     public class LoadHelper
     {
         /// <summary />
-
-        public string UpdateAllTextBlox { get; set; }
-
-        /// <summary />
-        public List<Machine> VmDataGridItemsSource { get; set; }
+        public List<string> SearchOsItems { get; set; }
 
         /// <summary />
         public double? UpdateAllHwVersion { get; set; }
 
         /// <summary />
-        public List<string> SearchOsItems { get; set; }
+
+        public string UpdateAllTextBlocks { get; set; }
+
+        /// <summary />
+        public List<Machine> VmDataGridItemsSource { get; set; }
     }
 }

@@ -2,6 +2,10 @@
 using System.IO;
 using EvilBaschdi.CoreExtended.AppHelpers;
 
+// ReSharper disable CommentTypo
+// ReSharper disable StringLiteralTypo
+// ReSharper disable once IdentifierTypo
+// ReSharper disable IdentifierTypo
 namespace VmMachineHwVersionUpdater.Core
 {
     /// <inheritdoc />
@@ -18,13 +22,15 @@ namespace VmMachineHwVersionUpdater.Core
         /// <param name="applicationSettingsBase"></param>
         public AppSettings(IAppSettingsBase applicationSettingsBase)
         {
-            _appSettingsBase = applicationSettingsBase ?? throw new ArgumentNullException(nameof(applicationSettingsBase));
+            _appSettingsBase = applicationSettingsBase ??
+                               throw new ArgumentNullException(nameof(applicationSettingsBase));
         }
 
         /// <inheritdoc />
         /// <summary>
         ///     Path of VMware machines
         /// </summary>
+
         public string VMwarePool
         {
             get => _appSettingsBase.Get("VMwarePool", "");

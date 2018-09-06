@@ -10,6 +10,8 @@ namespace VmMachineHwVersionUpdater.Model
     {
         private readonly IHardwareVersion _hardwareVersion;
 
+        private int _hwVersion;
+
         /// <summary>
         ///     Constructor
         /// </summary>
@@ -17,6 +19,40 @@ namespace VmMachineHwVersionUpdater.Model
         public Machine(IHardwareVersion hardwareVersion)
         {
             _hardwareVersion = hardwareVersion ?? throw new ArgumentNullException(nameof(hardwareVersion));
+        }
+
+        /// <summary />
+        public string GuestOs { get; set; }
+
+        /// <summary />
+        public int HwVersion
+        {
+            get => _hwVersion;
+            set
+            {
+                if (_hwVersion == value)
+                {
+                    return;
+                }
+
+                _hwVersion = value;
+                NotifyPropertyChanged(Path, _hwVersion);
+            }
+        }
+
+        /// <inheritdoc />
+        /// <summary />
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // This method is called by the Set accessors of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifyPropertyChanged(string path, int newVersion)
+        {
+            if (PropertyChanged != null)
+            {
+                _hardwareVersion.Update(path, newVersion);
+            }
         }
 
         // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -61,43 +97,5 @@ namespace VmMachineHwVersionUpdater.Model
         /// <summary />
         public PackIconMaterialKind MachineState { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
-
-        /// <summary />
-        public int HwVersion
-        {
-            get => _hwVersion;
-            set
-            {
-                if (_hwVersion == value)
-                {
-                    return;
-                }
-
-                _hwVersion = value;
-                NotifyPropertyChanged(Path, _hwVersion);
-            }
-        }
-
-        private int _hwVersion;
-
-        /// <summary />
-        public string GuestOs { get; set; }
-
-        /// <inheritdoc />
-        /// <summary />
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // This method is called by the Set accessors of each property.
-        // The CallerMemberName attribute that is applied to the optional propertyName
-        // parameter causes the property name of the caller to be substituted as an argument.
-        private void NotifyPropertyChanged(string path, int newVersion)
-        {
-            if (PropertyChanged != null)
-            {
-                //var guestOsOutputStringMapping = new GuestOsOutputStringMapping();
-                //var hardwareVersion = new HardwareVersion(guestOsOutputStringMapping);
-                _hardwareVersion.Update(path, newVersion);
-            }
-        }
     }
 }

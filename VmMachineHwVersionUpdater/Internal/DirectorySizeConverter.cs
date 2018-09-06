@@ -33,7 +33,7 @@ namespace VmMachineHwVersionUpdater.Internal
             var updateEntries = collection?.Cast<Machine>();
 
             var sum = updateEntries?.Sum(machine => machine.DirectorySizeGb);
-            var result = sum.GibibytesToKibibytes();
+            var result = sum.GiBiBytesToKiBiBytes();
 
             return result.ToFileSize(2, CultureInfo.GetCultureInfo(1033));
         }
@@ -51,6 +51,4 @@ namespace VmMachineHwVersionUpdater.Internal
             throw new NotImplementedException();
         }
     }
-
- 
 }

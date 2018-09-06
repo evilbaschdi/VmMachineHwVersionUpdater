@@ -24,7 +24,8 @@ namespace VmMachineHwVersionUpdater.Internal
         /// <exception cref="ArgumentNullException"><paramref name="guestOsOutputStringMapping" /> is <see langword="null" />.</exception>
         public HardwareVersion(IGuestOsOutputStringMapping guestOsOutputStringMapping)
         {
-            _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
+            _guestOsOutputStringMapping = guestOsOutputStringMapping ??
+                                          throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
         }
 
         /// <inheritdoc />
@@ -37,7 +38,7 @@ namespace VmMachineHwVersionUpdater.Internal
             foreach (var line in readAllLines)
             {
                 var lineToLower = line.ToLower();
-
+                // ReSharper disable once StringLiteralTypo
                 if (!lineToLower.Contains("virtualhw.version"))
                 {
                     continue;
@@ -46,10 +47,10 @@ namespace VmMachineHwVersionUpdater.Internal
                 var inputStreamReader = File.OpenText(vmxPath);
                 var text = inputStreamReader.ReadToEnd();
                 inputStreamReader.Close();
+                // ReSharper disable once StringLiteralTypo
+                var hwVersion = $"virtualhw.version = \"{newVersion}\"";
 
-                var hwversion = $"virtualhw.version = \"{newVersion}\"";
-
-                text = text.Replace(line, hwversion);
+                text = text.Replace(line, hwVersion);
 
                 var outputStreamWriter = File.CreateText(vmxPath);
                 outputStreamWriter.Write(text);
@@ -67,7 +68,7 @@ namespace VmMachineHwVersionUpdater.Internal
             foreach (var line in readAllLines)
             {
                 var lineToLower = line.ToLower();
-
+                // ReSharper disable once StringLiteralTypo
                 if (!lineToLower.Contains("tools.synctime"))
                 {
                     continue;
@@ -100,7 +101,9 @@ namespace VmMachineHwVersionUpdater.Internal
             var text = inputStreamReader.ReadToEnd();
             inputStreamReader.Close();
 
-            var newLine = toolsAutoUpdate ? "tools.upgrade.policy = \"upgradeAtPowerCycle\"" : "tools.upgrade.policy = \"useGlobal\"";
+            var newLine = toolsAutoUpdate
+                ? "tools.upgrade.policy = \"upgradeAtPowerCycle\""
+                : "tools.upgrade.policy = \"useGlobal\"";
 
             foreach (var line in readAllLines)
             {
@@ -183,18 +186,22 @@ namespace VmMachineHwVersionUpdater.Internal
                         Parallel.ForEach(readAllLines,
                             line =>
                             {
+                                // ReSharper disable once StringLiteralTypo
                                 if (line.StartsWith("virtualhw.version", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     hwVersion = line.Replace('"', ' ').Trim();
-                                    hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "", RegexOptions.IgnoreCase).Trim();
+                                    hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "",
+                                        RegexOptions.IgnoreCase).Trim();
                                 }
 
                                 if (line.StartsWith("displayname", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     displayName = line.Replace('"', ' ').Trim();
-                                    displayName = Regex.Replace(displayName, "displayname = ", "", RegexOptions.IgnoreCase).Trim();
+                                    displayName = Regex.Replace(displayName, "displayname = ", "",
+                                        RegexOptions.IgnoreCase).Trim();
                                 }
 
+                                // ReSharper disable once StringLiteralTypo
                                 if (line.StartsWith("guestos", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     guestOs = line.Replace('"', ' ').Trim();
@@ -204,7 +211,8 @@ namespace VmMachineHwVersionUpdater.Internal
                                 if (line.StartsWith("tools.syncTime", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     syncTimeWithHost = line.Replace('"', ' ').Trim();
-                                    syncTimeWithHost = Regex.Replace(syncTimeWithHost, "tools.syncTime = ", "", RegexOptions.IgnoreCase).Trim();
+                                    syncTimeWithHost = Regex.Replace(syncTimeWithHost, "tools.syncTime = ", "",
+                                        RegexOptions.IgnoreCase).Trim();
                                 }
 
                                 // ReSharper disable once InvertIf
@@ -212,14 +220,18 @@ namespace VmMachineHwVersionUpdater.Internal
                                 {
                                     toolsUpgradePolicy = line.Replace('"', ' ').Trim();
                                     toolsUpgradePolicy = Regex
-                                                         .Replace(toolsUpgradePolicy, "tools.upgrade.policy = ", "", RegexOptions.IgnoreCase)
+                                                         .Replace(toolsUpgradePolicy, "tools.upgrade.policy = ", "",
+                                                             RegexOptions.IgnoreCase)
                                                          .Trim();
                                 }
                             });
 
                         var fileInfo = new FileInfo(file);
                         var directoryInfo = fileInfo.Directory;
-                        var log = File.Exists($@"{directoryInfo?.FullName}\vmware.log") ? $@"{directoryInfo?.FullName}\vmware.log" : null;
+                        var log = File.Exists($@"{directoryInfo?.FullName}\vmware.log")
+                            // ReSharper disable once StringLiteralTypo
+                            ? $@"{directoryInfo?.FullName}\vmware.log"
+                            : null;
                         var logLastDate = string.Empty;
                         var logLastDateDiff = string.Empty;
 
@@ -228,8 +240,10 @@ namespace VmMachineHwVersionUpdater.Internal
                             try
                             {
                                 var logLastLine = File.ReadAllLines(log).Last();
-                                logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23).Replace(".", ",");
-                                var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
+                                logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23)
+                                                         .Replace(".", ",");
+                                var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff",
+                                    CultureInfo.InvariantCulture);
                                 var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
                                 logLastDateDiff =
                                     $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
@@ -237,9 +251,7 @@ namespace VmMachineHwVersionUpdater.Internal
                             catch (Exception e)
                             {
                                 Console.WriteLine(e);
-                                
                             }
-                         
                         }
 
                         var size = directoryInfo.GetDirectorySize();
@@ -254,15 +266,22 @@ namespace VmMachineHwVersionUpdater.Internal
                                           Path = properFilePathCapitalization,
                                           Directory = path,
                                           ShortPath =
-                                              properFilePathCapitalization.Replace(path, "", StringComparison.CurrentCultureIgnoreCase),
-                                          DirectorySizeGb = Math.Round(size.KibibytesToGibibytes(), 2),
+                                              properFilePathCapitalization.Replace(path, "",
+                                                  StringComparison.CurrentCultureIgnoreCase),
+                                          DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),
                                           DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),
-                                          LogLastDate = !string.IsNullOrWhiteSpace(logLastDate) ? logLastDate.Substring(0, 16) : string.Empty,
+                                          LogLastDate = !string.IsNullOrWhiteSpace(logLastDate)
+                                              ? logLastDate.Substring(0, 16)
+                                              : string.Empty,
                                           LogLastDateDiff = logLastDateDiff,
                                           AutoUpdateTools =
-                                              !string.IsNullOrWhiteSpace(toolsUpgradePolicy) && toolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
-                                          SyncTimeWithHost = !string.IsNullOrWhiteSpace(syncTimeWithHost) && bool.Parse(syncTimeWithHost),
-                                          MachineState = paused.HasValue && paused.Value ? PackIconMaterialKind.Pause : PackIconMaterialKind.Power
+                                              !string.IsNullOrWhiteSpace(toolsUpgradePolicy) &&
+                                              toolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
+                                          SyncTimeWithHost = !string.IsNullOrWhiteSpace(syncTimeWithHost) &&
+                                                             bool.Parse(syncTimeWithHost),
+                                          MachineState = paused.HasValue && paused.Value
+                                              ? PackIconMaterialKind.Pause
+                                              : PackIconMaterialKind.Power
                                       };
                         machineList.Add(machine);
                     });
@@ -284,7 +303,9 @@ namespace VmMachineHwVersionUpdater.Internal
             var text = inputStreamReader.ReadToEnd();
             inputStreamReader.Close();
 
-            var newLine = isEnabled ? "gui.applyHostDisplayScalingToGuest = \"TRUE\"" : "gui.applyHostDisplayScalingToGuest = \"FALSE\"";
+            var newLine = isEnabled
+                ? "gui.applyHostDisplayScalingToGuest = \"TRUE\""
+                : "gui.applyHostDisplayScalingToGuest = \"FALSE\"";
 
             foreach (var line in readAllLines)
             {

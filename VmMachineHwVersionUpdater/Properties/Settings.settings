@@ -1,9 +1,11 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
 
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VmMachineHwVersionUpdater.Properties"
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
+              GeneratedClassNamespace="VmMachineHwVersionUpdater.Properties"
               GeneratedClassName="Settings">
   <Profiles />
   <Settings>
+    <!-- ReSharper disable once MarkupAttributeTypo -->
     <Setting Name="VMwarePool" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

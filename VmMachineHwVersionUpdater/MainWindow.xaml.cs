@@ -33,19 +33,19 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
-        private IEnumerable<Machine> _currentItemSource;
-        private IEnumerable<Machine> _filteredItemSource;
-        private IHardwareVersion _hardwareVersion;
-        private readonly IDialogService _dialogService;
-        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IApplicationStyle _applicationStyle;
         private readonly IAppSettings _appSettings;
-        private Machine _currentMachine;
-        private SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
-        private string _dragAndDropPath;
-        private string _sortHeader;
-        private string _prevSortHeader;
+        private readonly IDialogService _dialogService;
+        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly int _overrideProtection;
+        private IEnumerable<Machine> _currentItemSource;
+        private Machine _currentMachine;
+        private string _dragAndDropPath;
+        private IEnumerable<Machine> _filteredItemSource;
+        private IHardwareVersion _hardwareVersion;
+        private string _prevSortHeader;
+        private SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
+        private string _sortHeader;
         private int _updateAllHwVersion;
 
         #region General
@@ -63,55 +63,38 @@ namespace VmMachineHwVersionUpdater
             IAppSettingsBase applicationSettingsBase = new AppSettingsBase(Settings.Default);
             IApplicationStyleSettings applicationStyleSettings = new ApplicationStyleSettings(applicationSettingsBase);
             _appSettings = new AppSettings(applicationSettingsBase);
-            _applicationStyle = new ApplicationStyle(this, Accent, ThemeSwitch, applicationStyleSettings, themeManagerHelper);
+            _applicationStyle =
+                new ApplicationStyle(this, Accent, ThemeSwitch, applicationStyleSettings, themeManagerHelper);
             _applicationStyle.Load(true, true);
             _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
 
-            var vMwarePoolFromSetting = _appSettings.VMwarePool.SplitToEnumerable(";").ToList();
-            var existingPaths = vMwarePoolFromSetting.GetExistingDirectories();
+            var vmwarePoolFromSetting = _appSettings.VMwarePool.SplitToEnumerable(";").ToList();
+            var existingPaths = vmwarePoolFromSetting.GetExistingDirectories();
 
-            var vMwareArchiveFromSetting = _appSettings.ArchivePath;
+            var vmwareArchiveFromSetting = _appSettings.ArchivePath;
 
-            var toogle = true;
+            var toggle = true;
             if (!string.IsNullOrWhiteSpace(_appSettings.VMwarePool) && existingPaths.Any())
             {
                 VmPath.Text = _appSettings.VMwarePool;
-                if (!string.IsNullOrWhiteSpace(vMwareArchiveFromSetting) && Directory.Exists(vMwareArchiveFromSetting))
+                if (!string.IsNullOrWhiteSpace(vmwareArchiveFromSetting) && Directory.Exists(vmwareArchiveFromSetting))
                 {
-                    VmArchivePath.Text = vMwareArchiveFromSetting;
-                    toogle = false;
+                    VmArchivePath.Text = vmwareArchiveFromSetting;
+                    toggle = false;
                     LoadAsync();
                 }
             }
 
-            if (toogle)
+            if (toggle)
             {
-                ToggleSettingsFlyout();
+                ToggleSettingsFlyOut();
             }
 
             var linkerTime = Assembly.GetExecutingAssembly().GetLinkerTime();
             LinkerTime.Content = linkerTime.ToString(CultureInfo.InvariantCulture);
             _overrideProtection = 1;
-
-
-            ContentRendered += MainWindow_ContentRendered;
         }
-
-        //private void FixExpanderWith()
-        //{
-        //    Collection<Expander> collection = VisualTreeHelper.GetVisualChildren<Expander>(VmDataGrid);
-        //    foreach (Expander expander in collection)
-        //    {
-        //        expander.Width = Width-50;
-        //    }
-        //}
-
-        private void MainWindow_ContentRendered(object sender, EventArgs e)
-        {
-            //FixExpanderWith();
-        }
-
 
         private void LoadClick(object sender, RoutedEventArgs e)
         {
@@ -122,7 +105,6 @@ namespace VmMachineHwVersionUpdater
 
             _dragAndDropPath = string.Empty;
             LoadAsync();
-            //FixExpanderWith();
         }
 
         private async void LoadAsync()
@@ -136,7 +118,7 @@ namespace VmMachineHwVersionUpdater
             listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
             VmDataGrid.ItemsSource = listCollectionView;
 
-            UpdateAllTextBlock.Text = loadHelper.UpdateAllTextBlox;
+            UpdateAllTextBlock.Text = loadHelper.UpdateAllTextBlocks;
             UpdateAllHwVersion.Value = loadHelper.UpdateAllHwVersion;
 
             //SearchOs filter
@@ -163,7 +145,9 @@ namespace VmMachineHwVersionUpdater
         {
             _sortHeader = e.Column.SortMemberPath;
 
-            _sd = _sortHeader == _prevSortHeader ? new SortDescription(_sortHeader, ListSortDirection.Descending) : new SortDescription(_sortHeader, ListSortDirection.Ascending);
+            _sd = _sortHeader == _prevSortHeader
+                ? new SortDescription(_sortHeader, ListSortDirection.Descending)
+                : new SortDescription(_sortHeader, ListSortDirection.Ascending);
             _prevSortHeader = _sortHeader;
         }
 
@@ -172,7 +156,7 @@ namespace VmMachineHwVersionUpdater
             var loadHelper = new LoadHelper();
             _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
 
-            _currentItemSource = _hardwareVersion.ReadFromPath(VMwarePoolPath(), _appSettings.ArchivePath).ToList();
+            _currentItemSource = _hardwareVersion.ReadFromPath(VmwarePoolPath(), _appSettings.ArchivePath).ToList();
 
             if (!_currentItemSource.Any())
             {
@@ -180,12 +164,13 @@ namespace VmMachineHwVersionUpdater
             }
 
             var searchOsItems = new List<string>();
-            foreach (var machine in _currentItemSource.OrderBy(m => m.GuestOs).Where(item => !searchOsItems.Contains(item.GuestOs)))
+            foreach (var machine in _currentItemSource.OrderBy(m => m.GuestOs)
+                                                      .Where(item => !searchOsItems.Contains(item.GuestOs)))
             {
                 searchOsItems.Add(machine.GuestOs);
             }
 
-            loadHelper.UpdateAllTextBlox = $"Update all {_currentItemSource.Count()} machines to version";
+            loadHelper.UpdateAllTextBlocks = $"Update all {_currentItemSource.Count()} machines to version";
             loadHelper.VmDataGridItemsSource = _currentItemSource.ToList();
             loadHelper.UpdateAllHwVersion = _currentItemSource.Select(machine => machine.HwVersion).Max();
             loadHelper.SearchOsItems = searchOsItems;
@@ -193,7 +178,7 @@ namespace VmMachineHwVersionUpdater
             return loadHelper;
         }
 
-        private string VMwarePoolPath()
+        private string VmwarePoolPath()
         {
             return !string.IsNullOrWhiteSpace(_dragAndDropPath) ? _dragAndDropPath : _appSettings.VMwarePool;
         }
@@ -216,12 +201,14 @@ namespace VmMachineHwVersionUpdater
 
             if (!string.IsNullOrWhiteSpace(SearchFilter.Text))
             {
-                _filteredItemSource = _filteredItemSource.Where(vm => vm.DisplayName.ToLower().Contains(SearchFilter.Text.ToLower()));
+                _filteredItemSource =
+                    _filteredItemSource.Where(vm => vm.DisplayName.ToLower().Contains(SearchFilter.Text.ToLower()));
             }
 
             if (SearchOs.Text != "(no filter)")
             {
-                _filteredItemSource = _filteredItemSource.Where(vm => vm.GuestOs.StartsWith(SearchOs.Text, StringComparison.InvariantCultureIgnoreCase));
+                _filteredItemSource = _filteredItemSource.Where(vm =>
+                                                                    vm.GuestOs.StartsWith(SearchOs.Text, StringComparison.InvariantCultureIgnoreCase));
             }
 
             DataContext = _filteredItemSource;
@@ -258,7 +245,8 @@ namespace VmMachineHwVersionUpdater
             _appSettings.VMwarePool = newPath;
             VmPath.Text = newPath;
 
-            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_appSettings.VMwarePool))
+            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
+                Directory.Exists(_appSettings.VMwarePool))
             {
                 LoadAsync();
             }
@@ -279,7 +267,8 @@ namespace VmMachineHwVersionUpdater
             _appSettings.ArchivePath = newPath;
             VmArchivePath.Text = newPath;
 
-            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) && Directory.Exists(_appSettings.ArchivePath))
+            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
+                Directory.Exists(_appSettings.ArchivePath))
             {
                 LoadAsync();
             }
@@ -415,7 +404,8 @@ namespace VmMachineHwVersionUpdater
 
         private async Task ArchiveClickAsync()
         {
-            var result = await _dialogService.ShowMessage("Archive machine...", $"Are you sure you want to archive machine '{_currentMachine.DisplayName}'?",
+            var result = await _dialogService.ShowMessage("Archive machine...",
+                $"Are you sure you want to archive machine '{_currentMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
             if (result == MessageDialogResult.Affirmative)
             {
@@ -426,7 +416,8 @@ namespace VmMachineHwVersionUpdater
 
         private async Task DeleteClickAsync()
         {
-            var result = await _dialogService.ShowMessage("Delete machine...", $"Are you sure you want to delete '{_currentMachine.DisplayName}'?",
+            var result = await _dialogService.ShowMessage("Delete machine...",
+                $"Are you sure you want to delete '{_currentMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
             if (result == MessageDialogResult.Affirmative)
             {
@@ -450,8 +441,10 @@ namespace VmMachineHwVersionUpdater
 
             try
             {
-                var machineDirectoryWithoutPath = path.ToLower().Replace($@"{_currentMachine.Directory.ToLower()}\", "");
-                var destination = Path.Combine(_appSettings.ArchivePath.ToLower(), machineDirectoryWithoutPath.ToLower());
+                var machineDirectoryWithoutPath =
+                    path.ToLower().Replace($@"{_currentMachine.Directory.ToLower()}\", "");
+                var destination = Path.Combine(_appSettings.ArchivePath.ToLower(),
+                    machineDirectoryWithoutPath.ToLower());
                 Directory.Move(path.ToLower(), destination.ToLower());
             }
             catch (IOException ioException)
@@ -490,16 +483,16 @@ namespace VmMachineHwVersionUpdater
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            ToggleSettingsFlyout();
+            ToggleSettingsFlyOut();
         }
 
-        private void ToggleSettingsFlyout()
+        private void ToggleSettingsFlyOut()
         {
-            var flyout = (Flyout) Flyouts.Items[0];
+            var flyOut = (Flyout) Flyouts.Items[0];
 
-            if (flyout != null)
+            if (flyOut != null)
             {
-                flyout.IsOpen = !flyout.IsOpen;
+                flyOut.IsOpen = !flyOut.IsOpen;
             }
         }
 

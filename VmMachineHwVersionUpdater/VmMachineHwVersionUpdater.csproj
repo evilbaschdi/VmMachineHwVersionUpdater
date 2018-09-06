@@ -96,7 +96,6 @@
       <DependentUpon>IAppSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\DoubleExtensions.cs" />
-    <Compile Include="Core\StringExtensions.cs" />
     <Compile Include="Core\IAppSettings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -106,6 +105,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\VisualTreeHelper.cs" />
     <Compile Include="Internal\DirectorySizeConverter.cs" />
     <Compile Include="Internal\GuestOsOutputStringMapping.cs">
       <DependentUpon>IGuestOsOutputStringMapping.cs</DependentUpon>
