@@ -91,8 +91,8 @@ namespace VmMachineHwVersionUpdater
                 ToggleSettingsFlyOut();
             }
 
-            var linkerTime = Assembly.GetExecutingAssembly().GetLinkerTime();
-            LinkerTime.Content = linkerTime.ToString(CultureInfo.InvariantCulture);
+            var linkerTime = typeof(MainWindow).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+            LinkerTime.Content = linkerTime;
             _overrideProtection = 1;
         }
 

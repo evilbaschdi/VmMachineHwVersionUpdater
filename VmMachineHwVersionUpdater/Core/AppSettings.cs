@@ -34,7 +34,6 @@ namespace VmMachineHwVersionUpdater.Core
         public string VMwarePool
         {
             get => _appSettingsBase.Get("VMwarePool", "");
-
             set => _appSettingsBase.Set("VMwarePool", value);
         }
 
