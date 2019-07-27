@@ -12,6 +12,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GiBiBytesToKiBiBytes(this double? input)
         {
             return input * 1073741824d ?? 0d;
@@ -22,6 +23,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        // ReSharper disable once UnusedMember.Global
         public static double GiBiBytesToKiBiBytes(this double input)
         {
             return input * 1073741824d;
@@ -32,6 +34,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        // ReSharper disable once UnusedMember.Global
         public static double KiBiBytesToGiBiBytes(this double? input)
         {
             return input / 1073741824d ?? 0d;
@@ -42,6 +45,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        // ReSharper disable once UnusedMember.Global
         public static double KiBiBytesToGiBiBytes(this double input)
         {
             return input / 1073741824d;
@@ -55,6 +59,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// <param name="precision"></param>
         /// <param name="culture"></param>
         /// <returns></returns>
+        // ReSharper disable once UnusedMember.Global
         public static string ToFileSize(this double d, int precision, CultureInfo culture)
         {
             var size = Convert.ToUInt64(d);

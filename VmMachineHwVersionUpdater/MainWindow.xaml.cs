@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,15 +12,15 @@ using System.Windows.Input;
 using System.Windows.Shell;
 using EvilBaschdi.Core.Extensions;
 using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.AppHelpers;
-using EvilBaschdi.CoreExtended.Browsers;
 using EvilBaschdi.CoreExtended.Metro;
+using EvilBaschdi.CoreExtended.Mvvm;
+using EvilBaschdi.CoreExtended.Mvvm.View;
+using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Internal;
-using VmMachineHwVersionUpdater.Model;
-using VmMachineHwVersionUpdater.Properties;
+using VmMachineHwVersionUpdater.Models;
 
 namespace VmMachineHwVersionUpdater
 {
@@ -33,11 +31,11 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
-        private readonly IApplicationStyle _applicationStyle;
         private readonly IAppSettings _appSettings;
         private readonly IDialogService _dialogService;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
-        private readonly int _overrideProtection;
+        private readonly IThemeManagerHelper _themeManagerHelper;
+
         private IEnumerable<Machine> _currentItemSource;
         private Machine _currentMachine;
         private string _dragAndDropPath;
@@ -59,41 +57,34 @@ namespace VmMachineHwVersionUpdater
             InitializeComponent();
 
 
-            IThemeManagerHelper themeManagerHelper = new ThemeManagerHelper();
-            IAppSettingsBase applicationSettingsBase = new AppSettingsBase(Settings.Default);
-            IApplicationStyleSettings applicationStyleSettings = new ApplicationStyleSettings(applicationSettingsBase);
-            _appSettings = new AppSettings(applicationSettingsBase);
-            _applicationStyle =
-                new ApplicationStyle(this, Accent, ThemeSwitch, applicationStyleSettings, themeManagerHelper);
-            _applicationStyle.Load(true, true);
+            _themeManagerHelper = new ThemeManagerHelper();
+            _appSettings = new AppSettings();
+            var applicationStyle = new ApplicationStyle(_themeManagerHelper);
+            applicationStyle.Load(true, true);
             _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
+            _guestOsOutputStringMapping.Value?.Clear();
 
-            var vmwarePoolFromSetting = _appSettings.VMwarePool.SplitToEnumerable(";").ToList();
-            var existingPaths = vmwarePoolFromSetting.GetExistingDirectories();
+            var vmPoolFromSettingExistingPaths = _appSettings.VmPool.GetExistingDirectories();
 
-            var vmwareArchiveFromSetting = _appSettings.ArchivePath;
-
-            var toggle = true;
-            if (!string.IsNullOrWhiteSpace(_appSettings.VMwarePool) && existingPaths.Any())
+            if (vmPoolFromSettingExistingPaths.Any())
             {
-                VmPath.Text = _appSettings.VMwarePool;
-                if (!string.IsNullOrWhiteSpace(vmwareArchiveFromSetting) && Directory.Exists(vmwareArchiveFromSetting))
+                LoadAsync();
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void OnClosed(EventArgs e)
+        {
+            foreach (Window currentWindow in Application.Current.Windows)
+            {
+                if (currentWindow != Application.Current.MainWindow)
                 {
-                    VmArchivePath.Text = vmwareArchiveFromSetting;
-                    toggle = false;
-                    LoadAsync();
+                    currentWindow.Close();
                 }
             }
 
-            if (toggle)
-            {
-                ToggleSettingsFlyOut();
-            }
-
-            var linkerTime = typeof(MainWindow).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
-            LinkerTime.Content = linkerTime;
-            _overrideProtection = 1;
+            base.OnClosed(e);
         }
 
         private void LoadClick(object sender, RoutedEventArgs e)
@@ -156,7 +147,7 @@ namespace VmMachineHwVersionUpdater
             var loadHelper = new LoadHelper();
             _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
 
-            _currentItemSource = _hardwareVersion.ReadFromPath(VmwarePoolPath(), _appSettings.ArchivePath).ToList();
+            _currentItemSource = _hardwareVersion.ReadFromPath(VmPoolPath(), _appSettings.ArchivePath).ToList();
 
             if (!_currentItemSource.Any())
             {
@@ -178,9 +169,16 @@ namespace VmMachineHwVersionUpdater
             return loadHelper;
         }
 
-        private string VmwarePoolPath()
+        private List<string> VmPoolPath()
         {
-            return !string.IsNullOrWhiteSpace(_dragAndDropPath) ? _dragAndDropPath : _appSettings.VMwarePool;
+            var dragAndDropPath = new List<string>();
+            if (string.IsNullOrWhiteSpace(_dragAndDropPath))
+            {
+                return _appSettings.VmPool;
+            }
+
+            dragAndDropPath.Add(_dragAndDropPath);
+            return dragAndDropPath;
         }
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
@@ -229,76 +227,89 @@ namespace VmMachineHwVersionUpdater
             _currentMachine = (Machine) VmDataGrid.SelectedItem;
         }
 
-        private void BrowsePoolClick(object sender, RoutedEventArgs e)
+        //private void BrowsePoolClick(object sender, RoutedEventArgs e)
+        //{
+        //    var oldPath = _appSettings.VMwarePool;
+        //    var currentVmwarePool = oldPath.SplitToEnumerable(";").ToArray();
+        //    VmPath.Text = oldPath;
+
+        //    var browser = new ExplorerFolderBrowser
+        //                  {
+        //                      SelectedPath = currentVmwarePool.First(),
+        //                      Multiselect = true
+        //                  };
+        //    browser.ShowDialog();
+        //    var newPath = string.Join(";", browser.SelectedPaths);
+        //    _appSettings.VMwarePool = newPath;
+        //    VmPath.Text = newPath;
+
+        //    if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
+        //        Directory.Exists(_appSettings.VMwarePool))
+        //    {
+        //        LoadAsync();
+        //    }
+        //}
+
+        //private void BrowseArchiveClick(object sender, RoutedEventArgs e)
+        //{
+        //    var oldPath = _appSettings.ArchivePath;
+        //    VmPath.Text = oldPath;
+
+        //    var browser = new ExplorerFolderBrowser
+        //                  {
+        //                      SelectedPath = oldPath,
+        //                      Multiselect = false
+        //                  };
+        //    browser.ShowDialog();
+        //    var newPath = browser.SelectedPath;
+        //    _appSettings.ArchivePath = newPath;
+        //    VmArchivePath.Text = newPath;
+
+        //    if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
+        //        Directory.Exists(_appSettings.ArchivePath))
+        //    {
+        //        LoadAsync();
+        //    }
+        //}
+
+        //private void VmPathOnLostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    var pathsFromSetting = VmPath.Text.SplitToEnumerable(";").ToList();
+        //    var existingPaths = pathsFromSetting.GetExistingDirectories();
+        //    if (!existingPaths.Any())
+        //    {
+        //        return;
+        //    }
+
+        //    _appSettings.VMwarePool = string.Join(";", existingPaths);
+        //    LoadAsync();
+        //}
+
+
+        //private void VmArchiveOnLostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    var pathFromSetting = VmArchivePath.Text;
+
+        //    if (!Directory.Exists(pathFromSetting))
+        //    {
+        //        return;
+        //    }
+
+        //    _appSettings.ArchivePath = pathFromSetting;
+        //    LoadAsync();
+        //}
+
+        private void AboutWindowClick(object sender, RoutedEventArgs e)
         {
-            var oldPath = _appSettings.VMwarePool;
-            var currentVmwarePool = oldPath.SplitToEnumerable(";").ToArray();
-            VmPath.Text = oldPath;
+            var assembly = typeof(MainWindow).Assembly;
+            IAboutWindowContent aboutWindowContent = new AboutWindowContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\b.png");
 
-            var browser = new ExplorerFolderBrowser
-                          {
-                              SelectedPath = currentVmwarePool.First(),
-                              Multiselect = true
-                          };
-            browser.ShowDialog();
-            var newPath = string.Join(";", browser.SelectedPaths);
-            _appSettings.VMwarePool = newPath;
-            VmPath.Text = newPath;
+            var aboutWindow = new AboutWindow
+                              {
+                                  DataContext = new AboutViewModel(aboutWindowContent, _themeManagerHelper)
+                              };
 
-            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
-                Directory.Exists(_appSettings.VMwarePool))
-            {
-                LoadAsync();
-            }
-        }
-
-        private void BrowseArchiveClick(object sender, RoutedEventArgs e)
-        {
-            var oldPath = _appSettings.ArchivePath;
-            VmPath.Text = oldPath;
-
-            var browser = new ExplorerFolderBrowser
-                          {
-                              SelectedPath = oldPath,
-                              Multiselect = false
-                          };
-            browser.ShowDialog();
-            var newPath = browser.SelectedPath;
-            _appSettings.ArchivePath = newPath;
-            VmArchivePath.Text = newPath;
-
-            if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
-                Directory.Exists(_appSettings.ArchivePath))
-            {
-                LoadAsync();
-            }
-        }
-
-        private void VmPathOnLostFocus(object sender, RoutedEventArgs e)
-        {
-            var pathsFromSetting = VmPath.Text.SplitToEnumerable(";").ToList();
-            var existingPaths = pathsFromSetting.GetExistingDirectories();
-            if (!existingPaths.Any())
-            {
-                return;
-            }
-
-            _appSettings.VMwarePool = string.Join(";", existingPaths);
-            LoadAsync();
-        }
-
-
-        private void VmArchiveOnLostFocus(object sender, RoutedEventArgs e)
-        {
-            var pathFromSetting = VmArchivePath.Text;
-
-            if (!Directory.Exists(pathFromSetting))
-            {
-                return;
-            }
-
-            _appSettings.ArchivePath = pathFromSetting;
-            LoadAsync();
+            aboutWindow.ShowDialog();
         }
 
         #endregion General
@@ -443,8 +454,10 @@ namespace VmMachineHwVersionUpdater
             {
                 var machineDirectoryWithoutPath =
                     path.ToLower().Replace($@"{_currentMachine.Directory.ToLower()}\", "");
-                var destination = Path.Combine(_appSettings.ArchivePath.ToLower(),
-                    machineDirectoryWithoutPath.ToLower());
+
+                var archivePath = _appSettings.ArchivePath.First(p => p.ToLower().Contains(_currentMachine.Path.ToLower()));
+
+                var destination = Path.Combine(archivePath, machineDirectoryWithoutPath.ToLower());
                 Directory.Move(path.ToLower(), destination.ToLower());
             }
             catch (IOException ioException)
@@ -481,50 +494,22 @@ namespace VmMachineHwVersionUpdater
 
         #region Settings
 
-        private void SettingsClick(object sender, RoutedEventArgs e)
-        {
-            ToggleSettingsFlyOut();
-        }
+        //private void SettingsClick(object sender, RoutedEventArgs e)
+        //{
+        //    ToggleSettingsFlyOut();
+        //}
 
-        private void ToggleSettingsFlyOut()
-        {
-            var flyOut = (Flyout) Flyouts.Items[0];
+        //private void ToggleSettingsFlyOut()
+        //{
+        //    var flyOut = (Flyout) Flyouts.Items[0];
 
-            if (flyOut != null)
-            {
-                flyOut.IsOpen = !flyOut.IsOpen;
-            }
-        }
+        //    if (flyOut != null)
+        //    {
+        //        flyOut.IsOpen = !flyOut.IsOpen;
+        //    }
+        //}
 
         #endregion Settings
-
-        #region MetroStyle
-
-        private void SaveStyleClick(object sender, RoutedEventArgs e)
-        {
-            if (_overrideProtection != 0)
-            {
-                _applicationStyle.SaveStyle();
-            }
-        }
-
-        private void Theme(object sender, EventArgs e)
-        {
-            if (_overrideProtection != 0)
-            {
-                _applicationStyle.SetTheme(sender);
-            }
-        }
-
-        private void AccentOnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (_overrideProtection != 0)
-            {
-                _applicationStyle.SetAccent(sender, e);
-            }
-        }
-
-        #endregion MetroStyle
 
         #region Drag and Drop
 

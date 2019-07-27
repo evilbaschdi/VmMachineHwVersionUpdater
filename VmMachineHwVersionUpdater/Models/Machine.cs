@@ -3,7 +3,7 @@ using System.ComponentModel;
 using MahApps.Metro.IconPacks;
 using VmMachineHwVersionUpdater.Internal;
 
-namespace VmMachineHwVersionUpdater.Model
+namespace VmMachineHwVersionUpdater.Models
 {
     /// <inheritdoc cref="INotifyPropertyChanged" />
     public class Machine : INotifyPropertyChanged

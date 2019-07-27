@@ -3,6 +3,8 @@
 // ReSharper disable once IdentifierTypo
 // ReSharper disable IdentifierTypo
 
+using System.Collections.Generic;
+
 namespace VmMachineHwVersionUpdater.Core
 {
     /// <summary>
@@ -13,11 +15,11 @@ namespace VmMachineHwVersionUpdater.Core
         /// <summary>
         ///     Path of VMware machine archive
         /// </summary>
-        string ArchivePath { get; set; }
+        List<string> ArchivePath { get; }
 
         /// <summary>
         ///     Path of VMware machines
         /// </summary>
-        string VMwarePool { get; set; }
+        List<string> VmPool { get; }
     }
 }

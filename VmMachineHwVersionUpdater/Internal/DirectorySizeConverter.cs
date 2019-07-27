@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using VmMachineHwVersionUpdater.Core;
-using VmMachineHwVersionUpdater.Model;
+using VmMachineHwVersionUpdater.Models;
 
 namespace VmMachineHwVersionUpdater.Internal
 {

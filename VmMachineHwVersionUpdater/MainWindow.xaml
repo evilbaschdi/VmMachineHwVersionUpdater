@@ -9,7 +9,8 @@
                       LeftWindowCommandsOverlayBehavior="Never"
                       RightWindowCommandsOverlayBehavior="Never"
                       WindowButtonCommandsOverlayBehavior="Never"
-                      GlowBrush="{DynamicResource AccentColorBrush}">
+                      GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
+
     <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
@@ -41,14 +42,21 @@
             </Button>
             <controls:NumericUpDown Name="UpdateAllHwVersion" Height="20" Minimum="1" Value="1"
                                     ValueChanged="UpdateAllHwVersionOnValueChanged" />
-            <!-- Settings -->
+            <!-- About -->
+            <Button Click="AboutWindowClick">
+                <StackPanel Orientation="Horizontal">
+                    <iconPacks:PackIconMaterial Kind="Information" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="about" />
+                </StackPanel>
+            </Button>
+            <!-- Settings --><!--
             <Button Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconMaterial Kind="Settings" Width="20" Height="20" HorizontalAlignment="Center"
                                                 VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="settings" />
                 </StackPanel>
-            </Button>
+            </Button>-->
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <!-- TaskBarItemInfo -->
@@ -57,14 +65,14 @@
     </Window.TaskbarItemInfo>
     <!--  Grid  -->
     <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True" Drop="GridOnDrop"
-          DragOver="GridOnDragOver" Background="Transparent">
+          DragOver="GridOnDragOver">
 
         <!--  DataGrid  -->
         <!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
         <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
         <DataGrid Name="VmDataGrid" Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
                   SelectionMode="Single" Sorting="VmDataGridSorting"
-                  Style="{DynamicResource AzureDataGrid}" GridLinesVisibility="Horizontal"
+                  Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" GridLinesVisibility="Horizontal"
                   SelectionChanged="VmDataGridSelectionChanged"
                   CanUserDeleteRows="False" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -215,14 +223,14 @@
         <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
         <!-- ReSharper restore Xaml.BindingWithoutContextNotResolved -->
     </Grid>
-    <!--  FlyOuts  -->
+    <!--  FlyOuts  --><!--
     <controls:MetroWindow.Flyouts>
         <controls:FlyoutsControl>
-            <!--  Settings FlyOut  -->
+            --><!--  Settings FlyOut  --><!--
             <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings"
                              Position="Right" Theme="Accent">
                 <StackPanel>
-                    <!-- VM Pool -->
+                    --><!-- VM Pool --><!--
                     <StackPanel Orientation="Horizontal">
                         <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                                Content="Path" />
@@ -237,7 +245,7 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                    <!-- VM Archive -->
+                    --><!-- VM Archive --><!--
                     <StackPanel Orientation="Horizontal">
                         <Label Width="50" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                                Content="Archive" />
@@ -254,44 +262,11 @@
                         </Button>
 
                     </StackPanel>
-                    <!-- Horizontal Line -->
+                    --><!-- Horizontal Line --><!--
                     <StackPanel Margin="10,10,10,0" Orientation="Vertical">
-                        <Separator Background="{DynamicResource AccentColorBrush}" />
+                        <Separator Background="{DynamicResource MahApps.Brushes.AccentBase}" />
                     </StackPanel>
-                    <!--Application Style-->
-                    <StackPanel>
-                        <!-- Theme -->
-                        <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                            <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                   Content="Theme" />
-                            <controls:ToggleSwitch Name="ThemeSwitch" Margin="10,1,0,0" HorizontalAlignment="Left"
-                                                   VerticalAlignment="Top" FontSize="12" IsCheckedChanged="Theme"
-                                                   OnSwitchBrush="{DynamicResource AccentColorBrush}" OnLabel="Dark"
-                                                   OffSwitchBrush="{DynamicResource AccentColorBrush}" OffLabel="Light" />
-                        </StackPanel>
-                        <!-- Accent -->
-                        <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                            <Label Width="50" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                                   Content="Accent" />
-                            <ComboBox Name="Accent" Width="415" Margin="10,5,0,0" HorizontalAlignment="Left"
-                                      VerticalAlignment="Top" SelectionChanged="AccentOnSelectionChanged" />
-                        </StackPanel>
-                        <!-- Save Style -->
-                        <StackPanel Margin="10,5,0,0" Orientation="Horizontal">
-                            <Button Width="415" Margin="60,5,0,0" Click="SaveStyleClick">
-                                <StackPanel Orientation="Horizontal">
-                                    <iconPacks:PackIconMaterial Kind="ContentSaveSettings" Width="20" Height="20"
-                                                                HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                    <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="save style" />
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </StackPanel>
-                    <!-- Horizontal Line -->
-                    <StackPanel Margin="10,10,10,0" Orientation="Vertical">
-                        <Separator Background="{DynamicResource AccentColorBrush}" />
-                    </StackPanel>
-                    <!-- Build / Linker Time -->
+                    --><!-- Build / Linker Time --><!--
                     <StackPanel Orientation="Horizontal">
                         <Label Width="50" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
                                Content="Build" />
@@ -301,5 +276,5 @@
                 </StackPanel>
             </controls:Flyout>
         </controls:FlyoutsControl>
-    </controls:MetroWindow.Flyouts>
+    </controls:MetroWindow.Flyouts>-->
 </controls:MetroWindow>

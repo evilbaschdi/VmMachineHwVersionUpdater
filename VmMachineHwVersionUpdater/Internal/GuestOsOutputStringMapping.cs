@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
+using VmMachineHwVersionUpdater.Core;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
     /// <inheritdoc />
     public class GuestOsOutputStringMapping : IGuestOsOutputStringMapping
     {
+        private static readonly List<string> InnerValue = new List<string>();
+
         /// <inheritdoc />
         /// <summary>
         ///     Reads guestOs name string from app.config.
@@ -19,16 +21,16 @@ namespace VmMachineHwVersionUpdater.Internal
                 throw new ArgumentNullException(nameof(guestOs));
             }
 
-            var fullName = ConfigurationManager.AppSettings[guestOs];
+            var configuration = GuestOsStringMapping.AppSetting;
+            var fullName = configuration[guestOs];
             var value = !string.IsNullOrWhiteSpace(fullName) ? fullName : guestOs;
 
             var os = value.Contains(" ") ? value.Split(' ')[0] : value;
 
-            if (!Value.Contains(os, StringComparer.InvariantCultureIgnoreCase))
+            if (!InnerValue.Contains(os, StringComparer.InvariantCultureIgnoreCase))
             {
-                Value.Add(os);
+                InnerValue.Add(os);
             }
-
 
             return value;
         }
@@ -37,6 +39,6 @@ namespace VmMachineHwVersionUpdater.Internal
         /// <summary>
         ///     Lists all guestOs "short names" (windows, debian, ubuntu, etc.) provided by ValueFor in the current instance.
         /// </summary>
-        public List<string> Value { get; } = new List<string>().ToList();
+        public List<string> Value { get; } = InnerValue;
     }
 }

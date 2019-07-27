@@ -11,7 +11,7 @@ using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;
 using MahApps.Metro.IconPacks;
 using VmMachineHwVersionUpdater.Core;
-using VmMachineHwVersionUpdater.Model;
+using VmMachineHwVersionUpdater.Models;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
@@ -20,8 +20,10 @@ namespace VmMachineHwVersionUpdater.Internal
     {
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
 
-        /// <summary>Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.</summary>
-        /// <exception cref="ArgumentNullException"><paramref name="guestOsOutputStringMapping" /> is <see langword="null" />.</exception>
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="guestOsOutputStringMapping"></param>
         public HardwareVersion(IGuestOsOutputStringMapping guestOsOutputStringMapping)
         {
             _guestOsOutputStringMapping = guestOsOutputStringMapping ??
@@ -131,10 +133,10 @@ namespace VmMachineHwVersionUpdater.Internal
         }
 
         /// <inheritdoc />
-        /// <param name="machinePath"></param>
-        /// <param name="archivePath"></param>
+        /// <param name="machinePaths"></param>
+        /// <param name="archivePaths"></param>
         /// <returns></returns>
-        public IEnumerable<Machine> ReadFromPath(string machinePath, string archivePath)
+        public IEnumerable<Machine> ReadFromPath(List<string> machinePaths, List<string> archivePaths)
         {
             var multiThreading = new MultiThreading();
             var fileListFromPath = new FileListFromPath(multiThreading);
@@ -149,9 +151,8 @@ namespace VmMachineHwVersionUpdater.Internal
                                          {
                                              FilterExtensionsToEqual = filterExtensionsToEqual
                                          };
-
-            var machinePaths = machinePath.SplitToEnumerable(";").ToList();
-            machinePaths.Add(archivePath);
+            var innerPaths = machinePaths;
+            innerPaths.AddRange(archivePaths);
 
             foreach (var path in machinePaths)
             {
@@ -170,10 +171,13 @@ namespace VmMachineHwVersionUpdater.Internal
                             return;
                         }
 
-                        if (!path.Equals(archivePath, StringComparison.CurrentCultureIgnoreCase) &&
-                            file.StartsWith(archivePath, StringComparison.CurrentCultureIgnoreCase))
+                        foreach (var archivePath in archivePaths)
                         {
-                            return;
+                            if (!path.Equals(archivePath, StringComparison.CurrentCultureIgnoreCase) &&
+                                file.StartsWith(archivePath, StringComparison.CurrentCultureIgnoreCase))
+                            {
+                                return;
+                            }
                         }
 
                         var readAllLines = File.ReadAllLines(file);

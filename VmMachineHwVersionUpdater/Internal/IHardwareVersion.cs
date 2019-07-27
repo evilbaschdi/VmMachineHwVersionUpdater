@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using VmMachineHwVersionUpdater.Model;
+using VmMachineHwVersionUpdater.Models;
 
 namespace VmMachineHwVersionUpdater.Internal
 {
@@ -27,9 +27,9 @@ namespace VmMachineHwVersionUpdater.Internal
 
         /// <summary>
         /// </summary>
-        /// <param name="machinePath"></param>
-        /// <param name="archivePath"></param>
+        /// <param name="machinePaths"></param>
+        /// <param name="archivePaths"></param>
         /// <returns></returns>
-        IEnumerable<Machine> ReadFromPath(string machinePath, string archivePath);
+        IEnumerable<Machine> ReadFromPath(List<string> machinePaths, List<string> archivePaths);
     }
 }

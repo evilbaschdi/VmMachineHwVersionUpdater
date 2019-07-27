@@ -6,6 +6,7 @@ namespace VmMachineHwVersionUpdater.Core
 {
     /// <summary>
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     public static class VisualTreeHelper
     {
         /// <summary>
@@ -39,6 +40,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// <typeparam name="T">Visual tree children type</typeparam>
         /// <param name="current">A DependencyObject reference</param>
         /// <returns>Returns a collection of one visual tree children type</returns>
+        // ReSharper disable once MemberCanBePrivate.Global
         public static Collection<T> GetVisualChildren<T>(DependencyObject current)
             where T : DependencyObject
         {
@@ -62,6 +64,7 @@ namespace VmMachineHwVersionUpdater.Core
         /// <param name="templatedParent">A FrameworkElement type-of P</param>
         /// <returns>Returns a FrameworkElement visual child type-of T if found one; returns null otherwise</returns>
         // ReSharper disable once IdentifierTypo
+        // ReSharper disable once UnusedMember.Global
         public static T GetVisualChild<T, TP>(TP templatedParent)
             where T : FrameworkElement
             where TP : FrameworkElement
