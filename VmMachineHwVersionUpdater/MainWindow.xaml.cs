@@ -34,6 +34,7 @@ namespace VmMachineHwVersionUpdater
         private readonly IAppSettings _appSettings;
         private readonly IDialogService _dialogService;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
+        private readonly IGuestOsesInUse _guestOsesInUse;
         private readonly IThemeManagerHelper _themeManagerHelper;
 
         private IEnumerable<Machine> _currentItemSource;
@@ -63,7 +64,7 @@ namespace VmMachineHwVersionUpdater
             applicationStyle.Load(true, true);
             _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
-            _guestOsOutputStringMapping.Value?.Clear();
+            _guestOsesInUse = new GuestOsesInUse();
 
             var vmPoolFromSettingExistingPaths = _appSettings.VmPool.GetExistingDirectories();
 
@@ -118,7 +119,7 @@ namespace VmMachineHwVersionUpdater
             SearchOs.Items.Add(new Separator());
             loadHelper.SearchOsItems.ForEach(x => SearchOs.Items.Add(x));
             SearchOs.Items.Add(new Separator());
-            _guestOsOutputStringMapping.Value.OrderBy(x => x).ToList().ForEach(x => SearchOs.Items.Add(x));
+            _guestOsesInUse.Value.ForEach(x => SearchOs.Items.Add(x));
 
             SearchOs.Text = "(no filter)";
             SearchFilter.Text = string.Empty;
