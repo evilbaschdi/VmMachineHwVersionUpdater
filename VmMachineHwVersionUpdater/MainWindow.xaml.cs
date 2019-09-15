@@ -33,8 +33,8 @@ namespace VmMachineHwVersionUpdater
     {
         private readonly IAppSettings _appSettings;
         private readonly IDialogService _dialogService;
-        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IGuestOsesInUse _guestOsesInUse;
+        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IThemeManagerHelper _themeManagerHelper;
 
         private IEnumerable<Machine> _currentItemSource;
@@ -453,10 +453,11 @@ namespace VmMachineHwVersionUpdater
 
             try
             {
-                var machineDirectoryWithoutPath =
-                    path.ToLower().Replace($@"{_currentMachine.Directory.ToLower()}\", "");
+                var machineDirectoryWithoutPath = path.ToLower().Replace($@"{_currentMachine.Directory.ToLower()}\", "");
 
-                var archivePath = _appSettings.ArchivePath.First(p => p.ToLower().Contains(_currentMachine.Path.ToLower()));
+
+                var archivePath = _appSettings.ArchivePath?.FirstOrDefault(p => p.ToLower().StartsWith(_currentMachine.Directory.ToLower()));
+                archivePath = string.IsNullOrWhiteSpace(archivePath) ? Path.Combine(_currentMachine.Directory.ToLower(), "_archive") : archivePath;
 
                 var destination = Path.Combine(archivePath, machineDirectoryWithoutPath.ToLower());
                 Directory.Move(path.ToLower(), destination.ToLower());
@@ -464,6 +465,10 @@ namespace VmMachineHwVersionUpdater
             catch (IOException ioException)
             {
                 _dialogService.ShowMessage("'Archive machine' was canceled", ioException.Message);
+            }
+            catch (Exception exception)
+            {
+                _dialogService.ShowMessage("'Archive machine' was canceled", exception.Message);
             }
         }
 
@@ -492,25 +497,6 @@ namespace VmMachineHwVersionUpdater
         }
 
         # endregion VM Tools
-
-        #region Settings
-
-        //private void SettingsClick(object sender, RoutedEventArgs e)
-        //{
-        //    ToggleSettingsFlyOut();
-        //}
-
-        //private void ToggleSettingsFlyOut()
-        //{
-        //    var flyOut = (Flyout) Flyouts.Items[0];
-
-        //    if (flyOut != null)
-        //    {
-        //        flyOut.IsOpen = !flyOut.IsOpen;
-        //    }
-        //}
-
-        #endregion Settings
 
         #region Drag and Drop
 

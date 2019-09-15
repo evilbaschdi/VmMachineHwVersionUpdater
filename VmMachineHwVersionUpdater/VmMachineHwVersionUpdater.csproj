@@ -1,10 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
@@ -13,54 +8,38 @@
     <UseWPF>true</UseWPF>
     <Version>$([System.DateTime]::UtcNow.AddHours(2).ToString(yyyy.M.d.Hmm))-develop</Version>
     <Authors>Sebastian Walter</Authors>
-    <Company>evilbaschdi</Company>
     <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
     <LangVersion>8.0</LangVersion>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\Debug\VmMachineHwVersionUpdater.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\VmMachineHwVersionUpdater.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationIcon>b.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Authors>Sebastian Walter</Authors>
     <Company>evilbaschdi (Sebastian Walter)</Company>
     <Product>VM Machine Hardware Version Updater</Product>
     <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-    <Copyright>Copyright © 2014 - 2019 evilbaschdi</Copyright>
     <PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="b.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.0.1" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2019.7.27.1257-develop" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2019.7.27.1312-develop" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0455" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0189" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.0.0-preview7.19362.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.0-preview7.19362.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0-preview7.19362.4" />
+    <PackageReference Include="ControlzEx" Version="4.0.3" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2019.9.4.822-develop" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2019.9.15.953-develop" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0206" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.Vsts.Git" Version="1.0.0-beta2-19367-01">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0-preview.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -85,6 +64,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="mscorlib" />
   </ItemGroup>
   <ItemGroup>
@@ -95,17 +77,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Update="VmPools.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="GuestOsStringMapping.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
+
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
