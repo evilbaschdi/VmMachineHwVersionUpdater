@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater", "VmMachineHwVersionUpdater\VmMachineHwVersionUpdater.csproj", "{0F56EDA9-CF7F-4C49-A67B-3FCD434D4902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VmMachineHwVersionUpdater.Core", "VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj", "{3B18918B-58B3-4E14-84B0-F37B9A1DD600}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Core", "VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj", "{3B18918B-58B3-4E14-84B0-F37B9A1DD600}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Core.Tests", "VmMachineHwVersionUpdater.Core.Tests\VmMachineHwVersionUpdater.Core.Tests.csproj", "{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3B18918B-58B3-4E14-84B0-F37B9A1DD600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B18918B-58B3-4E14-84B0-F37B9A1DD600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B18918B-58B3-4E14-84B0-F37B9A1DD600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

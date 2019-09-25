@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VmMachineHwVersionUpdater.Models
+namespace VmMachineHwVersionUpdater.Core.Models
 {
     /// <summary />
     public class LoadHelper

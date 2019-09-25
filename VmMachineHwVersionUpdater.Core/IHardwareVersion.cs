@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using VmMachineHwVersionUpdater.Models;
+using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Internal
+namespace VmMachineHwVersionUpdater.Core
 {
     /// <summary>
     /// </summary>

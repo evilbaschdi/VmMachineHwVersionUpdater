@@ -1,9 +1,8 @@
 using System;
 using System.ComponentModel;
 using MahApps.Metro.IconPacks;
-using VmMachineHwVersionUpdater.Internal;
 
-namespace VmMachineHwVersionUpdater.Models
+namespace VmMachineHwVersionUpdater.Core.Models
 {
     /// <inheritdoc cref="INotifyPropertyChanged" />
     public class Machine : INotifyPropertyChanged

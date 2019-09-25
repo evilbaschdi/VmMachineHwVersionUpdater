@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using VmMachineHwVersionUpdater.Core;
+using EvilBaschdi.Core;
 
-namespace VmMachineHwVersionUpdater.Internal
+namespace VmMachineHwVersionUpdater.Core
 {
-    /// <inheritdoc />
-    public class GuestOsOutputStringMapping : IGuestOsOutputStringMapping
+    /// <inheritdoc cref="IGuestOsOutputStringMapping" />
+    public class GuestOsOutputStringMapping : CachedValueFor<string, string>, IGuestOsOutputStringMapping
     {
-        private static readonly List<string> InnerValue = new List<string>();
-
         /// <inheritdoc />
         /// <summary>
         ///     Reads guestOs name string from app.config.
         /// </summary>
-        public string ValueFor(string guestOs)
+        protected override string NonCachedValueFor(string guestOs)
         {
             if (guestOs == null)
             {

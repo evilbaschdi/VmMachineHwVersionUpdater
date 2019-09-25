@@ -8,10 +8,7 @@ using Microsoft.Extensions.Configuration;
 namespace VmMachineHwVersionUpdater.Core
 {
     /// <inheritdoc />
-    /// <summary>
-    ///     Wrapper for Default Settings.
-    /// </summary>
-    public class AppSettings : IAppSettings
+    public class PathSettings : IPathSettings
     {
         /// <inheritdoc />
         /// <summary>

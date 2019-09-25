@@ -10,7 +10,7 @@ namespace VmMachineHwVersionUpdater.Core
     /// <summary>
     ///     Wrapper for default settings
     /// </summary>
-    public interface IAppSettings
+    public interface IPathSettings
     {
         /// <summary>
         ///     Path of VMware machine archive

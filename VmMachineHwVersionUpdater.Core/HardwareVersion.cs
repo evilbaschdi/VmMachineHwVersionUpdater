@@ -10,10 +10,9 @@ using EvilBaschdi.Core.Extensions;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;
 using MahApps.Metro.IconPacks;
-using VmMachineHwVersionUpdater.Core;
-using VmMachineHwVersionUpdater.Models;
+using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Internal
+namespace VmMachineHwVersionUpdater.Core
 {
     /// <inheritdoc />
     public class HardwareVersion : IHardwareVersion
@@ -206,7 +205,7 @@ namespace VmMachineHwVersionUpdater.Internal
                                 }
 
                                 // ReSharper disable once StringLiteralTypo
-                                if (line.StartsWith("guestos", StringComparison.CurrentCultureIgnoreCase))
+                                if (line.StartsWith("guestos", StringComparison.CurrentCultureIgnoreCase) && !line.StartsWith("guestos.detailed.data", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     guestOs = line.Replace('"', ' ').Trim();
                                     guestOs = Regex.Replace(guestOs, "guestos = ", "", RegexOptions.IgnoreCase).Trim();

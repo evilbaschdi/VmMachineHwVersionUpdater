@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using EvilBaschdi.Core;
-using VmMachineHwVersionUpdater.Core;
 
-namespace VmMachineHwVersionUpdater.Internal
+namespace VmMachineHwVersionUpdater.Core
 {
     /// <inheritdoc cref="IValueFor{TIn,TOut}" />
     public interface IGuestOsOutputStringMapping : IValueFor<string, string>

@@ -19,8 +19,7 @@ using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core;
-using VmMachineHwVersionUpdater.Internal;
-using VmMachineHwVersionUpdater.Models;
+using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater
 {
@@ -31,10 +30,10 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
-        private readonly IAppSettings _appSettings;
         private readonly IDialogService _dialogService;
         private readonly IGuestOsesInUse _guestOsesInUse;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
+        private readonly IPathSettings _pathSettings;
         private readonly IThemeManagerHelper _themeManagerHelper;
 
         private IEnumerable<Machine> _currentItemSource;
@@ -59,14 +58,14 @@ namespace VmMachineHwVersionUpdater
 
 
             _themeManagerHelper = new ThemeManagerHelper();
-            _appSettings = new AppSettings();
+            _pathSettings = new PathSettings();
             var applicationStyle = new ApplicationStyle(_themeManagerHelper);
             applicationStyle.Load(true, true);
             _dialogService = new DialogService(this);
             _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
             _guestOsesInUse = new GuestOsesInUse();
 
-            var vmPoolFromSettingExistingPaths = _appSettings.VmPool.GetExistingDirectories();
+            var vmPoolFromSettingExistingPaths = _pathSettings.VmPool.GetExistingDirectories();
 
             if (vmPoolFromSettingExistingPaths.Any())
             {
@@ -148,7 +147,7 @@ namespace VmMachineHwVersionUpdater
             var loadHelper = new LoadHelper();
             _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
 
-            _currentItemSource = _hardwareVersion.ReadFromPath(VmPoolPath(), _appSettings.ArchivePath).ToList();
+            _currentItemSource = _hardwareVersion.ReadFromPath(VmPoolPath(), _pathSettings.ArchivePath).ToList();
 
             if (!_currentItemSource.Any())
             {
@@ -175,7 +174,7 @@ namespace VmMachineHwVersionUpdater
             var dragAndDropPath = new List<string>();
             if (string.IsNullOrWhiteSpace(_dragAndDropPath))
             {
-                return _appSettings.VmPool;
+                return _pathSettings.VmPool;
             }
 
             dragAndDropPath.Add(_dragAndDropPath);
@@ -230,7 +229,7 @@ namespace VmMachineHwVersionUpdater
 
         //private void BrowsePoolClick(object sender, RoutedEventArgs e)
         //{
-        //    var oldPath = _appSettings.VMwarePool;
+        //    var oldPath = _pathSettings.VMwarePool;
         //    var currentVmwarePool = oldPath.SplitToEnumerable(";").ToArray();
         //    VmPath.Text = oldPath;
 
@@ -241,11 +240,11 @@ namespace VmMachineHwVersionUpdater
         //                  };
         //    browser.ShowDialog();
         //    var newPath = string.Join(";", browser.SelectedPaths);
-        //    _appSettings.VMwarePool = newPath;
+        //    _pathSettings.VMwarePool = newPath;
         //    VmPath.Text = newPath;
 
         //    if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
-        //        Directory.Exists(_appSettings.VMwarePool))
+        //        Directory.Exists(_pathSettings.VMwarePool))
         //    {
         //        LoadAsync();
         //    }
@@ -253,7 +252,7 @@ namespace VmMachineHwVersionUpdater
 
         //private void BrowseArchiveClick(object sender, RoutedEventArgs e)
         //{
-        //    var oldPath = _appSettings.ArchivePath;
+        //    var oldPath = _pathSettings.ArchivePath;
         //    VmPath.Text = oldPath;
 
         //    var browser = new ExplorerFolderBrowser
@@ -263,11 +262,11 @@ namespace VmMachineHwVersionUpdater
         //                  };
         //    browser.ShowDialog();
         //    var newPath = browser.SelectedPath;
-        //    _appSettings.ArchivePath = newPath;
+        //    _pathSettings.ArchivePath = newPath;
         //    VmArchivePath.Text = newPath;
 
         //    if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
-        //        Directory.Exists(_appSettings.ArchivePath))
+        //        Directory.Exists(_pathSettings.ArchivePath))
         //    {
         //        LoadAsync();
         //    }
@@ -282,7 +281,7 @@ namespace VmMachineHwVersionUpdater
         //        return;
         //    }
 
-        //    _appSettings.VMwarePool = string.Join(";", existingPaths);
+        //    _pathSettings.VMwarePool = string.Join(";", existingPaths);
         //    LoadAsync();
         //}
 
@@ -296,7 +295,7 @@ namespace VmMachineHwVersionUpdater
         //        return;
         //    }
 
-        //    _appSettings.ArchivePath = pathFromSetting;
+        //    _pathSettings.ArchivePath = pathFromSetting;
         //    LoadAsync();
         //}
 
@@ -456,7 +455,7 @@ namespace VmMachineHwVersionUpdater
                 var machineDirectoryWithoutPath = path.ToLower().Replace($@"{_currentMachine.Directory.ToLower()}\", "");
 
 
-                var archivePath = _appSettings.ArchivePath?.FirstOrDefault(p => p.ToLower().StartsWith(_currentMachine.Directory.ToLower()));
+                var archivePath = _pathSettings.ArchivePath?.FirstOrDefault(p => p.ToLower().StartsWith(_currentMachine.Directory.ToLower()));
                 archivePath = string.IsNullOrWhiteSpace(archivePath) ? Path.Combine(_currentMachine.Directory.ToLower(), "_archive") : archivePath;
 
                 var destination = Path.Combine(archivePath, machineDirectoryWithoutPath.ToLower());
