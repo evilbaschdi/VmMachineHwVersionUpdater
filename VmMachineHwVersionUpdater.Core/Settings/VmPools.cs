@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace VmMachineHwVersionUpdater.Core
+namespace VmMachineHwVersionUpdater.Core.Settings
 {
     /// <summary>
     /// </summary>

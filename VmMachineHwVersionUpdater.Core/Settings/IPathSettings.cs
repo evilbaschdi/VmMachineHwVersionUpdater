@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace VmMachineHwVersionUpdater.Core
+namespace VmMachineHwVersionUpdater.Core.Settings
 {
     /// <summary>
     ///     Wrapper for default settings

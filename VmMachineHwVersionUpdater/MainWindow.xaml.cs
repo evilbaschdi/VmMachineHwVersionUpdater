@@ -20,6 +20,7 @@ using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Core.Models;
+using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater
 {
@@ -386,6 +387,7 @@ namespace VmMachineHwVersionUpdater
                              FileName = _currentMachine.Path
                          }
                      };
+
             vm.Start();
         }
 

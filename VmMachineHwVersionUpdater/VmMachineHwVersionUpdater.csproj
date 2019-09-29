@@ -23,11 +23,11 @@
     <None Remove="b.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.0.3" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2019.9.23.1819-develop" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2019.9.16.2037-develop" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0213" />
+    <PackageReference Include="ControlzEx" Version="4.1.0" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2019.9.25.1959" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2019.9.25.2011-develop" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0490" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0223" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

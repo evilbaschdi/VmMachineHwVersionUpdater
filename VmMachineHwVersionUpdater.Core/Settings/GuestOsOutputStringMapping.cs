@@ -1,7 +1,7 @@
 ﻿using System;
 using EvilBaschdi.Core;
 
-namespace VmMachineHwVersionUpdater.Core
+namespace VmMachineHwVersionUpdater.Core.Settings
 {
     /// <inheritdoc cref="IGuestOsOutputStringMapping" />
     public class GuestOsOutputStringMapping : CachedValueFor<string, string>, IGuestOsOutputStringMapping

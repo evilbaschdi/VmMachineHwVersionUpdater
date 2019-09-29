@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 // ReSharper disable StringLiteralTypo
 // ReSharper disable once IdentifierTypo
 // ReSharper disable IdentifierTypo
-namespace VmMachineHwVersionUpdater.Core
+namespace VmMachineHwVersionUpdater.Core.Settings
 {
     /// <inheritdoc />
     public class PathSettings : IPathSettings

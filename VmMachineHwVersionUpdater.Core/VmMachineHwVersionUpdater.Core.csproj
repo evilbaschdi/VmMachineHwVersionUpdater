@@ -15,8 +15,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2019.9.23.1819-develop" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0213" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2019.9.25.1959" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0223" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />

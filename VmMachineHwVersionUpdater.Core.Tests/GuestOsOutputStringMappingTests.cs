@@ -1,10 +1,9 @@
-using NSubstitute;
-using System;
-using Xunit;
 using System.Linq;
 using AutoFixture.Idioms;
-using FluentAssertions;
 using AutoFixture.Xunit2;
+using FluentAssertions;
+using VmMachineHwVersionUpdater.Core.Settings;
+using Xunit;
 
 namespace VmMachineHwVersionUpdater.Core.Tests
 {
@@ -30,7 +29,7 @@ namespace VmMachineHwVersionUpdater.Core.Tests
 
         [Theory]
         [AutoData]
-        public void ValueFor_Windows9srv64_ReturnsWindowsServer2016OrLaterX64(            
+        public void ValueFor_Windows9srv64_ReturnsWindowsServer2016OrLaterX64(
             GuestOsOutputStringMapping sut)
         {
             // Arrange
