@@ -11,7 +11,7 @@ namespace VmMachineHwVersionUpdater.Core.Settings
         {
             AppSetting = new ConfigurationBuilder()
                          .SetBasePath(Directory.GetCurrentDirectory())
-                         .AddJsonFile("GuestOsStringMapping.json")
+                         .AddJsonFile("Settings\\GuestOsStringMapping.json")
                          .Build();
         }
 

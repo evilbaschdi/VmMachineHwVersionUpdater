@@ -4,7 +4,7 @@
     <RootNamespace>VmMachineHwVersionUpdater.Core</RootNamespace>
     <AssemblyName>VmMachineHwVersionUpdater.Core</AssemblyName>
     <TargetFramework>net48</TargetFramework>
-    <Version>$([System.DateTime]::UtcNow.AddHours(2).ToString(yyyy.M.d.Hmm))-develop</Version>
+    <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
     <Authors>Sebastian Walter</Authors>
     <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
     <LangVersion>8</LangVersion>
@@ -12,11 +12,12 @@
     <Product>VM Machine Hardware Version Updater</Product>
     <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2019.9.25.1959" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0223" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2019.10.10.1115-develop" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0258" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.0.0" />
@@ -35,12 +36,33 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="GuestOsStringMapping.json">
+    <None Update="Settings\GuestOsStringMapping.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="VmPools.json">
+    <None Update="Settings\VmPools.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Settings\GuestOsOutputStringMapping.cs">
+      <DependentUpon>IGuestOsOutputStringMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\PathSettings.cs">
+      <DependentUpon>IPathSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\GuestOsStringMapping.cs">
+      <DependentUpon>GuestOsStringMapping.json</DependentUpon>
+    </Compile>
+    <Compile Update="Settings\VmPools.cs">
+      <DependentUpon>VmPools.json</DependentUpon>
+    </Compile>
+    <Compile Update="GuestOsesInUse.cs">
+      <DependentUpon>IGuestOsesInUse.cs</DependentUpon>
+    </Compile>
+    <Compile Update="HardwareVersion.cs">
+      <DependentUpon>IHardwareVersion.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

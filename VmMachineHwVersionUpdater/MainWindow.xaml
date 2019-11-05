@@ -14,11 +14,12 @@
     <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <!--  Search  -->
+            <!--  Search Filter -->
             <TextBox Name="SearchFilter" Width="250" Height="20" TextChanged="SearchOnTextChanged" TextWrapping="Wrap"
                      IsReadOnly="True"
                      controls:TextBoxHelper.ClearTextButton="True"
                      controls:TextBoxHelper.Watermark="enter search term" />
+            <!--  Search Os -->
             <ComboBox Name="SearchOs" Width="250" Height="20" DropDownClosed="SearchOsOnDropDownClosed"
                       IsReadOnly="True" IsEnabled="False">
                 <ComboBoxItem Content="(no filter)" />
@@ -79,17 +80,15 @@
             <!--  Columns  -->
             <DataGrid.Columns>
                 <!--  Display Name  -->
-                <DataGridTextColumn Width="300" Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" IsReadOnly="True" />
 
                 <!-- Play -->
                 <DataGridTemplateColumn Header="Play" IsReadOnly="False" Width="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Click="StartClick">
-
                                 <iconPacks:PackIconMaterial Kind="{Binding MachineState}" Width="16" Height="16"
                                                             HorizontalAlignment="Center" VerticalAlignment="Center" />
-
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

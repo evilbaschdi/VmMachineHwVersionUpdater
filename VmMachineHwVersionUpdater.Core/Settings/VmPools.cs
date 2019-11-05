@@ -11,7 +11,7 @@ namespace VmMachineHwVersionUpdater.Core.Settings
         {
             AppSetting = new ConfigurationBuilder()
                          .SetBasePath(Directory.GetCurrentDirectory())
-                         .AddJsonFile("VmPools.json")
+                         .AddJsonFile("Settings\\VmPools.json")
                          .Build();
         }
 

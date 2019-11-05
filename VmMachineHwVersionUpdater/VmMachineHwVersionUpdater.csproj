@@ -6,7 +6,7 @@
     <AssemblyName>VmMachineHwVersionUpdater</AssemblyName>
     <TargetFramework>net48</TargetFramework>
     <UseWPF>true</UseWPF>
-    <Version>$([System.DateTime]::UtcNow.AddHours(2).ToString(yyyy.M.d.Hmm))-develop</Version>
+    <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))-develop</Version>
     <Authors>Sebastian Walter</Authors>
     <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
     <LangVersion>8.0</LangVersion>
@@ -15,6 +15,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Company>evilbaschdi (Sebastian Walter)</Company>
     <Product>VM Machine Hardware Version Updater</Product>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.xml</DocumentationFile>
     <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
     <PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
@@ -23,11 +24,11 @@
     <None Remove="b.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.1.0" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2019.9.25.1959" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2019.9.25.2011-develop" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0490" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0223" />
+    <PackageReference Include="ControlzEx" Version="4.1.1" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2019.10.10.1115-develop" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2019.10.21.1930-develop" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0531" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0258" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
