@@ -1,6 +1,7 @@
 using System.Linq;
 using AutoFixture.Idioms;
 using AutoFixture.Xunit2;
+using EvilBaschdi.Testing;
 using FluentAssertions;
 using VmMachineHwVersionUpdater.Core.Settings;
 using Xunit;
@@ -9,26 +10,26 @@ namespace VmMachineHwVersionUpdater.Core.Tests
 {
     public class GuestOsOutputStringMappingTests
     {
-        [Theory, AutoData]
+        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
         public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
         {
             assertion.Verify(typeof(GuestOsOutputStringMapping).GetConstructors());
         }
 
-        [Theory, AutoData]
+        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
         public void Constructor_ReturnsInterfaceName(GuestOsOutputStringMapping sut)
         {
             sut.Should().BeAssignableTo<IGuestOsOutputStringMapping>();
         }
 
-        [Theory, AutoData]
+        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
         public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
         {
             assertion.Verify(typeof(GuestOsOutputStringMapping).GetMethods().Where(method => !method.IsAbstract));
         }
 
         [Theory]
-        [AutoData]
+        [NSubstituteOmitAutoPropertiesTrueAutoData]
         public void ValueFor_Windows9srv64_ReturnsWindowsServer2016OrLaterX64(
             GuestOsOutputStringMapping sut)
         {
@@ -43,7 +44,7 @@ namespace VmMachineHwVersionUpdater.Core.Tests
         }
 
         [Theory]
-        [AutoData]
+        [NSubstituteOmitAutoPropertiesTrueAutoData]
         public void ValueFor_Windows964_ReturnsWindows10X64(
             GuestOsOutputStringMapping sut)
         {

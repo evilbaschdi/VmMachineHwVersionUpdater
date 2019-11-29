@@ -194,6 +194,13 @@
                                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
+                    <!-- Open with Code -->
+                    <MenuItem Header="Open with Code..." Click="OpenWithCodeClick">
+                        <MenuItem.Icon>
+                            <iconPacks:PackIconMaterial Kind="VisualStudioCode" Width="16" Height="16"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <!-- Go to -->
                     <MenuItem Header="Go to path..." Click="GoToClick">
                         <MenuItem.Icon>
@@ -222,58 +229,4 @@
         <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
         <!-- ReSharper restore Xaml.BindingWithoutContextNotResolved -->
     </Grid>
-    <!--  FlyOuts  --><!--
-    <controls:MetroWindow.Flyouts>
-        <controls:FlyoutsControl>
-            --><!--  Settings FlyOut  --><!--
-            <controls:Flyout Width="500" AnimateOpacity="True" AnimateOnPositionChange="True" Header="Settings"
-                             Position="Right" Theme="Accent">
-                <StackPanel>
-                    --><!-- VM Pool --><!--
-                    <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Content="Path" />
-                        <TextBox Name="VmPath" Height="30" Width="310" Margin="10,0,0,0" HorizontalAlignment="Left"
-                                 VerticalAlignment="Top" LostFocus="VmPathOnLostFocus" />
-                        <Button Width="95" Margin="10,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Click="BrowsePoolClick">
-                            <StackPanel Orientation="Horizontal">
-                                <iconPacks:PackIconMaterial Kind="FolderOutline" Width="20" Height="20"
-                                                            HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Browse" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                    --><!-- VM Archive --><!--
-                    <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Content="Archive" />
-                        <TextBox Name="VmArchivePath" Height="30" Width="310" Margin="10,10,0,0"
-                                 HorizontalAlignment="Left" VerticalAlignment="Top"
-                                 LostFocus="VmArchiveOnLostFocus" />
-                        <Button Width="95" Margin="10,10,0,0" HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Click="BrowseArchiveClick">
-                            <StackPanel Orientation="Horizontal">
-                                <iconPacks:PackIconMaterial Kind="FolderOutline" Width="20" Height="20"
-                                                            HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="Browse" />
-                            </StackPanel>
-                        </Button>
-
-                    </StackPanel>
-                    --><!-- Horizontal Line --><!--
-                    <StackPanel Margin="10,10,10,0" Orientation="Vertical">
-                        <Separator Background="{DynamicResource MahApps.Brushes.AccentBase}" />
-                    </StackPanel>
-                    --><!-- Build / Linker Time --><!--
-                    <StackPanel Orientation="Horizontal">
-                        <Label Width="50" Margin="10,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Content="Build" />
-                        <Label Width="310" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
-                               Name="LinkerTime" />
-                    </StackPanel>
-                </StackPanel>
-            </controls:Flyout>
-        </controls:FlyoutsControl>
-    </controls:MetroWindow.Flyouts>-->
 </controls:MetroWindow>

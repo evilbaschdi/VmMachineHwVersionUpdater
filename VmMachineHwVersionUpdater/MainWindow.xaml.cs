@@ -378,6 +378,11 @@ namespace VmMachineHwVersionUpdater
             StartVm();
         }
 
+        private void OpenWithCodeClick(object sender, RoutedEventArgs e)
+        {
+            OpenWithCode();
+        }
+
         private void StartVm()
         {
             var vm = new Process
@@ -389,6 +394,11 @@ namespace VmMachineHwVersionUpdater
                      };
 
             vm.Start();
+        }
+
+        private void OpenWithCode()
+        {
+            Process.Start($"vscode://file/{_currentMachine.Path}");
         }
 
         private void GoToClick(object sender, RoutedEventArgs e)
