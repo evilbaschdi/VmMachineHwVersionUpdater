@@ -1,23 +1,15 @@
-﻿using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using EvilBaschdi.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.Settings
-{
-    /// <summary>
-    /// </summary>
-    public static class GuestOsStringMapping
+{/// <inheritdoc cref="SettingsFromJsonFile" />
+    public class GuestOsStringMapping : SettingsFromJsonFile, IGuestOsStringMapping
     {
-        static GuestOsStringMapping()
-        {
-            AppSetting = new ConfigurationBuilder()
-                         .SetBasePath(Directory.GetCurrentDirectory())
-                         .AddJsonFile("Settings\\GuestOsStringMapping.json")
-                         .Build();
-        }
-
-
         /// <summary>
+        ///     Constructor
         /// </summary>
-        public static IConfiguration AppSetting { get; }
+        public GuestOsStringMapping()
+            : base("Settings\\GuestOsStringMapping.json")
+        {
+        }
     }
 }

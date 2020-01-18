@@ -7,17 +7,16 @@ namespace VmMachineHwVersionUpdater.Core.Models
     /// <inheritdoc cref="INotifyPropertyChanged" />
     public class Machine : INotifyPropertyChanged
     {
-        private readonly IHardwareVersion _hardwareVersion;
-
+        private readonly IUpdateMachineVersion _updateMachineVersion;
         private int _hwVersion;
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="hardwareVersion"></param>
-        public Machine(IHardwareVersion hardwareVersion)
+        /// <param name="updateMachineVersion"></param>
+        public Machine(IUpdateMachineVersion updateMachineVersion)
         {
-            _hardwareVersion = hardwareVersion ?? throw new ArgumentNullException(nameof(hardwareVersion));
+            _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
         }
 
         /// <summary />
@@ -50,7 +49,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         {
             if (PropertyChanged != null)
             {
-                _hardwareVersion.Update(path, newVersion);
+                _updateMachineVersion.RunFor(path, newVersion);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 
 // ReSharper disable CommentTypo
@@ -10,17 +11,27 @@ namespace VmMachineHwVersionUpdater.Core.Settings
     /// <inheritdoc />
     public class PathSettings : IPathSettings
     {
+        private readonly IVmPools _vmPools;
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="vmPools"></param>
+        public PathSettings(IVmPools vmPools)
+        {
+            _vmPools = vmPools ?? throw new ArgumentNullException(nameof(vmPools));
+        }
+
         /// <inheritdoc />
         /// <summary>
         ///     Path of VMware machines
         /// </summary>
 
-        public List<string> VmPool => VmPools.AppSetting.GetSection("VmPool").Get<List<string>>();
+        public List<string> VmPool => _vmPools.Value.GetSection("VmPool").Get<List<string>>();
 
         /// <inheritdoc />
         /// <summary>
         ///     Path of VMware machine archive
         /// </summary>
-        public List<string> ArchivePath => VmPools.AppSetting.GetSection("ArchivePath").Get<List<string>>();
+        public List<string> ArchivePath => _vmPools.Value.GetSection("ArchivePath").Get<List<string>>();
     }
 }

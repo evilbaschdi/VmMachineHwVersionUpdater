@@ -1,22 +1,16 @@
-﻿using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using EvilBaschdi.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.Settings
 {
-    /// <summary>
-    /// </summary>
-    public static class VmPools
+    /// <inheritdoc cref="SettingsFromJsonFile" />
+    public class VmPools : SettingsFromJsonFile, IVmPools
     {
-        static VmPools()
-        {
-            AppSetting = new ConfigurationBuilder()
-                         .SetBasePath(Directory.GetCurrentDirectory())
-                         .AddJsonFile("Settings\\VmPools.json")
-                         .Build();
-        }
-
         /// <summary>
+        ///     Constructor
         /// </summary>
-        public static IConfiguration AppSetting { get; }
+        public VmPools()
+            : base("Settings\\VmPools.json")
+        {
+        }
     }
 }

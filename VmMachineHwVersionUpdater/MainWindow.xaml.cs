@@ -16,6 +16,7 @@ using EvilBaschdi.CoreExtended.Metro;
 using EvilBaschdi.CoreExtended.Mvvm;
 using EvilBaschdi.CoreExtended.Mvvm.View;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
+using JetBrains.Annotations;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core;
@@ -32,20 +33,20 @@ namespace VmMachineHwVersionUpdater
     public partial class MainWindow : MetroWindow
     {
         private readonly IDialogService _dialogService;
-        private readonly IGuestOsesInUse _guestOsesInUse;
-        private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IPathSettings _pathSettings;
         private readonly IThemeManagerHelper _themeManagerHelper;
-
-        private IEnumerable<Machine> _currentItemSource;
+        private List<Machine> _currentItemSource;
         private Machine _currentMachine;
-        private string _dragAndDropPath;
-        private IEnumerable<Machine> _filteredItemSource;
-        private IHardwareVersion _hardwareVersion;
+        private IEnableSyncTimeWithHost _enableSyncTimeWithHost;
+        private IEnableToolsAutoUpdate _enableToolsAutoUpdate;
+        private IGuestOsesInUse _guestOsesInUse;
+        private ListCollectionView _listCollectionView;
+        private IMachinesFromPath _machinesFromPath;
         private string _prevSortHeader;
         private SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
         private string _sortHeader;
         private int _updateAllHwVersion;
+        private IUpdateMachineVersion _updateMachineVersion;
 
         #region General
 
@@ -57,20 +58,18 @@ namespace VmMachineHwVersionUpdater
         {
             InitializeComponent();
 
-
             _themeManagerHelper = new ThemeManagerHelper();
-            _pathSettings = new PathSettings();
+            IVmPools vmPools = new VmPools();
+            _pathSettings = new PathSettings(vmPools);
             var applicationStyle = new ApplicationStyle(_themeManagerHelper);
             applicationStyle.Load(true, true);
             _dialogService = new DialogService(this);
-            _guestOsOutputStringMapping = new GuestOsOutputStringMapping();
-            _guestOsesInUse = new GuestOsesInUse();
 
             var vmPoolFromSettingExistingPaths = _pathSettings.VmPool.GetExistingDirectories();
 
             if (vmPoolFromSettingExistingPaths.Any())
             {
-                LoadAsync();
+                Load();
             }
         }
 
@@ -95,43 +94,57 @@ namespace VmMachineHwVersionUpdater
                 throw new ArgumentNullException(nameof(sender));
             }
 
-            _dragAndDropPath = string.Empty;
-            LoadAsync();
+            Load();
         }
 
-        private async void LoadAsync()
+        private void Load()
         {
-            var task = Task.Factory.StartNew(LoadGrid);
-            await task.ConfigureAwait(true);
+            IGuestOsStringMapping guestOsStringMapping = new GuestOsStringMapping();
+            IGuestOsOutputStringMapping guestOsOutputStringMapping = new GuestOsOutputStringMapping(guestOsStringMapping);
+            _updateMachineVersion = new UpdateMachineVersion();
+            _enableSyncTimeWithHost = new EnableSyncTimeWithHost();
+            _enableToolsAutoUpdate = new EnableToolsAutoUpdate();
+            _guestOsesInUse = new GuestOsesInUse(guestOsStringMapping);
+            _machinesFromPath = new MachinesFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion);
 
-            var loadHelper = task.Result;
-            DataContext = _currentItemSource;
-            var listCollectionView = new ListCollectionView(loadHelper.VmDataGridItemsSource);
-            listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
-            VmDataGrid.ItemsSource = listCollectionView;
+            ILoad load = new Load(_machinesFromPath);
+            var loadValue = load.Value;
 
-            UpdateAllTextBlock.Text = loadHelper.UpdateAllTextBlocks;
-            UpdateAllHwVersion.Value = loadHelper.UpdateAllHwVersion;
+            _currentItemSource = loadValue.VmDataGridItemsSource;
+            DataContext = loadValue.VmDataGridItemsSource;
+            _listCollectionView = new ListCollectionView(loadValue.VmDataGridItemsSource);
+            _listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
+            _listCollectionView.SortDescriptions.Add(_sd);
+            VmDataGrid.ItemsSource = _listCollectionView;
+
+            UpdateAllTextBlock.Text = loadValue.UpdateAllTextBlocks;
+            UpdateAllHwVersion.Value = loadValue.UpdateAllHwVersion;
 
             //SearchOs filter
+            LoadSearchOsItems(loadValue);
+        }
+
+        private void LoadSearchOsItems([NotNull] LoadHelper loadValue)
+        {
+            if (loadValue == null)
+            {
+                throw new ArgumentNullException(nameof(loadValue));
+            }
+
             SearchOs.Items.Clear();
             SearchOs.Items.Add("(no filter)");
             SearchOs.Items.Add(new Separator());
-            loadHelper.SearchOsItems.ForEach(x => SearchOs.Items.Add(x));
+            loadValue.SearchOsItems.ForEach(x => SearchOs.Items.Add(x));
             SearchOs.Items.Add(new Separator());
             _guestOsesInUse.Value.ForEach(x => SearchOs.Items.Add(x));
 
             SearchOs.Text = "(no filter)";
             SearchFilter.Text = string.Empty;
 
-            SearchFilter.IsReadOnly = !_currentItemSource.Any();
-            SearchOs.IsEnabled = _currentItemSource.Any();
-            UpdateAll.IsEnabled = _currentItemSource.Any();
-
-            VmDataGrid.Items.SortDescriptions.Clear();
-            VmDataGrid.Items.SortDescriptions.Add(_sd);
+            SearchFilter.IsReadOnly = !loadValue.VmDataGridItemsSource.Any();
+            SearchOs.IsEnabled = loadValue.VmDataGridItemsSource.Any();
+            UpdateAll.IsEnabled = loadValue.VmDataGridItemsSource.Any();
         }
-
 
         private void VmDataGridSorting(object sender, DataGridSortingEventArgs e)
         {
@@ -143,78 +156,34 @@ namespace VmMachineHwVersionUpdater
             _prevSortHeader = _sortHeader;
         }
 
-        private LoadHelper LoadGrid()
+
+        private void SearchOsOnDropDownClosed(object sender, EventArgs e)
         {
-            var loadHelper = new LoadHelper();
-            _hardwareVersion = new HardwareVersion(_guestOsOutputStringMapping);
-
-            _currentItemSource = _hardwareVersion.ReadFromPath(VmPoolPath(), _pathSettings.ArchivePath).ToList();
-
-            if (!_currentItemSource.Any())
-            {
-                return loadHelper;
-            }
-
-            var searchOsItems = new List<string>();
-            foreach (var machine in _currentItemSource.OrderBy(m => m.GuestOs)
-                                                      .Where(item => !searchOsItems.Contains(item.GuestOs)))
-            {
-                searchOsItems.Add(machine.GuestOs);
-            }
-
-            loadHelper.UpdateAllTextBlocks = $"Update all {_currentItemSource.Count()} machines to version";
-            loadHelper.VmDataGridItemsSource = _currentItemSource.ToList();
-            loadHelper.UpdateAllHwVersion = _currentItemSource.Select(machine => machine.HwVersion).Max();
-            loadHelper.SearchOsItems = searchOsItems;
-
-            return loadHelper;
-        }
-
-        private List<string> VmPoolPath()
-        {
-            var dragAndDropPath = new List<string>();
-            if (string.IsNullOrWhiteSpace(_dragAndDropPath))
-            {
-                return _pathSettings.VmPool;
-            }
-
-            dragAndDropPath.Add(_dragAndDropPath);
-            return dragAndDropPath;
+            FilterItemSource();
         }
 
         private void SearchOnTextChanged(object sender, TextChangedEventArgs e)
         {
             FilterItemSource();
-            //FixExpanderWith();
-        }
-
-        private void SearchOsOnDropDownClosed(object sender, EventArgs e)
-        {
-            FilterItemSource();
-            //FixExpanderWith();
         }
 
         private void FilterItemSource()
         {
-            _filteredItemSource = _currentItemSource;
+            if (SearchOs.Text != "(no filter)")
+            {
+                _listCollectionView.Filter = vm => ((Machine) vm).GuestOs.StartsWith(SearchOs.Text, StringComparison.InvariantCultureIgnoreCase);
+            }
+            else
+            {
+                _listCollectionView.Filter = vm => true;
+            }
 
             if (!string.IsNullOrWhiteSpace(SearchFilter.Text))
             {
-                _filteredItemSource =
-                    _filteredItemSource.Where(vm => vm.DisplayName.ToLower().Contains(SearchFilter.Text.ToLower()));
+                _listCollectionView.Filter = vm => ((Machine) vm).DisplayName.ToLower().Contains(SearchFilter.Text.ToLower());
             }
 
-            if (SearchOs.Text != "(no filter)")
-            {
-                _filteredItemSource = _filteredItemSource.Where(vm =>
-                                                                    vm.GuestOs.StartsWith(SearchOs.Text, StringComparison.InvariantCultureIgnoreCase));
-            }
-
-            DataContext = _filteredItemSource;
-            var listCollectionView = new ListCollectionView(_filteredItemSource.OrderBy(vm => vm.DisplayName).ToList());
-            listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
-            VmDataGrid.ItemsSource = listCollectionView;
-            //FixExpanderWith();
+            VmDataGrid.ItemsSource = _listCollectionView;
         }
 
 
@@ -227,78 +196,6 @@ namespace VmMachineHwVersionUpdater
 
             _currentMachine = (Machine) VmDataGrid.SelectedItem;
         }
-
-        //private void BrowsePoolClick(object sender, RoutedEventArgs e)
-        //{
-        //    var oldPath = _pathSettings.VMwarePool;
-        //    var currentVmwarePool = oldPath.SplitToEnumerable(";").ToArray();
-        //    VmPath.Text = oldPath;
-
-        //    var browser = new ExplorerFolderBrowser
-        //                  {
-        //                      SelectedPath = currentVmwarePool.First(),
-        //                      Multiselect = true
-        //                  };
-        //    browser.ShowDialog();
-        //    var newPath = string.Join(";", browser.SelectedPaths);
-        //    _pathSettings.VMwarePool = newPath;
-        //    VmPath.Text = newPath;
-
-        //    if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
-        //        Directory.Exists(_pathSettings.VMwarePool))
-        //    {
-        //        LoadAsync();
-        //    }
-        //}
-
-        //private void BrowseArchiveClick(object sender, RoutedEventArgs e)
-        //{
-        //    var oldPath = _pathSettings.ArchivePath;
-        //    VmPath.Text = oldPath;
-
-        //    var browser = new ExplorerFolderBrowser
-        //                  {
-        //                      SelectedPath = oldPath,
-        //                      Multiselect = false
-        //                  };
-        //    browser.ShowDialog();
-        //    var newPath = browser.SelectedPath;
-        //    _pathSettings.ArchivePath = newPath;
-        //    VmArchivePath.Text = newPath;
-
-        //    if (!string.Equals(oldPath, newPath, StringComparison.CurrentCultureIgnoreCase) &&
-        //        Directory.Exists(_pathSettings.ArchivePath))
-        //    {
-        //        LoadAsync();
-        //    }
-        //}
-
-        //private void VmPathOnLostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    var pathsFromSetting = VmPath.Text.SplitToEnumerable(";").ToList();
-        //    var existingPaths = pathsFromSetting.GetExistingDirectories();
-        //    if (!existingPaths.Any())
-        //    {
-        //        return;
-        //    }
-
-        //    _pathSettings.VMwarePool = string.Join(";", existingPaths);
-        //    LoadAsync();
-        //}
-
-
-        //private void VmArchiveOnLostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    var pathFromSetting = VmArchivePath.Text;
-
-        //    if (!Directory.Exists(pathFromSetting))
-        //    {
-        //        return;
-        //    }
-
-        //    _pathSettings.ArchivePath = pathFromSetting;
-        //    LoadAsync();
-        //}
 
         private void AboutWindowClick(object sender, RoutedEventArgs e)
         {
@@ -332,15 +229,15 @@ namespace VmMachineHwVersionUpdater
 
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
             Cursor = Cursors.Arrow;
-            LoadAsync();
+            Load();
         }
 
         private void Update()
         {
             var version = _updateAllHwVersion;
-            var localList = _currentItemSource.Where(vm => vm.HwVersion != version).ToList();
+            var localList = _currentItemSource.AsParallel().Where(vm => vm.HwVersion != version).ToList();
 
-            Parallel.ForEach(localList, machine => { _hardwareVersion.Update(machine.Path, version); });
+            _updateMachineVersion.RunFor(localList, version);
         }
 
         private void UpdateAllHwVersionOnValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
@@ -356,7 +253,7 @@ namespace VmMachineHwVersionUpdater
             var checkBox = ((CheckBox) sender).IsChecked;
             if (checkBox.HasValue)
             {
-                _hardwareVersion.EnableSyncTimeWithHost(_currentMachine.Path, checkBox.Value);
+                _enableSyncTimeWithHost.RunFor(_currentMachine.Path, checkBox.Value);
             }
         }
 
@@ -365,7 +262,7 @@ namespace VmMachineHwVersionUpdater
             var checkBox = ((CheckBox) sender).IsChecked;
             if (checkBox.HasValue)
             {
-                _hardwareVersion.EnableToolsAutoUpdate(_currentMachine.Path, checkBox.Value);
+                _enableToolsAutoUpdate.RunFor(_currentMachine.Path, checkBox.Value);
             }
         }
 
@@ -389,7 +286,8 @@ namespace VmMachineHwVersionUpdater
                      {
                          StartInfo =
                          {
-                             FileName = _currentMachine.Path
+                             FileName = _currentMachine.Path,
+                             UseShellExecute = true
                          }
                      };
 
@@ -398,7 +296,16 @@ namespace VmMachineHwVersionUpdater
 
         private void OpenWithCode()
         {
-            Process.Start($"vscode://file/{_currentMachine.Path}");
+            var process = new Process
+                          {
+                              StartInfo =
+                              {
+                                  FileName = $"vscode://file/{_currentMachine.Path}",
+                                  UseShellExecute = true
+                              }
+                          };
+
+            process.Start();
         }
 
         private void GoToClick(object sender, RoutedEventArgs e)
@@ -411,7 +318,16 @@ namespace VmMachineHwVersionUpdater
             var path = Path.GetDirectoryName(_currentMachine.Path);
             if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
             {
-                Process.Start(path);
+                var process = new Process
+                              {
+                                  StartInfo =
+                                  {
+                                      FileName = path,
+                                      UseShellExecute = true
+                                  }
+                              };
+
+                process.Start();
             }
         }
 
@@ -433,7 +349,7 @@ namespace VmMachineHwVersionUpdater
             if (result == MessageDialogResult.Affirmative)
             {
                 CallArchive();
-                LoadAsync();
+                Load();
             }
         }
 
@@ -445,7 +361,7 @@ namespace VmMachineHwVersionUpdater
             if (result == MessageDialogResult.Affirmative)
             {
                 CallDelete();
-                LoadAsync();
+                Load();
             }
         }
 
@@ -499,7 +415,7 @@ namespace VmMachineHwVersionUpdater
             try
             {
                 Directory.Delete(path, true);
-                LoadAsync();
+                Load();
             }
             catch (IOException ioException)
             {
@@ -508,79 +424,5 @@ namespace VmMachineHwVersionUpdater
         }
 
         # endregion VM Tools
-
-        #region Drag and Drop
-
-        private void GridOnDrop(object sender, DragEventArgs e)
-        {
-            if (null != e.Data && e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                var droppedElements = (string[]) e.Data.GetData(DataFormats.FileDrop, true);
-                if (droppedElements != null)
-                {
-                    if (droppedElements.Length > 1)
-                    {
-                        _dialogService.ShowMessage("Drag & Drop", "Please drag & drop only one item!");
-                    }
-                    else
-                    {
-                        var droppedElement = droppedElements.First();
-                        try
-                        {
-                            var fileAttributes = File.GetAttributes(droppedElement);
-                            var isDirectory = (fileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
-                            if (isDirectory)
-                            {
-                                _dragAndDropPath = droppedElement;
-                                LoadAsync();
-                                _dragAndDropPath = string.Empty;
-                            }
-                            else
-                            {
-                                _dialogService.ShowMessage("Drag & Drop", "Drag & drop of files is not supported!");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (ex.InnerException != null)
-                            {
-                                MessageBox.Show($"{ex.InnerException.Message} - {ex.InnerException.StackTrace}");
-                            }
-
-                            MessageBox.Show($"{ex.Message} - {ex.StackTrace}");
-                            throw;
-                        }
-                    }
-                }
-            }
-
-            e.Handled = true;
-        }
-
-        private void GridOnDragOver(object sender, DragEventArgs e)
-        {
-            var isCorrect = true;
-
-            if (e.Data.GetDataPresent(DataFormats.FileDrop, true))
-            {
-                var droppedElements = (string[]) e.Data.GetData(DataFormats.FileDrop, true);
-                if (droppedElements != null)
-                {
-                    if ((from droppedElement in droppedElements
-                         let fileAttributes = File.GetAttributes(droppedElement)
-                         let isDirectory = (fileAttributes & FileAttributes.Directory) == FileAttributes.Directory
-                         where isDirectory
-                         select droppedElement).Any(droppedElement => !Directory.Exists(droppedElement)))
-                    {
-                        isCorrect = false;
-                    }
-                }
-            }
-
-            e.Effects = isCorrect ? DragDropEffects.All : DragDropEffects.None;
-            e.Handled = true;
-        }
-
-        #endregion
     }
 }

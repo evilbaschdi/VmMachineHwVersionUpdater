@@ -8,13 +8,24 @@ namespace VmMachineHwVersionUpdater.Core
     /// <inheritdoc />
     public class GuestOsesInUse : IGuestOsesInUse
     {
+        private readonly IGuestOsStringMapping _guestOsStringMapping;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="guestOsStringMapping"></param>
+        public GuestOsesInUse(IGuestOsStringMapping guestOsStringMapping)
+        {
+            _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
+        }
+
         /// <inheritdoc />
         public List<string> Value
         {
             get
             {
                 var list = new List<string>();
-                var configuration = GuestOsStringMapping.AppSetting;
+                var configuration = _guestOsStringMapping.Value;
                 foreach (var configurationSection in configuration.GetChildren())
                 {
                     var os = configurationSection.Value.Contains(" ") ? configurationSection.Value.Split(' ')[0] : configurationSection.Value;

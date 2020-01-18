@@ -15,8 +15,8 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
             <!--  Search Filter -->
-            <TextBox Name="SearchFilter" Width="250" Height="20" TextChanged="SearchOnTextChanged" TextWrapping="Wrap"
-                     IsReadOnly="True"
+            <TextBox Name="SearchFilter" Width="250" Height="20" TextWrapping="Wrap"
+                     IsReadOnly="True" TextChanged="SearchOnTextChanged"
                      controls:TextBoxHelper.ClearTextButton="True"
                      controls:TextBoxHelper.Watermark="enter search term" />
             <!--  Search Os -->
@@ -50,7 +50,8 @@
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="about" />
                 </StackPanel>
             </Button>
-            <!-- Settings --><!--
+            <!-- Settings -->
+            <!--
             <Button Click="SettingsClick">
                 <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconMaterial Kind="Settings" Width="20" Height="20" HorizontalAlignment="Center"
@@ -65,8 +66,7 @@
         <TaskbarItemInfo />
     </Window.TaskbarItemInfo>
     <!--  Grid  -->
-    <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True" Drop="GridOnDrop"
-          DragOver="GridOnDragOver">
+    <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True">
 
         <!--  DataGrid  -->
         <!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
@@ -129,7 +129,18 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding AutoUpdateTools}" HorizontalAlignment="Center"
-                                      Click="AutoUpdateToolsCheckBoxClick" Background="White" />
+                                      Click="AutoUpdateToolsCheckBoxClick" Background="White">
+                                <!--<controls:CheckBoxHelper.CheckedGlyphTemplate>
+                                    <DataTemplate>
+                                        <iconPacks:PackIconFontAwesome Kind="EyeSolid" 
+                                                                       Width="30"  
+                                                                       Height="30" 
+                                                                       Foreground="DarkGreen" 
+                                                                       HorizontalAlignment="Center" 
+                                                                       VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </controls:CheckBoxHelper.CheckedGlyphTemplate>-->
+                            </CheckBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
