@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +10,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Shell;
 using EvilBaschdi.Core.Extensions;
-using EvilBaschdi.CoreExtended;
+using EvilBaschdi.CoreExtended.AppHelpers;
+using ControlzEx.Theming;
 using EvilBaschdi.CoreExtended.Metro;
 using EvilBaschdi.CoreExtended.Mvvm;
 using EvilBaschdi.CoreExtended.Mvvm.View;
@@ -34,7 +34,7 @@ namespace VmMachineHwVersionUpdater
     {
         private readonly IDialogService _dialogService;
         private readonly IPathSettings _pathSettings;
-        private readonly IThemeManagerHelper _themeManagerHelper;
+
         private List<Machine> _currentItemSource;
         private Machine _currentMachine;
         private IEnableSyncTimeWithHost _enableSyncTimeWithHost;
@@ -43,6 +43,7 @@ namespace VmMachineHwVersionUpdater
         private ListCollectionView _listCollectionView;
         private IMachinesFromPath _machinesFromPath;
         private string _prevSortHeader;
+        private IProcessByPath _processByPath;
         private SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
         private string _sortHeader;
         private int _updateAllHwVersion;
@@ -58,10 +59,10 @@ namespace VmMachineHwVersionUpdater
         {
             InitializeComponent();
 
-            _themeManagerHelper = new ThemeManagerHelper();
+
             IVmPools vmPools = new VmPools();
             _pathSettings = new PathSettings(vmPools);
-            var applicationStyle = new ApplicationStyle(_themeManagerHelper);
+            var applicationStyle = new ApplicationStyle();
             applicationStyle.Load(true, true);
             _dialogService = new DialogService(this);
 
@@ -101,6 +102,7 @@ namespace VmMachineHwVersionUpdater
         {
             IGuestOsStringMapping guestOsStringMapping = new GuestOsStringMapping();
             IGuestOsOutputStringMapping guestOsOutputStringMapping = new GuestOsOutputStringMapping(guestOsStringMapping);
+            _processByPath = new ProcessByPath();
             _updateMachineVersion = new UpdateMachineVersion();
             _enableSyncTimeWithHost = new EnableSyncTimeWithHost();
             _enableToolsAutoUpdate = new EnableToolsAutoUpdate();
@@ -204,7 +206,7 @@ namespace VmMachineHwVersionUpdater
 
             var aboutWindow = new AboutWindow
                               {
-                                  DataContext = new AboutViewModel(aboutWindowContent, _themeManagerHelper)
+                                  DataContext = new AboutViewModel(aboutWindowContent)
                               };
 
             aboutWindow.ShowDialog();
@@ -282,30 +284,12 @@ namespace VmMachineHwVersionUpdater
 
         private void StartVm()
         {
-            var vm = new Process
-                     {
-                         StartInfo =
-                         {
-                             FileName = _currentMachine.Path,
-                             UseShellExecute = true
-                         }
-                     };
-
-            vm.Start();
+            _processByPath.RunFor(_currentMachine.Path);
         }
 
         private void OpenWithCode()
         {
-            var process = new Process
-                          {
-                              StartInfo =
-                              {
-                                  FileName = $"vscode://file/{_currentMachine.Path}",
-                                  UseShellExecute = true
-                              }
-                          };
-
-            process.Start();
+            _processByPath.RunFor($"vscode://file/{_currentMachine.Path}");
         }
 
         private void GoToClick(object sender, RoutedEventArgs e)
@@ -318,16 +302,7 @@ namespace VmMachineHwVersionUpdater
             var path = Path.GetDirectoryName(_currentMachine.Path);
             if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
             {
-                var process = new Process
-                              {
-                                  StartInfo =
-                                  {
-                                      FileName = path,
-                                      UseShellExecute = true
-                                  }
-                              };
-
-                process.Start();
+                _processByPath.RunFor(path);
             }
         }
 

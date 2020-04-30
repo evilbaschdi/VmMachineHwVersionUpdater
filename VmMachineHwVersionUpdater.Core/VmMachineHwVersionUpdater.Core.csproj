@@ -16,14 +16,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2020.1.4.1203-develop" />
-    <PackageReference Include="EvilBaschdi.Settings" Version="2020.1.4.1228" />
-    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="3.1.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.4.14.603" />
+    <PackageReference Include="EvilBaschdi.Settings" Version="2020.4.14.1627-develop" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0">
+    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

@@ -12,8 +12,9 @@ namespace VmMachineHwVersionUpdater.Core.Settings
     public class PathSettings : IPathSettings
     {
         private readonly IVmPools _vmPools;
+
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="vmPools"></param>
         public PathSettings(IVmPools vmPools)

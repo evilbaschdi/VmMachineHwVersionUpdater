@@ -114,33 +114,18 @@
                 <!--  Guest OS  -->
                 <DataGridTextColumn Width="200" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
                 <!--  Sync Time  -->
-                <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True"
-                                        SortMemberPath="SyncTimeWithHost">
+                <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True" SortMemberPath="SyncTimeWithHost">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding SyncTimeWithHost}" HorizontalAlignment="Center"
-                                      Click="SyncTimeWithHostCheckBoxClick" Background="White" />
+                            <CheckBox IsChecked="{Binding SyncTimeWithHost}" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" Click="SyncTimeWithHostCheckBoxClick" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <!--  Auto Update Tools  -->
-                <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True"
-                                        SortMemberPath="AutoUpdateTools">
+                <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True" SortMemberPath="AutoUpdateTools">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding AutoUpdateTools}" HorizontalAlignment="Center"
-                                      Click="AutoUpdateToolsCheckBoxClick" Background="White">
-                                <!--<controls:CheckBoxHelper.CheckedGlyphTemplate>
-                                    <DataTemplate>
-                                        <iconPacks:PackIconFontAwesome Kind="EyeSolid" 
-                                                                       Width="30"  
-                                                                       Height="30" 
-                                                                       Foreground="DarkGreen" 
-                                                                       HorizontalAlignment="Center" 
-                                                                       VerticalAlignment="Center"/>
-                                    </DataTemplate>
-                                </controls:CheckBoxHelper.CheckedGlyphTemplate>-->
-                            </CheckBox>
+                            <CheckBox IsChecked="{Binding AutoUpdateTools}" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" Click="AutoUpdateToolsCheckBoxClick" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -208,8 +193,8 @@
                     <!-- Open with Code -->
                     <MenuItem Header="Open with Code..." Click="OpenWithCodeClick">
                         <MenuItem.Icon>
-                            <iconPacks:PackIconMaterial Kind="VisualStudioCode" Width="16" Height="16"
-                                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <iconPacks:PackIconSimpleIcons Kind="VisualStudioCode" Width="16" Height="16"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <!-- Go to -->

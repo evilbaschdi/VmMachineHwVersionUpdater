@@ -25,16 +25,17 @@
     <None Remove="b.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.2.1" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2020.1.4.1203-develop" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.1.15.1748-develop" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
-    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="3.1.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+    <PackageReference Include="ControlzEx" Version="4.3.0-alpha0085" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.4.14.603" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.4.30.540-develop" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0775" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.0.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.0.0">
+    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -42,6 +43,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+
+    <!--<PackageReference Include="XamlColorSchemeGenerator" version="3.*" privateAssets="All" />-->
+
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
