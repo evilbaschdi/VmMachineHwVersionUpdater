@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsTestProject>true</IsTestProject>
     <NoWarn>1701;1702</NoWarn>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
@@ -41,7 +41,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2-preview.80">
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2-preview.84">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -49,4 +49,5 @@
   <ItemGroup>
     <ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
   </ItemGroup>
+
 </Project>

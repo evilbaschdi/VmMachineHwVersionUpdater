@@ -11,12 +11,12 @@
     <Product>VM Machine Hardware Version Updater</Product>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
     <RootNamespace>VmMachineHwVersionUpdater.Core</RootNamespace>
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2020.4.14.603" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.5.3.1518" />
     <PackageReference Include="EvilBaschdi.Settings" Version="2020.4.14.1627-develop" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">

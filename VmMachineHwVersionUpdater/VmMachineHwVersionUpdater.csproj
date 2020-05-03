@@ -17,7 +17,7 @@
     <Product>VM Machine Hardware Version Updater</Product>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
     <RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
@@ -26,8 +26,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="4.3.0-alpha0085" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2020.4.14.603" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.4.30.540-develop" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.5.3.1518" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.5.3.1813-develop" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0775" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.0.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.0.0" />
@@ -43,9 +43,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-
-    <!--<PackageReference Include="XamlColorSchemeGenerator" version="3.*" privateAssets="All" />-->
-
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />

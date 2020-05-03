@@ -10,12 +10,9 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Shell;
 using EvilBaschdi.Core.Extensions;
+using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.AppHelpers;
-using ControlzEx.Theming;
-using EvilBaschdi.CoreExtended.Metro;
-using EvilBaschdi.CoreExtended.Mvvm;
-using EvilBaschdi.CoreExtended.Mvvm.View;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
+using EvilBaschdi.CoreExtended.Controls.About;
 using JetBrains.Annotations;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -32,7 +29,6 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
-        private readonly IDialogService _dialogService;
         private readonly IPathSettings _pathSettings;
 
         private List<Machine> _currentItemSource;
@@ -64,7 +60,6 @@ namespace VmMachineHwVersionUpdater
             _pathSettings = new PathSettings(vmPools);
             var applicationStyle = new ApplicationStyle();
             applicationStyle.Load(true, true);
-            _dialogService = new DialogService(this);
 
             var vmPoolFromSettingExistingPaths = _pathSettings.VmPool.GetExistingDirectories();
 
@@ -202,7 +197,7 @@ namespace VmMachineHwVersionUpdater
         private void AboutWindowClick(object sender, RoutedEventArgs e)
         {
             var assembly = typeof(MainWindow).Assembly;
-            IAboutWindowContent aboutWindowContent = new AboutWindowContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\b.png");
+            IAboutContent aboutWindowContent = new AboutContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\b.png");
 
             var aboutWindow = new AboutWindow
                               {
@@ -318,9 +313,10 @@ namespace VmMachineHwVersionUpdater
 
         private async Task ArchiveClickAsync()
         {
-            var result = await _dialogService.ShowMessage("Archive machine...",
+            var result = await this.ShowMessageAsync("Archive machine...",
                 $"Are you sure you want to archive machine '{_currentMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
+
             if (result == MessageDialogResult.Affirmative)
             {
                 CallArchive();
@@ -330,7 +326,7 @@ namespace VmMachineHwVersionUpdater
 
         private async Task DeleteClickAsync()
         {
-            var result = await _dialogService.ShowMessage("Delete machine...",
+            var result = await this.ShowMessageAsync("Delete machine...",
                 $"Are you sure you want to delete '{_currentMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
             if (result == MessageDialogResult.Affirmative)
@@ -366,11 +362,11 @@ namespace VmMachineHwVersionUpdater
             }
             catch (IOException ioException)
             {
-                _dialogService.ShowMessage("'Archive machine' was canceled", ioException.Message);
+                this.ShowMessageAsync("'Archive machine' was canceled", ioException.Message);
             }
             catch (Exception exception)
             {
-                _dialogService.ShowMessage("'Archive machine' was canceled", exception.Message);
+                this.ShowMessageAsync("'Archive machine' was canceled", exception.Message);
             }
         }
 
@@ -394,7 +390,7 @@ namespace VmMachineHwVersionUpdater
             }
             catch (IOException ioException)
             {
-                _dialogService.ShowMessage("'Delete machine' was canceled", ioException.Message);
+                this.ShowMessageAsync("'Delete machine' was canceled", ioException.Message);
             }
         }
 

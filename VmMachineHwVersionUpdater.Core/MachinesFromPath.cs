@@ -44,8 +44,8 @@ namespace VmMachineHwVersionUpdater.Core
             {
                 var machinePaths = _pathSettings.VmPool;
                 var archivePaths = _pathSettings.ArchivePath;
-                var multiThreading = new MultiThreading();
-                var fileListFromPath = new FileListFromPath(multiThreading);
+
+                var fileListFromPath = new FileListFromPath();
                 var machineList = new ConcurrentBag<Machine>();
                 var filterExtensionsToEqual = new List<string>
                                               {
