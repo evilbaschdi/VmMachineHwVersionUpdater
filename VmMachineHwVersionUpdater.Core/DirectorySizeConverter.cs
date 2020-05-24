@@ -4,10 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Internal
+namespace VmMachineHwVersionUpdater.Core
 {
     /// <inheritdoc />
     public class DirectorySizeConverter : IValueConverter

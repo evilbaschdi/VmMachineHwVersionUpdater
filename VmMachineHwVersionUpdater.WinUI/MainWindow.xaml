@@ -1,72 +1,13 @@
-﻿<controls:MetroWindow x:Class="VmMachineHwVersionUpdater.MainWindow"
-                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                      xmlns:core="clr-namespace:VmMachineHwVersionUpdater.Core;assembly=VmMachineHwVersionUpdater.Core"
-                      Title="VM Machine Hardware Version Updater" TitleCharacterCasing="Normal"
-                      Width="1000" Height="700" Icon="b.ico" ShowIconOnTitleBar="False"
-                      LeftWindowCommandsOverlayBehavior="Never"
-                      RightWindowCommandsOverlayBehavior="Never"
-                      WindowButtonCommandsOverlayBehavior="Never"
-                      GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
+﻿<Window
+    x:Class="VmMachineHwVersionUpdater.WinUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VmMachineHwVersionUpdater.WinUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
 
-    <!--  RightWindowCommands  -->
-    <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands>
-            <!--  Search Filter -->
-            <TextBox Name="SearchFilter" Width="250" Height="20" TextWrapping="Wrap"
-                     IsReadOnly="True" TextChanged="SearchOnTextChanged"
-                     controls:TextBoxHelper.ClearTextButton="True"
-                     controls:TextBoxHelper.Watermark="enter search term" />
-            <!--  Search Os -->
-            <ComboBox Name="SearchOs" Width="250" Height="20" DropDownClosed="SearchOsOnDropDownClosed"
-                      IsReadOnly="True" IsEnabled="False">
-                <ComboBoxItem Content="(no filter)" />
-            </ComboBox>
-            <!-- Load -->
-            <Button Click="LoadClick">
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Reload" Width="20" Height="20" HorizontalAlignment="Center"
-                                                VerticalAlignment="Center" />
-                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Reload" />
-                </StackPanel>
-            </Button>
-            <!-- Update all -->
-            <Button Name="UpdateAll" Click="UpdateAllClick" IsEnabled="False">
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Update" Width="20" Height="20" HorizontalAlignment="Center"
-                                                VerticalAlignment="Center" />
-                    <TextBlock Name="UpdateAllTextBlock" Margin="5 0 0 0" VerticalAlignment="Center"
-                               Text="Update all to" />
-                </StackPanel>
-            </Button>
-            <controls:NumericUpDown Name="UpdateAllHwVersion" Height="20" Minimum="1" Value="1"
-                                    ValueChanged="UpdateAllHwVersionOnValueChanged" />
-            <!-- About -->
-            <Button Click="AboutWindowClick">
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Information" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="about" />
-                </StackPanel>
-            </Button>
-            <!-- Settings -->
-            <!--
-            <Button Click="SettingsClick">
-                <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Settings" Width="20" Height="20" HorizontalAlignment="Center"
-                                                VerticalAlignment="Center" />
-                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="settings" />
-                </StackPanel>
-            </Button>-->
-        </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>
-    <!-- TaskBarItemInfo -->
-    <Window.TaskbarItemInfo>
-        <TaskbarItemInfo />
-    </Window.TaskbarItemInfo>
-    <!--  Grid  -->
-    <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto">
+    <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True">
 
         <!--  DataGrid  -->
         <!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
@@ -117,7 +58,7 @@
                 <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True" SortMemberPath="SyncTimeWithHost">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding SyncTimeWithHost}" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" Click="SyncTimeWithHostCheckBoxClick" />
+                            <CheckBox IsChecked="{Binding SyncTimeWithHost}" Click="SyncTimeWithHostCheckBoxClick" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -125,7 +66,7 @@
                 <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True" SortMemberPath="AutoUpdateTools">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding AutoUpdateTools}" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" Click="AutoUpdateToolsCheckBoxClick" />
+                            <CheckBox IsChecked="{Binding AutoUpdateTools}" Click="AutoUpdateToolsCheckBoxClick" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -156,7 +97,7 @@
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <Expander IsExpanded="True">
                                             <Expander.Resources>
-                                                <core:DirectorySizeConverter x:Key="DirectorySizeConverter" />
+                                                <internal:DirectorySizeConverter x:Key="DirectorySizeConverter" />
                                             </Expander.Resources>
                                             <Expander.Header>
                                                 <DockPanel>
@@ -225,4 +166,4 @@
         <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
         <!-- ReSharper restore Xaml.BindingWithoutContextNotResolved -->
     </Grid>
-</controls:MetroWindow>
+</Window>

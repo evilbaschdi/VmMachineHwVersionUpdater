@@ -1,7 +1,8 @@
 ﻿using EvilBaschdi.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.Settings
-{/// <inheritdoc cref="SettingsFromJsonFile" />
+{
+    /// <inheritdoc cref="SettingsFromJsonFile" />
     public class GuestOsStringMapping : SettingsFromJsonFile, IGuestOsStringMapping
     {
         /// <summary>

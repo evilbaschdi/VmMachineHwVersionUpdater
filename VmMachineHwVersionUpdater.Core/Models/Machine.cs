@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using MahApps.Metro.IconPacks;
+using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.Core.Models
 {
@@ -54,11 +55,6 @@ namespace VmMachineHwVersionUpdater.Core.Models
         }
 
         // ReSharper disable UnusedAutoPropertyAccessor.Global
-        /// <summary />
-
-        public string Id { get; set; }
-
-
         /// <summary />
         public string DisplayName { get; set; }
 

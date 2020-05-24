@@ -13,7 +13,6 @@ namespace VmMachineHwVersionUpdater
         /// <inheritdoc />
         protected override void OnStartup(StartupEventArgs e)
         {
-            
             ThemeManager.Current.SyncTheme(ThemeSyncMode.SyncAll);
 
             base.OnStartup(e);

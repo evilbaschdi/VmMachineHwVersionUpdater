@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Core
+namespace VmMachineHwVersionUpdater.Core.BasicApplication
 {
     /// <inheritdoc />
     public class Load : ILoad

@@ -10,14 +10,16 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Shell;
 using EvilBaschdi.Core.Extensions;
+using EvilBaschdi.Core.Internal;
 using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.AppHelpers;
 using EvilBaschdi.CoreExtended.Controls.About;
 using JetBrains.Annotations;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using VmMachineHwVersionUpdater.Core;
+using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
+using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater
@@ -30,18 +32,19 @@ namespace VmMachineHwVersionUpdater
     public partial class MainWindow : MetroWindow
     {
         private readonly IPathSettings _pathSettings;
-
+        private IArchiveMachine _archiveMachine;
         private List<Machine> _currentItemSource;
-        private Machine _currentMachine;
-        private IEnableSyncTimeWithHost _enableSyncTimeWithHost;
-        private IEnableToolsAutoUpdate _enableToolsAutoUpdate;
+        private IDeleteMachine _deleteMachine;
         private IGuestOsesInUse _guestOsesInUse;
         private ListCollectionView _listCollectionView;
         private IMachinesFromPath _machinesFromPath;
         private string _prevSortHeader;
         private IProcessByPath _processByPath;
         private SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
+        private Machine _selectedMachine;
         private string _sortHeader;
+        private IToggleToolsSyncTime _toggleToolsSyncTime;
+        private IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
         private int _updateAllHwVersion;
         private IUpdateMachineVersion _updateMachineVersion;
 
@@ -55,32 +58,16 @@ namespace VmMachineHwVersionUpdater
         {
             InitializeComponent();
 
-
             IVmPools vmPools = new VmPools();
             _pathSettings = new PathSettings(vmPools);
             var applicationStyle = new ApplicationStyle();
             applicationStyle.Load(true, true);
 
             var vmPoolFromSettingExistingPaths = _pathSettings.VmPool.GetExistingDirectories();
-
             if (vmPoolFromSettingExistingPaths.Any())
             {
                 Load();
             }
-        }
-
-        /// <inheritdoc />
-        protected override void OnClosed(EventArgs e)
-        {
-            foreach (Window currentWindow in Application.Current.Windows)
-            {
-                if (currentWindow != Application.Current.MainWindow)
-                {
-                    currentWindow.Close();
-                }
-            }
-
-            base.OnClosed(e);
         }
 
         private void LoadClick(object sender, RoutedEventArgs e)
@@ -95,14 +82,20 @@ namespace VmMachineHwVersionUpdater
 
         private void Load()
         {
+            IFileListFromPath fileListFromPath = new FileListFromPath();
             IGuestOsStringMapping guestOsStringMapping = new GuestOsStringMapping();
             IGuestOsOutputStringMapping guestOsOutputStringMapping = new GuestOsOutputStringMapping(guestOsStringMapping);
-            _processByPath = new ProcessByPath();
+            IReadLogInformation readLogInformation = new ReadLogInformation();
             _updateMachineVersion = new UpdateMachineVersion();
-            _enableSyncTimeWithHost = new EnableSyncTimeWithHost();
-            _enableToolsAutoUpdate = new EnableToolsAutoUpdate();
+
+            IHandleMachineFromPath handleMachineFromPath = new HandleMachineFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion, readLogInformation);
+            _processByPath = new ProcessByPath();
+            _toggleToolsSyncTime = new ToggleToolsSyncTime();
+            _toggleToolsUpgradePolicy = new ToggleToolsUpgradePolicy();
             _guestOsesInUse = new GuestOsesInUse(guestOsStringMapping);
-            _machinesFromPath = new MachinesFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion);
+            _machinesFromPath = new MachinesFromPath(_pathSettings, handleMachineFromPath, fileListFromPath);
+            _archiveMachine = new ArchiveMachine(_pathSettings);
+            _deleteMachine = new DeleteMachine();
 
             ILoad load = new Load(_machinesFromPath);
             var loadValue = load.Value;
@@ -177,7 +170,7 @@ namespace VmMachineHwVersionUpdater
 
             if (!string.IsNullOrWhiteSpace(SearchFilter.Text))
             {
-                _listCollectionView.Filter = vm => ((Machine) vm).DisplayName.ToLower().Contains(SearchFilter.Text.ToLower());
+                _listCollectionView.Filter = vm => ((Machine) vm).DisplayName.Contains(SearchFilter.Text, StringComparison.InvariantCultureIgnoreCase);
             }
 
             VmDataGrid.ItemsSource = _listCollectionView;
@@ -191,7 +184,7 @@ namespace VmMachineHwVersionUpdater
                 return;
             }
 
-            _currentMachine = (Machine) VmDataGrid.SelectedItem;
+            _selectedMachine = (Machine) VmDataGrid.SelectedItem;
         }
 
         private void AboutWindowClick(object sender, RoutedEventArgs e)
@@ -250,7 +243,7 @@ namespace VmMachineHwVersionUpdater
             var checkBox = ((CheckBox) sender).IsChecked;
             if (checkBox.HasValue)
             {
-                _enableSyncTimeWithHost.RunFor(_currentMachine.Path, checkBox.Value);
+                _toggleToolsSyncTime.RunFor(_selectedMachine.Path, checkBox.Value);
             }
         }
 
@@ -259,7 +252,7 @@ namespace VmMachineHwVersionUpdater
             var checkBox = ((CheckBox) sender).IsChecked;
             if (checkBox.HasValue)
             {
-                _enableToolsAutoUpdate.RunFor(_currentMachine.Path, checkBox.Value);
+                _toggleToolsUpgradePolicy.RunFor(_selectedMachine.Path, checkBox.Value);
             }
         }
 
@@ -279,22 +272,22 @@ namespace VmMachineHwVersionUpdater
 
         private void StartVm()
         {
-            _processByPath.RunFor(_currentMachine.Path);
+            _processByPath.RunFor(_selectedMachine.Path);
         }
 
         private void OpenWithCode()
         {
-            _processByPath.RunFor($"vscode://file/{_currentMachine.Path}");
+            _processByPath.RunFor($"vscode://file/{_selectedMachine.Path}");
         }
 
         private void GoToClick(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(_currentMachine.Path))
+            if (!File.Exists(_selectedMachine.Path))
             {
                 return;
             }
 
-            var path = Path.GetDirectoryName(_currentMachine.Path);
+            var path = Path.GetDirectoryName(_selectedMachine.Path);
             if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
             {
                 _processByPath.RunFor(path);
@@ -314,12 +307,24 @@ namespace VmMachineHwVersionUpdater
         private async Task ArchiveClickAsync()
         {
             var result = await this.ShowMessageAsync("Archive machine...",
-                $"Are you sure you want to archive machine '{_currentMachine.DisplayName}'?",
+                $"Are you sure you want to archive machine '{_selectedMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                CallArchive();
+                try
+                {
+                    _archiveMachine.RunFor(_selectedMachine);
+                }
+                catch (IOException ioException)
+                {
+                    await this.ShowMessageAsync("'Archive machine' was canceled", ioException.Message);
+                }
+                catch (Exception exception)
+                {
+                    await this.ShowMessageAsync("'Archive machine' was canceled", exception.Message);
+                }
+
                 Load();
             }
         }
@@ -327,70 +332,20 @@ namespace VmMachineHwVersionUpdater
         private async Task DeleteClickAsync()
         {
             var result = await this.ShowMessageAsync("Delete machine...",
-                $"Are you sure you want to delete '{_currentMachine.DisplayName}'?",
+                $"Are you sure you want to delete '{_selectedMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
             if (result == MessageDialogResult.Affirmative)
             {
-                CallDelete();
+                try
+                {
+                    _deleteMachine.RunFor(_selectedMachine.Path);
+                }
+                catch (IOException ioException)
+                {
+                    await this.ShowMessageAsync("'Delete machine' was canceled", ioException.Message);
+                }
+
                 Load();
-            }
-        }
-
-        private void CallArchive()
-        {
-            if (!File.Exists(_currentMachine.Path))
-            {
-                return;
-            }
-
-            var path = Path.GetDirectoryName(_currentMachine.Path);
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return;
-            }
-
-            try
-            {
-                var machineDirectoryWithoutPath = path.ToLower().Replace($@"{_currentMachine.Directory.ToLower()}\", "");
-
-
-                var archivePath = _pathSettings.ArchivePath?.FirstOrDefault(p => p.ToLower().StartsWith(_currentMachine.Directory.ToLower()));
-                archivePath = string.IsNullOrWhiteSpace(archivePath) ? Path.Combine(_currentMachine.Directory.ToLower(), "_archive") : archivePath;
-
-                var destination = Path.Combine(archivePath, machineDirectoryWithoutPath.ToLower());
-                Directory.Move(path.ToLower(), destination.ToLower());
-            }
-            catch (IOException ioException)
-            {
-                this.ShowMessageAsync("'Archive machine' was canceled", ioException.Message);
-            }
-            catch (Exception exception)
-            {
-                this.ShowMessageAsync("'Archive machine' was canceled", exception.Message);
-            }
-        }
-
-        private void CallDelete()
-        {
-            if (!File.Exists(_currentMachine.Path))
-            {
-                return;
-            }
-
-            var path = Path.GetDirectoryName(_currentMachine.Path);
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return;
-            }
-
-            try
-            {
-                Directory.Delete(path, true);
-                Load();
-            }
-            catch (IOException ioException)
-            {
-                this.ShowMessageAsync("'Delete machine' was canceled", ioException.Message);
             }
         }
 

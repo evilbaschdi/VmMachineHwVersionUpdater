@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VmMachineHwVersionUpdater.Core.Settings;
 
-namespace VmMachineHwVersionUpdater.Core
+namespace VmMachineHwVersionUpdater.Core.BasicApplication
 {
     /// <inheritdoc />
     public class GuestOsesInUse : IGuestOsesInUse
@@ -11,7 +11,7 @@ namespace VmMachineHwVersionUpdater.Core
         private readonly IGuestOsStringMapping _guestOsStringMapping;
 
         /// <summary>
-        /// Constructor
+        ///     Constructor
         /// </summary>
         /// <param name="guestOsStringMapping"></param>
         public GuestOsesInUse(IGuestOsStringMapping guestOsStringMapping)
