@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Settings" Version="2020.4.14.1627-develop" />
+    <PackageReference Include="EvilBaschdi.Settings" Version="2020.5.31.1001-develop" />
     <PackageReference Include="EvilBaschdi.Testing" Version="2020.4.14.1637-develop" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.0-preview-20200519-01" />
     <PackageReference Include="Microsoft.CodeCoverage" Version="16.7.0-preview-20200519-01" />
@@ -34,14 +34,14 @@
     <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.13" />
     <PackageReference Include="System.ValueTuple" version="4.5.0" />
     <PackageReference Include="xunit" Version="2.4.2-pre.build.4151" />
-    <PackageReference Include="xunit.analyzers" Version="0.11.0-pre.29" />
+    <PackageReference Include="xunit.analyzers" Version="0.11.0-pre.37" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.0-preview.18571.3" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0-preview.4.20251.6" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0-preview.5.20278.1" />
     <PackageReference Include="xunit.runner.console" Version="2.4.2-pre.build.4151">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.2-preview.84">
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3-preview.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

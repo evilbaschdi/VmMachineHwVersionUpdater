@@ -46,7 +46,8 @@
             <!-- About -->
             <Button Click="AboutWindowClick">
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Information" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <iconPacks:PackIconMaterial Kind="Information" Width="20" Height="20" HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="about" />
                 </StackPanel>
             </Button>
@@ -86,9 +87,18 @@
                 <DataGridTemplateColumn Header="Play" IsReadOnly="False" Width="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Click="StartClick">
+                            <!--<Button Click="StartClick">
                                 <iconPacks:PackIconMaterial Kind="{Binding MachineState}" Width="16" Height="16"
+                                                            Style="{DynamicResource MahApps.Styles.Button.Square.Accent}"
                                                             HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Button>-->
+
+                            <Button Click="StartClick" Width="30" Height="30"
+                                    Style="{DynamicResource MahApps.Styles.Button.MetroWindow.Base}">
+                                <StackPanel Orientation="Horizontal">
+                                    <iconPacks:PackIconMaterial Kind="{Binding MachineState}" Width="16" Height="16"
+                                                                HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </StackPanel>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -114,18 +124,24 @@
                 <!--  Guest OS  -->
                 <DataGridTextColumn Width="200" Header="Guest OS" Binding="{Binding GuestOs}" IsReadOnly="True" />
                 <!--  Sync Time  -->
-                <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True" SortMemberPath="SyncTimeWithHost">
+                <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True"
+                                        SortMemberPath="SyncTimeWithHost">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding SyncTimeWithHost}" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" Click="SyncTimeWithHostCheckBoxClick" />
+                            <CheckBox IsChecked="{Binding SyncTimeWithHost}"
+                                      Style="{DynamicResource MahApps.Styles.CheckBox.Win10}"
+                                      Click="SyncTimeWithHostCheckBoxClick" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <!--  Auto Update Tools  -->
-                <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True" SortMemberPath="AutoUpdateTools">
+                <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True"
+                                        SortMemberPath="AutoUpdateTools">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding AutoUpdateTools}" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" Click="AutoUpdateToolsCheckBoxClick" />
+                            <CheckBox IsChecked="{Binding AutoUpdateTools}"
+                                      Style="{DynamicResource MahApps.Styles.CheckBox.Win10}"
+                                      Click="AutoUpdateToolsCheckBoxClick" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -141,7 +157,7 @@
                 <!--  Version  -->
                 <controls:DataGridNumericUpDownColumn Width="90" Header="Version"
                                                       Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}"
-                                                      Minimum="1"
+                                                      Minimum="1" HideUpDownButtons="False"
                                                       IsReadOnly="False" />
             </DataGrid.Columns>
 

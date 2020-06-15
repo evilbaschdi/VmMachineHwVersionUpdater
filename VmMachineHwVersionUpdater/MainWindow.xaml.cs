@@ -64,18 +64,12 @@ namespace VmMachineHwVersionUpdater
             applicationStyle.Load(true, true);
 
             var vmPoolFromSettingExistingPaths = _pathSettings.VmPool.GetExistingDirectories();
-            if (vmPoolFromSettingExistingPaths.Any())
-            {
-                Load();
-            }
+            if (vmPoolFromSettingExistingPaths.Any()) Load();
         }
 
         private void LoadClick(object sender, RoutedEventArgs e)
         {
-            if (sender == null)
-            {
-                throw new ArgumentNullException(nameof(sender));
-            }
+            if (sender == null) throw new ArgumentNullException(nameof(sender));
 
             Load();
         }
@@ -84,11 +78,13 @@ namespace VmMachineHwVersionUpdater
         {
             IFileListFromPath fileListFromPath = new FileListFromPath();
             IGuestOsStringMapping guestOsStringMapping = new GuestOsStringMapping();
-            IGuestOsOutputStringMapping guestOsOutputStringMapping = new GuestOsOutputStringMapping(guestOsStringMapping);
+            IGuestOsOutputStringMapping guestOsOutputStringMapping =
+                new GuestOsOutputStringMapping(guestOsStringMapping);
             IReadLogInformation readLogInformation = new ReadLogInformation();
             _updateMachineVersion = new UpdateMachineVersion();
 
-            IHandleMachineFromPath handleMachineFromPath = new HandleMachineFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion, readLogInformation);
+            IHandleMachineFromPath handleMachineFromPath = new HandleMachineFromPath(guestOsOutputStringMapping,
+                _pathSettings, _updateMachineVersion, readLogInformation);
             _processByPath = new ProcessByPath();
             _toggleToolsSyncTime = new ToggleToolsSyncTime();
             _toggleToolsUpgradePolicy = new ToggleToolsUpgradePolicy();
@@ -103,7 +99,7 @@ namespace VmMachineHwVersionUpdater
             _currentItemSource = loadValue.VmDataGridItemsSource;
             DataContext = loadValue.VmDataGridItemsSource;
             _listCollectionView = new ListCollectionView(loadValue.VmDataGridItemsSource);
-            _listCollectionView.GroupDescriptions.Add(new PropertyGroupDescription("Directory"));
+            _listCollectionView?.GroupDescriptions?.Add(new PropertyGroupDescription("Directory"));
             _listCollectionView.SortDescriptions.Add(_sd);
             VmDataGrid.ItemsSource = _listCollectionView;
 
@@ -116,10 +112,7 @@ namespace VmMachineHwVersionUpdater
 
         private void LoadSearchOsItems([NotNull] LoadHelper loadValue)
         {
-            if (loadValue == null)
-            {
-                throw new ArgumentNullException(nameof(loadValue));
-            }
+            if (loadValue == null) throw new ArgumentNullException(nameof(loadValue));
 
             SearchOs.Items.Clear();
             SearchOs.Items.Add("(no filter)");
@@ -160,18 +153,14 @@ namespace VmMachineHwVersionUpdater
         private void FilterItemSource()
         {
             if (SearchOs.Text != "(no filter)")
-            {
-                _listCollectionView.Filter = vm => ((Machine) vm).GuestOs.StartsWith(SearchOs.Text, StringComparison.InvariantCultureIgnoreCase);
-            }
+                _listCollectionView.Filter = vm =>
+                    ((Machine) vm).GuestOs.StartsWith(SearchOs.Text, StringComparison.InvariantCultureIgnoreCase);
             else
-            {
                 _listCollectionView.Filter = vm => true;
-            }
 
             if (!string.IsNullOrWhiteSpace(SearchFilter.Text))
-            {
-                _listCollectionView.Filter = vm => ((Machine) vm).DisplayName.Contains(SearchFilter.Text, StringComparison.InvariantCultureIgnoreCase);
-            }
+                _listCollectionView.Filter = vm =>
+                    ((Machine) vm).DisplayName.Contains(SearchFilter.Text, StringComparison.InvariantCultureIgnoreCase);
 
             VmDataGrid.ItemsSource = _listCollectionView;
         }
@@ -179,10 +168,7 @@ namespace VmMachineHwVersionUpdater
 
         private void VmDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (VmDataGrid.SelectedItem == null)
-            {
-                return;
-            }
+            if (VmDataGrid.SelectedItem == null) return;
 
             _selectedMachine = (Machine) VmDataGrid.SelectedItem;
         }
@@ -190,12 +176,13 @@ namespace VmMachineHwVersionUpdater
         private void AboutWindowClick(object sender, RoutedEventArgs e)
         {
             var assembly = typeof(MainWindow).Assembly;
-            IAboutContent aboutWindowContent = new AboutContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\b.png");
+            IAboutContent aboutWindowContent =
+                new AboutContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\b.png");
 
             var aboutWindow = new AboutWindow
-                              {
-                                  DataContext = new AboutViewModel(aboutWindowContent)
-                              };
+            {
+                DataContext = new AboutViewModel(aboutWindowContent)
+            };
 
             aboutWindow.ShowDialog();
         }
@@ -232,28 +219,19 @@ namespace VmMachineHwVersionUpdater
 
         private void UpdateAllHwVersionOnValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
         {
-            if (UpdateAllHwVersion.Value != null)
-            {
-                _updateAllHwVersion = (int) UpdateAllHwVersion.Value;
-            }
+            if (UpdateAllHwVersion.Value != null) _updateAllHwVersion = (int) UpdateAllHwVersion.Value;
         }
 
         private void SyncTimeWithHostCheckBoxClick(object sender, RoutedEventArgs e)
         {
             var checkBox = ((CheckBox) sender).IsChecked;
-            if (checkBox.HasValue)
-            {
-                _toggleToolsSyncTime.RunFor(_selectedMachine.Path, checkBox.Value);
-            }
+            if (checkBox.HasValue) _toggleToolsSyncTime.RunFor(_selectedMachine.Path, checkBox.Value);
         }
 
         private void AutoUpdateToolsCheckBoxClick(object sender, RoutedEventArgs e)
         {
             var checkBox = ((CheckBox) sender).IsChecked;
-            if (checkBox.HasValue)
-            {
-                _toggleToolsUpgradePolicy.RunFor(_selectedMachine.Path, checkBox.Value);
-            }
+            if (checkBox.HasValue) _toggleToolsUpgradePolicy.RunFor(_selectedMachine.Path, checkBox.Value);
         }
 
         #endregion Update
@@ -282,16 +260,10 @@ namespace VmMachineHwVersionUpdater
 
         private void GoToClick(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(_selectedMachine.Path))
-            {
-                return;
-            }
+            if (!File.Exists(_selectedMachine.Path)) return;
 
             var path = Path.GetDirectoryName(_selectedMachine.Path);
-            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
-            {
-                _processByPath.RunFor(path);
-            }
+            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path)) _processByPath.RunFor(path);
         }
 
         private async void ArchiveClick(object sender, RoutedEventArgs e)
