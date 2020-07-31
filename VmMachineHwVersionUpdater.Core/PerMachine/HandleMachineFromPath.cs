@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Text;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.Extensions;
 using JetBrains.Annotations;
@@ -18,7 +18,9 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IPathSettings _pathSettings;
         private readonly IReadLogInformation _readLogInformation;
+        private readonly IReturnValueFromVmxLine _returnValueFromVmxLine;
         private readonly IUpdateMachineVersion _updateMachineVersion;
+        private readonly IVmxLineStartsWith _vmxLineStartsWith;
 
         /// <summary>
         ///     Constructor
@@ -27,13 +29,18 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         /// <param name="pathSettings"></param>
         /// <param name="updateMachineVersion"></param>
         /// <param name="readLogInformation"></param>
+        /// <param name="returnValueFromVmxLine"></param>
+        /// <param name="vmxLineStartsWith"></param>
         public HandleMachineFromPath([NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping, [NotNull] IPathSettings pathSettings,
-                                     [NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IReadLogInformation readLogInformation)
+                                     [NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IReadLogInformation readLogInformation,
+                                     [NotNull] IReturnValueFromVmxLine returnValueFromVmxLine, [NotNull] IVmxLineStartsWith vmxLineStartsWith)
         {
             _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
             _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
             _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
             _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
+            _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
+            _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
         }
 
         /// <inheritdoc />
@@ -54,8 +61,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             if (file.FileInfo().IsFileLocked() ||
                 //has to be done to not handle the archived machines with the non-archived
                 archivePaths.Any(archivePath
-                                     => !path.Equals(archivePath, StringComparison.CurrentCultureIgnoreCase) &&
-                                        file.StartsWith(archivePath, StringComparison.CurrentCultureIgnoreCase)))
+                                     => !path.Equals(archivePath, StringComparison.InvariantCultureIgnoreCase) &&
+                                        file.StartsWith(archivePath, StringComparison.InvariantCultureIgnoreCase)))
             {
                 return null;
             }
@@ -66,49 +73,36 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var guestOs = "";
             var syncTimeWithHost = "";
             var toolsUpgradePolicy = "";
+            var annotation = new StringBuilder();
 
             Parallel.ForEach(readAllLines,
                 line =>
                 {
-                    // ReSharper disable once StringLiteralTypo
-                    if (line.StartsWith("virtualhw.version", StringComparison.CurrentCultureIgnoreCase))
+                    // ReSharper disable StringLiteralTypo
+                    switch (line)
                     {
-                        hwVersion = line.Replace('"', ' ').Trim();
-                        hwVersion = Regex.Replace(hwVersion, "virtualhw.version = ", "",
-                            RegexOptions.IgnoreCase).Trim();
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "virtualhw.version"):
+                            hwVersion = _returnValueFromVmxLine.ValueFor(line, "virtualhw.version");
+                            break;
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "displayname"):
+                            displayName = _returnValueFromVmxLine.ValueFor(line, "displayname");
+                            break;
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "tools.syncTime"):
+                            syncTimeWithHost = _returnValueFromVmxLine.ValueFor(line, "tools.syncTime");
+                            break;
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "tools.upgrade.policy"):
+                            toolsUpgradePolicy = _returnValueFromVmxLine.ValueFor(line, "tools.upgrade.policy");
+                            break;
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "guestos")
+                                        && !_vmxLineStartsWith.ValueFor(line, "guestos.detailed.data"):
+                            guestOs = _returnValueFromVmxLine.ValueFor(line, "guestos");
+                            break;
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "annotation"):
+                            var rawAnnotation = _returnValueFromVmxLine.ValueFor(line, "annotation");
+                            rawAnnotation.Split("|0A").ToList().ForEach(al => annotation.AppendLine(al));
+                            break;
                     }
-
-                    if (line.StartsWith("displayname", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        displayName = line.Replace('"', ' ').Trim();
-                        displayName = Regex.Replace(displayName, "displayname = ", "",
-                            RegexOptions.IgnoreCase).Trim();
-                    }
-
-                    // ReSharper disable once StringLiteralTypo
-                    if (line.StartsWith("guestos", StringComparison.CurrentCultureIgnoreCase) &&
-                        !line.StartsWith("guestos.detailed.data", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        guestOs = line.Replace('"', ' ').Trim();
-                        guestOs = Regex.Replace(guestOs, "guestos = ", "", RegexOptions.IgnoreCase).Trim();
-                    }
-
-                    if (line.StartsWith("tools.syncTime", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        syncTimeWithHost = line.Replace('"', ' ').Trim();
-                        syncTimeWithHost = Regex.Replace(syncTimeWithHost, "tools.syncTime = ", "",
-                            RegexOptions.IgnoreCase).Trim();
-                    }
-
-                    // ReSharper disable once InvertIf
-                    if (line.StartsWith("tools.upgrade.policy", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        toolsUpgradePolicy = line.Replace('"', ' ').Trim();
-                        toolsUpgradePolicy = Regex
-                                             .Replace(toolsUpgradePolicy, "tools.upgrade.policy = ", "",
-                                                 RegexOptions.IgnoreCase)
-                                             .Trim();
-                    }
+                    // ReSharper restore StringLiteralTypo
                 });
 
             var fileInfo = new FileInfo(file);
@@ -121,6 +115,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                           {
                               HwVersion = Convert.ToInt32(hwVersion),
                               DisplayName = displayName.Trim(),
+                              GuestOsRaw = guestOs.Trim(),
                               GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
                               Path = properFilePathCapitalization,
                               Directory = path,
@@ -136,7 +131,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                                                  bool.Parse(syncTimeWithHost),
                               MachineState = paused.HasValue && paused.Value
                                   ? PackIconMaterialKind.Pause
-                                  : PackIconMaterialKind.Power
+                                  : PackIconMaterialKind.Power,
+                              Annotation = annotation.ToString()
                           };
             return machine;
         }

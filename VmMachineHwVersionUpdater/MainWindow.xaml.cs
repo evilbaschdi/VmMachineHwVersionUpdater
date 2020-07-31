@@ -88,13 +88,13 @@ namespace VmMachineHwVersionUpdater
         {
             IFileListFromPath fileListFromPath = new FileListFromPath();
             IGuestOsStringMapping guestOsStringMapping = new GuestOsStringMapping();
-            IGuestOsOutputStringMapping guestOsOutputStringMapping =
-                new GuestOsOutputStringMapping(guestOsStringMapping);
+            IGuestOsOutputStringMapping guestOsOutputStringMapping = new GuestOsOutputStringMapping(guestOsStringMapping);
             IReadLogInformation readLogInformation = new ReadLogInformation();
             _updateMachineVersion = new UpdateMachineVersion();
-
-            IHandleMachineFromPath handleMachineFromPath = new HandleMachineFromPath(guestOsOutputStringMapping,
-                _pathSettings, _updateMachineVersion, readLogInformation);
+            IReturnValueFromVmxLine returnValueFromVmxLine = new ReturnValueFromVmxLine();
+            IVmxLineStartsWith vmxLineStartsWith = new VmxLineStartsWith();
+            IHandleMachineFromPath handleMachineFromPath =
+                new HandleMachineFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion, readLogInformation, returnValueFromVmxLine, vmxLineStartsWith);
             _processByPath = new ProcessByPath();
             _toggleToolsSyncTime = new ToggleToolsSyncTime();
             _toggleToolsUpgradePolicy = new ToggleToolsUpgradePolicy();

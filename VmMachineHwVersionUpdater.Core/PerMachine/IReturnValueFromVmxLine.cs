@@ -3,7 +3,6 @@
 namespace VmMachineHwVersionUpdater.Core.PerMachine
 {
     /// <inheritdoc />
-    public interface IDeleteMachine : IRunFor<string>
-    {
-    }
+    public interface IReturnValueFromVmxLine : IValueFor2<string,string,string>
+    {}
 }

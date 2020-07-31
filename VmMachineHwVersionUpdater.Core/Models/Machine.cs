@@ -20,8 +20,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
             _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
         }
 
-        /// <summary />
-        public string GuestOs { get; set; }
+       
 
         /// <summary />
         public int HwVersion
@@ -86,6 +85,15 @@ namespace VmMachineHwVersionUpdater.Core.Models
 
         /// <summary />
         public bool AutoUpdateTools { get; set; }
+
+        /// <summary />
+        public string Annotation { get; set; }
+
+        /// <summary />
+        public string GuestOs { get; set; }
+
+        /// <summary />
+        public string GuestOsRaw { get; set; }
 
 
         /// <summary />

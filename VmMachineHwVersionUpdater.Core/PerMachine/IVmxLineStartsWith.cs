@@ -1,10 +1,10 @@
 ﻿using EvilBaschdi.Core;
-using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine
 {
     /// <inheritdoc />
-    public interface IArchiveMachine : IRunFor<Machine>
+    public interface IVmxLineStartsWith : IValueFor2<string, string, bool>
     {
+
     }
 }

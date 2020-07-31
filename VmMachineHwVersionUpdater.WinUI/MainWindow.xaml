@@ -5,6 +5,8 @@
     xmlns:local="using:VmMachineHwVersionUpdater.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:core="using:VmMachineHwVersionUpdater.Core"
     mc:Ignorable="d">
 
     <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="Auto" AllowDrop="True">
@@ -14,7 +16,7 @@
         <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
         <DataGrid Name="VmDataGrid" Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*"
                   SelectionMode="Single" Sorting="VmDataGridSorting"
-                  Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" GridLinesVisibility="Horizontal"
+                  GridLinesVisibility="Horizontal"
                   SelectionChanged="VmDataGridSelectionChanged"
                   CanUserDeleteRows="False" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -80,10 +82,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <!--  Version  -->
-                <controls:DataGridNumericUpDownColumn Width="90" Header="Version"
+                <!--<controls:DataGridNumericUpDownColumn Width="90" Header="Version"
                                                       Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}"
                                                       Minimum="1"
-                                                      IsReadOnly="False" />
+                                                      IsReadOnly="False" />-->
             </DataGrid.Columns>
 
             <!--  GroupStyle  -->
@@ -97,7 +99,7 @@
                                     <ControlTemplate TargetType="{x:Type GroupItem}">
                                         <Expander IsExpanded="True">
                                             <Expander.Resources>
-                                                <internal:DirectorySizeConverter x:Key="DirectorySizeConverter" />
+                                                <core:DirectorySizeConverter x:Key="DirectorySizeConverter" />
                                             </Expander.Resources>
                                             <Expander.Header>
                                                 <DockPanel>
