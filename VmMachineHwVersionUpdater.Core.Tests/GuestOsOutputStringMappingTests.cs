@@ -1,7 +1,11 @@
+using System.IO;
 using System.Linq;
 using AutoFixture.Idioms;
+using AutoFixture.Xunit2;
 using EvilBaschdi.Testing;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
+using NSubstitute;
 using VmMachineHwVersionUpdater.Core.Settings;
 using Xunit;
 
@@ -30,9 +34,11 @@ namespace VmMachineHwVersionUpdater.Core.Tests
         [Theory]
         [NSubstituteOmitAutoPropertiesTrueAutoData]
         public void ValueFor_Windows9srv64_ReturnsWindowsServer2016OrLaterX64(
+            [Frozen] IGuestOsStringMapping guestOsStringMapping,
             GuestOsOutputStringMapping sut)
         {
             // Arrange
+            guestOsStringMapping.Value.Returns(new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Settings\\GuestOsStringMapping.json").Build());
 
             // Act
             var result = sut.ValueFor("windows9srv-64");
@@ -45,9 +51,11 @@ namespace VmMachineHwVersionUpdater.Core.Tests
         [Theory]
         [NSubstituteOmitAutoPropertiesTrueAutoData]
         public void ValueFor_Windows964_ReturnsWindows10X64(
+            [Frozen] IGuestOsStringMapping guestOsStringMapping,
             GuestOsOutputStringMapping sut)
         {
             // Arrange
+            guestOsStringMapping.Value.Returns(new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Settings\\GuestOsStringMapping.json").Build());
 
             // Act
             var result = sut.ValueFor("windows9-64");

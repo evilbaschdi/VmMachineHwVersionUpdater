@@ -21,6 +21,7 @@ using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.Core.Settings;
+using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater
 {
@@ -47,6 +48,7 @@ namespace VmMachineHwVersionUpdater
         private IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
         private int _updateAllHwVersion;
         private IUpdateMachineVersion _updateMachineVersion;
+
 
         #region General
 
@@ -91,10 +93,13 @@ namespace VmMachineHwVersionUpdater
             IGuestOsOutputStringMapping guestOsOutputStringMapping = new GuestOsOutputStringMapping(guestOsStringMapping);
             IReadLogInformation readLogInformation = new ReadLogInformation();
             _updateMachineVersion = new UpdateMachineVersion();
+
             IReturnValueFromVmxLine returnValueFromVmxLine = new ReturnValueFromVmxLine();
             IVmxLineStartsWith vmxLineStartsWith = new VmxLineStartsWith();
+            IConvertAnnotationLineBreaks convertAnnotationLineBreaks = new ConvertAnnotationLineBreaks();
             IHandleMachineFromPath handleMachineFromPath =
-                new HandleMachineFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion, readLogInformation, returnValueFromVmxLine, vmxLineStartsWith);
+                new HandleMachineFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion, readLogInformation, returnValueFromVmxLine, vmxLineStartsWith,
+                    convertAnnotationLineBreaks);
             _processByPath = new ProcessByPath();
             _toggleToolsSyncTime = new ToggleToolsSyncTime();
             _toggleToolsUpgradePolicy = new ToggleToolsUpgradePolicy();
@@ -264,6 +269,22 @@ namespace VmMachineHwVersionUpdater
             {
                 _toggleToolsUpgradePolicy.RunFor(_selectedMachine.Path, checkBox.Value);
             }
+        }
+
+        private void AddEditAnnotationClick(object sender, RoutedEventArgs e)
+        {
+            var addEditAnnotationDialog = new AddEditAnnotationDialog(_selectedMachine);
+            {
+                DataContext = new AddEditAnnotationDialogViewModel();
+            }
+
+            addEditAnnotationDialog.Closing += AddEditAnnotationDialogClosing;
+            addEditAnnotationDialog.ShowDialog();
+        }
+
+        private void AddEditAnnotationDialogClosing(object sender, CancelEventArgs e)
+        {
+            //Load();
         }
 
         #endregion Update

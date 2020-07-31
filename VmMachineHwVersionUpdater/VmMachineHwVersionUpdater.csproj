@@ -31,6 +31,7 @@
     <PackageReference Include="MahApps.Metro" Version="2.1.1" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.4.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.4.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.4.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

@@ -6,9 +6,6 @@
                       xmlns:core="clr-namespace:VmMachineHwVersionUpdater.Core;assembly=VmMachineHwVersionUpdater.Core"
                       Title="VM Machine Hardware Version Updater" TitleCharacterCasing="Normal"
                       Width="1000" Height="700" Icon="b.ico" ShowIconOnTitleBar="False"
-                      LeftWindowCommandsOverlayBehavior="Never"
-                      RightWindowCommandsOverlayBehavior="Never"
-                      WindowButtonCommandsOverlayBehavior="Never"
                       GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
 
     <!--  RightWindowCommands  -->
@@ -196,6 +193,15 @@
                                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <!-- Add / Edit Annotation -->
+                <MenuItem Header="Add / Edit Annotation..." Click="AddEditAnnotationClick">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconPicolIcons Kind="NotesEdit" Width="16" Height="16"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        
+                    </MenuItem.Icon>
+                </MenuItem>
+
                 <!-- Open with Code -->
                 <MenuItem Header="Open with Code..." Click="OpenWithCodeClick">
                     <MenuItem.Icon>

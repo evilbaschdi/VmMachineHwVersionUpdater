@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.Extensions;
 using JetBrains.Annotations;
@@ -15,6 +14,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
     /// <inheritdoc />
     public class HandleMachineFromPath : IHandleMachineFromPath
     {
+        private readonly IConvertAnnotationLineBreaks _convertAnnotationLineBreaks;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
         private readonly IPathSettings _pathSettings;
         private readonly IReadLogInformation _readLogInformation;
@@ -31,9 +31,11 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         /// <param name="readLogInformation"></param>
         /// <param name="returnValueFromVmxLine"></param>
         /// <param name="vmxLineStartsWith"></param>
+        /// <param name="convertAnnotationLineBreaks"></param>
         public HandleMachineFromPath([NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping, [NotNull] IPathSettings pathSettings,
                                      [NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IReadLogInformation readLogInformation,
-                                     [NotNull] IReturnValueFromVmxLine returnValueFromVmxLine, [NotNull] IVmxLineStartsWith vmxLineStartsWith)
+                                     [NotNull] IReturnValueFromVmxLine returnValueFromVmxLine, [NotNull] IVmxLineStartsWith vmxLineStartsWith,
+                                     [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks)
         {
             _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
             _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
@@ -41,6 +43,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
             _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
             _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
+            _convertAnnotationLineBreaks = convertAnnotationLineBreaks ?? throw new ArgumentNullException(nameof(convertAnnotationLineBreaks));
         }
 
         /// <inheritdoc />
@@ -73,7 +76,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var guestOs = "";
             var syncTimeWithHost = "";
             var toolsUpgradePolicy = "";
-            var annotation = new StringBuilder();
+            var annotation = "";
 
             Parallel.ForEach(readAllLines,
                 line =>
@@ -99,7 +102,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                             break;
                         case var _ when _vmxLineStartsWith.ValueFor(line, "annotation"):
                             var rawAnnotation = _returnValueFromVmxLine.ValueFor(line, "annotation");
-                            rawAnnotation.Split("|0A").ToList().ForEach(al => annotation.AppendLine(al));
+                            annotation = _convertAnnotationLineBreaks.ValueFor(rawAnnotation);
+
                             break;
                     }
                     // ReSharper restore StringLiteralTypo
@@ -111,10 +115,11 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var size = directoryInfo.GetDirectorySize();
             var paused = directoryInfo?.GetFiles("*.vmss").Any();
             var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
+
             var machine = new Machine(_updateMachineVersion)
                           {
                               HwVersion = Convert.ToInt32(hwVersion),
-                              DisplayName = displayName.Trim(),
+                              DisplayName = displayName.Trim() + " " + (!string.IsNullOrWhiteSpace(annotation) ? "📄" : ""),
                               GuestOsRaw = guestOs.Trim(),
                               GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
                               Path = properFilePathCapitalization,
@@ -132,7 +137,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                               MachineState = paused.HasValue && paused.Value
                                   ? PackIconMaterialKind.Pause
                                   : PackIconMaterialKind.Power,
-                              Annotation = annotation.ToString()
+                              Annotation = annotation
                           };
             return machine;
         }

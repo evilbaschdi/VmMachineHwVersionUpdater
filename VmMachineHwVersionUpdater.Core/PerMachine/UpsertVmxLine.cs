@@ -44,6 +44,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             }
 
             var readAllLines = File.ReadAllLines(vmxPath).Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
+
             var text = string.Join(Environment.NewLine, readAllLines);
             var lineContained = false;
 
@@ -57,7 +58,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
 
             var newLine = $"{_lineKey} = \"{valueString}\"";
 
-            foreach (var line in from line in readAllLines where line.Contains(_lineKey, StringComparison.CurrentCultureIgnoreCase) select line)
+            foreach (var line in from line in readAllLines where line.Contains(_lineKey, StringComparison.InvariantCultureIgnoreCase) select line)
             {
                 lineContained = true;
                 text = Regex.Replace(text, line, newLine, RegexOptions.IgnoreCase).Trim();
