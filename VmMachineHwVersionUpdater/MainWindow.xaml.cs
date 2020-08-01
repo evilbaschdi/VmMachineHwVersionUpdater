@@ -273,18 +273,18 @@ namespace VmMachineHwVersionUpdater
 
         private void AddEditAnnotationClick(object sender, RoutedEventArgs e)
         {
-            var addEditAnnotationDialog = new AddEditAnnotationDialog(_selectedMachine);
-            {
-                DataContext = new AddEditAnnotationDialogViewModel();
-            }
-
+            IAddEditAnnotation addEditAnnotation = new AddEditAnnotation();
+            var addEditAnnotationDialog = new AddEditAnnotationDialog(addEditAnnotation, _selectedMachine)
+                                          {
+                                              DataContext = new AddEditAnnotationDialogViewModel()
+                                          };
             addEditAnnotationDialog.Closing += AddEditAnnotationDialogClosing;
             addEditAnnotationDialog.ShowDialog();
         }
 
         private void AddEditAnnotationDialogClosing(object sender, CancelEventArgs e)
         {
-            //Load();
+            Load();
         }
 
         #endregion Update

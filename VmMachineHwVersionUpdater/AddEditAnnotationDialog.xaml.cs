@@ -20,11 +20,11 @@ namespace VmMachineHwVersionUpdater
         /// <summary>
         ///     Constructor
         /// </summary>
-        public AddEditAnnotationDialog([NotNull] Machine machine)
+        public AddEditAnnotationDialog(IAddEditAnnotation addEditAnnotation, [NotNull] Machine machine)
         {
             _machine = machine ?? throw new ArgumentNullException(nameof(machine));
+            _addEditAnnotation = addEditAnnotation ?? throw new ArgumentNullException(nameof(addEditAnnotation));
             InitializeComponent();
-            _addEditAnnotation = new AddEditAnnotation();
             _currentAnnotation = _machine.Annotation;
             Annotation.Text = _currentAnnotation;
         }
@@ -39,6 +39,7 @@ namespace VmMachineHwVersionUpdater
             }
 
             _machine = null;
+            _addEditAnnotation.Dispose();
         }
     }
 }

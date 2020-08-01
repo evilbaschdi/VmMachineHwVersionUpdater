@@ -119,7 +119,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var machine = new Machine(_updateMachineVersion)
                           {
                               HwVersion = Convert.ToInt32(hwVersion),
-                              DisplayName = displayName.Trim() + " " + (!string.IsNullOrWhiteSpace(annotation) ? "📄" : ""),
+                              DisplayName = displayName.Trim() + " " + (!string.IsNullOrWhiteSpace(annotation) ? "*" : ""),
                               GuestOsRaw = guestOs.Trim(),
                               GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
                               Path = properFilePathCapitalization,

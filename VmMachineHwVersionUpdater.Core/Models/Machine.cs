@@ -20,7 +20,6 @@ namespace VmMachineHwVersionUpdater.Core.Models
             _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
         }
 
-       
 
         /// <summary />
         public int HwVersion

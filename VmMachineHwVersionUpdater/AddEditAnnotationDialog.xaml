@@ -3,12 +3,14 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                      Title="Add / Edit Description" TitleCharacterCasing="Normal" Height="450" Width="450">
+                      Title="Add / Edit Description" TitleCharacterCasing="Normal"
+                      Width="450" Height="450" WindowStartupLocation="CenterScreen"
+                      GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
     <!--  RightWindowCommands  -->
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
 
-            <!-- Update all -->
+            <!-- Save -->
             <Button Click="UpdateAnnotationClick">
 
                 <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center"
@@ -18,6 +20,6 @@
 
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
-    <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" SpellCheck.IsEnabled="True" HorizontalScrollBarVisibility="Auto"
+    <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"
              VerticalScrollBarVisibility="Auto" />
 </controls:MetroWindow>

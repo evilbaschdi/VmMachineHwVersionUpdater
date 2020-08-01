@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine
@@ -9,9 +8,9 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
     /// <inheritdoc />
     public abstract class UpsertVmxLine<T> : IUpsertVmxLine<T>
     {
-        private readonly string _falseValue;
-        private readonly string _lineKey;
-        private readonly string _trueValue;
+        private string _falseValue;
+        private string _lineKey;
+        private string _trueValue;
 
         /// <summary>
         ///     Constructor
@@ -43,6 +42,11 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(vmxPath));
             }
 
+            if (string.IsNullOrWhiteSpace(_lineKey))
+            {
+                return;
+            }
+
             var readAllLines = File.ReadAllLines(vmxPath).Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
 
             var text = string.Join(Environment.NewLine, readAllLines);
@@ -56,12 +60,17 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                 _ => throw new InvalidOperationException($"Type {typeof(T)} is not handled.")
             };
 
+            if (valueString.Contains('"'))
+            {
+                return;
+            }
+
             var newLine = $"{_lineKey} = \"{valueString}\"";
 
-            foreach (var line in from line in readAllLines where line.Contains(_lineKey, StringComparison.InvariantCultureIgnoreCase) select line)
+            foreach (var line in readAllLines.Where(line => line.Trim().StartsWith(_lineKey, StringComparison.InvariantCultureIgnoreCase)))
             {
+                text = text.Replace(line, newLine, StringComparison.InvariantCultureIgnoreCase);
                 lineContained = true;
-                text = Regex.Replace(text, line, newLine, RegexOptions.IgnoreCase).Trim();
             }
 
             if (!lineContained)
@@ -72,6 +81,28 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var outputStreamWriter = File.CreateText(vmxPath);
             outputStreamWriter.Write(text);
             outputStreamWriter.Close();
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="disposing"></param>
+        private void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            _lineKey = string.Empty;
+            _trueValue = string.Empty;
+            _falseValue = string.Empty;
         }
     }
 }
