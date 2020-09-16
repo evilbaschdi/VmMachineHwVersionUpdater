@@ -77,10 +77,8 @@ namespace VmMachineHwVersionUpdater.Core.Models
         /// <summary />
         public string LogLastDateDiff { get; set; }
 
-
         /// <summary />
         public bool SyncTimeWithHost { get; set; }
-
 
         /// <summary />
         public bool AutoUpdateTools { get; set; }
@@ -93,7 +91,6 @@ namespace VmMachineHwVersionUpdater.Core.Models
 
         /// <summary />
         public string GuestOsRaw { get; set; }
-
 
         /// <summary />
         public PackIconMaterialKind MachineState { get; set; }

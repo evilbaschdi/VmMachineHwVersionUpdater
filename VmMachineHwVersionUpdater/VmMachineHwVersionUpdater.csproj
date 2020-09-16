@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <ApplicationIcon>b.ico</ApplicationIcon>
@@ -9,7 +9,7 @@
     <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
     <!-- ReSharper disable once UnknownProperty -->
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.xml</DocumentationFile>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>preview</LangVersion>
     <OutputType>WinExe</OutputType>
     <PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
     <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
@@ -17,7 +17,8 @@
     <Product>VM Machine Hardware Version Updater</Product>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
     <RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5-windows</TargetFramework>
+
     <UseWPF>true</UseWPF>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
@@ -26,8 +27,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="4.3.2" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2020.6.12.1028" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.5.24.1338" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.9.15.1926-develop" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.9.15.1948-develop" />
     <PackageReference Include="MahApps.Metro" Version="2.2.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.4.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.4.0" />

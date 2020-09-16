@@ -53,25 +53,27 @@ namespace VmMachineHwVersionUpdater.Core.BasicApplication
                                              };
                 machinePaths.AddRange(archivePaths);
 
-                foreach (var path in machinePaths)
-                {
-                    if (!Directory.Exists(path))
-                    {
-                        continue;
-                    }
 
-                    var fileList = _fileListFromPath.ValueFor(path, fileListFromPathFilter).Distinct().ToList();
+                Parallel.ForEach(machinePaths, path =>
+                                               {
+                                                   if (!Directory.Exists(path))
+                                                   {
+                                                       return;
+                                                   }
 
-                    Parallel.ForEach(fileList,
-                        file =>
-                        {
-                            var machine = _handleMachineFromPath.ValueFor(path, file);
-                            if (machine != null)
-                            {
-                                machineList.Add(machine);
-                            }
-                        });
-                }
+                                                   var fileList = _fileListFromPath.ValueFor(path, fileListFromPathFilter).Distinct().ToList();
+
+                                                   Parallel.ForEach(fileList,
+                                                       file =>
+                                                       {
+                                                           var machine = _handleMachineFromPath.ValueFor(path, file);
+                                                           if (machine == null)
+                                                           {
+                                                               return;
+                                                           }
+                                                           machineList.Add(machine);
+                                                       });
+                                               });
 
                 return machineList.ToList();
             }

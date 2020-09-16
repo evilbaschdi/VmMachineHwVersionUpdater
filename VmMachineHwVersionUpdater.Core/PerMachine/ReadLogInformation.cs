@@ -27,23 +27,28 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                 ? $@"{logDirectory}\vmware.log"
                 : null;
 
-            if (!string.IsNullOrWhiteSpace(log) && !log.FileInfo().IsFileLocked())
+            if (string.IsNullOrWhiteSpace(log) || log.FileInfo().IsFileLocked())
             {
-                try
-                {
-                    var logLastLine = File.ReadAllLines(log).Last();
-                    logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23)
-                                             .Replace(".", ",");
-                    var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff",
-                        CultureInfo.InvariantCulture);
-                    var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
-                    logLastDateDiff =
-                        $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                return new KeyValuePair<string, string>
+                (!string.IsNullOrWhiteSpace(logLastDate)
+                    ? logLastDate.Substring(0, 16)
+                    : string.Empty, logLastDateDiff);
+            }
+
+            try
+            {
+                var logLastLine = File.ReadAllLines(log).Last();
+                logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23)
+                                         .Replace(".", ",");
+                var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff",
+                    CultureInfo.InvariantCulture);
+                var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
+                logLastDateDiff =
+                    $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
 
             return new KeyValuePair<string, string>

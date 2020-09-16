@@ -10,6 +10,7 @@ namespace VmMachineHwVersionUpdater
     /// <summary>
     ///     Interaction logic for AddEditAnnotationDialog.xaml
     /// </summary>
+    // ReSharper disable once RedundantExtendsListEntry
     public partial class AddEditAnnotationDialog : MetroWindow
     {
         private readonly IAddEditAnnotation _addEditAnnotation;

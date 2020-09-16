@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace VmMachineHwVersionUpdater.Core.PerMachine
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine
 {
     /// <inheritdoc cref="IToggleToolsSyncTime" />
     public class ToggleToolsUpgradePolicy : UpsertVmxLine<bool>, IToggleToolsUpgradePolicy
@@ -13,6 +11,4 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         {
         }
     }
-    
-   
 }

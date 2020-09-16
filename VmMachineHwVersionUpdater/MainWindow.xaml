@@ -4,6 +4,7 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:core="clr-namespace:VmMachineHwVersionUpdater.Core;assembly=VmMachineHwVersionUpdater.Core"
+                      xmlns:resources="clr-namespace:VmMachineHwVersionUpdater.Resources"
                       Title="VM Machine Hardware Version Updater" TitleCharacterCasing="Normal"
                       Width="1000" Height="700" Icon="b.ico" ShowIconOnTitleBar="False"
                       GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
@@ -159,7 +160,7 @@
                                 <ControlTemplate TargetType="{x:Type GroupItem}">
                                     <Expander IsExpanded="True">
                                         <Expander.Resources>
-                                            <core:DirectorySizeConverter x:Key="DirectorySizeConverter" />
+                                            <resources:DirectorySizeConverter x:Key="DirectorySizeConverter" />
                                         </Expander.Resources>
                                         <Expander.Header>
                                             <DockPanel>
@@ -198,7 +199,7 @@
                     <MenuItem.Icon>
                         <iconPacks:PackIconPicolIcons Kind="NotesEdit" Width="16" Height="16"
                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        
+
                     </MenuItem.Icon>
                 </MenuItem>
 
