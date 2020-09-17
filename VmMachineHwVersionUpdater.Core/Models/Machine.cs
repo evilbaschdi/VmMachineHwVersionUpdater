@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
-using MahApps.Metro.IconPacks;
+using JetBrains.Annotations;
+using VmMachineHwVersionUpdater.Core.Enums;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.Core.Models
@@ -8,22 +9,49 @@ namespace VmMachineHwVersionUpdater.Core.Models
     /// <inheritdoc cref="INotifyPropertyChanged" />
     public class Machine : INotifyPropertyChanged
     {
+        private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
+        private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
         private readonly IUpdateMachineVersion _updateMachineVersion;
+        private bool _autoUpdateTools;
         private int _hwVersion;
+        private bool _syncTimeWithHost;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="updateMachineVersion"></param>
-        public Machine(IUpdateMachineVersion updateMachineVersion)
+        /// <param name="toggleToolsUpgradePolicy"></param>
+        /// <param name="toggleToolsSyncTime"></param>
+        public Machine([NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+                       [NotNull] IToggleToolsSyncTime toggleToolsSyncTime)
         {
             _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+            _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
+            _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
+        }
+
+        /// <summary />
+        public bool AutoUpdateTools
+        {
+            // ReSharper disable once UnusedMember.Global
+            get => _autoUpdateTools;
+            set
+            {
+                if (_autoUpdateTools == value)
+                {
+                    return;
+                }
+
+                _autoUpdateTools = value;
+                NotifyAutoUpdateToolsChanged();
+            }
         }
 
 
         /// <summary />
         public int HwVersion
         {
+            // ReSharper disable once UnusedMember.Global
             get => _hwVersion;
             set
             {
@@ -33,7 +61,24 @@ namespace VmMachineHwVersionUpdater.Core.Models
                 }
 
                 _hwVersion = value;
-                NotifyPropertyChanged(Path, _hwVersion);
+                NotifyHwVersionChanged();
+            }
+        }
+
+        /// <summary />
+        public bool SyncTimeWithHost
+        {
+            // ReSharper disable once UnusedMember.Global
+            get => _syncTimeWithHost;
+            set
+            {
+                if (_syncTimeWithHost == value)
+                {
+                    return;
+                }
+
+                _syncTimeWithHost = value;
+                NotifySyncTimeWithHostChanged();
             }
         }
 
@@ -44,11 +89,33 @@ namespace VmMachineHwVersionUpdater.Core.Models
         // This method is called by the Set accessors of each property.
         // The CallerMemberName attribute that is applied to the optional propertyName
         // parameter causes the property name of the caller to be substituted as an argument.
-        private void NotifyPropertyChanged(string path, int newVersion)
+        private void NotifyHwVersionChanged()
         {
             if (PropertyChanged != null)
             {
-                _updateMachineVersion.RunFor(path, newVersion);
+                _updateMachineVersion.RunFor(Path, _hwVersion);
+            }
+        }
+
+        // This method is called by the Set accessors of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifyAutoUpdateToolsChanged()
+        {
+            if (PropertyChanged != null)
+            {
+                _toggleToolsUpgradePolicy.RunFor(Path, _autoUpdateTools);
+            }
+        }
+
+        // This method is called by the Set accessors of each property.
+        // The CallerMemberName attribute that is applied to the optional propertyName
+        // parameter causes the property name of the caller to be substituted as an argument.
+        private void NotifySyncTimeWithHostChanged()
+        {
+            if (PropertyChanged != null)
+            {
+                _toggleToolsSyncTime.RunFor(Path, _syncTimeWithHost);
             }
         }
 
@@ -77,11 +144,6 @@ namespace VmMachineHwVersionUpdater.Core.Models
         /// <summary />
         public string LogLastDateDiff { get; set; }
 
-        /// <summary />
-        public bool SyncTimeWithHost { get; set; }
-
-        /// <summary />
-        public bool AutoUpdateTools { get; set; }
 
         /// <summary />
         public string Annotation { get; set; }
@@ -93,7 +155,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         public string GuestOsRaw { get; set; }
 
         /// <summary />
-        public PackIconMaterialKind MachineState { get; set; }
+        public MachineState MachineState { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 }

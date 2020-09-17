@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EvilBaschdi.Core.Extensions;
 using JetBrains.Annotations;
-using MahApps.Metro.IconPacks;
+using VmMachineHwVersionUpdater.Core.Enums;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.Settings;
 
@@ -19,6 +19,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         private readonly IPathSettings _pathSettings;
         private readonly IReadLogInformation _readLogInformation;
         private readonly IReturnValueFromVmxLine _returnValueFromVmxLine;
+        private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
+        private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
         private readonly IUpdateMachineVersion _updateMachineVersion;
         private readonly IVmxLineStartsWith _vmxLineStartsWith;
 
@@ -32,10 +34,13 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         /// <param name="returnValueFromVmxLine"></param>
         /// <param name="vmxLineStartsWith"></param>
         /// <param name="convertAnnotationLineBreaks"></param>
+        /// <param name="toggleToolsUpgradePolicy"></param>
+        /// <param name="toggleToolsSyncTime"></param>
         public HandleMachineFromPath([NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping, [NotNull] IPathSettings pathSettings,
                                      [NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IReadLogInformation readLogInformation,
                                      [NotNull] IReturnValueFromVmxLine returnValueFromVmxLine, [NotNull] IVmxLineStartsWith vmxLineStartsWith,
-                                     [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+                                     [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks, [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+                                     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime)
         {
             _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
             _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
@@ -44,6 +49,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
             _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
             _convertAnnotationLineBreaks = convertAnnotationLineBreaks ?? throw new ArgumentNullException(nameof(convertAnnotationLineBreaks));
+            _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
+            _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
         }
 
         /// <inheritdoc />
@@ -116,7 +123,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var paused = directoryInfo?.GetFiles("*.vmss").Any();
             var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
 
-            var machine = new Machine(_updateMachineVersion)
+            var machine = new Machine(_updateMachineVersion, _toggleToolsUpgradePolicy, _toggleToolsSyncTime)
                           {
                               HwVersion = Convert.ToInt32(hwVersion),
                               DisplayName = displayName.Trim() + " " + (!string.IsNullOrWhiteSpace(annotation) ? "*" : ""),
@@ -135,8 +142,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                               SyncTimeWithHost = !string.IsNullOrWhiteSpace(syncTimeWithHost) &&
                                                  bool.Parse(syncTimeWithHost),
                               MachineState = paused.HasValue && paused.Value
-                                  ? PackIconMaterialKind.Pause
-                                  : PackIconMaterialKind.Power,
+                                  ? MachineState.Paused
+                                  : MachineState.Off,
                               Annotation = annotation
                           };
             return machine;
