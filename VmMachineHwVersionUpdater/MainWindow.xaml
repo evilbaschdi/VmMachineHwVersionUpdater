@@ -72,7 +72,10 @@
                         <DataTemplate.Resources>
                             <resources:MachineStateToPackIconMaterialKindConverter x:Key="MachineStateToPackIconMaterialKindConverter" />
                         </DataTemplate.Resources>
-                        <Button Command="{Binding Start.Command}" Width="30" Height="30" Style="{DynamicResource MahApps.Styles.Button.MetroWindow.Base}">
+                        <Button Command="{Binding DataContext.Start.Command, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}"
+                                Width="30"
+                                Height="30"
+                                Style="{DynamicResource MahApps.Styles.Button.MetroWindow.Base}">
                             <StackPanel Orientation="Horizontal">
                                 <iconPacks:PackIconMaterial Kind="{Binding MachineState, Converter={StaticResource MachineStateToPackIconMaterialKindConverter}}" Width="16"
                                                             Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -133,7 +136,6 @@
             <controls:DataGridNumericUpDownColumn Width="90" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1"
                                                   HideUpDownButtons="False" IsReadOnly="False" />
         </DataGrid.Columns>
-
         <!--  GroupStyle  -->
         <DataGrid.GroupStyle>
             <GroupStyle>
