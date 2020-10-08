@@ -1,0 +1,13 @@
+body {
+  padding-top: 56px;
+  background: url('../img/me.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+.special {
+  background-color: rgba(245, 245, 245, 1);
+  opacity: .8;
+}
