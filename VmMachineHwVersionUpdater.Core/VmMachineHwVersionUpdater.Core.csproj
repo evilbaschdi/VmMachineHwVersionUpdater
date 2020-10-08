@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2020.9.15.1926-develop" />
-    <PackageReference Include="EvilBaschdi.Settings" Version="2020.9.19.854-develop" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2020.10.2.2122-develop" />
+    <PackageReference Include="EvilBaschdi.Settings" Version="2020.10.3.559-develop" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
