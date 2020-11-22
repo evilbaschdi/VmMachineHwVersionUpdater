@@ -31,7 +31,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
     {
         private readonly IDialogCoordinator _instance;
-        private readonly SortDescription _sd = new SortDescription("DisplayName", ListSortDirection.Ascending);
+        private readonly SortDescription _sd = new("DisplayName", ListSortDirection.Ascending);
         private IArchiveMachine _archiveMachine;
         private List<Machine> _currentItemSource;
         private IDeleteMachine _deleteMachine;
@@ -44,7 +44,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
         private bool _searchFilterIsReadOnly;
         private string _searchFilterText;
         private bool _searchOsIsEnabled;
-        private ObservableCollection<object> _searchOsItemCollection = new ObservableCollection<object>();
+        private ObservableCollection<object> _searchOsItemCollection = new();
         private string _searchOsText;
         private Machine _selectedMachine;
         private IToggleToolsSyncTime _toggleToolsSyncTime;
@@ -64,44 +64,44 @@ namespace VmMachineHwVersionUpdater.ViewModels
         {
             _instance = instance ?? throw new ArgumentNullException(nameof(instance));
             AboutWindowClick = new DefaultCommand
-            {
-                Text = "about",
-                Command = new RelayCommand(rc => AboutWindowCommand())
-            };
+                               {
+                                   Text = "about",
+                                   Command = new RelayCommand(_ => AboutWindowCommand())
+                               };
             AddEditAnnotation = new DefaultCommand
-            {
-                Command = new RelayCommand(rc => LoadAddEditAnnotationDialog())
-            };
+                                {
+                                    Command = new RelayCommand(_ => LoadAddEditAnnotationDialog())
+                                };
             Archive = new DefaultCommand
-            {
-                Command = new RelayCommand(async rc => await ArchiveClickAsync().ConfigureAwait(true))
-            };
+                      {
+                          Command = new RelayCommand(async _ => await ArchiveClickAsync().ConfigureAwait(true))
+                      };
 
             Delete = new DefaultCommand
-            {
-                Command = new RelayCommand(async rc => await DeleteClickAsync().ConfigureAwait(true))
-            };
+                     {
+                         Command = new RelayCommand(async _ => await DeleteClickAsync().ConfigureAwait(true))
+                     };
 
             GoTo = new DefaultCommand
-            {
-                Command = new RelayCommand(rc => GoToPath())
-            };
+                   {
+                       Command = new RelayCommand(_ => GoToPath())
+                   };
             OpenWithCode = new DefaultCommand
-            {
-                Command = new RelayCommand(rc => OpenVmxWithCode())
-            };
+                           {
+                               Command = new RelayCommand(_ => OpenVmxWithCode())
+                           };
             Reload = new DefaultCommand
-            {
-                Command = new RelayCommand(rc => Load())
-            };
+                     {
+                         Command = new RelayCommand(_ => Load())
+                     };
             Start = new DefaultCommand
-            {
-                Command = new RelayCommand(rc => StartVm())
-            };
+                    {
+                        Command = new RelayCommand(_ => StartVm())
+                    };
             UpdateAll = new DefaultCommand
-            {
-                Command = new RelayCommand(async rc => await ConfigureUpdateAsync().ConfigureAwait(true))
-            };
+                        {
+                            Command = new RelayCommand(async _ => await ConfigureUpdateAsync().ConfigureAwait(true))
+                        };
         }
 
         #endregion Constructor
@@ -112,31 +112,31 @@ namespace VmMachineHwVersionUpdater.ViewModels
         // ReSharper disable MemberCanBePrivate.Global
         // ReSharper disable UnusedAutoPropertyAccessor.Global
         // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-        public ICommandViewModel AboutWindowClick { get; set; }
+        public ICommandViewModel AboutWindowClick { get; init; }
 
         /// <summary />
-        public ICommandViewModel AddEditAnnotation { get; set; }
+        public ICommandViewModel AddEditAnnotation { get; init; }
 
         /// <summary />
-        public ICommandViewModel Archive { get; set; }
+        public ICommandViewModel Archive { get; init; }
 
         /// <summary />
-        public ICommandViewModel Delete { get; set; }
+        public ICommandViewModel Delete { get; init; }
 
         /// <summary />
-        public ICommandViewModel GoTo { get; set; }
+        public ICommandViewModel GoTo { get; init; }
 
         /// <summary />
-        public ICommandViewModel OpenWithCode { get; set; }
+        public ICommandViewModel OpenWithCode { get; init; }
 
         /// <summary />
-        public ICommandViewModel Reload { get; set; }
+        public ICommandViewModel Reload { get; init; }
 
         /// <summary />
-        public ICommandViewModel Start { get; set; }
+        public ICommandViewModel Start { get; init; }
 
         /// <summary />
-        public ICommandViewModel UpdateAll { get; set; }
+        public ICommandViewModel UpdateAll { get; init; }
         // ReSharper restore AutoPropertyCanBeMadeGetOnly.Global
         // ReSharper restore UnusedAutoPropertyAccessor.Global
         // ReSharper restore MemberCanBePrivate.Global
@@ -359,7 +359,10 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
         private void LoadSearchOsItems([NotNull] LoadHelper loadValue)
         {
-            if (loadValue == null) throw new ArgumentNullException(nameof(loadValue));
+            if (loadValue == null)
+            {
+                throw new ArgumentNullException(nameof(loadValue));
+            }
 
             SearchOsItemCollection.Clear();
             SearchOsItemCollection.Add("(no filter)");
@@ -392,10 +395,16 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
         private void GoToPath()
         {
-            if (!File.Exists(_selectedMachine.Path)) return;
+            if (!File.Exists(_selectedMachine.Path))
+            {
+                return;
+            }
 
             var path = Path.GetDirectoryName(_selectedMachine.Path);
-            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path)) _processByPath.RunFor(path);
+            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+            {
+                _processByPath.RunFor(path);
+            }
         }
 
         private async Task ArchiveClickAsync()
@@ -428,7 +437,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
             var result = await _instance.ShowMessageAsync(this, "Delete machine...",
                 $"Are you sure you want to delete '{_selectedMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
-            ;
+
             if (result == MessageDialogResult.Affirmative)
             {
                 try
@@ -448,9 +457,9 @@ namespace VmMachineHwVersionUpdater.ViewModels
         {
             IAddEditAnnotation addEditAnnotation = new AddEditAnnotation();
             var addEditAnnotationDialog = new AddEditAnnotationDialog(addEditAnnotation, _selectedMachine)
-            {
-                DataContext = new AddEditAnnotationDialogViewModel()
-            };
+                                          {
+                                              DataContext = new AddEditAnnotationDialogViewModel()
+                                          };
             addEditAnnotationDialog.Closing += AddEditAnnotationDialogClosing;
             addEditAnnotationDialog.ShowDialog();
         }
@@ -471,23 +480,29 @@ namespace VmMachineHwVersionUpdater.ViewModels
             IAboutContent aboutWindowContent =
                 new AboutContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\b.png");
             var aboutWindow = new AboutWindow
-            {
-                DataContext = new AboutViewModel(aboutWindowContent)
-            };
+                              {
+                                  DataContext = new AboutViewModel(aboutWindowContent)
+                              };
             aboutWindow.ShowDialog();
         }
 
         private void FilterItemSource()
         {
             if (SearchOsText != "(no filter)")
+            {
                 _listCollectionView.Filter = vm =>
-                    ((Machine) vm).GuestOs.StartsWith(SearchOsText, StringComparison.InvariantCultureIgnoreCase);
+                                                 ((Machine) vm).GuestOs.StartsWith(SearchOsText, StringComparison.InvariantCultureIgnoreCase);
+            }
             else
-                _listCollectionView.Filter = vm => true;
+            {
+                _listCollectionView.Filter = _ => true;
+            }
 
             if (!string.IsNullOrWhiteSpace(SearchFilterText))
+            {
                 _listCollectionView.Filter = vm =>
-                    ((Machine) vm).DisplayName.Contains(SearchFilterText, StringComparison.InvariantCultureIgnoreCase);
+                                                 ((Machine) vm).DisplayName.Contains(SearchFilterText, StringComparison.InvariantCultureIgnoreCase);
+            }
 
             ListCollectionView = _listCollectionView;
         }
@@ -511,7 +526,10 @@ namespace VmMachineHwVersionUpdater.ViewModels
         private void Update()
         {
             var version = _updateAllHwVersion;
-            if (!version.HasValue) return;
+            if (!version.HasValue)
+            {
+                return;
+            }
 
             var innerVersion = Convert.ToInt32(version.Value);
             var localList = _currentItemSource.AsParallel().Where(vm => vm.HwVersion != innerVersion).ToList();

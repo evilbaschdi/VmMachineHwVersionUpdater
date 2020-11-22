@@ -7,9 +7,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
     public class VmxLineStartsWith : IVmxLineStartsWith
     {
         /// <inheritdoc />
-        public bool ValueFor([NotNull] string line,[NotNull] string key)
+        public bool ValueFor([NotNull] string line, [NotNull] string key)
         {
-           
             if (line == null)
             {
                 throw new ArgumentNullException(nameof(line));
@@ -19,7 +18,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             {
                 throw new ArgumentNullException(nameof(key));
             }
-            
+
             return line.StartsWith(key, StringComparison.InvariantCultureIgnoreCase);
         }
     }

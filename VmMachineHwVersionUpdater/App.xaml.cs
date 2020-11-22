@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+
 #if (!DEBUG)
 using ControlzEx.Theming;
 

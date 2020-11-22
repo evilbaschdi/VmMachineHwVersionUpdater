@@ -12,9 +12,9 @@ namespace VmMachineHwVersionUpdater.Core.Models
         private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
         private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
         private readonly IUpdateMachineVersion _updateMachineVersion;
-        private bool _autoUpdateTools;
-        private int _hwVersion;
-        private bool _syncTimeWithHost;
+        private readonly bool _autoUpdateTools;
+        private readonly int _hwVersion;
+        private readonly bool _syncTimeWithHost;
 
         /// <summary>
         ///     Constructor
@@ -35,7 +35,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         {
             // ReSharper disable once UnusedMember.Global
             get => _autoUpdateTools;
-            set
+            init
             {
                 if (_autoUpdateTools == value)
                 {
@@ -53,7 +53,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         {
             // ReSharper disable once UnusedMember.Global
             get => _hwVersion;
-            set
+            init
             {
                 if (_hwVersion == value)
                 {
@@ -70,7 +70,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         {
             // ReSharper disable once UnusedMember.Global
             get => _syncTimeWithHost;
-            set
+            init
             {
                 if (_syncTimeWithHost == value)
                 {
@@ -121,41 +121,41 @@ namespace VmMachineHwVersionUpdater.Core.Models
 
         // ReSharper disable UnusedAutoPropertyAccessor.Global
         /// <summary />
-        public string DisplayName { get; set; }
+        public string DisplayName { get; init; }
 
         /// <summary />
-        public string ShortPath { get; set; }
+        public string ShortPath { get; init; }
 
         /// <summary />
-        public string Path { get; set; }
+        public string Path { get; init; }
 
         /// <summary />
-        public string Directory { get; set; }
+        public string Directory { get; init; }
 
         /// <summary />
-        public string DirectorySize { get; set; }
+        public string DirectorySize { get; init; }
 
         /// <summary> </summary>
-        public double DirectorySizeGb { get; set; }
+        public double DirectorySizeGb { get; init; }
 
         /// <summary />
-        public string LogLastDate { get; set; }
+        public string LogLastDate { get; init; }
 
         /// <summary />
-        public string LogLastDateDiff { get; set; }
+        public string LogLastDateDiff { get; init; }
 
 
         /// <summary />
-        public string Annotation { get; set; }
+        public string Annotation { get; init; }
 
         /// <summary />
-        public string GuestOs { get; set; }
+        public string GuestOs { get; init; }
 
         /// <summary />
-        public string GuestOsRaw { get; set; }
+        public string GuestOsRaw { get; init; }
 
         /// <summary />
-        public MachineState MachineState { get; set; }
+        public MachineState MachineState { get; init; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 }

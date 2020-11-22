@@ -19,8 +19,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         private readonly IPathSettings _pathSettings;
         private readonly IReadLogInformation _readLogInformation;
         private readonly IReturnValueFromVmxLine _returnValueFromVmxLine;
-        private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
         private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
+        private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
         private readonly IUpdateMachineVersion _updateMachineVersion;
         private readonly IVmxLineStartsWith _vmxLineStartsWith;
 
