@@ -4,6 +4,8 @@
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:resources="clr-namespace:VmMachineHwVersionUpdater.Resources"
+                      xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      dialog:DialogParticipation.Register="{Binding}"
                       Title="VM Machine Hardware Version Updater" TitleCharacterCasing="Normal"
                       Width="1000" Height="700" Icon="b.ico" ShowIconOnTitleBar="False"
                       GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
@@ -17,24 +19,28 @@
         <controls:WindowCommands>
             <!--  Search Filter -->
             <TextBox Width="250" Height="20" TextWrapping="Wrap" IsReadOnly="{Binding SearchFilterIsReadOnly}"
-                     controls:TextBoxHelper.ClearTextButton="True" Text="{Binding SearchFilterText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     controls:TextBoxHelper.ClearTextButton="True"
+                     Text="{Binding SearchFilterText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      controls:TextBoxHelper.Watermark="enter search term" />
             <!--  Search Os -->
-            <ComboBox Width="250" Height="20" Text="{Binding SearchOsText}" IsReadOnly="True" IsEnabled="{Binding SearchOsIsEnabled}"
+            <ComboBox Width="250" Height="20" Text="{Binding SearchOsText}" IsReadOnly="True"
+                      IsEnabled="{Binding SearchOsIsEnabled}"
                       ItemsSource="{Binding SearchOsItemCollection}"
                       controls:TextBoxHelper.ClearTextButton="True"
                       controls:TextBoxHelper.Watermark="(no filter)" />
             <!-- Load -->
             <Button Command="{Binding Reload.Command}">
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Reload" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <iconPacks:PackIconMaterial Kind="Reload" Width="20" Height="20" HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="Reload" />
                 </StackPanel>
             </Button>
             <!-- Update all -->
             <Button Command="{Binding UpdateAll.Command}" IsEnabled="{Binding UpdateAllIsEnabled}">
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Update" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <iconPacks:PackIconMaterial Kind="Update" Width="20" Height="20" HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding UpdateAllTextBlockText}" />
                 </StackPanel>
             </Button>
@@ -42,7 +48,8 @@
             <!-- About -->
             <Button Command="{Binding AboutWindowClick.Command}">
                 <StackPanel Orientation="Horizontal">
-                    <iconPacks:PackIconMaterial Kind="Information" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <iconPacks:PackIconMaterial Kind="Information" Width="20" Height="20" HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding AboutWindowClick.Text}" />
                 </StackPanel>
             </Button>
@@ -52,9 +59,12 @@
     <!--  DataGrid  -->
     <!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
-    <DataGrid Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single" ItemsSource="{Binding ListCollectionView}"
-              Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" GridLinesVisibility="Horizontal" SelectedValue="{Binding Path=SelectedMachine}" CanUserDeleteRows="False"
-              AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+    <DataGrid Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single"
+              ItemsSource="{Binding ListCollectionView}"
+              Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" GridLinesVisibility="Horizontal"
+              SelectedValue="{Binding Path=SelectedMachine}" CanUserDeleteRows="False"
+              AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <!--  Columns  -->
         <DataGrid.Columns>
             <!--  Display Name  -->
@@ -70,15 +80,20 @@
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <DataTemplate.Resources>
-                            <resources:MachineStateToPackIconMaterialKindConverter x:Key="MachineStateToPackIconMaterialKindConverter" />
+                            <resources:MachineStateToPackIconMaterialKindConverter
+                                x:Key="MachineStateToPackIconMaterialKindConverter" />
                         </DataTemplate.Resources>
-                        <Button Command="{Binding DataContext.Start.Command, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}"
-                                Width="30"
-                                Height="30"
-                                Style="{DynamicResource MahApps.Styles.Button.MetroWindow.Base}">
+                        <Button
+                            Command="{Binding DataContext.Start.Command, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                            CommandParameter="{Binding}"
+                            Width="30"
+                            Height="30"
+                            Style="{DynamicResource MahApps.Styles.Button.MetroWindow.Base}">
                             <StackPanel Orientation="Horizontal">
-                                <iconPacks:PackIconMaterial Kind="{Binding MachineState, Converter={StaticResource MachineStateToPackIconMaterialKindConverter}}" Width="16"
-                                                            Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <iconPacks:PackIconMaterial
+                                    Kind="{Binding MachineState, Converter={StaticResource MachineStateToPackIconMaterialKindConverter}}"
+                                    Width="16"
+                                    Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                     </DataTemplate>
@@ -93,7 +108,8 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <!--  Directory Size (GB)  -->
-            <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True" SortMemberPath="DirectorySizeGb">
+            <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True"
+                                    SortMemberPath="DirectorySizeGb">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding DirectorySizeGb}" ToolTipService.ToolTip="{Binding DirectorySize}" />
@@ -112,15 +128,18 @@
             <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True" SortMemberPath="SyncTimeWithHost">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <CheckBox IsChecked="{Binding SyncTimeWithHost, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" />
+                        <CheckBox IsChecked="{Binding SyncTimeWithHost, UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <!--  Auto Update Tools  -->
-            <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True" SortMemberPath="AutoUpdateTools">
+            <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True"
+                                    SortMemberPath="AutoUpdateTools">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <CheckBox IsChecked="{Binding AutoUpdateTools, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" />
+                        <CheckBox IsChecked="{Binding AutoUpdateTools, UpdateSourceTrigger=PropertyChanged}"
+                                  Style="{DynamicResource MahApps.Styles.CheckBox.Win10}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
@@ -133,7 +152,9 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <!--  Version  -->
-            <controls:DataGridNumericUpDownColumn Width="90" Header="Version" Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" Minimum="1"
+            <controls:DataGridNumericUpDownColumn Width="90" Header="Version"
+                                                  Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}"
+                                                  Minimum="1"
                                                   HideUpDownButtons="False" IsReadOnly="False" />
         </DataGrid.Columns>
         <!--  GroupStyle  -->
@@ -156,7 +177,8 @@
                                                 <TextBlock Text="{Binding Path=ItemCount}" Margin="0,0,5,0" />
                                                 <TextBlock Text="machines" Margin="0,0,5,0" />
                                                 <TextBlock Text="|" Margin="0,0,5,0" />
-                                                <TextBlock Text="{Binding Items, Converter={StaticResource DirectorySizeConverter}}" />
+                                                <TextBlock
+                                                    Text="{Binding Items, Converter={StaticResource DirectorySizeConverter}}" />
                                             </DockPanel>
                                         </Expander.Header>
                                         <Expander.Content>
@@ -176,39 +198,45 @@
                 <!-- Start -->
                 <MenuItem Header="Start machine..." Command="{Binding Start.Command}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconMaterial Kind="Power" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <iconPacks:PackIconMaterial Kind="Power" Width="16" Height="16" HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <!-- Add / Edit Annotation -->
                 <MenuItem Header="Add / Edit Annotation..." Command="{Binding AddEditAnnotation.Command}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconPicolIcons Kind="NotesEdit" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <iconPacks:PackIconPicolIcons Kind="NotesEdit" Width="16" Height="16"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
 
                 <!-- Open with Code -->
                 <MenuItem Header="Open with Code..." Command="{Binding OpenWithCode.Command}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconSimpleIcons Kind="VisualStudioCode" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <iconPacks:PackIconSimpleIcons Kind="VisualStudioCode" Width="16" Height="16"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <!-- Go to -->
                 <MenuItem Header="Go to path..." Command="{Binding GoTo.Command}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconMaterial Kind="FolderOutline" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <iconPacks:PackIconMaterial Kind="FolderOutline" Width="16" Height="16"
+                                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <!-- Archive -->
                 <MenuItem Header="Archive machine..." Command="{Binding Archive.Command}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconMaterial Kind="Archive" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <iconPacks:PackIconMaterial Kind="Archive" Width="16" Height="16" HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <!-- Delete -->
                 <MenuItem Header="Delete machine..." Command="{Binding Delete.Command}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconMaterial Kind="DeleteVariant" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <iconPacks:PackIconMaterial Kind="DeleteVariant" Width="16" Height="16"
+                                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>

@@ -64,44 +64,44 @@ namespace VmMachineHwVersionUpdater.ViewModels
         {
             _instance = instance ?? throw new ArgumentNullException(nameof(instance));
             AboutWindowClick = new DefaultCommand
-                               {
-                                   Text = "about",
-                                   Command = new RelayCommand(rc => AboutWindowCommand())
-                               };
+            {
+                Text = "about",
+                Command = new RelayCommand(rc => AboutWindowCommand())
+            };
             AddEditAnnotation = new DefaultCommand
-                                {
-                                    Command = new RelayCommand(rc => LoadAddEditAnnotationDialog())
-                                };
+            {
+                Command = new RelayCommand(rc => LoadAddEditAnnotationDialog())
+            };
             Archive = new DefaultCommand
-                      {
-                          Command = new RelayCommand(async rc => await ArchiveClickAsync().ConfigureAwait(true))
-                      };
+            {
+                Command = new RelayCommand(async rc => await ArchiveClickAsync().ConfigureAwait(true))
+            };
 
             Delete = new DefaultCommand
-                     {
-                         Command = new RelayCommand(async rc => await DeleteClickAsync().ConfigureAwait(true))
-                     };
+            {
+                Command = new RelayCommand(async rc => await DeleteClickAsync().ConfigureAwait(true))
+            };
 
             GoTo = new DefaultCommand
-                   {
-                       Command = new RelayCommand(rc => GoToPath())
-                   };
+            {
+                Command = new RelayCommand(rc => GoToPath())
+            };
             OpenWithCode = new DefaultCommand
-                           {
-                               Command = new RelayCommand(rc => OpenVmxWithCode())
-                           };
+            {
+                Command = new RelayCommand(rc => OpenVmxWithCode())
+            };
             Reload = new DefaultCommand
-                     {
-                         Command = new RelayCommand(rc => Load())
-                     };
+            {
+                Command = new RelayCommand(rc => Load())
+            };
             Start = new DefaultCommand
-                    {
-                        Command = new RelayCommand(rc => StartVm())
-                    };
+            {
+                Command = new RelayCommand(rc => StartVm())
+            };
             UpdateAll = new DefaultCommand
-                        {
-                            Command = new RelayCommand(async rc => await ConfigureUpdateAsync().ConfigureAwait(true))
-                        };
+            {
+                Command = new RelayCommand(async rc => await ConfigureUpdateAsync().ConfigureAwait(true))
+            };
         }
 
         #endregion Constructor
@@ -309,7 +309,8 @@ namespace VmMachineHwVersionUpdater.ViewModels
             var vmPoolFromSettingExistingPaths = _pathSettings.VmPool.GetExistingDirectories();
             if (!vmPoolFromSettingExistingPaths.Any())
             {
-                _instance.ShowMessageAsync(this, "No virtual machines found", "Please verify settings and discs attached");
+                _instance.ShowMessageAsync(this, "No virtual machines found",
+                    "Please verify settings and discs attached");
                 return;
             }
 
@@ -320,7 +321,8 @@ namespace VmMachineHwVersionUpdater.ViewModels
         {
             IFileListFromPath fileListFromPath = new FileListFromPath();
             IGuestOsStringMapping guestOsStringMapping = new GuestOsStringMapping();
-            IGuestOsOutputStringMapping guestOsOutputStringMapping = new GuestOsOutputStringMapping(guestOsStringMapping);
+            IGuestOsOutputStringMapping guestOsOutputStringMapping =
+                new GuestOsOutputStringMapping(guestOsStringMapping);
             IReadLogInformation readLogInformation = new ReadLogInformation();
             _updateMachineVersion = new UpdateMachineVersion();
             _toggleToolsUpgradePolicy = new ToggleToolsUpgradePolicy();
@@ -329,7 +331,8 @@ namespace VmMachineHwVersionUpdater.ViewModels
             IVmxLineStartsWith vmxLineStartsWith = new VmxLineStartsWith();
             IConvertAnnotationLineBreaks convertAnnotationLineBreaks = new ConvertAnnotationLineBreaks();
             IHandleMachineFromPath handleMachineFromPath =
-                new HandleMachineFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion, readLogInformation, returnValueFromVmxLine, vmxLineStartsWith,
+                new HandleMachineFromPath(guestOsOutputStringMapping, _pathSettings, _updateMachineVersion,
+                    readLogInformation, returnValueFromVmxLine, vmxLineStartsWith,
                     convertAnnotationLineBreaks, _toggleToolsUpgradePolicy, _toggleToolsSyncTime);
             _processByPath = new ProcessByPath();
 
@@ -356,10 +359,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
         private void LoadSearchOsItems([NotNull] LoadHelper loadValue)
         {
-            if (loadValue == null)
-            {
-                throw new ArgumentNullException(nameof(loadValue));
-            }
+            if (loadValue == null) throw new ArgumentNullException(nameof(loadValue));
 
             SearchOsItemCollection.Clear();
             SearchOsItemCollection.Add("(no filter)");
@@ -392,16 +392,10 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
         private void GoToPath()
         {
-            if (!File.Exists(_selectedMachine.Path))
-            {
-                return;
-            }
+            if (!File.Exists(_selectedMachine.Path)) return;
 
             var path = Path.GetDirectoryName(_selectedMachine.Path);
-            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
-            {
-                _processByPath.RunFor(path);
-            }
+            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path)) _processByPath.RunFor(path);
         }
 
         private async Task ArchiveClickAsync()
@@ -434,6 +428,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
             var result = await _instance.ShowMessageAsync(this, "Delete machine...",
                 $"Are you sure you want to delete '{_selectedMachine.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
+            ;
             if (result == MessageDialogResult.Affirmative)
             {
                 try
@@ -453,9 +448,9 @@ namespace VmMachineHwVersionUpdater.ViewModels
         {
             IAddEditAnnotation addEditAnnotation = new AddEditAnnotation();
             var addEditAnnotationDialog = new AddEditAnnotationDialog(addEditAnnotation, _selectedMachine)
-                                          {
-                                              DataContext = new AddEditAnnotationDialogViewModel()
-                                          };
+            {
+                DataContext = new AddEditAnnotationDialogViewModel()
+            };
             addEditAnnotationDialog.Closing += AddEditAnnotationDialogClosing;
             addEditAnnotationDialog.ShowDialog();
         }
@@ -469,36 +464,30 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
         #region General
 
-        private void AboutWindowCommand()
+        private static void AboutWindowCommand()
         {
             var assembly = typeof(MainWindow).Assembly;
 
             IAboutContent aboutWindowContent =
                 new AboutContent(assembly, $@"{AppDomain.CurrentDomain.BaseDirectory}\b.png");
             var aboutWindow = new AboutWindow
-                              {
-                                  DataContext = new AboutViewModel(aboutWindowContent)
-                              };
+            {
+                DataContext = new AboutViewModel(aboutWindowContent)
+            };
             aboutWindow.ShowDialog();
         }
 
         private void FilterItemSource()
         {
             if (SearchOsText != "(no filter)")
-            {
                 _listCollectionView.Filter = vm =>
-                                                 ((Machine) vm).GuestOs.StartsWith(SearchOsText, StringComparison.InvariantCultureIgnoreCase);
-            }
+                    ((Machine) vm).GuestOs.StartsWith(SearchOsText, StringComparison.InvariantCultureIgnoreCase);
             else
-            {
                 _listCollectionView.Filter = vm => true;
-            }
 
             if (!string.IsNullOrWhiteSpace(SearchFilterText))
-            {
                 _listCollectionView.Filter = vm =>
-                                                 ((Machine) vm).DisplayName.Contains(SearchFilterText, StringComparison.InvariantCultureIgnoreCase);
-            }
+                    ((Machine) vm).DisplayName.Contains(SearchFilterText, StringComparison.InvariantCultureIgnoreCase);
 
             ListCollectionView = _listCollectionView;
         }
@@ -522,10 +511,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
         private void Update()
         {
             var version = _updateAllHwVersion;
-            if (!version.HasValue)
-            {
-                return;
-            }
+            if (!version.HasValue) return;
 
             var innerVersion = Convert.ToInt32(version.Value);
             var localList = _currentItemSource.AsParallel().Where(vm => vm.HwVersion != innerVersion).ToList();

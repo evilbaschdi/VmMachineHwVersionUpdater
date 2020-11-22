@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
     <Product>VM Machine Hardware Version Updater</Product>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-    <TargetFramework>net5</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
 
@@ -21,10 +21,10 @@
     </PackageReference>
     <PackageReference Include="EvilBaschdi.Settings" Version="2020.10.3.559-develop" />
     <PackageReference Include="EvilBaschdi.Testing" Version="2020.10.3.547-develop" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0-preview-20200921-01" />
-    <PackageReference Include="Microsoft.CodeCoverage" Version="16.8.0-preview-20200921-01" />
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="16.8.0-preview-20200921-01" />
-    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="16.8.0-preview-20200921-01" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.0-preview-20201020-06" />
+    <PackageReference Include="Microsoft.CodeCoverage" Version="16.9.0-preview-20201020-06" />
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="16.9.0-preview-20201020-06" />
+    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="16.9.0-preview-20201020-06" />
     <PackageReference Include="Albedo" Version="2.0.0" />
     <PackageReference Include="AutoFixture" Version="4.14.0" />
     <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.14.0" />
@@ -35,12 +35,12 @@
     <PackageReference Include="FluentAssertions" Version="6.0.0-alpha0001" />
     <PackageReference Include="NCrunch.Framework" Version="4.5.0" />
     <PackageReference Include="NSubstitute" Version="4.2.2" />
-    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.13" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.14" />
     <PackageReference Include="System.ValueTuple" version="4.5.0" />
     <PackageReference Include="xunit" Version="2.4.2-pre.build.4151" />
     <PackageReference Include="xunit.analyzers" Version="0.11.0-pre.67" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.0-preview.18571.3" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
     <PackageReference Include="xunit.runner.console" Version="2.4.2-pre.build.4151">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

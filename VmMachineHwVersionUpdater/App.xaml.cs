@@ -1,5 +1,8 @@
 ﻿using System.Windows;
+#if (!DEBUG)
 using ControlzEx.Theming;
+
+#endif
 
 namespace VmMachineHwVersionUpdater
 {
@@ -10,6 +13,7 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class App : Application
     {
+#if (!DEBUG)
         /// <inheritdoc />
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -17,5 +21,6 @@ namespace VmMachineHwVersionUpdater
 
             base.OnStartup(e);
         }
+#endif
     }
 }

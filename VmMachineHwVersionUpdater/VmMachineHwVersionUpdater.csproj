@@ -13,12 +13,10 @@
     <OutputType>WinExe</OutputType>
     <PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
     <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
-    <Prefer32Bit>false</Prefer32Bit>
     <Product>VM Machine Hardware Version Updater</Product>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
     <RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
-    <TargetFramework>net5-windows</TargetFramework>
-
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
@@ -26,13 +24,13 @@
     <None Remove="b.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="4.3.2" />
+    <PackageReference Include="ControlzEx" Version="4.4.0" />
     <PackageReference Include="EvilBaschdi.Core" Version="2020.10.2.2122-develop" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.10.3.614-develop" />
-    <PackageReference Include="MahApps.Metro" Version="2.2.0" />
-    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.5.0" />
-    <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.5.0" />
-    <PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.5.0" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.11.22.1229-develop" />
+    <PackageReference Include="MahApps.Metro" Version="2.3.4" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.8.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.8.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.8.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
