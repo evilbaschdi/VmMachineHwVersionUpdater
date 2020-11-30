@@ -27,8 +27,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
     /// <summary>
     ///     MainWindowViewModel of VmMachineHwVersionUpdater.
     /// </summary>
-    public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewModel
-
+    public sealed class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewModel, IDisposable
     {
         private readonly IDialogCoordinator _instance;
         private readonly SortDescription _sd = new("DisplayName", ListSortDirection.Ascending);
@@ -59,15 +58,11 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// <summary>
         ///     Constructor
         /// </summary>
-        protected internal MainWindowViewModel([NotNull] IDialogCoordinator instance)
+        internal MainWindowViewModel([NotNull] IDialogCoordinator instance, [NotNull] ICommandViewModel aboutWindowClickDefaultCommand)
             : base(true, true)
         {
             _instance = instance ?? throw new ArgumentNullException(nameof(instance));
-            AboutWindowClick = new DefaultCommand
-                               {
-                                   Text = "about",
-                                   Command = new RelayCommand(_ => AboutWindowCommand())
-                               };
+            AboutWindowClick = aboutWindowClickDefaultCommand ?? throw new ArgumentNullException(nameof(aboutWindowClickDefaultCommand));
             AddEditAnnotation = new DefaultCommand
                                 {
                                     Command = new RelayCommand(_ => LoadAddEditAnnotationDialog())
@@ -534,6 +529,29 @@ namespace VmMachineHwVersionUpdater.ViewModels
             var innerVersion = Convert.ToInt32(version.Value);
             var localList = _currentItemSource.AsParallel().Where(vm => vm.HwVersion != innerVersion).ToList();
             _updateMachineVersion.RunFor(localList, innerVersion);
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///     Dispose
+        /// </summary>
+        /// <param name="disposing"></param>
+        private void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            _toggleToolsSyncTime.Dispose();
+            _toggleToolsUpgradePolicy.Dispose();
+            _updateMachineVersion.Dispose();
         }
 
         #endregion Update

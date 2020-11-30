@@ -93,7 +93,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         /// <summary>
         /// </summary>
         /// <param name="disposing"></param>
-        private void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!disposing)
             {

@@ -32,8 +32,8 @@ namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine
             ConvertAnnotationLineBreaks sut)
         {
             // Arrange
-            var vmxAnnotationValue = "Windows Insider|0D|0ADev Channel|0D|0A|0D|0ABuild 20180";
-            var expectedString = "Windows Insider\r\nDev Channel\r\n\r\nBuild 20180";
+            const string vmxAnnotationValue = "Windows Insider|0D|0ADev Channel|0D|0A|0D|0ABuild 20180";
+            const string expectedString = "Windows Insider\r\nDev Channel\r\n\r\nBuild 20180";
 
             // Act
             var result = sut.ValueFor(vmxAnnotationValue);

@@ -9,12 +9,12 @@ namespace VmMachineHwVersionUpdater.Core.Models
     /// <inheritdoc cref="INotifyPropertyChanged" />
     public class Machine : INotifyPropertyChanged
     {
-        private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
-        private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
-        private readonly IUpdateMachineVersion _updateMachineVersion;
         private readonly bool _autoUpdateTools;
         private readonly int _hwVersion;
         private readonly bool _syncTimeWithHost;
+        private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
+        private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
+        private readonly IUpdateMachineVersion _updateMachineVersion;
 
         /// <summary>
         ///     Constructor
