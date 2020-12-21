@@ -1,4 +1,5 @@
-﻿<controls:MetroWindow x:Class="VmMachineHwVersionUpdater.MainWindow"
+﻿<!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
+<controls:MetroWindow x:Class="VmMachineHwVersionUpdater.MainWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
@@ -11,7 +12,9 @@
                       GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
 
     <Window.TaskbarItemInfo>
+
         <TaskbarItemInfo ProgressState="{Binding ProgressState}" />
+
     </Window.TaskbarItemInfo>
 
     <!--  RightWindowCommands  -->
@@ -57,7 +60,6 @@
     </controls:MetroWindow.RightWindowCommands>
 
     <!--  DataGrid  -->
-    <!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
     <DataGrid Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single"
               ItemsSource="{Binding ListCollectionView}"
@@ -91,7 +93,7 @@
                             Style="{DynamicResource MahApps.Styles.Button.MetroWindow.Base}">
                             <StackPanel Orientation="Horizontal">
                                 <iconPacks:PackIconMaterial
-                                    Kind="{Binding MachineState, Converter={StaticResource MachineStateToPackIconMaterialKindConverter}}"
+                                    Kind="{Binding MachineState, Converter={StaticResource MachineStateToPackIconMaterialKindConverter},ConverterParameter=none}"
                                     Width="16"
                                     Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </StackPanel>
@@ -178,7 +180,7 @@
                                                 <TextBlock Text="machines" Margin="0,0,5,0" />
                                                 <TextBlock Text="|" Margin="0,0,5,0" />
                                                 <TextBlock
-                                                    Text="{Binding Items, Converter={StaticResource DirectorySizeConverter}}" />
+                                                    Text="{Binding Items, Converter={StaticResource DirectorySizeConverter},ConverterParameter=2}" />
                                             </DockPanel>
                                         </Expander.Header>
                                         <Expander.Content>
@@ -243,6 +245,6 @@
         </DataGrid.ContextMenu>
     </DataGrid>
     <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
-    <!-- ReSharper restore Xaml.BindingWithoutContextNotResolved -->
 
 </controls:MetroWindow>
+<!-- ReSharper restore Xaml.BindingWithoutContextNotResolved -->

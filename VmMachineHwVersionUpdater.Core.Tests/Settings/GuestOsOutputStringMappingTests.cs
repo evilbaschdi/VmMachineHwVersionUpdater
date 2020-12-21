@@ -9,7 +9,7 @@ using NSubstitute;
 using VmMachineHwVersionUpdater.Core.Settings;
 using Xunit;
 
-namespace VmMachineHwVersionUpdater.Core.Tests
+namespace VmMachineHwVersionUpdater.Core.Tests.Settings
 {
     public class GuestOsOutputStringMappingTests
     {

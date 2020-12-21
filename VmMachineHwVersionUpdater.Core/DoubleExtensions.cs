@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Core
 {
@@ -55,8 +56,13 @@ namespace VmMachineHwVersionUpdater.Core
         /// <param name="precision"></param>
         /// <param name="culture"></param>
         // ReSharper disable once UnusedMember.Global
-        public static string ToFileSize(this double d, int precision, CultureInfo culture)
+        public static string ToFileSize(this double d, int precision, [NotNull] CultureInfo culture)
         {
+            if (culture == null)
+            {
+                throw new ArgumentNullException(nameof(culture));
+            }
+
             var size = Convert.ToUInt64(d);
 
             if (size < 1024d)

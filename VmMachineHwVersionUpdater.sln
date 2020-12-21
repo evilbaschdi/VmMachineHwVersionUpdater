@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Tests", "VmMachineHwVersionUpdater.Tests\VmMachineHwVersionUpdater.Tests.csproj", "{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,18 @@ Global
 		{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD}.Release|x64.Build.0 = Release|Any CPU
 		{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD}.Release|x86.ActiveCfg = Release|Any CPU
 		{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD}.Release|x86.Build.0 = Release|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Debug|x64.Build.0 = Debug|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Release|x64.ActiveCfg = Release|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Release|x64.Build.0 = Release|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

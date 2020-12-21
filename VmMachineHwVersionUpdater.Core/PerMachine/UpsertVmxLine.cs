@@ -35,11 +35,16 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         }
 
         /// <inheritdoc />
-        public void RunFor(string vmxPath, T value)
+        public void RunFor([NotNull] string vmxPath, [NotNull] T value)
         {
             if (string.IsNullOrWhiteSpace(vmxPath))
             {
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(vmxPath));
+                throw new ArgumentNullException(nameof(vmxPath));
+            }
+
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
             }
 
             if (string.IsNullOrWhiteSpace(_lineKey))
@@ -93,6 +98,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         /// <summary>
         /// </summary>
         /// <param name="disposing"></param>
+        // ReSharper disable once VirtualMemberNeverOverridden.Global
         protected virtual void Dispose(bool disposing)
         {
             if (!disposing)

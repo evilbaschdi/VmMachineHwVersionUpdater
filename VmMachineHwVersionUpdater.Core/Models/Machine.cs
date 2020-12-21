@@ -120,42 +120,45 @@ namespace VmMachineHwVersionUpdater.Core.Models
         }
 
         // ReSharper disable UnusedAutoPropertyAccessor.Global
+        // ReSharper disable PropertyCanBeMadeInitOnly.Global
         /// <summary />
-        public string DisplayName { get; init; }
+        public string DisplayName { get; set; }
 
         /// <summary />
-        public string ShortPath { get; init; }
+
+        public string ShortPath { get; set; }
 
         /// <summary />
-        public string Path { get; init; }
+        public string Path { get; set; }
 
         /// <summary />
-        public string Directory { get; init; }
+        public string Directory { get; set; }
 
         /// <summary />
-        public string DirectorySize { get; init; }
+        public string DirectorySize { get; set; }
 
         /// <summary> </summary>
-        public double DirectorySizeGb { get; init; }
+        public double DirectorySizeGb { get; set; }
 
         /// <summary />
-        public string LogLastDate { get; init; }
+        public string LogLastDate { get; set; }
 
         /// <summary />
-        public string LogLastDateDiff { get; init; }
+        public string LogLastDateDiff { get; set; }
 
 
         /// <summary />
-        public string Annotation { get; init; }
+        public string Annotation { get; set; }
 
         /// <summary />
-        public string GuestOs { get; init; }
+        public string GuestOs { get; set; }
 
         /// <summary />
-        public string GuestOsRaw { get; init; }
+        public string GuestOsRaw { get; set; }
 
         /// <summary />
-        public MachineState MachineState { get; init; }
+        public MachineState MachineState { get; set; }
+        // ReSharper restore PropertyCanBeMadeInitOnly.Global
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 }
