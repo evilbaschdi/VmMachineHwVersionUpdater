@@ -29,7 +29,6 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             {
                 var loadValue = _init.Load.Value;
 
-
                 _listCollectionView = new ListCollectionView(loadValue.VmDataGridItemsSource);
                 _listCollectionView?.GroupDescriptions?.Add(new PropertyGroupDescription("Directory"));
                 _listCollectionView.SortDescriptions.Add(_sd);

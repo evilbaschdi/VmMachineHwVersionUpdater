@@ -3,8 +3,9 @@ using EvilBaschdi.Core;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
-    /// <inheritdoc />
-    public interface IConfigureListCollectionView : IWritableValue<ListCollectionView>
+    /// <inheritdoc cref="IWritableValue{T}" />
+    /// <inheritdoc cref="ICachedValue{T}" />
+    public interface IConfigureListCollectionView : IWritableValue<ListCollectionView>, ICachedValue<ListCollectionView>
     {
     }
 }

@@ -29,4 +29,5 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             _init.Load.Value.VmDataGridItemsSource = value ?? throw new ArgumentNullException(nameof(value));
         }
     }
+
 }

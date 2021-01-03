@@ -27,9 +27,12 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <param name="processByPath"></param>
         /// <param name="currentItemSource"></param>
         /// <param name="taskbarItemProgressState"></param>
-        public InitDefaultCommands([NotNull] IDialogCoordinator dialogCoordinator, [NotNull] ISelectedMachine selectedMachine, [NotNull] IArchiveMachine archiveMachine,
+        public InitDefaultCommands([NotNull] IDialogCoordinator dialogCoordinator,
+                                   [NotNull] ISelectedMachine selectedMachine,
+                                   [NotNull] IArchiveMachine archiveMachine,
                                    [NotNull] IInit init,
-                                   [NotNull] IProcessByPath processByPath, [NotNull] ICurrentItemSource currentItemSource,
+                                   [NotNull] IProcessByPath processByPath,
+                                   [NotNull] ICurrentItemSource currentItemSource,
                                    [NotNull] ITaskbarItemProgressState taskbarItemProgressState)
         {
             _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
@@ -80,12 +83,13 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             AddEditAnnotationDefaultCommand = new AddEditAnnotationDefaultCommand(_selectedMachine, _init);
             DeleteDefaultCommand = new DeleteDefaultCommand(_dialogCoordinator, _selectedMachine, _init);
             GotToDefaultCommand = new GotToDefaultCommand(_selectedMachine, _processByPath);
-            ReloadDefaultCommand = new ReloadDefaultCommand(_init);
+            ReloadDefaultCommand = new ReloadDefaultCommand(_dialogCoordinator, _processByPath);
             StartDefaultCommand = new StartDefaultCommand(_processByPath, _selectedMachine);
             UpdateAllDefaultCommand = new UpdateAllDefaultCommand(_init, _currentItemSource, _taskbarItemProgressState);
 
             ArchiveDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
             DeleteDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
+            ReloadDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
         }
     }
 }
