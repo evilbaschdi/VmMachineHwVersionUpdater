@@ -9,7 +9,7 @@
     <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
     <!-- ReSharper disable once UnknownProperty -->
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.xml</DocumentationFile>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>9</LangVersion>
     <OutputType>WinExe</OutputType>
     <PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
     <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
@@ -25,8 +25,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="4.4.0" />
-    <PackageReference Include="EvilBaschdi.Core" Version="2021.1.1.7-develop" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2020.12.21.1342-develop" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2021.1.6.936" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.1.6.956" />
     <PackageReference Include="MahApps.Metro" Version="2.4.3" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.8.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.8.0" />
