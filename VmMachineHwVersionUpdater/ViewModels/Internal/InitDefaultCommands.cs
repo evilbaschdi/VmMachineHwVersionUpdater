@@ -81,9 +81,10 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             ArchiveDefaultCommand = new ArchiveDefaultCommand(_dialogCoordinator, _selectedMachine, _archiveMachine, _init);
             OpenWithCodeDefaultCommand = new OpenWithCodeDefaultCommand(_selectedMachine, _processByPath);
             AddEditAnnotationDefaultCommand = new AddEditAnnotationDefaultCommand(_selectedMachine, _init);
-            DeleteDefaultCommand = new DeleteDefaultCommand(_dialogCoordinator, _selectedMachine, _init);
-            GotToDefaultCommand = new GotToDefaultCommand(_selectedMachine, _processByPath);
             ReloadDefaultCommand = new ReloadDefaultCommand(_dialogCoordinator, _processByPath);
+            DeleteDefaultCommand = new DeleteDefaultCommand(_dialogCoordinator, _selectedMachine, _init, ReloadDefaultCommand);
+            GotToDefaultCommand = new GotToDefaultCommand(_selectedMachine, _processByPath);
+
             StartDefaultCommand = new StartDefaultCommand(_processByPath, _selectedMachine);
             UpdateAllDefaultCommand = new UpdateAllDefaultCommand(_init, _currentItemSource, _taskbarItemProgressState);
 

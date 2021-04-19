@@ -12,6 +12,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     {
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly IInit _init;
+        private readonly IReloadDefaultCommand _reloadDefaultCommand;
         private readonly ISelectedMachine _selectedMachine;
 
         /// <summary>
@@ -20,11 +21,14 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <param name="dialogCoordinator"></param>
         /// <param name="selectedMachine"></param>
         /// <param name="init"></param>
-        public DeleteDefaultCommand([NotNull] IDialogCoordinator dialogCoordinator, [NotNull] ISelectedMachine selectedMachine, [NotNull] IInit init)
+        /// <param name="reloadDefaultCommand"></param>
+        public DeleteDefaultCommand([NotNull] IDialogCoordinator dialogCoordinator, [NotNull] ISelectedMachine selectedMachine, [NotNull] IInit init,
+                                    [NotNull] IReloadDefaultCommand reloadDefaultCommand)
         {
             _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
             _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
             _init = init ?? throw new ArgumentNullException(nameof(init));
+            _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
         }
 
         /// <inheritdoc />
@@ -46,13 +50,13 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                 try
                 {
                     _init.DeleteMachine.RunFor(_selectedMachine.Value.Path);
+
+                    await _reloadDefaultCommand.RunTask();
                 }
                 catch (IOException ioException)
                 {
                     await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Delete machine' was canceled", ioException.Message);
                 }
-
-                _init.Run();
             }
         }
 
