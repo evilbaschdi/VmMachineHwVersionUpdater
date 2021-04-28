@@ -21,15 +21,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="EvilBaschdi.Testing" Version="2021.2.8.1743" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0-release-20210330-02" />
-    <PackageReference Include="Microsoft.CodeCoverage" Version="16.10.0-release-20210330-02" />
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="16.10.0-release-20210330-02" />
-    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="16.10.0-release-20210330-02" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0-release-20210422-02" />
+    <PackageReference Include="Microsoft.CodeCoverage" Version="16.10.0-release-20210422-02" />
+    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="16.10.0-release-20210422-02" />
+    <PackageReference Include="Microsoft.TestPlatform.TestHost" Version="16.10.0-release-20210422-02" />
     <PackageReference Include="Albedo" Version="2.0.0" />
-    <PackageReference Include="AutoFixture" Version="4.16.0" />
-    <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.16.0" />
-    <PackageReference Include="AutoFixture.Idioms" Version="4.16.0" />
-    <PackageReference Include="AutoFixture.Xunit2" Version="4.16.0" />
+    <PackageReference Include="AutoFixture" Version="4.17.0" />
+    <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.17.0" />
+    <PackageReference Include="AutoFixture.Idioms" Version="4.17.0" />
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="Fare" Version="2.1.2" />
     <PackageReference Include="FluentAssertions" Version="6.0.0-alpha0002" />

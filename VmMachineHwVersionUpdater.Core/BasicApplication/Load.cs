@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EvilBaschdi.Core;
 using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Core.BasicApplication
 {
-    /// <inheritdoc />
-    public class Load : ILoad
+    /// <inheritdoc cref="ILoad" />
+    public class Load : CachedValue<LoadHelper>, ILoad
     {
         private readonly IMachinesFromPath _machinesFromPath;
 
@@ -20,7 +21,7 @@ namespace VmMachineHwVersionUpdater.Core.BasicApplication
         }
 
         /// <inheritdoc />
-        public LoadHelper Value
+        protected override LoadHelper NonCachedValue
         {
             get
             {

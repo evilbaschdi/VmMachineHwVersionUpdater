@@ -1,7 +1,7 @@
 ﻿using System;
-using EvilBaschdi.CoreExtended.AppHelpers;
+using EvilBaschdi.Core;
 using JetBrains.Annotations;
-using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
@@ -9,39 +9,40 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     /// <inheritdoc />
     public class InitDefaultCommands : IInitDefaultCommands
     {
-        private readonly IArchiveMachine _archiveMachine;
-        private readonly ICurrentItemSource _currentItemSource;
-        private readonly IDialogCoordinator _dialogCoordinator;
-        private readonly IInit _init;
-        private readonly IProcessByPath _processByPath;
-        private readonly ISelectedMachine _selectedMachine;
-        private readonly ITaskbarItemProgressState _taskbarItemProgressState;
+        private readonly IAboutWindowClickDefaultCommand _aboutWindowClickDefaultCommand;
+        private readonly IAddEditAnnotationDefaultCommand _addEditAnnotationDefaultCommand;
+        private readonly IArchiveDefaultCommand _archiveDefaultCommand;
+        private readonly IDeleteDefaultCommand _deleteDefaultCommand;
+        private readonly IGotToDefaultCommand _gotToDefaultCommand;
+        private readonly IOpenWithCodeDefaultCommand _openWithCodeDefaultCommand;
+        private readonly IReloadDefaultCommand _reloadDefaultCommand;
+        private readonly IStartDefaultCommand _startDefaultCommand;
+        private readonly IUpdateAllDefaultCommand _updateAllDefaultCommand;
+
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="dialogCoordinator"></param>
-        /// <param name="selectedMachine"></param>
-        /// <param name="archiveMachine"></param>
-        /// <param name="init"></param>
-        /// <param name="processByPath"></param>
-        /// <param name="currentItemSource"></param>
-        /// <param name="taskbarItemProgressState"></param>
-        public InitDefaultCommands([NotNull] IDialogCoordinator dialogCoordinator,
-                                   [NotNull] ISelectedMachine selectedMachine,
-                                   [NotNull] IArchiveMachine archiveMachine,
-                                   [NotNull] IInit init,
-                                   [NotNull] IProcessByPath processByPath,
-                                   [NotNull] ICurrentItemSource currentItemSource,
-                                   [NotNull] ITaskbarItemProgressState taskbarItemProgressState)
+        public InitDefaultCommands([NotNull] IAboutWindowClickDefaultCommand aboutWindowClickDefaultCommand,
+                                   [NotNull] IArchiveDefaultCommand archiveDefaultCommand,
+                                   [NotNull] IOpenWithCodeDefaultCommand openWithCodeDefaultCommand,
+                                   [NotNull] IAddEditAnnotationDefaultCommand addEditAnnotationDefaultCommand,
+                                   [NotNull] IDeleteDefaultCommand deleteDefaultCommand,
+                                   [NotNull] IGotToDefaultCommand gotToDefaultCommand,
+                                   [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+                                   [NotNull] IStartDefaultCommand startDefaultCommand,
+                                   [NotNull] IUpdateAllDefaultCommand updateAllDefaultCommand
+        )
         {
-            _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
-            _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
-            _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
-            _init = init ?? throw new ArgumentNullException(nameof(init));
-            _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
-            _currentItemSource = currentItemSource ?? throw new ArgumentNullException(nameof(currentItemSource));
-            _taskbarItemProgressState = taskbarItemProgressState ?? throw new ArgumentNullException(nameof(taskbarItemProgressState));
+            _aboutWindowClickDefaultCommand = aboutWindowClickDefaultCommand ?? throw new ArgumentNullException(nameof(aboutWindowClickDefaultCommand));
+            _archiveDefaultCommand = archiveDefaultCommand ?? throw new ArgumentNullException(nameof(archiveDefaultCommand));
+            _openWithCodeDefaultCommand = openWithCodeDefaultCommand ?? throw new ArgumentNullException(nameof(openWithCodeDefaultCommand));
+            _addEditAnnotationDefaultCommand = addEditAnnotationDefaultCommand ?? throw new ArgumentNullException(nameof(addEditAnnotationDefaultCommand));
+            _deleteDefaultCommand = deleteDefaultCommand ?? throw new ArgumentNullException(nameof(deleteDefaultCommand));
+            _gotToDefaultCommand = gotToDefaultCommand ?? throw new ArgumentNullException(nameof(gotToDefaultCommand));
+            _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
+            _startDefaultCommand = startDefaultCommand ?? throw new ArgumentNullException(nameof(startDefaultCommand));
+            _updateAllDefaultCommand = updateAllDefaultCommand ?? throw new ArgumentNullException(nameof(updateAllDefaultCommand));
         }
 
         /// <inheritdoc />
@@ -77,20 +78,48 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <inheritdoc />
         public void Run()
         {
-            AboutWindowClickDefaultCommand = new AboutWindowClickDefaultCommand();
-            ArchiveDefaultCommand = new ArchiveDefaultCommand(_dialogCoordinator, _selectedMachine, _archiveMachine, _init);
-            OpenWithCodeDefaultCommand = new OpenWithCodeDefaultCommand(_selectedMachine, _processByPath);
-            AddEditAnnotationDefaultCommand = new AddEditAnnotationDefaultCommand(_selectedMachine, _init);
-            ReloadDefaultCommand = new ReloadDefaultCommand(_dialogCoordinator, _processByPath);
-            DeleteDefaultCommand = new DeleteDefaultCommand(_dialogCoordinator, _selectedMachine, _init, ReloadDefaultCommand);
-            GotToDefaultCommand = new GotToDefaultCommand(_selectedMachine, _processByPath);
-
-            StartDefaultCommand = new StartDefaultCommand(_processByPath, _selectedMachine);
-            UpdateAllDefaultCommand = new UpdateAllDefaultCommand(_init, _currentItemSource, _taskbarItemProgressState);
+            AboutWindowClickDefaultCommand = _aboutWindowClickDefaultCommand;
+            ArchiveDefaultCommand = _archiveDefaultCommand;
+            OpenWithCodeDefaultCommand = _openWithCodeDefaultCommand;
+            AddEditAnnotationDefaultCommand = _addEditAnnotationDefaultCommand;
+            ReloadDefaultCommand = _reloadDefaultCommand;
+            DeleteDefaultCommand = _deleteDefaultCommand;
+            GotToDefaultCommand = _gotToDefaultCommand;
+            StartDefaultCommand = _startDefaultCommand;
+            UpdateAllDefaultCommand = _updateAllDefaultCommand;
 
             ArchiveDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
             DeleteDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
             ReloadDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
+        }
+    }
+
+    /// <inheritdoc />
+    public interface IConfigureDefaultCommandServices : IRunFor<IServiceCollection>
+    {
+    }
+
+    /// <inheritdoc />
+    public class ConfigureDefaultCommandServices : IConfigureDefaultCommandServices
+    {
+        /// <inheritdoc />
+        public void RunFor([NotNull] IServiceCollection services)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
+            services.AddSingleton<IAboutWindowClickDefaultCommand, AboutWindowClickDefaultCommand>();
+            services.AddSingleton<IArchiveDefaultCommand, ArchiveDefaultCommand>();
+            services.AddSingleton<IOpenWithCodeDefaultCommand, OpenWithCodeDefaultCommand>();
+            services.AddSingleton<IAddEditAnnotationDefaultCommand, AddEditAnnotationDefaultCommand>();
+            services.AddSingleton<IReloadDefaultCommand, ReloadDefaultCommand>();
+            services.AddSingleton<IDeleteDefaultCommand, DeleteDefaultCommand>();
+            services.AddSingleton<IGotToDefaultCommand, GotToDefaultCommand>();
+            services.AddSingleton<IStartDefaultCommand, StartDefaultCommand>();
+            services.AddSingleton<IUpdateAllDefaultCommand, UpdateAllDefaultCommand>();
         }
     }
 }

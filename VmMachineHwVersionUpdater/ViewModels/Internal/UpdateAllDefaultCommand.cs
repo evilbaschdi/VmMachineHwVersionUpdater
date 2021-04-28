@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Windows.Shell;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
+using VmMachineHwVersionUpdater.Core.BasicApplication;
+using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
@@ -11,20 +13,27 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     public class UpdateAllDefaultCommand : IUpdateAllDefaultCommand
     {
         private readonly ICurrentItemSource _currentItemSource;
-        private readonly IInit _init;
+        private readonly ILoad _load;
+        private readonly IReloadDefaultCommand _reloadDefaultCommand;
         private readonly ITaskbarItemProgressState _taskbarItemProgressState;
+        private readonly IUpdateMachineVersion _updateMachineVersion;
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="init"></param>
+        /// <param name="updateMachineVersion"></param>
+        /// <param name="load"></param>
         /// <param name="currentItemSource"></param>
         /// <param name="taskbarItemProgressState"></param>
-        public UpdateAllDefaultCommand([NotNull] IInit init, [NotNull] ICurrentItemSource currentItemSource, [NotNull] ITaskbarItemProgressState taskbarItemProgressState)
+        /// <param name="reloadDefaultCommand"></param>
+        public UpdateAllDefaultCommand([NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] ILoad load, [NotNull] ICurrentItemSource currentItemSource,
+                                       [NotNull] ITaskbarItemProgressState taskbarItemProgressState, [NotNull] IReloadDefaultCommand reloadDefaultCommand)
         {
-            _init = init ?? throw new ArgumentNullException(nameof(init));
+            _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+            _load = load ?? throw new ArgumentNullException(nameof(load));
             _currentItemSource = currentItemSource ?? throw new ArgumentNullException(nameof(currentItemSource));
             _taskbarItemProgressState = taskbarItemProgressState ?? throw new ArgumentNullException(nameof(taskbarItemProgressState));
+            _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
         }
 
         /// <inheritdoc />
@@ -43,13 +52,14 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
 
             _taskbarItemProgressState.Value = TaskbarItemProgressState.Normal;
 
-            _init.Run();
+            //_init.Run();
+            await _reloadDefaultCommand.RunTask();
         }
 
         /// <inheritdoc />
         public void Run()
         {
-            var version = _init.Load.Value.UpdateAllHwVersion;
+            var version = _load.Value.UpdateAllHwVersion;
             if (!version.HasValue)
             {
                 return;
@@ -57,7 +67,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
 
             var innerVersion = Convert.ToInt32(version.Value);
             var localList = _currentItemSource.Value.AsParallel().Where(vm => vm.HwVersion != innerVersion).ToList();
-            _init.UpdateMachineVersion.RunFor(localList, innerVersion);
+            _updateMachineVersion.RunFor(localList, innerVersion);
         }
     }
 }

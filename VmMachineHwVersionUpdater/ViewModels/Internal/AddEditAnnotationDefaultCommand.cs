@@ -9,18 +9,22 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     /// <inheritdoc />
     public class AddEditAnnotationDefaultCommand : IAddEditAnnotationDefaultCommand
     {
-        private readonly IInit _init;
+        private readonly IAddEditAnnotation _addEditAnnotation;
+        private readonly IReloadDefaultCommand _reloadDefaultCommand;
         private readonly ISelectedMachine _selectedMachine;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="selectedMachine"></param>
-        /// <param name="init"></param>
-        public AddEditAnnotationDefaultCommand([NotNull] ISelectedMachine selectedMachine, [NotNull] IInit init)
+        /// <param name="reloadDefaultCommand"></param>
+        /// <param name="addEditAnnotation"></param>
+        public AddEditAnnotationDefaultCommand([NotNull] ISelectedMachine selectedMachine, [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+                                               [NotNull] IAddEditAnnotation addEditAnnotation)
         {
             _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
-            _init = init ?? throw new ArgumentNullException(nameof(init));
+            _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
+            _addEditAnnotation = addEditAnnotation ?? throw new ArgumentNullException(nameof(addEditAnnotation));
         }
 
         /// <inheritdoc />
@@ -32,8 +36,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <inheritdoc />
         public void Run()
         {
-            IAddEditAnnotation addEditAnnotation = new AddEditAnnotation();
-            var addEditAnnotationDialog = new AddEditAnnotationDialog(addEditAnnotation, _selectedMachine.Value)
+            var addEditAnnotationDialog = new AddEditAnnotationDialog(_addEditAnnotation, _selectedMachine.Value)
                                           {
                                               DataContext = new AddEditAnnotationDialogViewModel()
                                           };
@@ -42,7 +45,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         }
 
         /// <inheritdoc />
-        public void RunFor(object valueIn1, CancelEventArgs valueIn2)
+        public async void RunFor(object valueIn1, CancelEventArgs valueIn2)
         {
             if (valueIn1 is null)
             {
@@ -54,7 +57,8 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                 throw new ArgumentNullException(nameof(valueIn2));
             }
 
-            _init.Run();
+            //_init.Run();
+            await _reloadDefaultCommand.RunTask();
         }
     }
 }

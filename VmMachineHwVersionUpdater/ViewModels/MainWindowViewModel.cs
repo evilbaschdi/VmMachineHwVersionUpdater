@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows.Shell;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
+using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
@@ -18,9 +19,13 @@ namespace VmMachineHwVersionUpdater.ViewModels
     public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewModel
     {
         private readonly IConfigureListCollectionView _configureListCollectionView;
+
+
         private readonly IFilterItemSource _filterItemSource;
-        private readonly IInit _init;
+
+        //private readonly IInit _init;
         private readonly IInitDefaultCommands _initDefaultCommands;
+        private readonly ILoad _load;
         private readonly ILoadSearchOsItems _loadSearchOsItems;
         private readonly ISelectedMachine _selectedMachine;
         private readonly ITaskbarItemProgressState _taskbarItemProgressState;
@@ -35,22 +40,27 @@ namespace VmMachineHwVersionUpdater.ViewModels
         public MainWindowViewModel(
             ISelectedMachine selectedMachine,
             IInitDefaultCommands initDefaultCommands,
-            IInit init,
+            //IInit init,
+            ILoad load,
             IConfigureListCollectionView configureListCollectionView,
             IFilterItemSource filterItemSource,
             ICurrentItemSource currentItemSource,
             ILoadSearchOsItems loadSearchOsItems,
-            ITaskbarItemProgressState taskbarItemProgressState)
+            ITaskbarItemProgressState taskbarItemProgressState
+        )
             : base(true, true)
         {
             _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
             _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));
-            _init = init ?? throw new ArgumentNullException(nameof(init));
+            //_init = init ?? throw new ArgumentNullException(nameof(init));
+            _load = load ?? throw new ArgumentNullException(nameof(load));
             _configureListCollectionView = configureListCollectionView ?? throw new ArgumentNullException(nameof(configureListCollectionView));
             _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
             CurrentItemSource = currentItemSource ?? throw new ArgumentNullException(nameof(currentItemSource));
             _loadSearchOsItems = loadSearchOsItems ?? throw new ArgumentNullException(nameof(loadSearchOsItems));
             _taskbarItemProgressState = taskbarItemProgressState ?? throw new ArgumentNullException(nameof(taskbarItemProgressState));
+
+            Run();
         }
 
         #endregion Constructor
@@ -58,10 +68,11 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// <inheritdoc />
         public void Run()
         {
-            _init.DialogCoordinatorContext = this;
-            _init.Run();
+            //_init.DialogCoordinatorContext = this;
+            //_init.RunFor(this);
             _initDefaultCommands.DialogCoordinatorContext = this;
             _initDefaultCommands.Run();
+
             AboutWindowClick = _initDefaultCommands.AboutWindowClickDefaultCommand.Value;
             AddEditAnnotation = _initDefaultCommands.AddEditAnnotationDefaultCommand.Value;
             Archive = _initDefaultCommands.ArchiveDefaultCommand.Value;
@@ -135,7 +146,11 @@ namespace VmMachineHwVersionUpdater.ViewModels
         public ListCollectionView ListCollectionView
 
         {
-            get => _configureListCollectionView.Value;
+            get
+            {
+                _configureListCollectionView.DialogCoordinatorContext = this;
+                return _configureListCollectionView.Value;
+            }
             set
             {
                 _configureListCollectionView.Value = value;
@@ -191,10 +206,10 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// </summary>
         public double? UpdateAllHwVersionValue
         {
-            get => _init.Load.Value.UpdateAllHwVersion;
+            get => _load.Value.UpdateAllHwVersion;
             set
             {
-                _init.Load.Value.UpdateAllHwVersion = value;
+                _load.Value.UpdateAllHwVersion = value;
                 OnPropertyChanged();
             }
         }
@@ -204,10 +219,10 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// </summary>
         public string UpdateAllTextBlockText
         {
-            get => _init.Load.Value.UpdateAllTextBlocks;
+            get => _load.Value.UpdateAllTextBlocks;
             set
             {
-                _init.Load.Value.UpdateAllTextBlocks = value;
+                _load.Value.UpdateAllTextBlocks = value;
                 OnPropertyChanged();
             }
         }
@@ -217,7 +232,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// </summary>
         public bool SearchOsIsEnabled
         {
-            get => _init.Load.Value.VmDataGridItemsSource.Any();
+            get => _load.Value.VmDataGridItemsSource.Any();
             // ReSharper disable once ValueParameterNotUsed
             set => OnPropertyChanged();
         }
@@ -227,7 +242,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// </summary>
         public bool SearchFilterIsReadOnly
         {
-            get => !_init.Load.Value.VmDataGridItemsSource.Any();
+            get => !_load.Value.VmDataGridItemsSource.Any();
             // ReSharper disable once ValueParameterNotUsed
             set => OnPropertyChanged();
         }
@@ -237,7 +252,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// </summary>
         public bool UpdateAllIsEnabled
         {
-            get => _init.Load.Value.VmDataGridItemsSource.Any();
+            get => _load.Value.VmDataGridItemsSource.Any();
             // ReSharper disable once ValueParameterNotUsed
             set => OnPropertyChanged();
         }

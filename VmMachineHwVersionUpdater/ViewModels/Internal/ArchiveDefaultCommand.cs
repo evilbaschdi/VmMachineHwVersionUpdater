@@ -12,30 +12,31 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     public class ArchiveDefaultCommand : IArchiveDefaultCommand
     {
         private readonly IArchiveMachine _archiveMachine;
-        private readonly IInit _init;
-        [NotNull] private readonly IDialogCoordinator _instance;
+        [NotNull] private readonly IDialogCoordinator _dialogCoordinator;
+        [NotNull] private readonly IReloadDefaultCommand _reloadDefaultCommand;
         private readonly ISelectedMachine _selectedMachine;
 
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="reloadDefaultCommand"></param>
         /// <param name="selectedMachine"></param>
         /// <param name="archiveMachine"></param>
         /// <param name="instance"></param>
-        /// <param name="init"></param>
-        public ArchiveDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] ISelectedMachine selectedMachine, [NotNull] IArchiveMachine archiveMachine,
-                                     [NotNull] IInit init)
+        public ArchiveDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ISelectedMachine selectedMachine,
+                                     [NotNull] IArchiveMachine archiveMachine)
         {
             _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
             _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
-            _init = init ?? throw new ArgumentNullException(nameof(init));
-            _instance = instance ?? throw new ArgumentNullException(nameof(instance));
+
+            _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
+            _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
         }
 
         /// <inheritdoc />
         public async Task RunTask()
         {
-            var result = await _instance.ShowMessageAsync(DialogCoordinatorContext, "Archive machine...",
+            var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Archive machine...",
                 $"Are you sure you want to archive machine '{_selectedMachine.Value.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
@@ -47,14 +48,15 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                 }
                 catch (IOException ioException)
                 {
-                    await _instance.ShowMessageAsync(DialogCoordinatorContext, "'Archive machine' was canceled", ioException.Message);
+                    await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Archive machine' was canceled", ioException.Message);
                 }
                 catch (Exception exception)
                 {
-                    await _instance.ShowMessageAsync(DialogCoordinatorContext, "'Archive machine' was canceled", exception.Message);
+                    await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Archive machine' was canceled", exception.Message);
                 }
 
-                _init.Run();
+                //_init.Run();
+                await _reloadDefaultCommand.RunTask();
             }
         }
 

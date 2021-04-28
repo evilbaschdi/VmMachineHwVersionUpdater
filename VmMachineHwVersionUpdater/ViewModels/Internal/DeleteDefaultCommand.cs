@@ -4,14 +4,15 @@ using System.Threading.Tasks;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
+using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
     /// <inheritdoc />
     public class DeleteDefaultCommand : IDeleteDefaultCommand
     {
+        private readonly IDeleteMachine _deleteMachine;
         private readonly IDialogCoordinator _dialogCoordinator;
-        private readonly IInit _init;
         private readonly IReloadDefaultCommand _reloadDefaultCommand;
         private readonly ISelectedMachine _selectedMachine;
 
@@ -20,14 +21,14 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// </summary>
         /// <param name="dialogCoordinator"></param>
         /// <param name="selectedMachine"></param>
-        /// <param name="init"></param>
+        /// <param name="deleteMachine"></param>
         /// <param name="reloadDefaultCommand"></param>
-        public DeleteDefaultCommand([NotNull] IDialogCoordinator dialogCoordinator, [NotNull] ISelectedMachine selectedMachine, [NotNull] IInit init,
+        public DeleteDefaultCommand([NotNull] IDialogCoordinator dialogCoordinator, [NotNull] ISelectedMachine selectedMachine, [NotNull] IDeleteMachine deleteMachine,
                                     [NotNull] IReloadDefaultCommand reloadDefaultCommand)
         {
             _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
             _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
-            _init = init ?? throw new ArgumentNullException(nameof(init));
+            _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
             _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
         }
 
@@ -49,7 +50,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             {
                 try
                 {
-                    _init.DeleteMachine.RunFor(_selectedMachine.Value.Path);
+                    _deleteMachine.RunFor(_selectedMachine.Value.Path);
 
                     await _reloadDefaultCommand.RunTask();
                 }

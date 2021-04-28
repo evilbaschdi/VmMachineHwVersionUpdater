@@ -12,9 +12,7 @@
                       GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
 
     <Window.TaskbarItemInfo>
-
         <TaskbarItemInfo ProgressState="{Binding ProgressState}" />
-
     </Window.TaskbarItemInfo>
 
     <!--  RightWindowCommands  -->
@@ -62,7 +60,7 @@
     <!--  DataGrid  -->
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
     <DataGrid Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single"
-              ItemsSource="{Binding ListCollectionView}"
+              ItemsSource="{Binding ListCollectionView}" VirtualizingStackPanel.IsVirtualizing="False"
               Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" GridLinesVisibility="Horizontal"
               SelectedValue="{Binding Path=SelectedMachine}" CanUserDeleteRows="False"
               AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
