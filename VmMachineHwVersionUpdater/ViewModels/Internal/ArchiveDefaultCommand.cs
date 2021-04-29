@@ -55,7 +55,6 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                     await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Archive machine' was canceled", exception.Message);
                 }
 
-                //_init.Run();
                 await _reloadDefaultCommand.RunTask();
             }
         }

@@ -22,8 +22,6 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
 
         private readonly IFilterItemSource _filterItemSource;
-
-        //private readonly IInit _init;
         private readonly IInitDefaultCommands _initDefaultCommands;
         private readonly ILoad _load;
         private readonly ILoadSearchOsItems _loadSearchOsItems;
@@ -40,7 +38,6 @@ namespace VmMachineHwVersionUpdater.ViewModels
         public MainWindowViewModel(
             ISelectedMachine selectedMachine,
             IInitDefaultCommands initDefaultCommands,
-            //IInit init,
             ILoad load,
             IConfigureListCollectionView configureListCollectionView,
             IFilterItemSource filterItemSource,
@@ -52,7 +49,6 @@ namespace VmMachineHwVersionUpdater.ViewModels
         {
             _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
             _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));
-            //_init = init ?? throw new ArgumentNullException(nameof(init));
             _load = load ?? throw new ArgumentNullException(nameof(load));
             _configureListCollectionView = configureListCollectionView ?? throw new ArgumentNullException(nameof(configureListCollectionView));
             _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
@@ -68,8 +64,6 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// <inheritdoc />
         public void Run()
         {
-            //_init.DialogCoordinatorContext = this;
-            //_init.RunFor(this);
             _initDefaultCommands.DialogCoordinatorContext = this;
             _initDefaultCommands.Run();
 
