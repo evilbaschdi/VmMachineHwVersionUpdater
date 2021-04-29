@@ -24,7 +24,6 @@ namespace VmMachineHwVersionUpdater
             services.AddSingleton<IPathSettings, PathSettings>();
             services.AddSingleton<IArchiveMachine, ArchiveMachine>();
             services.AddSingleton<IProcessByPath, ProcessByPath>();
-            //services.AddSingleton<IInit, Init>();
             services.AddSingleton<ICurrentItemSource, CurrentItemSource>();
             services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();
             services.AddSingleton<IFilterItemSource, FilterItemSource>();
