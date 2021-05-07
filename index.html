@@ -10,13 +10,13 @@
     <!-- Open Graph data -->
     <meta property="og:title" content="VmMachineHwVersionUpdater by evilbaschdi" />
     <meta property="og:description" content="VmMachineHwVersionUpdater by evilbaschdi" />
-    <meta property="og:image" content="https://evilbaschdi.github.io/img/spectre_key_blue.jpg" />
+    <meta property="og:image" content="https://evilbaschdi.github.io/img/spectre_key_blue.webp" />
     <meta property="og:url" content="https://evilbaschdi.github.io" />
     <meta property="og:site_name" content="VmMachineHwVersionUpdater by evilbaschdi" />
     <meta property="og:type" content="website" />
     <!-- Twitter Card data -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://evilbaschdi.github.io/img/spectre_key_blue.jpg" />
+    <meta name="twitter:image" content="https://evilbaschdi.github.io/img/spectre_key_blue.webp" />
     <meta name="twitter:site" content="@evilbaschdi">
     <meta name="twitter:creator" content="@evilbaschdi">
     <meta name="twitter:title" content="VmMachineHwVersionUpdater by evilbaschdi" />
@@ -29,19 +29,20 @@
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#212121">
-    <link rel="icon" href="https://evilbaschdi.github.io/img/cropped-baschdi_bw-1-32x32.png" sizes="32x32" />
-    <link rel="icon" href="https://evilbaschdi.github.io/img/cropped-baschdi_bw-1-192x192.png" sizes="192x192" />
-    <link rel="apple-touch-icon-precomposed" href="https://evilbaschdi.github.io/img/cropped-baschdi_bw-1-180x180.png">
-    <meta name="msapplication-TileImage" content="https://evilbaschdi.github.io/img/cropped-baschdi_bw-1-270x270.png">
+    <link rel="icon" href="https://evilbaschdi.github.io/img/cropped-baschdi_bw-1-32x32.webp" sizes="32x32" />
+    <link rel="icon" href="https://evilbaschdi.github.io/img/cropped-baschdi_bw-1-192x192.webp" sizes="192x192" />
+    <link rel="apple-touch-icon-precomposed" href="https://evilbaschdi.github.io/img/cropped-baschdi_bw-1-180x180.webp">
+    <meta name="msapplication-TileImage" content="https://evilbaschdi.github.io/img/cropped-baschdi_bw-1-270x270.webp">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <link href="css/style.css" rel="stylesheet" />
 
     <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="preload" />
     <link href="font/font.css" rel="stylesheet" />
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 </head>
 
 <body>
@@ -49,8 +50,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top special">
         <div class="container">
             <a class="navbar-brand" href="#">VmMachineHwVersionUpdater by evilbaschdi</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" href="#navbarResponsive">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -71,25 +71,35 @@
 
     <!-- Page Content -->
     <div class="container">
-        <!-- Jumbotron Header -->
-        <header class="jumbotron my-4 text-white bg-dark special">
-            <h1 class="display-4">VmMachineHwVersionUpdater</h1>
-            <p class="lead">"VMware Machine Hardware Version Updater" is a small tool to manage vmware machine
-                properties such as the changing hardware version of many vmware machines without editing the ".vmx"
-                file.</p>
-            <hr class="my-4">
-
-            <a href="https://github.com/evilbaschdi/VmMachineHwVersionUpdater/zipball/main"
-                class="btn btn-light btn-lg">Download as
-                .zip</a>
-            <a href="https://github.com/evilbaschdi/VmMachineHwVersionUpdater/tarball/main"
-                class="btn btn-light btn-lg">Download as
-                .tar.gz</a>
-            <a href="https://github.com/evilbaschdi/VmMachineHwVersionUpdater"
-                class="btn btn-light btn-lg">Repository</a>
-            <a href="https://evilbaschdi.github.io" class="btn btn-light btn-lg">GitHub Account</a>
-        </header>
-
+        <div class="row text-center" id="top">
+            <div class="col-md-12 mb-5">
+                <div class="card h-100 text-white bg-dark special">
+                    <div class="card-header">
+                        <h1 class="card-title">
+                            VmMachineHwVersionUpdater
+                        </h1>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">"VMware Machine Hardware Version Updater" is a small tool to manage vmware machine
+                            properties such as the changing hardware version of many vmware machines without editing the ".vmx"
+                            file.</h5>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group">
+                            <a href="https://github.com/evilbaschdi/VmMachineHwVersionUpdater/zipball/main"
+                                class="btn btn-light btn-lg">Download as
+                                .zip</a>
+                            <a href="https://github.com/evilbaschdi/VmMachineHwVersionUpdater/tarball/main"
+                                class="btn btn-light btn-lg">Download as
+                                .tar.gz</a>
+                            <a href="https://github.com/evilbaschdi/VmMachineHwVersionUpdater"
+                                class="btn btn-light btn-lg">Repository</a>
+                            <a href="https://evilbaschdi.github.io" class="btn btn-light btn-lg">GitHub Account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="row text-center" id="projects">
             <div class="col-md-12 mb-5">
@@ -132,8 +142,23 @@
 
     <!-- Bootstrap core JavaScript -->
     <!-- JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+    <script>
+    window.cookieconsent.initialise({
+        "palette": {
+        "popup": {
+            "background": "#212529",
+            "text": "#F8F9FA"
+        },
+        "button": {
+            "background": "#F8F9FA"
+        }
+        },
+        "type": "opt-in"
+    });
+    </script>
 </body>
 
 </html>
