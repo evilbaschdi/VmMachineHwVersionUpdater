@@ -37,7 +37,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                 if (!_settingsValid.Value)
                 {
                     _dialogCoordinator.ShowMessageAsync(this, "No virtual machines found", "Please verify settings and discs attached");
-                    return new List<Machine>();
+                    return new();
                 }
 
                 var itemsSource = _load.Value.VmDataGridItemsSource;

@@ -51,7 +51,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             await task.ConfigureAwait(true);
 
             _taskbarItemProgressState.Value = TaskbarItemProgressState.Normal;
-            
+
             await _reloadDefaultCommand.RunTask();
         }
 

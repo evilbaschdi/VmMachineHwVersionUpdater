@@ -42,7 +42,8 @@ namespace VmMachineHwVersionUpdater.Tests.Resources
             machine0.DirectorySizeGb = 13.13d;
             machine1.DirectorySizeGb = 42.42d;
 
-            var collection = new ReadOnlyObservableCollection<object>(new ObservableCollection<object> { machine0, machine1 });
+            var collection = new ReadOnlyObservableCollection<object>(new()
+                                                                      { machine0, machine1 });
 
             // Act
             var result = sut.Convert(collection, typeof(string), "4", CultureInfo.GetCultureInfo(1033));

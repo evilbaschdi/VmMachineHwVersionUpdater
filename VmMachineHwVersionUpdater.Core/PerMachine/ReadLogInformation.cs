@@ -29,8 +29,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
 
             if (string.IsNullOrWhiteSpace(log) || log.FileInfo().IsFileLocked())
             {
-                return new KeyValuePair<string, string>
-                (!string.IsNullOrWhiteSpace(logLastDate)
+                return new(!string.IsNullOrWhiteSpace(logLastDate)
                     ? logLastDate.Substring(0, 16)
                     : string.Empty, logLastDateDiff);
             }
@@ -51,8 +50,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                 Console.WriteLine(e);
             }
 
-            return new KeyValuePair<string, string>
-            (!string.IsNullOrWhiteSpace(logLastDate)
+            return new(!string.IsNullOrWhiteSpace(logLastDate)
                 ? logLastDate.Substring(0, 16)
                 : string.Empty, logLastDateDiff);
         }
