@@ -81,6 +81,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var hwVersion = "";
             var displayName = "";
             var guestOs = "";
+            var guestOsDetailedData = "";
             var syncTimeWithHost = "";
             var toolsUpgradePolicy = "";
             var annotation = "";
@@ -107,6 +108,9 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                                         && !_vmxLineStartsWith.ValueFor(line, "guestos.detailed.data"):
                             guestOs = _returnValueFromVmxLine.ValueFor(line, "guestos");
                             break;
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "guestos.detailed.data"):
+                            guestOsDetailedData = _returnValueFromVmxLine.ValueFor(line, "guestOS.detailed.data");
+                            break;
                         case var _ when _vmxLineStartsWith.ValueFor(line, "annotation"):
                             var rawAnnotation = _returnValueFromVmxLine.ValueFor(line, "annotation");
                             annotation = _convertAnnotationLineBreaks.ValueFor(rawAnnotation);
@@ -127,8 +131,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                           {
                               HwVersion = Convert.ToInt32(hwVersion),
                               DisplayName = displayName.Trim() + " " + (!string.IsNullOrWhiteSpace(annotation) ? "*" : ""),
-                              GuestOsRaw = guestOs.Trim(),
                               GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
+                              GuestOsDetailedData = guestOsDetailedData,
                               Path = properFilePathCapitalization,
                               Directory = path,
                               ShortPath = properFilePathCapitalization.Replace(path, "",

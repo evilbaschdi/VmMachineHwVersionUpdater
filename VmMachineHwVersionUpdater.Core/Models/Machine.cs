@@ -146,7 +146,6 @@ namespace VmMachineHwVersionUpdater.Core.Models
         /// <summary />
         public string LogLastDateDiff { get; set; }
 
-
         /// <summary />
         public string Annotation { get; set; }
 
@@ -154,7 +153,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         public string GuestOs { get; set; }
 
         /// <summary />
-        public string GuestOsRaw { get; set; }
+        public string GuestOsDetailedData { get; set; }
 
         /// <summary />
         public MachineState MachineState { get; set; }

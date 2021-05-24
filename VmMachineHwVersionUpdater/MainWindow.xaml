@@ -120,7 +120,12 @@
             <DataGridTemplateColumn Width="200" Header="Guest OS" IsReadOnly="True" SortMemberPath="GuestOs">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding GuestOs}" ToolTipService.ToolTip="{Binding GuestOsRaw}" />
+                        <DataTemplate.Resources>
+                            <resources:GuestOsFormatter
+                                x:Key="GuestOsFormatter" />
+                        </DataTemplate.Resources>
+                        <TextBlock Text="{Binding GuestOs}"
+                                   ToolTipService.ToolTip="{Binding GuestOsDetailedData, Converter={StaticResource GuestOsFormatter},ConverterParameter=none}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

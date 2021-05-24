@@ -21,7 +21,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             }
 
             var value = line.Replace('"', ' ').Trim();
-            value = Regex.Replace(value, $"{key} = ", "", RegexOptions.IgnoreCase).Trim();
+            value = Regex.Replace(value, $"{key} =", "", RegexOptions.IgnoreCase).Trim();
 
             return value;
         }
