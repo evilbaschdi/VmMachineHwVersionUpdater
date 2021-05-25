@@ -19,8 +19,8 @@
   <ItemGroup>
     <PackageReference Include="EvilBaschdi.Core" Version="2021.4.30.627-develop" />
     <PackageReference Include="EvilBaschdi.Settings" Version="2021.1.6.1052" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0-preview.3.21201.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-preview.3.21201.4" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0-preview.4.21253.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-preview.4.21253.7" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
