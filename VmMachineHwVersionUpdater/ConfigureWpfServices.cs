@@ -1,4 +1,5 @@
 ﻿using System;
+using EvilBaschdi.Core.Internal;
 using EvilBaschdi.CoreExtended.AppHelpers;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,10 @@ namespace VmMachineHwVersionUpdater
             services.AddSingleton<IVmPools, VmPools>();
             services.AddSingleton<IPathSettings, PathSettings>();
             services.AddSingleton<IArchiveMachine, ArchiveMachine>();
+            services.AddSingleton<ICopyMachine, CopyMachine>();
+            services.AddSingleton<ICopyProgress, CopyProgress>();
+            services.AddSingleton<ICopyDirectoryWithProgress, CopyDirectoryWithProgress>();
+            services.AddSingleton<ICopyDirectoryWithFilesWithProgress, CopyDirectoryWithFilesWithProgress>();
             services.AddSingleton<IProcessByPath, ProcessByPath>();
             services.AddSingleton<ICurrentItemSource, CurrentItemSource>();
             services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();

@@ -70,6 +70,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
             AboutWindowClick = _initDefaultCommands.AboutWindowClickDefaultCommand.Value;
             AddEditAnnotation = _initDefaultCommands.AddEditAnnotationDefaultCommand.Value;
             Archive = _initDefaultCommands.ArchiveDefaultCommand.Value;
+            Copy = _initDefaultCommands.CopyDefaultCommand.Value;
             Delete = _initDefaultCommands.DeleteDefaultCommand.Value;
             GoTo = _initDefaultCommands.GotToDefaultCommand.Value;
             OpenWithCode = _initDefaultCommands.OpenWithCodeDefaultCommand.Value;
@@ -91,6 +92,10 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
         /// <summary />
         public ICommandViewModel Archive { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICommandViewModel Copy { get; set; }
 
         /// <summary />
         public ICommandViewModel Delete { get; set; }

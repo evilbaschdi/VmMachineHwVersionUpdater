@@ -57,7 +57,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                 throw new ArgumentNullException(nameof(valueIn2));
             }
             
-            await _reloadDefaultCommand.RunTask();
+            await _reloadDefaultCommand.RunAsync();
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
     /// <inheritdoc />
-    public interface IOpenWithCodeDefaultCommand : IRunDefaultCommand
+    public interface IOpenWithCodeDefaultCommand : IDefaultCommandRun
     {
     }
 }

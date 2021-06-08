@@ -2,9 +2,9 @@
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
-    /// <inheritdoc cref="ITaskRunDefaultCommand" />
+    /// <inheritdoc cref="IDefaultCommandRunAsync" />
     /// <inheritdoc cref="IDialogCoordinatorContext" />
-    public interface IReloadDefaultCommand : ITaskRunDefaultCommand, IDialogCoordinatorContext
+    public interface IReloadDefaultCommand : IDefaultCommandRunAsync, IDialogCoordinatorContext
     {
     }
 }

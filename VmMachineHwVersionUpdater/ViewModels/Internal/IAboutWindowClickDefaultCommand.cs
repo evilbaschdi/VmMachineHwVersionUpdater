@@ -3,7 +3,7 @@
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
     /// <inheritdoc />
-    public interface IAboutWindowClickDefaultCommand : IRunDefaultCommand
+    public interface IAboutWindowClickDefaultCommand : IDefaultCommandRun
     {
     }
 }

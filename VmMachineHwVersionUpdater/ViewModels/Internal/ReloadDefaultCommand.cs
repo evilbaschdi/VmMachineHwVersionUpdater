@@ -28,11 +28,11 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <inheritdoc />
         public DefaultCommand Value => new()
                                        {
-                                           Command = new RelayCommand(async _ => await RunTask())
+                                           Command = new RelayCommand(async _ => await RunAsync())
                                        };
 
         /// <inheritdoc />
-        public async Task RunTask()
+        public async Task RunAsync()
         {
             var controller = await _instance.ShowProgressAsync(DialogCoordinatorContext, "Application is restarting", "Please wait...");
             controller.SetIndeterminate();

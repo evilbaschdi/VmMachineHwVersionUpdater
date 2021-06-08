@@ -35,12 +35,12 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <inheritdoc />
         public DefaultCommand Value => new()
                                        {
-                                           Command = new RelayCommand(async _ => await RunTask())
+                                           Command = new RelayCommand(async _ => await RunAsync())
                                        };
 
 
         /// <inheritdoc />
-        public async Task RunTask()
+        public async Task RunAsync()
         {
             var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Delete machine...",
                 $"Are you sure you want to delete '{_selectedMachine.Value.DisplayName}'?",
@@ -52,7 +52,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                 {
                     _deleteMachine.RunFor(_selectedMachine.Value.Path);
 
-                    await _reloadDefaultCommand.RunTask();
+                    await _reloadDefaultCommand.RunAsync();
                 }
                 catch (IOException ioException)
                 {

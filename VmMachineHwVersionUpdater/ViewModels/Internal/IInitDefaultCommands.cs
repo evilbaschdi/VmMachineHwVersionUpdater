@@ -17,6 +17,9 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <inheritdoc cref="IArchiveDefaultCommand" />
         public IArchiveDefaultCommand ArchiveDefaultCommand { get; set; }
 
+        /// <inheritdoc cref="ICopyDefaultCommand" />
+        public ICopyDefaultCommand CopyDefaultCommand { get; set; }
+
         /// <inheritdoc cref="IDeleteDefaultCommand" />
         public IDeleteDefaultCommand DeleteDefaultCommand { get; set; }
 

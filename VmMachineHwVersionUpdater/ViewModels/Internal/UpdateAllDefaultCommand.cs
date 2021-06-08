@@ -39,11 +39,11 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <inheritdoc />
         public DefaultCommand Value => new()
                                        {
-                                           Command = new RelayCommand(async _ => await RunTask())
+                                           Command = new RelayCommand(async _ => await RunAsync())
                                        };
 
         /// <inheritdoc />
-        public async Task RunTask()
+        public async Task RunAsync()
         {
             _taskbarItemProgressState.Value = TaskbarItemProgressState.Indeterminate;
 
@@ -52,7 +52,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
 
             _taskbarItemProgressState.Value = TaskbarItemProgressState.Normal;
 
-            await _reloadDefaultCommand.RunTask();
+            await _reloadDefaultCommand.RunAsync();
         }
 
         /// <inheritdoc />

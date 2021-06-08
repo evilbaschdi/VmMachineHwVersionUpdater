@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2021.4.30.627-develop" />
+    <PackageReference Include="EvilBaschdi.Core" Version="2021.6.8.536-develop" />
     <PackageReference Include="EvilBaschdi.Settings" Version="2021.1.6.1052" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0-preview.4.21253.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-preview.4.21253.7" />

@@ -25,7 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ControlzEx" Version="5.0.0" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.5.1.855-develop" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.6.7.1723-develop" />
     <PackageReference Include="MahApps.Metro" Version="2.4.5" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.8.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.8.0" />
