@@ -33,9 +33,9 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                 _searchOsItemCollection.Clear();
                 _searchOsItemCollection.Add("(no filter)");
                 _searchOsItemCollection.Add(new Separator());
-                _load.Value.SearchOsItems.ForEach(x => _searchOsItemCollection.Add(x));
+                _load.Value.SearchOsItems?.ForEach(x => _searchOsItemCollection.Add(x));
                 _searchOsItemCollection.Add(new Separator());
-                _guestOsesInUse.Value.ForEach(x => _searchOsItemCollection.Add(x));
+                _guestOsesInUse.Value?.ForEach(x => _searchOsItemCollection.Add(x));
 
                 return _searchOsItemCollection;
             }
