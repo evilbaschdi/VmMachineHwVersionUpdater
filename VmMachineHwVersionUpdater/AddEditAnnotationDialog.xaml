@@ -11,15 +11,12 @@
         <controls:WindowCommands>
 
             <!-- Save -->
-            <Button Click="UpdateAnnotationClick">
-
-                <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center"
-                                            VerticalAlignment="Center" />
-
+            <Button Command="{Binding UpdateAnnotationClick.Command}">
+                <iconPacks:PackIconMaterial Kind="ContentSave" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
 
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
-    <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto"
-             VerticalScrollBarVisibility="Auto" />
+    <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+             Text="{Binding AnnotationText,Mode=TwoWay}" />
 </controls:MetroWindow>

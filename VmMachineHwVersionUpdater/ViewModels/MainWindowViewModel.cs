@@ -12,6 +12,7 @@ using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.ViewModels
 {
+    /// <inheritdoc cref="IMainWindowViewModel" />
     /// <inheritdoc cref="INotifyPropertyChanged" />
     /// <summary>
     ///     MainWindowViewModel of VmMachineHwVersionUpdater.
@@ -19,13 +20,11 @@ namespace VmMachineHwVersionUpdater.ViewModels
     public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewModel
     {
         private readonly IConfigureListCollectionView _configureListCollectionView;
-
-
         private readonly IFilterItemSource _filterItemSource;
         private readonly IInitDefaultCommands _initDefaultCommands;
         private readonly ILoad _load;
         private readonly ILoadSearchOsItems _loadSearchOsItems;
-        private readonly ISelectedMachine _selectedMachine;
+        private readonly ICurrentItem _currentItem;
         private readonly ITaskbarItemProgressState _taskbarItemProgressState;
         private string _searchFilterText = string.Empty;
         private string _searchOsText = "(no filter)";
@@ -36,7 +35,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
         ///     Constructor
         /// </summary>
         public MainWindowViewModel(
-            ISelectedMachine selectedMachine,
+            ICurrentItem currentItem,
             IInitDefaultCommands initDefaultCommands,
             ILoad load,
             IConfigureListCollectionView configureListCollectionView,
@@ -47,7 +46,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
         )
             : base(true, true)
         {
-            _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
+            _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
             _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));
             _load = load ?? throw new ArgumentNullException(nameof(load));
             _configureListCollectionView = configureListCollectionView ?? throw new ArgumentNullException(nameof(configureListCollectionView));
@@ -59,7 +58,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
             Run();
         }
 
-        #endregion Constructor
+        
 
         /// <inheritdoc />
         public void Run()
@@ -78,63 +77,57 @@ namespace VmMachineHwVersionUpdater.ViewModels
             Start = _initDefaultCommands.StartDefaultCommand.Value;
             UpdateAll = _initDefaultCommands.UpdateAllDefaultCommand.Value;
         }
-
+        #endregion Constructor
 
         #region Commands
 
-        /// <summary />
-        // ReSharper disable MemberCanBePrivate.Global
-        // ReSharper disable UnusedAutoPropertyAccessor.Global
+        /// <inheritdoc />
         public ICommandViewModel AboutWindowClick { get; set; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICommandViewModel AddEditAnnotation { get; set; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICommandViewModel Archive { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
+
+        /// <inheritdoc />
         public ICommandViewModel Copy { get; set; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICommandViewModel Delete { get; set; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICommandViewModel GoTo { get; set; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICommandViewModel OpenWithCode { get; set; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICurrentItemSource CurrentItemSource { get; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICommandViewModel Reload { get; set; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICommandViewModel Start { get; set; }
 
-        /// <summary />
+        /// <inheritdoc />
         public ICommandViewModel UpdateAll { get; set; }
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
-        // ReSharper restore MemberCanBePrivate.Global
 
         #endregion Commands
 
         #region Properties
 
-        // ReSharper disable MemberCanBePrivate.Global
-        // ReSharper disable UnusedMember.Global
+       
         /// <summary>
         ///     Binding
         /// </summary>
         public Machine SelectedMachine
         {
-            get => _selectedMachine.Value;
+            get => _currentItem.Value;
             set
             {
-                _selectedMachine.Value = value;
+                _currentItem.Value = value;
                 OnPropertyChanged();
             }
         }
@@ -269,8 +262,6 @@ namespace VmMachineHwVersionUpdater.ViewModels
                 OnPropertyChanged();
             }
         }
-        // ReSharper restore UnusedMember.Global
-        // ReSharper restore MemberCanBePrivate.Global
 
         #endregion Properties
     }

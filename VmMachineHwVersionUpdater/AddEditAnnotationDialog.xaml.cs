@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows;
-using JetBrains.Annotations;
 using MahApps.Metro.Controls;
-using VmMachineHwVersionUpdater.Core.Models;
-using VmMachineHwVersionUpdater.Core.PerMachine;
+using Microsoft.Extensions.DependencyInjection;
+using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater
 {
@@ -13,34 +12,31 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class AddEditAnnotationDialog : MetroWindow
     {
-        private readonly IAddEditAnnotation _addEditAnnotation;
-        private readonly string _currentAnnotation;
-        private Machine _machine;
+        private readonly IServiceProvider _serviceProvider;
 
         /// <inheritdoc />
         /// <summary>
         ///     Constructor
         /// </summary>
-        public AddEditAnnotationDialog(IAddEditAnnotation addEditAnnotation, [NotNull] Machine machine)
+        public AddEditAnnotationDialog()
         {
-            _machine = machine ?? throw new ArgumentNullException(nameof(machine));
-            _addEditAnnotation = addEditAnnotation ?? throw new ArgumentNullException(nameof(addEditAnnotation));
-            InitializeComponent();
-            _currentAnnotation = _machine.Annotation;
-            Annotation.Text = _currentAnnotation;
+            _serviceProvider = App.ServiceProvider;
+            Loaded += AddEditAnnotationDialogLoaded;
         }
 
-        private void UpdateAnnotationClick(object sender, RoutedEventArgs e)
+        private void AddEditAnnotationDialogLoaded(object sender, RoutedEventArgs e)
         {
-            var newAnnotation = Annotation.Text;
-
-            if (!_currentAnnotation.Equals(newAnnotation) && _machine != null)
+            if (sender == null)
             {
-                _addEditAnnotation.RunFor(_machine.Path, newAnnotation.Replace("\r", "|0D").Replace("\n", "|0A"));
+                throw new ArgumentNullException(nameof(sender));
             }
 
-            _machine = null;
-            _addEditAnnotation.Dispose();
+            if (e == null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
+
+            DataContext = ActivatorUtilities.GetServiceOrCreateInstance(_serviceProvider, typeof(AddEditAnnotationDialogViewModel));
         }
     }
 }

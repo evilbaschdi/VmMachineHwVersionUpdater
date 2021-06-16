@@ -74,6 +74,9 @@ namespace VmMachineHwVersionUpdater
             IConfigureDefaultCommandServices configureDefaultCommandServices = new ConfigureDefaultCommandServices();
             configureDefaultCommandServices.RunFor(services);
 
+            services.AddSingleton<AddEditAnnotationDialogViewModel>();
+            services.AddSingleton(typeof(AddEditAnnotationDialog));
+
             services.AddSingleton<MainWindowViewModel>();
             services.AddTransient(typeof(MainWindow));
         }

@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using EvilBaschdi.Core;
 using JetBrains.Annotations;
-using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.ViewModels.Internal
+namespace VmMachineHwVersionUpdater.Core.Models
 {
-    /// <inheritdoc cref="ISelectedMachine" />
-    public class SelectedMachine : CachedWritableValue<Machine>, ISelectedMachine
+    /// <inheritdoc cref="ICurrentItem" />
+    public class CurrentItem : CachedWritableValue<Machine>, ICurrentItem
     {
         private Machine _machine;
 

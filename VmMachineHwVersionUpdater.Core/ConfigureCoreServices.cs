@@ -3,6 +3,7 @@ using EvilBaschdi.Core.Internal;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
+using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.Core.Settings;
 
@@ -19,22 +20,28 @@ namespace VmMachineHwVersionUpdater.Core
                 throw new ArgumentNullException(nameof(services));
             }
 
-            services.AddSingleton<ISettingsValid, SettingsValid>();
+            services.AddSingleton<IArchiveMachine, ArchiveMachine>();
+            services.AddSingleton<IConvertAnnotationLineBreaks, ConvertAnnotationLineBreaks>();
+            services.AddSingleton<ICopyMachine, CopyMachine>();
+            services.AddSingleton<ICurrentItem, CurrentItem>();
+            services.AddSingleton<IDeleteMachine, DeleteMachine>();
             services.AddSingleton<IFileListFromPath, FileListFromPath>();
-            services.AddSingleton<IGuestOsStringMapping, GuestOsStringMapping>();
+            services.AddSingleton<IGuestOsesInUse, GuestOsesInUse>();
             services.AddSingleton<IGuestOsOutputStringMapping, GuestOsOutputStringMapping>();
+            services.AddSingleton<IGuestOsStringMapping, GuestOsStringMapping>();
+            services.AddSingleton<IHandleMachineFromPath, HandleMachineFromPath>();
+            services.AddSingleton<ILoad, Load>();
+            services.AddSingleton<IMachinesFromPath, MachinesFromPath>();
+            services.AddSingleton<IPathSettings, PathSettings>();
             services.AddSingleton<IReadLogInformation, ReadLogInformation>();
-            services.AddSingleton<IUpdateMachineVersion, UpdateMachineVersion>();
+            services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
+            services.AddSingleton<ISettingsValid, SettingsValid>();
             services.AddSingleton<IToggleToolsSyncTime, ToggleToolsSyncTime>();
             services.AddSingleton<IToggleToolsUpgradePolicy, ToggleToolsUpgradePolicy>();
-            services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
+            services.AddSingleton<IUpdateAnnotation, UpdateAnnotation>();
+            services.AddSingleton<IUpdateMachineVersion, UpdateMachineVersion>();
+            services.AddSingleton<IVmPools, VmPools>();
             services.AddSingleton<IVmxLineStartsWith, VmxLineStartsWith>();
-            services.AddSingleton<IConvertAnnotationLineBreaks, ConvertAnnotationLineBreaks>();
-            services.AddSingleton<IHandleMachineFromPath, HandleMachineFromPath>();
-            services.AddSingleton<IGuestOsesInUse, GuestOsesInUse>();
-            services.AddSingleton<IMachinesFromPath, MachinesFromPath>();
-            services.AddSingleton<IDeleteMachine, DeleteMachine>();
-            services.AddSingleton<ILoad, Load>();
         }
     }
 }

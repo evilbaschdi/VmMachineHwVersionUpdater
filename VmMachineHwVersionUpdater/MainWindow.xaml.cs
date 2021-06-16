@@ -13,7 +13,6 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : MetroWindow
     {
-        //private readonly MainWindowViewModel _mainWindowViewModel;
         private readonly IServiceProvider _serviceProvider;
 
         /// <inheritdoc />

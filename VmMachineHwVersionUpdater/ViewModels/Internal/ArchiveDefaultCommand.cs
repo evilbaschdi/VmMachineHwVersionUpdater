@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
+using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
@@ -14,19 +15,19 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         private readonly IArchiveMachine _archiveMachine;
         [NotNull] private readonly IDialogCoordinator _dialogCoordinator;
         [NotNull] private readonly IReloadDefaultCommand _reloadDefaultCommand;
-        private readonly ISelectedMachine _selectedMachine;
+        private readonly ICurrentItem _currentItem;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="reloadDefaultCommand"></param>
-        /// <param name="selectedMachine"></param>
+        /// <param name="currentItem"></param>
         /// <param name="archiveMachine"></param>
         /// <param name="instance"></param>
-        public ArchiveDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ISelectedMachine selectedMachine,
+        public ArchiveDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ICurrentItem currentItem,
                                      [NotNull] IArchiveMachine archiveMachine)
         {
-            _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
+            _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
             _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
 
             _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -37,14 +38,14 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         public async Task RunAsync()
         {
             var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Archive machine...",
-                $"Are you sure you want to archive machine '{_selectedMachine.Value.DisplayName}'?",
+                $"Are you sure you want to archive machine '{_currentItem.Value.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)
             {
                 try
                 {
-                    _archiveMachine.RunFor(_selectedMachine.Value);
+                    _archiveMachine.RunFor(_currentItem.Value);
                 }
                 catch (IOException ioException)
                 {

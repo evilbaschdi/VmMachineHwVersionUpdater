@@ -18,6 +18,7 @@ namespace VmMachineHwVersionUpdater.Tests.ViewModels
         [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
         public void Constructor_ReturnsInterfaceName(AddEditAnnotationDialogViewModel sut)
         {
+            Assert.IsAssignableFrom<IAddEditAnnotationDialogViewModel>(sut);
             Assert.IsAssignableFrom<ApplicationStyleViewModel>(sut);
         }
 

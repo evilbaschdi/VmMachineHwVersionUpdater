@@ -5,6 +5,7 @@ using EvilBaschdi.Core.Internal;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
+using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
@@ -16,20 +17,20 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         private readonly ICopyProgress _copyProgress;
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly IReloadDefaultCommand _reloadDefaultCommand;
-        private readonly ISelectedMachine _selectedMachine;
+        private readonly ICurrentItem _currentItem;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="reloadDefaultCommand"></param>
-        /// <param name="selectedMachine"></param>
+        /// <param name="currentItem"></param>
         /// <param name="instance"></param>
         /// <param name="copyMachine"></param>
         /// <param name="copyProgress"></param>
-        public CopyDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ISelectedMachine selectedMachine,
+        public CopyDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ICurrentItem currentItem,
                                   [NotNull] ICopyMachine copyMachine, [NotNull] ICopyProgress copyProgress)
         {
-            _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
+            _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
             _copyMachine = copyMachine ?? throw new ArgumentNullException(nameof(copyMachine));
             _copyProgress = copyProgress ?? throw new ArgumentNullException(nameof(copyProgress));
             _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
@@ -40,7 +41,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         public async Task RunAsync()
         {
             var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Copy machine...",
-                $"Are you sure you want to copy machine '{_selectedMachine.Value.DisplayName}'?",
+                $"Are you sure you want to copy machine '{_currentItem.Value.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)
@@ -65,7 +66,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
                                                                                              }
                                                                                          });
 
-                                           await _copyMachine.RunForAsync(_selectedMachine.Value, inputResult);
+                                           await _copyMachine.RunForAsync(_currentItem.Value, inputResult);
                                        });
                         await controller.CloseAsync();
                     }

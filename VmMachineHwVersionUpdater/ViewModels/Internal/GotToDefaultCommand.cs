@@ -3,6 +3,7 @@ using System.IO;
 using EvilBaschdi.CoreExtended.AppHelpers;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
+using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
@@ -10,16 +11,16 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     public class GotToDefaultCommand : IGotToDefaultCommand
     {
         private readonly IProcessByPath _processByPath;
-        private readonly ISelectedMachine _selectedMachine;
+        private readonly ICurrentItem _currentItem;
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="selectedMachine"></param>
+        /// <param name="currentItem"></param>
         /// <param name="processByPath"></param>
-        public GotToDefaultCommand([NotNull] ISelectedMachine selectedMachine, [NotNull] IProcessByPath processByPath)
+        public GotToDefaultCommand([NotNull] ICurrentItem currentItem, [NotNull] IProcessByPath processByPath)
         {
-            _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
+            _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
             _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
         }
 
@@ -32,12 +33,12 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <inheritdoc />
         public void Run()
         {
-            if (!File.Exists(_selectedMachine.Value.Path))
+            if (!File.Exists(_currentItem.Value.Path))
             {
                 return;
             }
 
-            var path = Path.GetDirectoryName(_selectedMachine.Value.Path);
+            var path = Path.GetDirectoryName(_currentItem.Value.Path);
             if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
             {
                 _processByPath.RunFor(path);
