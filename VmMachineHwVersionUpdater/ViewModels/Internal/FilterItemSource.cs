@@ -35,7 +35,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             {
                 var filterGuestOs = true;
                 var filterDisplayName = true;
-                var machine = (Machine) vm;
+                var machine = (Machine)vm;
 
                 if (!string.IsNullOrWhiteSpace(searchOsText) && searchOsText != "(no filter)")
                 {

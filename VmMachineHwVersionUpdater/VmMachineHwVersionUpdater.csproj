@@ -24,9 +24,9 @@
     <None Remove="b.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="5.0.0" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.6.7.1723-develop" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.6" />
+    <PackageReference Include="ControlzEx" Version="5.0.1" />
+    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.8.15.846-develop" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.7" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.8.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.8.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.8.0" />

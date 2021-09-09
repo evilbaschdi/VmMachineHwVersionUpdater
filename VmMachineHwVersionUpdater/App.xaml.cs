@@ -7,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.ViewModels;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
-
 #if (!DEBUG)
 using ControlzEx.Theming;
 
@@ -37,7 +36,8 @@ namespace VmMachineHwVersionUpdater
         /// <summary>
         ///     ServiceProvider for DependencyInjection
         /// </summary>
-        public static IServiceProvider ServiceProvider { get; private set; }
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static IServiceProvider ServiceProvider { get; set; }
 
 
         /// <inheritdoc />
@@ -48,9 +48,6 @@ namespace VmMachineHwVersionUpdater
 #endif
 
             await _host.StartAsync();
-
-            //var test = ServiceProvider.GetRequiredService<MainWindowViewModel>();
-            //test.Run();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
@@ -75,7 +72,7 @@ namespace VmMachineHwVersionUpdater
             configureDefaultCommandServices.RunFor(services);
 
             services.AddSingleton<AddEditAnnotationDialogViewModel>();
-            services.AddSingleton(typeof(AddEditAnnotationDialog));
+            services.AddTransient(typeof(AddEditAnnotationDialog));
 
             services.AddSingleton<MainWindowViewModel>();
             services.AddTransient(typeof(MainWindow));

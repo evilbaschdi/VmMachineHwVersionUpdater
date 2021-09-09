@@ -12,10 +12,10 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     /// <inheritdoc />
     public class DeleteDefaultCommand : IDeleteDefaultCommand
     {
+        private readonly ICurrentItem _currentItem;
         private readonly IDeleteMachine _deleteMachine;
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly IReloadDefaultCommand _reloadDefaultCommand;
-        private readonly ICurrentItem _currentItem;
 
         /// <summary>
         ///     Constructor
@@ -34,10 +34,18 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         }
 
         /// <inheritdoc />
-        public DefaultCommand Value => new()
-                                       {
-                                           Command = new RelayCommand(async _ => await RunAsync())
-                                       };
+        public DefaultCommand Value
+        {
+            get
+            {
+                async void Execute(object _) => await RunAsync();
+
+                return new()
+                       {
+                           Command = new RelayCommand(Execute)
+                       };
+            }
+        }
 
 
         /// <inheritdoc />

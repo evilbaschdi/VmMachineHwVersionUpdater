@@ -9,8 +9,8 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     /// <inheritdoc />
     public class StartDefaultCommand : IStartDefaultCommand
     {
-        private readonly IProcessByPath _processByPath;
         private readonly ICurrentItem _currentItem;
+        private readonly IProcessByPath _processByPath;
 
         /// <summary>
         ///     Constructor

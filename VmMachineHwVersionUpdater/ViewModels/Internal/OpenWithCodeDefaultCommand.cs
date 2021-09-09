@@ -10,8 +10,8 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     /// <inheritdoc />
     public class OpenWithCodeDefaultCommand : IOpenWithCodeDefaultCommand
     {
-        private readonly IProcessByPath _processByPath;
         private readonly ICurrentItem _currentItem;
+        private readonly IProcessByPath _processByPath;
 
         /// <summary>
         ///     Constructor

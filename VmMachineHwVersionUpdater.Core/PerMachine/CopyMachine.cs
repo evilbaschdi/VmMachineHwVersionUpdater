@@ -53,7 +53,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             {
                 //todo: Message
             }
-            
+
             await _copyDirectory.RunForAsync(path, copyPath);
         }
     }

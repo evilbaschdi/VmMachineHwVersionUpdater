@@ -13,9 +13,9 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     public class ArchiveDefaultCommand : IArchiveDefaultCommand
     {
         private readonly IArchiveMachine _archiveMachine;
+        private readonly ICurrentItem _currentItem;
         [NotNull] private readonly IDialogCoordinator _dialogCoordinator;
         [NotNull] private readonly IReloadDefaultCommand _reloadDefaultCommand;
-        private readonly ICurrentItem _currentItem;
 
         /// <summary>
         ///     Constructor
@@ -61,10 +61,18 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         }
 
         /// <inheritdoc />
-        public DefaultCommand Value => new()
-                                       {
-                                           Command = new RelayCommand(async _ => await RunAsync())
-                                       };
+        public DefaultCommand Value
+        {
+            get
+            {
+                async void Execute(object _) => await RunAsync();
+
+                return new()
+                       {
+                           Command = new RelayCommand(Execute)
+                       };
+            }
+        }
 
         /// <inheritdoc />
         public object DialogCoordinatorContext { get; set; }

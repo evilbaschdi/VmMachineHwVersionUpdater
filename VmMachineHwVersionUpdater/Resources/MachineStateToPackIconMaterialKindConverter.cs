@@ -40,7 +40,7 @@ namespace VmMachineHwVersionUpdater.Resources
                 throw new ArgumentNullException(nameof(culture));
             }
 
-            return (MachineState) value == MachineState.Paused ? PackIconMaterialKind.Pause : PackIconMaterialKind.Power;
+            return (MachineState)value == MachineState.Paused ? PackIconMaterialKind.Pause : PackIconMaterialKind.Power;
         }
 
         /// <summary>

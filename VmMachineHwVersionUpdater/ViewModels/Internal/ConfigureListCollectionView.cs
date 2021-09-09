@@ -16,7 +16,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     {
         [NotNull] private readonly IDialogCoordinator _dialogCoordinator;
 
-        private readonly ILoad _load;
+        [NotNull] private readonly ILoad _load;
         [NotNull] private readonly ISettingsValid _settingsValid;
         private ListCollectionView _listCollectionView;
 

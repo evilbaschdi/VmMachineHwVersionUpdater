@@ -35,7 +35,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                     _addEditAnnotation.RunFor(machine.Path, newAnnotation.Replace("\r", "|0D").Replace("\n", "|0A"));
                 }
 
-                _currentItem.Value = null;
+                //_currentItem.Value = null;
                 _addEditAnnotation.Dispose();
             }
         }

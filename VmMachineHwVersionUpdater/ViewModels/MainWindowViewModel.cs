@@ -20,11 +20,11 @@ namespace VmMachineHwVersionUpdater.ViewModels
     public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewModel
     {
         private readonly IConfigureListCollectionView _configureListCollectionView;
+        private readonly ICurrentItem _currentItem;
         private readonly IFilterItemSource _filterItemSource;
         private readonly IInitDefaultCommands _initDefaultCommands;
         private readonly ILoad _load;
         private readonly ILoadSearchOsItems _loadSearchOsItems;
-        private readonly ICurrentItem _currentItem;
         private readonly ITaskbarItemProgressState _taskbarItemProgressState;
         private string _searchFilterText = string.Empty;
         private string _searchOsText = "(no filter)";
@@ -58,7 +58,6 @@ namespace VmMachineHwVersionUpdater.ViewModels
             Run();
         }
 
-        
 
         /// <inheritdoc />
         public void Run()
@@ -77,6 +76,7 @@ namespace VmMachineHwVersionUpdater.ViewModels
             Start = _initDefaultCommands.StartDefaultCommand.Value;
             UpdateAll = _initDefaultCommands.UpdateAllDefaultCommand.Value;
         }
+
         #endregion Constructor
 
         #region Commands
@@ -118,7 +118,6 @@ namespace VmMachineHwVersionUpdater.ViewModels
 
         #region Properties
 
-       
         /// <summary>
         ///     Binding
         /// </summary>

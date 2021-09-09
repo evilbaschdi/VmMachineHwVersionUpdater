@@ -20,6 +20,8 @@ namespace VmMachineHwVersionUpdater
         /// </summary>
         public AddEditAnnotationDialog()
         {
+            InitializeComponent();
+
             _serviceProvider = App.ServiceProvider;
             Loaded += AddEditAnnotationDialogLoaded;
         }

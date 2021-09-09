@@ -45,7 +45,7 @@ namespace VmMachineHwVersionUpdater.Resources
                 return DependencyProperty.UnsetValue;
             }
 
-            var guestOsFormatter = (string) value;
+            var guestOsFormatter = (string)value;
 
             return guestOsFormatter.Replace("' ", $"'{Environment.NewLine}");
         }
