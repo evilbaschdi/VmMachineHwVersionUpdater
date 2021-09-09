@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
+using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
@@ -11,48 +12,56 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
     /// <inheritdoc />
     public class DeleteDefaultCommand : IDeleteDefaultCommand
     {
+        private readonly ICurrentItem _currentItem;
         private readonly IDeleteMachine _deleteMachine;
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly IReloadDefaultCommand _reloadDefaultCommand;
-        private readonly ISelectedMachine _selectedMachine;
 
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="dialogCoordinator"></param>
-        /// <param name="selectedMachine"></param>
+        /// <param name="currentItem"></param>
         /// <param name="deleteMachine"></param>
         /// <param name="reloadDefaultCommand"></param>
-        public DeleteDefaultCommand([NotNull] IDialogCoordinator dialogCoordinator, [NotNull] ISelectedMachine selectedMachine, [NotNull] IDeleteMachine deleteMachine,
+        public DeleteDefaultCommand([NotNull] IDialogCoordinator dialogCoordinator, [NotNull] ICurrentItem currentItem, [NotNull] IDeleteMachine deleteMachine,
                                     [NotNull] IReloadDefaultCommand reloadDefaultCommand)
         {
             _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
-            _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
+            _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
             _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
             _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
         }
 
         /// <inheritdoc />
-        public DefaultCommand Value => new()
-                                       {
-                                           Command = new RelayCommand(async _ => await RunTask())
-                                       };
+        public DefaultCommand Value
+        {
+            get
+            {
+                async void Execute(object _) => await RunAsync();
+
+                return new()
+                       {
+                           Command = new RelayCommand(Execute)
+                       };
+            }
+        }
 
 
         /// <inheritdoc />
-        public async Task RunTask()
+        public async Task RunAsync()
         {
             var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Delete machine...",
-                $"Are you sure you want to delete '{_selectedMachine.Value.DisplayName}'?",
+                $"Are you sure you want to delete '{_currentItem.Value.DisplayName}'?",
                 MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)
             {
                 try
                 {
-                    _deleteMachine.RunFor(_selectedMachine.Value.Path);
+                    _deleteMachine.RunFor(_currentItem.Value.Path);
 
-                    await _reloadDefaultCommand.RunTask();
+                    await _reloadDefaultCommand.RunAsync();
                 }
                 catch (IOException ioException)
                 {

@@ -1,8 +1,5 @@
 ﻿using System;
-using EvilBaschdi.Core;
 using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
-using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
@@ -12,6 +9,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         private readonly IAboutWindowClickDefaultCommand _aboutWindowClickDefaultCommand;
         private readonly IAddEditAnnotationDefaultCommand _addEditAnnotationDefaultCommand;
         private readonly IArchiveDefaultCommand _archiveDefaultCommand;
+        private readonly ICopyDefaultCommand _copyDefaultCommand;
         private readonly IDeleteDefaultCommand _deleteDefaultCommand;
         private readonly IGotToDefaultCommand _gotToDefaultCommand;
         private readonly IOpenWithCodeDefaultCommand _openWithCodeDefaultCommand;
@@ -25,6 +23,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// </summary>
         public InitDefaultCommands([NotNull] IAboutWindowClickDefaultCommand aboutWindowClickDefaultCommand,
                                    [NotNull] IArchiveDefaultCommand archiveDefaultCommand,
+                                   [NotNull] ICopyDefaultCommand copyDefaultCommand,
                                    [NotNull] IOpenWithCodeDefaultCommand openWithCodeDefaultCommand,
                                    [NotNull] IAddEditAnnotationDefaultCommand addEditAnnotationDefaultCommand,
                                    [NotNull] IDeleteDefaultCommand deleteDefaultCommand,
@@ -36,6 +35,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         {
             _aboutWindowClickDefaultCommand = aboutWindowClickDefaultCommand ?? throw new ArgumentNullException(nameof(aboutWindowClickDefaultCommand));
             _archiveDefaultCommand = archiveDefaultCommand ?? throw new ArgumentNullException(nameof(archiveDefaultCommand));
+            _copyDefaultCommand = copyDefaultCommand ?? throw new ArgumentNullException(nameof(copyDefaultCommand));
             _openWithCodeDefaultCommand = openWithCodeDefaultCommand ?? throw new ArgumentNullException(nameof(openWithCodeDefaultCommand));
             _addEditAnnotationDefaultCommand = addEditAnnotationDefaultCommand ?? throw new ArgumentNullException(nameof(addEditAnnotationDefaultCommand));
             _deleteDefaultCommand = deleteDefaultCommand ?? throw new ArgumentNullException(nameof(deleteDefaultCommand));
@@ -50,6 +50,9 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
 
         /// <inheritdoc />
         public IArchiveDefaultCommand ArchiveDefaultCommand { get; set; }
+
+        /// <inheritdoc />
+        public ICopyDefaultCommand CopyDefaultCommand { get; set; }
 
         /// <inheritdoc />
         public IOpenWithCodeDefaultCommand OpenWithCodeDefaultCommand { get; set; }
@@ -80,6 +83,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         {
             AboutWindowClickDefaultCommand = _aboutWindowClickDefaultCommand;
             ArchiveDefaultCommand = _archiveDefaultCommand;
+            CopyDefaultCommand = _copyDefaultCommand;
             OpenWithCodeDefaultCommand = _openWithCodeDefaultCommand;
             AddEditAnnotationDefaultCommand = _addEditAnnotationDefaultCommand;
             ReloadDefaultCommand = _reloadDefaultCommand;
@@ -89,37 +93,9 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             UpdateAllDefaultCommand = _updateAllDefaultCommand;
 
             ArchiveDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
+            CopyDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
             DeleteDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
             ReloadDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
-        }
-    }
-
-    /// <inheritdoc />
-    public interface IConfigureDefaultCommandServices : IRunFor<IServiceCollection>
-    {
-    }
-
-    /// <inheritdoc />
-    public class ConfigureDefaultCommandServices : IConfigureDefaultCommandServices
-    {
-        /// <inheritdoc />
-        public void RunFor([NotNull] IServiceCollection services)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
-            services.AddSingleton<IAboutWindowClickDefaultCommand, AboutWindowClickDefaultCommand>();
-            services.AddSingleton<IArchiveDefaultCommand, ArchiveDefaultCommand>();
-            services.AddSingleton<IOpenWithCodeDefaultCommand, OpenWithCodeDefaultCommand>();
-            services.AddSingleton<IAddEditAnnotationDefaultCommand, AddEditAnnotationDefaultCommand>();
-            services.AddSingleton<IReloadDefaultCommand, ReloadDefaultCommand>();
-            services.AddSingleton<IDeleteDefaultCommand, DeleteDefaultCommand>();
-            services.AddSingleton<IGotToDefaultCommand, GotToDefaultCommand>();
-            services.AddSingleton<IStartDefaultCommand, StartDefaultCommand>();
-            services.AddSingleton<IUpdateAllDefaultCommand, UpdateAllDefaultCommand>();
         }
     }
 }

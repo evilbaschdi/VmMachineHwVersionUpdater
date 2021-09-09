@@ -3,23 +3,24 @@ using System.IO;
 using EvilBaschdi.CoreExtended.AppHelpers;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
+using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
     /// <inheritdoc />
     public class OpenWithCodeDefaultCommand : IOpenWithCodeDefaultCommand
     {
+        private readonly ICurrentItem _currentItem;
         private readonly IProcessByPath _processByPath;
-        private readonly ISelectedMachine _selectedMachine;
 
         /// <summary>
         ///     Constructor
         /// </summary>
-        /// <param name="selectedMachine"></param>
+        /// <param name="currentItem"></param>
         /// <param name="processByPath"></param>
-        public OpenWithCodeDefaultCommand([NotNull] ISelectedMachine selectedMachine, [NotNull] IProcessByPath processByPath)
+        public OpenWithCodeDefaultCommand([NotNull] ICurrentItem currentItem, [NotNull] IProcessByPath processByPath)
         {
-            _selectedMachine = selectedMachine ?? throw new ArgumentNullException(nameof(selectedMachine));
+            _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
             _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
         }
 
@@ -32,12 +33,12 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
         /// <inheritdoc />
         public void Run()
         {
-            if (!File.Exists(_selectedMachine.Value.Path))
+            if (!File.Exists(_currentItem.Value.Path))
             {
                 return;
             }
 
-            _processByPath.RunFor($"vscode://file/{_selectedMachine.Value.Path}");
+            _processByPath.RunFor($"vscode://file/{_currentItem.Value.Path}");
         }
     }
 }

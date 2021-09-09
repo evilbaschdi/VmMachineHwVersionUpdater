@@ -49,7 +49,7 @@ namespace VmMachineHwVersionUpdater.Resources
                 return DependencyProperty.UnsetValue;
             }
 
-            var collection = (ReadOnlyObservableCollection<object>) value;
+            var collection = (ReadOnlyObservableCollection<object>)value;
             var precision = System.Convert.ToInt32(parameter);
             var updateEntries = collection.Cast<Machine>();
 

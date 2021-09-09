@@ -126,10 +126,10 @@ namespace VmMachineHwVersionUpdater.Core.Models
 
         /// <summary />
 
-        public string ShortPath { get; set; }
+        public string ShortPath { get; init; }
 
         /// <summary />
-        public string Path { get; set; }
+        public string Path { get; init; }
 
         /// <summary />
         public string Directory { get; set; }
@@ -141,10 +141,10 @@ namespace VmMachineHwVersionUpdater.Core.Models
         public double DirectorySizeGb { get; set; }
 
         /// <summary />
-        public string LogLastDate { get; set; }
+        public string LogLastDate { get; init; }
 
         /// <summary />
-        public string LogLastDateDiff { get; set; }
+        public string LogLastDateDiff { get; init; }
 
         /// <summary />
         public string Annotation { get; set; }

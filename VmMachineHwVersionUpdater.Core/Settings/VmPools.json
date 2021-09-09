@@ -1,10 +1,12 @@
 {
     "VmPool": [
         "V:\\vm\\VMware",
-        "M:\\vm"
+        "M:\\vm",
+        "C:\\vm"
       ],
     "ArchivePath": [
         "V:\\vm\\VMware\\_archive",
-        "M:\\vm\\_archive"
+        "M:\\vm\\_archive",
+        "C:\\vm\\_archive"
       ]
   }

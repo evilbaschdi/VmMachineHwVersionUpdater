@@ -71,7 +71,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             if (file.FileInfo().IsFileLocked() ||
                 //has to be done to not handle the archived machines with the non-archived
                 archivePaths.Any(archivePath
-                                     => !path.Equals(archivePath, StringComparison.InvariantCultureIgnoreCase) &&
+                                     => !string.IsNullOrWhiteSpace(archivePath) && !path.Equals(archivePath, StringComparison.InvariantCultureIgnoreCase) &&
                                         file.StartsWith(archivePath, StringComparison.InvariantCultureIgnoreCase)))
             {
                 return null;

@@ -222,6 +222,7 @@
                                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
+
                 <!-- Go to -->
                 <MenuItem Header="Go to path..." Command="{Binding GoTo.Command}">
                     <MenuItem.Icon>
@@ -230,6 +231,15 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
+
+                <!-- Copy -->
+                <MenuItem Header="Copy machine..." Command="{Binding Copy.Command}">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconMaterial Kind="ContentCopy" Width="16" Height="16" HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
                 <!-- Archive -->
                 <MenuItem Header="Archive machine..." Command="{Binding Archive.Command}">
                     <MenuItem.Icon>
@@ -237,12 +247,14 @@
                                                     VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
+
                 <!-- Delete -->
                 <MenuItem Header="Delete machine..." Command="{Binding Delete.Command}">
                     <MenuItem.Icon>
                         <iconPacks:PackIconMaterial Kind="DeleteVariant" Width="16" Height="16"
                                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
+
                 </MenuItem>
             </ContextMenu>
         </DataGrid.ContextMenu>

@@ -72,28 +72,28 @@ namespace VmMachineHwVersionUpdater.Core
 
             if (size >> 10 < 1024d)
             {
-                return $"{(size / (float) 1024d).ToString($"F{precision}", culture)} KB";
+                return $"{(size / (float)1024d).ToString($"F{precision}", culture)} KB";
             }
 
             if (size >> 20 < 1024d)
             {
-                return $"{((size >> 10) / (float) 1024d).ToString($"F{precision}", culture)} MB";
+                return $"{((size >> 10) / (float)1024d).ToString($"F{precision}", culture)} MB";
             }
 
             if (size >> 30 < 1024d)
             {
-                return $"{((size >> 20) / (float) 1024d).ToString($"F{precision}", culture)} GB";
+                return $"{((size >> 20) / (float)1024d).ToString($"F{precision}", culture)} GB";
             }
 
             if (!(size >> 40 < 1024d))
             {
                 return size >> 50 < 1024d
-                    ? $"{((size >> 40) / (float) 1024d).ToString($"F{precision}", culture)} PB"
-                    : $"{((size >> 50) / (float) 1024d).ToString($"F{precision}", culture)} EB";
+                    ? $"{((size >> 40) / (float)1024d).ToString($"F{precision}", culture)} PB"
+                    : $"{((size >> 50) / (float)1024d).ToString($"F{precision}", culture)} EB";
             }
 
             var workaround = size / 1000 * 1024;
-            return $"{((workaround >> 30) / (float) 1024d).ToString($"F{precision}", culture)} TB";
+            return $"{((workaround >> 30) / (float)1024d).ToString($"F{precision}", culture)} TB";
         }
     }
 }

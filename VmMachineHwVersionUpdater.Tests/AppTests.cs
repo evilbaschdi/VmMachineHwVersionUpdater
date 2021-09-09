@@ -1,30 +1,30 @@
-using System.Linq;
+﻿using System.Linq;
+using System.Windows;
 using AutoFixture.Idioms;
 using EvilBaschdi.Testing;
 using FluentAssertions;
-using VmMachineHwVersionUpdater.ViewModels.Internal;
 using Xunit;
 
-namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal
+namespace VmMachineHwVersionUpdater.Tests
 {
-    public class SelectedMachineTests
+    public class AppTests
     {
         [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
         public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
         {
-            assertion.Verify(typeof(SelectedMachine).GetConstructors());
+            assertion.Verify(typeof(App).GetConstructors());
         }
 
         [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_ReturnsInterfaceName(SelectedMachine sut)
+        public void Constructor_ReturnsInterfaceName(App sut)
         {
-            sut.Should().BeAssignableTo<ISelectedMachine>();
+            sut.Should().BeAssignableTo<Application>();
         }
 
         [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
         public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
         {
-            assertion.Verify(typeof(SelectedMachine).GetMethods().Where(method => !method.IsAbstract));
+            assertion.Verify(typeof(App).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set")));
         }
     }
 }

@@ -4,9 +4,9 @@ using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal
 {
-    /// <inheritdoc cref="IRunDefaultCommand" />
+    /// <inheritdoc cref="IDefaultCommandRun" />
     /// <inheritdoc cref="IRunFor2{TIn1,TIn2}" />
-    public interface IAddEditAnnotationDefaultCommand : IRunDefaultCommand, IRunFor2<object, CancelEventArgs>
+    public interface IAddEditAnnotationDefaultCommand : IDefaultCommandRun, IRunFor2<object, CancelEventArgs>
     {
     }
 }
