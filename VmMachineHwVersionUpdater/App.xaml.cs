@@ -4,9 +4,12 @@ using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.ViewModels;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
+
+
 #if (!DEBUG)
 using ControlzEx.Theming;
 
@@ -96,4 +99,6 @@ namespace VmMachineHwVersionUpdater
             base.OnExit(e);
         }
     }
+
+  
 }

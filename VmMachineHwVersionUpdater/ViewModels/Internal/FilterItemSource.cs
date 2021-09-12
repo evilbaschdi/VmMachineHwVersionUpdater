@@ -34,7 +34,7 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
             bool ValueFilter(object vm)
             {
                 var filterGuestOs = true;
-                var filterDisplayName = true;
+                var filterDisplayNameOrAnnotation = true;
                 var machine = (Machine)vm;
 
                 if (!string.IsNullOrWhiteSpace(searchOsText) && searchOsText != "(no filter)")
@@ -44,10 +44,11 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal
 
                 if (!string.IsNullOrWhiteSpace(searchFilterText))
                 {
-                    filterDisplayName = machine.DisplayName.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase);
+                    filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase)
+                                                    || machine.Annotation.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase);
                 }
 
-                return filterDisplayName && filterGuestOs;
+                return filterDisplayNameOrAnnotation && filterGuestOs;
             }
 
             _configureListCollectionView.Value.Filter = ValueFilter;

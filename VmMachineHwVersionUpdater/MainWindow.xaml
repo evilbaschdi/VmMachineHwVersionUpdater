@@ -1,14 +1,19 @@
 ﻿<!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
-<controls:MetroWindow x:Class="VmMachineHwVersionUpdater.MainWindow"
+<mah:MetroWindow x:Class="VmMachineHwVersionUpdater.MainWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:resources="clr-namespace:VmMachineHwVersionUpdater.Resources"
                       xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
                       dialog:DialogParticipation.Register="{Binding}"
-                      Title="VM Machine Hardware Version Updater" TitleCharacterCasing="Normal"
-                      Width="1000" Height="700" Icon="b.ico" ShowIconOnTitleBar="False"
+                      Title="VM Machine Hardware Version Updater" 
+                      TitleCharacterCasing="Normal"
+                      Width="1000"
+                      Height="700"
+                      Icon="b.ico"
+                      WindowStartupLocation="CenterOwner"
+                      ShowIconOnTitleBar="False"
                       GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
 
     <Window.TaskbarItemInfo>
@@ -16,19 +21,19 @@
     </Window.TaskbarItemInfo>
 
     <!--  RightWindowCommands  -->
-    <controls:MetroWindow.RightWindowCommands>
-        <controls:WindowCommands>
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
             <!--  Search Filter -->
             <TextBox Width="250" Height="20" TextWrapping="Wrap" IsReadOnly="{Binding SearchFilterIsReadOnly}"
-                     controls:TextBoxHelper.ClearTextButton="True"
+                     mah:TextBoxHelper.ClearTextButton="True"
                      Text="{Binding SearchFilterText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     controls:TextBoxHelper.Watermark="enter search term" />
+                     mah:TextBoxHelper.Watermark="enter search term" />
             <!--  Search Os -->
             <ComboBox Width="250" Height="20" Text="{Binding SearchOsText}" IsReadOnly="True"
                       IsEnabled="{Binding SearchOsIsEnabled}"
                       ItemsSource="{Binding SearchOsItemCollection}"
-                      controls:TextBoxHelper.ClearTextButton="True"
-                      controls:TextBoxHelper.Watermark="(no filter)" />
+                      mah:TextBoxHelper.ClearTextButton="True"
+                      mah:TextBoxHelper.Watermark="(no filter)" />
             <!-- Load -->
             <Button Command="{Binding Reload.Command}">
                 <StackPanel Orientation="Horizontal">
@@ -45,7 +50,7 @@
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding UpdateAllTextBlockText}" />
                 </StackPanel>
             </Button>
-            <controls:NumericUpDown Height="20" Minimum="1" Value="{Binding UpdateAllHwVersionValue}" />
+            <mah:NumericUpDown Height="20" Minimum="1" Value="{Binding UpdateAllHwVersionValue}" />
             <!-- About -->
             <Button Command="{Binding AboutWindowClick.Command}">
                 <StackPanel Orientation="Horizontal">
@@ -54,8 +59,8 @@
                     <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding AboutWindowClick.Text}" />
                 </StackPanel>
             </Button>
-        </controls:WindowCommands>
-    </controls:MetroWindow.RightWindowCommands>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
 
     <!--  DataGrid  -->
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
@@ -157,7 +162,7 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <!--  Version  -->
-            <controls:DataGridNumericUpDownColumn Width="90" Header="Version"
+            <mah:DataGridNumericUpDownColumn Width="90" Header="Version"
                                                   Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}"
                                                   Minimum="1"
                                                   HideUpDownButtons="False" IsReadOnly="False" />
@@ -261,5 +266,5 @@
     </DataGrid>
     <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
 
-</controls:MetroWindow>
+</mah:MetroWindow>
 <!-- ReSharper restore Xaml.BindingWithoutContextNotResolved -->

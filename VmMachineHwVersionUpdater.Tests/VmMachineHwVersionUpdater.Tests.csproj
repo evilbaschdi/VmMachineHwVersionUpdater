@@ -5,12 +5,12 @@
     <Company>evilbaschdi (Sebastian Walter)</Company>
     <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
     <IsTestProject>true</IsTestProject>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>10</LangVersion>
     <NoWarn>1701;1702</NoWarn>
     <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
     <Product>VM Machine Hardware Version Updater</Product>
     <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
 
     <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
@@ -39,7 +39,7 @@
     <PackageReference Include="NSubstitute.Analyzers.CSharp" Version="1.0.14" />
     <PackageReference Include="System.ValueTuple" version="4.5.0" />
     <PackageReference Include="xunit" Version="2.4.2-pre.build.4151" />
-    <PackageReference Include="xunit.analyzers" Version="0.11.0-pre.78" />
+    <PackageReference Include="xunit.analyzers" Version="0.12.0-pre.5" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.0-preview.18571.3" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0-preview.7.21377.19" />
     <PackageReference Include="xunit.runner.console" Version="2.4.2-pre.build.4151">
