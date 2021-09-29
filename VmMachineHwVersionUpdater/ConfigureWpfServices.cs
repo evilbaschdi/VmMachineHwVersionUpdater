@@ -1,5 +1,6 @@
 ﻿using System;
 using EvilBaschdi.Core.Internal;
+using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.AppHelpers;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace VmMachineHwVersionUpdater
             services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
             services.AddSingleton<IProcessByPath, ProcessByPath>();
             services.AddSingleton<ITaskbarItemProgressState, CurrentTaskbarItemProgressState>();
+            services.AddSingleton<IRoundCorners, RoundCorners>();
         }
     }
 }

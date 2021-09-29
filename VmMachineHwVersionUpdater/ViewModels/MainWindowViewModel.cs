@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using System.Windows.Shell;
+using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
@@ -42,9 +43,10 @@ namespace VmMachineHwVersionUpdater.ViewModels
             IFilterItemSource filterItemSource,
             ICurrentItemSource currentItemSource,
             ILoadSearchOsItems loadSearchOsItems,
-            ITaskbarItemProgressState taskbarItemProgressState
+            ITaskbarItemProgressState taskbarItemProgressState,
+            IRoundCorners roundCorners
         )
-            : base(true, true)
+            : base(roundCorners, true, true)
         {
             _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
             _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));

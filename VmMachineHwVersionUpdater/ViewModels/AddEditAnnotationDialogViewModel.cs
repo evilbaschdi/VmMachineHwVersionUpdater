@@ -1,4 +1,5 @@
 ﻿using System;
+using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
 using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;
@@ -17,8 +18,8 @@ namespace VmMachineHwVersionUpdater.ViewModels
         /// <summary>
         ///     Constructor
         /// </summary>
-        public AddEditAnnotationDialogViewModel([NotNull] IUpdateAnnotation updateAnnotation, [NotNull] ICurrentItem currentItem)
-            : base(true)
+        public AddEditAnnotationDialogViewModel([NotNull] IUpdateAnnotation updateAnnotation, [NotNull] ICurrentItem currentItem, IRoundCorners roundCorners)
+            : base(roundCorners, true)
         {
             _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
             _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));

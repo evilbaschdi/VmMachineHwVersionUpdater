@@ -78,7 +78,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             }
 
             var readAllLines = File.ReadAllLines(file);
-            var hwVersion = "";
+            var hwVersion = "0";
             var displayName = "";
             var guestOs = "";
             var guestOsDetailedData = "";

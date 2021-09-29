@@ -1,84 +1,95 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <ApplicationIcon>b.ico</ApplicationIcon>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <AssemblyName>VmMachineHwVersionUpdater</AssemblyName>
-    <Authors>Sebastian Walter</Authors>
-    <Company>evilbaschdi (Sebastian Walter)</Company>
-    <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
-    <!-- ReSharper disable once UnknownProperty -->
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.xml</DocumentationFile>
-    <LangVersion>preview</LangVersion>
-    <OutputType>WinExe</OutputType>
-    <PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
-    <Product>VM Machine Hardware Version Updater</Product>
-    <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-    <RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
-    <TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
-    <UseWPF>true</UseWPF>
-    <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
+
+	<PropertyGroup>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<ApplicationIcon>b.ico</ApplicationIcon>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+	<AssemblyName>VmMachineHwVersionUpdater</AssemblyName>
+	<Authors>Sebastian Walter</Authors>
+	<Company>evilbaschdi (Sebastian Walter)</Company>
+	<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
+	<!-- ReSharper disable once UnknownProperty -->
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.xml</DocumentationFile>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<LangVersion>preview</LangVersion>
+	<OutputType>WinExe</OutputType>
+	<PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
+	<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
+	<Product>VM Machine Hardware Version Updater</Product>
+	<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
+	<RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
+	<TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
+	<UseWPF>true</UseWPF>
+	<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
+
   <ItemGroup>
-    <None Remove="b.png" />
+	<None Remove="b.png" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="ControlzEx" Version="5.0.1" />
-    <PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.8.15.846-develop" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.7" />
-    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.9.0" />
-    <PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.9.0" />
-    <PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.9.0" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.0-beta-20204-02">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+	<PackageReference Include="ControlzEx" Version="5.0.1" />
+	<PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.9.28.1631-develop" />
+	<PackageReference Include="MahApps.Metro" Version="2.4.7" />
+	<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.9.0" />
+	<PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.9.0" />
+	<PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.9.0" />
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.0-beta-20204-02">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+	</PackageReference>
   </ItemGroup>
+
   <ItemGroup>
-    <AppDesigner Include="Properties\" />
+	<AppDesigner Include="Properties\" />
   </ItemGroup>
+
   <ItemGroup>
-    <Resource Include="b.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+	  <Resource Include="b.ico">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Resource>
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="b.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="b_150.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="b_70.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="VmMachineHwVersionUpdater.VisualElementsManifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+	<Content Include="b.png">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Content>
+	<Content Include="b_150.png">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Content>
+	<Content Include="b_70.png">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Content>
+	<Content Include="VmMachineHwVersionUpdater.VisualElementsManifest.xml">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
+	<ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
+	<Compile Update="Properties\Settings.Designer.cs">
+	  <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>Settings.settings</DependentUpon>
+	</Compile>
   </ItemGroup>
+
   <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+	<None Update="Properties\Settings.settings">
+	  <Generator>SettingsSingleFileGenerator</Generator>
+	  <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	</None>
   </ItemGroup>
+
 </Project>
