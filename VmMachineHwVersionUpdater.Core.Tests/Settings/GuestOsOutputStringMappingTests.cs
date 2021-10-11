@@ -45,7 +45,7 @@ namespace VmMachineHwVersionUpdater.Core.Tests.Settings
 
             // Assert
 
-            result.Should().Be("Windows Server 2016 or later x64");
+            result.Should().Be("Windows Server 2016 x64");
         }
 
         [Theory]
