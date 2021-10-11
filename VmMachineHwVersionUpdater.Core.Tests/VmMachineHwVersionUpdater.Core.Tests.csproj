@@ -19,7 +19,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="EvilBaschdi.Testing" Version="2021.10.3.2147-develop" />
+    <PackageReference Include="EvilBaschdi.Testing" Version="2021.10.11.1624-develop" />
     <PackageReference Include="FluentAssertions.Microsoft.Extensions.DependencyInjection" Version="1.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Microsoft.CodeCoverage" Version="16.11.0" />
