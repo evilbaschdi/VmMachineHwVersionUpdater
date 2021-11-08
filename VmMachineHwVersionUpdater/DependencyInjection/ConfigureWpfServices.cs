@@ -9,7 +9,7 @@ using VmMachineHwVersionUpdater.ViewModels.Internal;
 //using VmMachineHwVersionUpdater.Core.PerMachine;
 //using VmMachineHwVersionUpdater.Core.Settings;
 
-namespace VmMachineHwVersionUpdater
+namespace VmMachineHwVersionUpdater.DependencyInjection
 {
     /// <inheritdoc />
     public class ConfigureWpfServices : IConfigureWpfServices

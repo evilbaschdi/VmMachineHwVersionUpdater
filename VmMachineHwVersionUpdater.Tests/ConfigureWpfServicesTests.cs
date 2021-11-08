@@ -6,6 +6,7 @@ using EvilBaschdi.Testing;
 using FluentAssertions;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using VmMachineHwVersionUpdater.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 using Xunit;
 

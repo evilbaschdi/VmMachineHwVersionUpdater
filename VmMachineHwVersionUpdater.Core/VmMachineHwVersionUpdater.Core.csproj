@@ -1,48 +1,49 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>VmMachineHwVersionUpdater.Core</AssemblyName>
-    <Authors>Sebastian Walter</Authors>
-    <Company>evilbaschdi (Sebastian Walter)</Company>
-    <Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
-    <!-- ReSharper disable once UnknownProperty -->
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.Core.xml</DocumentationFile>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <LangVersion>preview</LangVersion>
-    <PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
-    <Product>VM Machine Hardware Version Updater</Product>
-    <RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-    <RootNamespace>VmMachineHwVersionUpdater.Core</RootNamespace>
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
-    <Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
+	<AssemblyName>VmMachineHwVersionUpdater.Core</AssemblyName>
+	<Authors>Sebastian Walter</Authors>
+	<Company>evilbaschdi (Sebastian Walter)</Company>
+	<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
+	<!-- ReSharper disable once UnknownProperty -->
+	<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.Core.xml</DocumentationFile>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<LangVersion>preview</LangVersion>
+	<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
+	<Product>VM Machine Hardware Version Updater</Product>
+	<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
+	<RootNamespace>VmMachineHwVersionUpdater.Core</RootNamespace>
+	<TargetFrameworks>net6.0</TargetFrameworks>
+	<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EvilBaschdi.Core" Version="2021.10.11.609-develop" />
-    <PackageReference Include="EvilBaschdi.Settings" Version="2021.10.11.1616-develop" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0-rc.1.21451.13" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-rc.1.21451.13" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.0-beta-20204-02">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+	<PackageReference Include="EvilBaschdi.Core" Version="2021.11.8.1657" />
+	<PackageReference Include="EvilBaschdi.Settings" Version="2021.11.8.1740" />
+	<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.0-beta-20204-02">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+	</PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Settings\GuestOsStringMapping.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Settings\VmPools.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+	<None Update="Settings\GuestOsStringMapping.json">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</None>
+
+	<None Update="Settings\VmPools.json">
+	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</None>
   </ItemGroup>
 
 </Project>

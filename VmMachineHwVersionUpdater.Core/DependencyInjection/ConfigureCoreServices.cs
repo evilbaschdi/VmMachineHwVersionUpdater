@@ -7,7 +7,7 @@ using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.Core.Settings;
 
-namespace VmMachineHwVersionUpdater.Core
+namespace VmMachineHwVersionUpdater.Core.DependencyInjection
 {
     /// <inheritdoc />
     public class ConfigureCoreServices : IConfigureCoreServices

@@ -14,11 +14,11 @@
 	<LangVersion>preview</LangVersion>
 	<OutputType>WinExe</OutputType>
 	<PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
-	<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>		
 	<Product>VM Machine Hardware Version Updater</Product>
 	<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 	<RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
-	<TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
+	<TargetFrameworks>net6.0-windows</TargetFrameworks>
 	<UseWPF>true</UseWPF>
 	<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
   </PropertyGroup>
@@ -29,11 +29,11 @@
 
   <ItemGroup>
 	<PackageReference Include="ControlzEx" Version="5.0.1" />
-	<PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.10.11.1609-develop" />
-	<PackageReference Include="MahApps.Metro" Version="2.4.7" />
-	<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.10.0" />
-	<PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.10.0" />
-	<PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.10.0" />
+	<PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.11.8.1725" />
+	<PackageReference Include="MahApps.Metro" Version="2.4.9" />
+	<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
+	<PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.11.0" />
+	<PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
 	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -62,12 +62,15 @@
 	<Content Include="b.png">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</Content>
+
 	<Content Include="b_150.png">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</Content>
+
 	<Content Include="b_70.png">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</Content>
+
 	<Content Include="VmMachineHwVersionUpdater.VisualElementsManifest.xml">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</Content>

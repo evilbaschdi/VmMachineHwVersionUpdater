@@ -6,6 +6,7 @@ using FluentAssertions;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
+using VmMachineHwVersionUpdater.Core.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.Core.Settings;

@@ -81,7 +81,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var hwVersion = "0";
             var displayName = "";
             var guestOs = "";
-            var guestOsDetailedData = "";
+            var detailedData = "";
             var syncTimeWithHost = "";
             var toolsUpgradePolicy = "";
             var annotation = "";
@@ -90,7 +90,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                 line =>
                 {
                     // ReSharper disable StringLiteralTypo
-                    switch (line)
+                    switch (line, StringComparer.InvariantCultureIgnoreCase)
                     {
                         case var _ when _vmxLineStartsWith.ValueFor(line, "virtualhw.version"):
                             hwVersion = _returnValueFromVmxLine.ValueFor(line, "virtualhw.version");
@@ -108,8 +108,11 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                                         && !_vmxLineStartsWith.ValueFor(line, "guestos.detailed.data"):
                             guestOs = _returnValueFromVmxLine.ValueFor(line, "guestos");
                             break;
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "guestos.detailed.data"):
-                            guestOsDetailedData = _returnValueFromVmxLine.ValueFor(line, "guestOS.detailed.data");
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "guestOS.detailed.data") && string.IsNullOrWhiteSpace(detailedData):
+                            detailedData = _returnValueFromVmxLine.ValueFor(line, "guestOS.detailed.data");
+                            break;
+                        case var _ when _vmxLineStartsWith.ValueFor(line, "guestInfo.detailed.data"):
+                            detailedData = _returnValueFromVmxLine.ValueFor(line, "guestInfo.detailed.data");
                             break;
                         case var _ when _vmxLineStartsWith.ValueFor(line, "annotation"):
                             var rawAnnotation = _returnValueFromVmxLine.ValueFor(line, "annotation");
@@ -132,7 +135,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                               HwVersion = Convert.ToInt32(hwVersion),
                               DisplayName = displayName.Trim() + " " + (!string.IsNullOrWhiteSpace(annotation) ? "*" : ""),
                               GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
-                              GuestOsDetailedData = guestOsDetailedData,
+                              GuestOsDetailedData = detailedData,
                               Path = properFilePathCapitalization,
                               Directory = path,
                               ShortPath = properFilePathCapitalization.Replace(path, "",

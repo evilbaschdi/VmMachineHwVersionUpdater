@@ -20,15 +20,15 @@
         <TaskbarItemInfo ProgressState="{Binding ProgressState}" />
     </Window.TaskbarItemInfo>
 
-    <!--  RightWindowCommands  -->
+    <!-- RightWindowCommands -->
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <!--  Search Filter -->
+            <!-- Search Filter -->
             <TextBox Width="250" Height="20" TextWrapping="Wrap" IsReadOnly="{Binding SearchFilterIsReadOnly}"
                      mah:TextBoxHelper.ClearTextButton="True"
                      Text="{Binding SearchFilterText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      mah:TextBoxHelper.Watermark="enter search term" />
-            <!--  Search Os -->
+            <!-- Search Os -->
             <ComboBox Width="250" Height="20" Text="{Binding SearchOsText}" IsReadOnly="True"
                       IsEnabled="{Binding SearchOsIsEnabled}"
                       ItemsSource="{Binding SearchOsItemCollection}"
@@ -62,7 +62,7 @@
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
 
-    <!--  DataGrid  -->
+    <!-- DataGrid -->
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
     <DataGrid Margin="10" CanUserAddRows="False" SelectionUnit="FullRow" ColumnWidth="*" SelectionMode="Single"
               ItemsSource="{Binding ListCollectionView}" VirtualizingStackPanel.IsVirtualizing="False"
@@ -70,9 +70,9 @@
               SelectedValue="{Binding Path=SelectedMachine}" CanUserDeleteRows="False"
               AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-        <!--  Columns  -->
+        <!-- Columns -->
         <DataGrid.Columns>
-            <!--  Display Name  -->
+            <!-- Display Name -->
             <DataGridTemplateColumn Header="Display Name" IsReadOnly="True" SortMemberPath="DisplayName">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -104,7 +104,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <!--  Path  -->
+            <!-- Path -->
             <DataGridTemplateColumn Header="Path" IsReadOnly="True" SortMemberPath="ShortPath">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -112,7 +112,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <!--  Directory Size (GB)  -->
+            <!-- Directory Size (GB) -->
             <DataGridTemplateColumn Width="150" Header="Directory Size (GB)" IsReadOnly="True"
                                     SortMemberPath="DirectorySizeGb">
                 <DataGridTemplateColumn.CellTemplate>
@@ -121,7 +121,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <!--  Guest OS  -->
+            <!-- Guest OS -->
             <DataGridTemplateColumn Width="200" Header="Guest OS" IsReadOnly="True" SortMemberPath="GuestOs">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -134,7 +134,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <!--  Sync Time  -->
+            <!-- Sync Time -->
             <DataGridTemplateColumn Width="100" Header="Sync Time" IsReadOnly="True" SortMemberPath="SyncTimeWithHost">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -143,7 +143,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <!--  Auto Update Tools  -->
+            <!-- Auto Update Tools -->
             <DataGridTemplateColumn Width="160" Header="Auto Update Tools" IsReadOnly="True"
                                     SortMemberPath="AutoUpdateTools">
                 <DataGridTemplateColumn.CellTemplate>
@@ -153,7 +153,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <!--  Last Log Entry  -->
+            <!-- Last Log Entry -->
             <DataGridTemplateColumn Width="130" Header="Last Log Entry" IsReadOnly="True" SortMemberPath="LogLastDate">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -161,13 +161,13 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <!--  Version  -->
+            <!-- Version -->
             <mah:DataGridNumericUpDownColumn Width="90" Header="Version"
                                                   Binding="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}"
                                                   Minimum="1"
                                                   HideUpDownButtons="False" IsReadOnly="False" />
         </DataGrid.Columns>
-        <!--  GroupStyle  -->
+        <!-- GroupStyle -->
         <DataGrid.GroupStyle>
             <GroupStyle>
                 <GroupStyle.ContainerStyle>
@@ -202,7 +202,7 @@
                 </GroupStyle.ContainerStyle>
             </GroupStyle>
         </DataGrid.GroupStyle>
-        <!--  ContextMenu  -->
+        <!-- ContextMenu -->
         <DataGrid.ContextMenu>
             <ContextMenu StaysOpen="True">
                 <!-- Start -->
