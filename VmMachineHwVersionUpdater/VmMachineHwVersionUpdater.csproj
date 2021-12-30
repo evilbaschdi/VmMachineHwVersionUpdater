@@ -29,16 +29,16 @@
 
   <ItemGroup>
 	<PackageReference Include="ControlzEx" Version="5.0.1" />
-	<PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.11.8.1725" />
+	<PackageReference Include="EvilBaschdi.CoreExtended" Version="2021.12.14.704-develop" />
 	<PackageReference Include="MahApps.Metro" Version="2.4.9" />
 	<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
 	<PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.11.0" />
 	<PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
-	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0-beta-20204-02">
+	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 	</PackageReference>
-	<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.0-beta-20204-02">
+	<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 	</PackageReference>

@@ -159,7 +159,7 @@
     "longhorn": "Windows Server 2008",
     "longhorn-64": "Windows Server 2008 x64",
     "windows9": "Windows 10",
-    "windows9-64": "Windows 10 x64",
+    "windows9-64": "Windows 10 and later x64",
     "windows9srv-64": "Windows Server 2016 x64",
     "windows2019srv-64": "Windows Server 2019 x64",
     "winhyperv": "Hyper-V",
