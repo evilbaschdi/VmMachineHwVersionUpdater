@@ -66,6 +66,9 @@ namespace VmMachineHwVersionUpdater.Core.Models
         }
 
         /// <summary />
+        public string ManagedVmAutoAddVTpm { get; init; }
+
+        /// <summary />
         public bool SyncTimeWithHost
         {
             // ReSharper disable once UnusedMember.Global
@@ -91,7 +94,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         // parameter causes the property name of the caller to be substituted as an argument.
         private void NotifyHwVersionChanged()
         {
-            if (PropertyChanged != null)
+            if (IsEnabledForEditing && PropertyChanged != null)
             {
                 _updateMachineVersion.RunFor(Path, _hwVersion);
             }
@@ -102,7 +105,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         // parameter causes the property name of the caller to be substituted as an argument.
         private void NotifyAutoUpdateToolsChanged()
         {
-            if (PropertyChanged != null)
+            if (IsEnabledForEditing && PropertyChanged != null)
             {
                 _toggleToolsUpgradePolicy.RunFor(Path, _autoUpdateTools);
             }
@@ -113,7 +116,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         // parameter causes the property name of the caller to be substituted as an argument.
         private void NotifySyncTimeWithHostChanged()
         {
-            if (PropertyChanged != null)
+            if (IsEnabledForEditing && PropertyChanged != null)
             {
                 _toggleToolsSyncTime.RunFor(Path, _syncTimeWithHost);
             }
@@ -125,7 +128,6 @@ namespace VmMachineHwVersionUpdater.Core.Models
         public string DisplayName { get; set; }
 
         /// <summary />
-
         public string ShortPath { get; init; }
 
         /// <summary />
@@ -157,6 +159,18 @@ namespace VmMachineHwVersionUpdater.Core.Models
 
         /// <summary />
         public MachineState MachineState { get; set; }
+
+        /// <summary />
+        public string EncryptionEncryptedKey { get; init; }
+
+        /// <summary />
+        public string EncryptionKeySafe { get; init; }
+
+        /// <summary />
+        public string EncryptionData { get; init; }
+
+        /// <summary />
+        public bool IsEnabledForEditing { get; set; }
         // ReSharper restore PropertyCanBeMadeInitOnly.Global
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }

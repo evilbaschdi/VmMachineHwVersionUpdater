@@ -30,7 +30,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                 var newAnnotation = value ?? string.Empty;
                 var machine = _currentItem.Value;
 
-                if (!Value.Equals(newAnnotation) && machine != null)
+                if (machine is { IsEnabledForEditing: true } && !Value.Equals(newAnnotation))
                 {
                     _addEditAnnotation.RunFor(machine.Path, newAnnotation.Replace("\r", "|0D").Replace("\n", "|0A"));
                 }

@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using EvilBaschdi.Core.Extensions;
 using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Enums;
@@ -14,15 +13,14 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
     /// <inheritdoc />
     public class HandleMachineFromPath : IHandleMachineFromPath
     {
-        private readonly IConvertAnnotationLineBreaks _convertAnnotationLineBreaks;
         private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
+        private readonly IParseVmxFile _parseVmxFile;
         private readonly IPathSettings _pathSettings;
         private readonly IReadLogInformation _readLogInformation;
-        private readonly IReturnValueFromVmxLine _returnValueFromVmxLine;
+        private readonly ISetMachineIsEnabledForEditing _setMachineIsEnabledForEditing;
         private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
         private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
         private readonly IUpdateMachineVersion _updateMachineVersion;
-        private readonly IVmxLineStartsWith _vmxLineStartsWith;
 
         /// <summary>
         ///     Constructor
@@ -31,26 +29,23 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         /// <param name="pathSettings"></param>
         /// <param name="updateMachineVersion"></param>
         /// <param name="readLogInformation"></param>
-        /// <param name="returnValueFromVmxLine"></param>
-        /// <param name="vmxLineStartsWith"></param>
-        /// <param name="convertAnnotationLineBreaks"></param>
+        /// <param name="parseVmxFile"></param>
         /// <param name="toggleToolsUpgradePolicy"></param>
         /// <param name="toggleToolsSyncTime"></param>
+        /// <param name="setMachineIsEnabledForEditing"></param>
         public HandleMachineFromPath([NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping, [NotNull] IPathSettings pathSettings,
                                      [NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IReadLogInformation readLogInformation,
-                                     [NotNull] IReturnValueFromVmxLine returnValueFromVmxLine, [NotNull] IVmxLineStartsWith vmxLineStartsWith,
-                                     [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks, [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-                                     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime)
+                                     [NotNull] IParseVmxFile parseVmxFile, [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+                                     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime, [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing)
         {
             _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
             _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
             _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
             _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
-            _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
-            _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
-            _convertAnnotationLineBreaks = convertAnnotationLineBreaks ?? throw new ArgumentNullException(nameof(convertAnnotationLineBreaks));
+            _parseVmxFile = parseVmxFile ?? throw new ArgumentNullException(nameof(parseVmxFile));
             _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
             _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
+            _setMachineIsEnabledForEditing = setMachineIsEnabledForEditing ?? throw new ArgumentNullException(nameof(setMachineIsEnabledForEditing));
         }
 
         /// <inheritdoc />
@@ -77,51 +72,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                 return null;
             }
 
-            var readAllLines = File.ReadAllLines(file);
-            var hwVersion = "0";
-            var displayName = "";
-            var guestOs = "";
-            var detailedData = "";
-            var syncTimeWithHost = "";
-            var toolsUpgradePolicy = "";
-            var annotation = "";
-
-            Parallel.ForEach(readAllLines,
-                line =>
-                {
-                    // ReSharper disable StringLiteralTypo
-                    switch (line, StringComparer.InvariantCultureIgnoreCase)
-                    {
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "virtualhw.version"):
-                            hwVersion = _returnValueFromVmxLine.ValueFor(line, "virtualhw.version");
-                            break;
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "displayname"):
-                            displayName = _returnValueFromVmxLine.ValueFor(line, "displayname");
-                            break;
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "tools.syncTime"):
-                            syncTimeWithHost = _returnValueFromVmxLine.ValueFor(line, "tools.syncTime");
-                            break;
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "tools.upgrade.policy"):
-                            toolsUpgradePolicy = _returnValueFromVmxLine.ValueFor(line, "tools.upgrade.policy");
-                            break;
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "guestos")
-                                        && !_vmxLineStartsWith.ValueFor(line, "guestos.detailed.data"):
-                            guestOs = _returnValueFromVmxLine.ValueFor(line, "guestos");
-                            break;
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "guestOS.detailed.data") && string.IsNullOrWhiteSpace(detailedData):
-                            detailedData = _returnValueFromVmxLine.ValueFor(line, "guestOS.detailed.data");
-                            break;
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "guestInfo.detailed.data"):
-                            detailedData = _returnValueFromVmxLine.ValueFor(line, "guestInfo.detailed.data");
-                            break;
-                        case var _ when _vmxLineStartsWith.ValueFor(line, "annotation"):
-                            var rawAnnotation = _returnValueFromVmxLine.ValueFor(line, "annotation");
-                            annotation = _convertAnnotationLineBreaks.ValueFor(rawAnnotation);
-
-                            break;
-                    }
-                    // ReSharper restore StringLiteralTypo
-                });
+            var rawMachine = _parseVmxFile.ValueFor(file);
 
             var fileInfo = new FileInfo(file);
             var directoryInfo = fileInfo.Directory;
@@ -132,10 +83,10 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
 
             var machine = new Machine(_updateMachineVersion, _toggleToolsUpgradePolicy, _toggleToolsSyncTime)
                           {
-                              HwVersion = Convert.ToInt32(hwVersion),
-                              DisplayName = displayName.Trim() + " " + (!string.IsNullOrWhiteSpace(annotation) ? "*" : ""),
-                              GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs.Trim()),
-                              GuestOsDetailedData = detailedData,
+                              HwVersion = rawMachine.HwVersion,
+                              DisplayName = rawMachine.DisplayName.Trim() + " " + (!string.IsNullOrWhiteSpace(rawMachine.Annotation) ? "*" : ""),
+                              GuestOs = _guestOsOutputStringMapping.ValueFor(rawMachine.GuestOs.Trim()),
+                              GuestOsDetailedData = rawMachine.DetailedData,
                               Path = properFilePathCapitalization,
                               Directory = path,
                               ShortPath = properFilePathCapitalization.Replace(path, "",
@@ -144,15 +95,20 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                               DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),
                               LogLastDate = logLastDate,
                               LogLastDateDiff = logLastDateDiff,
-                              AutoUpdateTools = !string.IsNullOrWhiteSpace(toolsUpgradePolicy) &&
-                                                toolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
-                              SyncTimeWithHost = !string.IsNullOrWhiteSpace(syncTimeWithHost) &&
-                                                 bool.Parse(syncTimeWithHost),
+                              AutoUpdateTools = !string.IsNullOrWhiteSpace(rawMachine.ToolsUpgradePolicy) &&
+                                                rawMachine.ToolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
+                              SyncTimeWithHost = !string.IsNullOrWhiteSpace(rawMachine.SyncTimeWithHost) &&
+                                                 bool.Parse(rawMachine.SyncTimeWithHost),
                               MachineState = paused.HasValue && paused.Value
                                   ? MachineState.Paused
                                   : MachineState.Off,
-                              Annotation = annotation
+                              Annotation = rawMachine.Annotation,
+                              EncryptionData = rawMachine.EncryptionData,
+                              EncryptionEncryptedKey = rawMachine.EncryptionEncryptedKey,
+                              EncryptionKeySafe = rawMachine.EncryptionKeySafe,
+                              ManagedVmAutoAddVTpm = rawMachine.ManagedVmAutoAddVTpm
                           };
+            _setMachineIsEnabledForEditing.RunFor(machine);
             return machine;
         }
     }

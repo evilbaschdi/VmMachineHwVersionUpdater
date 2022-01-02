@@ -19,7 +19,7 @@
 
   <ItemGroup>
 	<PackageReference Include="EvilBaschdi.Core" Version="2021.12.14.656-develop" />
-	<PackageReference Include="EvilBaschdi.Settings" Version="2021.11.8.1740" />
+	<PackageReference Include="EvilBaschdi.Settings" Version="2022.1.1.748-develop" />
 	<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
 	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">

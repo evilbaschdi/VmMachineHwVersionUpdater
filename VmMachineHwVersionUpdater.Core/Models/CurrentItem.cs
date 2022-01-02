@@ -1,4 +1,3 @@
-using System;
 using EvilBaschdi.Core;
 using JetBrains.Annotations;
 
@@ -15,7 +14,7 @@ namespace VmMachineHwVersionUpdater.Core.Models
         /// <inheritdoc />
         protected override void SaveValue([NotNull] Machine value)
         {
-            _machine = value ?? throw new ArgumentNullException(nameof(value));
+            _machine = value;
         }
     }
 }

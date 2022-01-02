@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VmMachineHwVersionUpdater.Core.Models;
 
@@ -24,7 +25,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                 throw new ArgumentNullException(nameof(machines));
             }
 
-            Parallel.ForEach(machines, machine => { RunFor(machine.Path, newVersion); });
+            Parallel.ForEach(machines.Where(m => m.IsEnabledForEditing), machine => { RunFor(machine.Path, newVersion); });
         }
     }
 }

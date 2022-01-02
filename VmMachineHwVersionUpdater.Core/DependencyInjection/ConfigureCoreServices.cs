@@ -32,9 +32,11 @@ namespace VmMachineHwVersionUpdater.Core.DependencyInjection
             services.AddSingleton<IHandleMachineFromPath, HandleMachineFromPath>();
             services.AddSingleton<ILoad, Load>();
             services.AddSingleton<IMachinesFromPath, MachinesFromPath>();
+            services.AddSingleton<IParseVmxFile, ParseVmxFile>();
             services.AddSingleton<IPathSettings, PathSettings>();
             services.AddSingleton<IReadLogInformation, ReadLogInformation>();
             services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
+            services.AddSingleton<ISetMachineIsEnabledForEditing, SetMachineIsEnabledForEditing>();
             services.AddSingleton<ISettingsValid, SettingsValid>();
             services.AddSingleton<IToggleToolsSyncTime, ToggleToolsSyncTime>();
             services.AddSingleton<IToggleToolsUpgradePolicy, ToggleToolsUpgradePolicy>();
