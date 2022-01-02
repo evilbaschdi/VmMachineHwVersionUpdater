@@ -17,6 +17,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         private readonly IParseVmxFile _parseVmxFile;
         private readonly IPathSettings _pathSettings;
         private readonly IReadLogInformation _readLogInformation;
+        private readonly ISetDisplayName _setDisplayName;
         private readonly ISetMachineIsEnabledForEditing _setMachineIsEnabledForEditing;
         private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
         private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
@@ -33,10 +34,12 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
         /// <param name="toggleToolsUpgradePolicy"></param>
         /// <param name="toggleToolsSyncTime"></param>
         /// <param name="setMachineIsEnabledForEditing"></param>
+        /// <param name="setDisplayName"></param>
         public HandleMachineFromPath([NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping, [NotNull] IPathSettings pathSettings,
                                      [NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IReadLogInformation readLogInformation,
                                      [NotNull] IParseVmxFile parseVmxFile, [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-                                     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime, [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing)
+                                     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime, [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
+                                     [NotNull] ISetDisplayName setDisplayName)
         {
             _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
             _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
@@ -46,6 +49,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
             _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
             _setMachineIsEnabledForEditing = setMachineIsEnabledForEditing ?? throw new ArgumentNullException(nameof(setMachineIsEnabledForEditing));
+            _setDisplayName = setDisplayName ?? throw new ArgumentNullException(nameof(setDisplayName));
         }
 
         /// <inheritdoc />
@@ -84,7 +88,6 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
             var machine = new Machine(_updateMachineVersion, _toggleToolsUpgradePolicy, _toggleToolsSyncTime)
                           {
                               HwVersion = rawMachine.HwVersion,
-                              DisplayName = rawMachine.DisplayName.Trim() + " " + (!string.IsNullOrWhiteSpace(rawMachine.Annotation) ? "*" : ""),
                               GuestOs = _guestOsOutputStringMapping.ValueFor(rawMachine.GuestOs.Trim()),
                               GuestOsDetailedData = rawMachine.DetailedData,
                               Path = properFilePathCapitalization,
@@ -108,7 +111,9 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine
                               EncryptionKeySafe = rawMachine.EncryptionKeySafe,
                               ManagedVmAutoAddVTpm = rawMachine.ManagedVmAutoAddVTpm
                           };
+
             _setMachineIsEnabledForEditing.RunFor(machine);
+            _setDisplayName.RunFor(rawMachine, machine);
             return machine;
         }
     }

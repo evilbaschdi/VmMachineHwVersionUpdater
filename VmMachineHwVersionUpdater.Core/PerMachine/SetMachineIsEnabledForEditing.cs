@@ -1,5 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
+using VmMachineHwVersionUpdater.Core.Enums;
 using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
@@ -15,7 +16,8 @@ public class SetMachineIsEnabledForEditing : ISetMachineIsEnabledForEditing
             throw new ArgumentNullException(nameof(machine));
         }
 
-        if (!string.IsNullOrWhiteSpace(machine.EncryptionKeySafe)
+        if (machine.MachineState == MachineState.Paused ||
+            !string.IsNullOrWhiteSpace(machine.EncryptionKeySafe)
             && !string.IsNullOrWhiteSpace(machine.EncryptionData)
             && string.IsNullOrWhiteSpace(machine.GuestOs))
         {
