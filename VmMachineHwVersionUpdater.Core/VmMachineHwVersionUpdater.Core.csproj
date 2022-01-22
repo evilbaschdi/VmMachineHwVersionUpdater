@@ -18,10 +18,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="EvilBaschdi.Core" Version="2021.12.14.656-develop" />
-	<PackageReference Include="EvilBaschdi.Settings" Version="2022.1.1.748-develop" />
-	<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
-	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+	<PackageReference Include="EvilBaschdi.Core" Version="2022.1.10.712-develop" />
+	<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2022.1.21.816-develop" />
+	<PackageReference Include="EvilBaschdi.Settings" Version="2022.1.10.728-develop" />
 	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -36,7 +35,7 @@
 	</PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
 	<None Update="Settings\GuestOsStringMapping.json">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</None>

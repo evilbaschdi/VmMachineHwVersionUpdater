@@ -1,9 +1,8 @@
 ﻿using EvilBaschdi.Core;
 
-namespace VmMachineHwVersionUpdater.Core.PerMachine
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc />
+public interface IUpdateAnnotation : IWritableValue<string>
 {
-    /// <inheritdoc />
-    public interface IUpdateAnnotation : IWritableValue<string>
-    {
-    }
 }

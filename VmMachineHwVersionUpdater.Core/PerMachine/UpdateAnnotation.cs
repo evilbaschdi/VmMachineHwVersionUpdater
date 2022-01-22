@@ -2,42 +2,41 @@
 using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Core.PerMachine
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc />
+public class UpdateAnnotation : IUpdateAnnotation
 {
-    /// <inheritdoc />
-    public class UpdateAnnotation : IUpdateAnnotation
+    private readonly IAddEditAnnotation _addEditAnnotation;
+    private readonly ICurrentItem _currentItem;
+
+    /// <summary>
+    ///     Constructor
+    /// </summary>
+    /// <param name="currentItem"></param>
+    /// <param name="addEditAnnotation"></param>
+    public UpdateAnnotation([NotNull] ICurrentItem currentItem, [NotNull] IAddEditAnnotation addEditAnnotation)
     {
-        private readonly IAddEditAnnotation _addEditAnnotation;
-        private readonly ICurrentItem _currentItem;
+        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+        _addEditAnnotation = addEditAnnotation ?? throw new ArgumentNullException(nameof(addEditAnnotation));
+    }
 
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        /// <param name="currentItem"></param>
-        /// <param name="addEditAnnotation"></param>
-        public UpdateAnnotation([NotNull] ICurrentItem currentItem, [NotNull] IAddEditAnnotation addEditAnnotation)
+    /// <inheritdoc cref="string" />
+    public string Value
+    {
+        get => _currentItem.Value?.Annotation;
+        set
         {
-            _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-            _addEditAnnotation = addEditAnnotation ?? throw new ArgumentNullException(nameof(addEditAnnotation));
-        }
+            var newAnnotation = value ?? string.Empty;
+            var machine = _currentItem.Value;
 
-        /// <inheritdoc cref="string" />
-        public string Value
-        {
-            get => _currentItem.Value?.Annotation;
-            set
+            if (machine is { IsEnabledForEditing: true } && !Value.Equals(newAnnotation))
             {
-                var newAnnotation = value ?? string.Empty;
-                var machine = _currentItem.Value;
-
-                if (machine is { IsEnabledForEditing: true } && !Value.Equals(newAnnotation))
-                {
-                    _addEditAnnotation.RunFor(machine.Path, newAnnotation.Replace("\r", "|0D").Replace("\n", "|0A"));
-                }
-
-                //_currentItem.Value = null;
-                _addEditAnnotation.Dispose();
+                _addEditAnnotation.RunFor(machine.Path, newAnnotation.Replace("\r", "|0D").Replace("\n", "|0A"));
             }
+
+            //_currentItem.Value = null;
+            _addEditAnnotation.Dispose();
         }
     }
 }

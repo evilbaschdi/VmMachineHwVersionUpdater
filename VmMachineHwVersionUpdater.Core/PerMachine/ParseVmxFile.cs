@@ -29,8 +29,13 @@ public class ParseVmxFile : IParseVmxFile
     }
 
     /// <inheritdoc />
-    public RawMachine ValueFor(string file)
+    public RawMachine ValueFor([NotNull] string file)
     {
+        if (file == null)
+        {
+            throw new ArgumentNullException(nameof(file));
+        }
+
         var rawMachine = new RawMachine();
         var readAllLines = File.ReadAllLines(file);
 

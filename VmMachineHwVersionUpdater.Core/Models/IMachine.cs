@@ -1,9 +1,8 @@
 using EvilBaschdi.Core;
 
-namespace VmMachineHwVersionUpdater.Core.Models
+namespace VmMachineHwVersionUpdater.Core.Models;
+
+/// <inheritdoc />
+public interface IMachine : IValue<Machine>
 {
-    /// <inheritdoc />
-    public interface IMachine : IValue<Machine>
-    {
-    }
 }

@@ -1,7 +1,6 @@
-﻿namespace VmMachineHwVersionUpdater.Core.PerMachine
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc />
+public interface IToggleToolsUpgradePolicy : IUpsertVmxLine<bool>
 {
-    /// <inheritdoc />
-    public interface IToggleToolsUpgradePolicy : IUpsertVmxLine<bool>
-    {
-    }
 }

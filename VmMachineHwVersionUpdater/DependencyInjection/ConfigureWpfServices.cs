@@ -6,33 +6,29 @@ using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
-//using VmMachineHwVersionUpdater.Core.PerMachine;
-//using VmMachineHwVersionUpdater.Core.Settings;
+namespace VmMachineHwVersionUpdater.DependencyInjection;
 
-namespace VmMachineHwVersionUpdater.DependencyInjection
+/// <inheritdoc />
+public class ConfigureWpfServices : IConfigureWpfServices
 {
     /// <inheritdoc />
-    public class ConfigureWpfServices : IConfigureWpfServices
+    public void RunFor([NotNull] IServiceCollection services)
     {
-        /// <inheritdoc />
-        public void RunFor([NotNull] IServiceCollection services)
+        if (services == null)
         {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();
-            services.AddSingleton<ICopyDirectoryWithFilesWithProgress, CopyDirectoryWithFilesWithProgress>();
-            services.AddSingleton<ICopyDirectoryWithProgress, CopyDirectoryWithProgress>();
-            services.AddSingleton<ICopyProgress, CopyProgress>();
-            services.AddSingleton<ICurrentItemSource, CurrentItemSource>();
-            services.AddSingleton<IFilterItemSource, FilterItemSource>();
-            services.AddSingleton<IInitDefaultCommands, InitDefaultCommands>();
-            services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
-            services.AddSingleton<IProcessByPath, ProcessByPath>();
-            services.AddSingleton<ITaskbarItemProgressState, CurrentTaskbarItemProgressState>();
-            services.AddSingleton<IRoundCorners, RoundCorners>();
+            throw new ArgumentNullException(nameof(services));
         }
+
+        services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();
+        services.AddSingleton<ICopyDirectoryWithFilesWithProgress, CopyDirectoryWithFilesWithProgress>();
+        services.AddSingleton<ICopyDirectoryWithProgress, CopyDirectoryWithProgress>();
+        services.AddSingleton<ICopyProgress, CopyProgress>();
+        services.AddSingleton<ICurrentItemSource, CurrentItemSource>();
+        services.AddSingleton<IFilterItemSource, FilterItemSource>();
+        services.AddSingleton<IInitDefaultCommands, InitDefaultCommands>();
+        services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
+        services.AddSingleton<IProcessByPath, ProcessByPath>();
+        services.AddSingleton<IRoundCorners, RoundCorners>();
+        services.AddSingleton<ITaskbarItemProgressState, CurrentTaskbarItemProgressState>();
     }
 }

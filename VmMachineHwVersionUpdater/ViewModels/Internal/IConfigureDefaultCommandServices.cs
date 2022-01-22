@@ -1,10 +1,8 @@
-﻿using EvilBaschdi.Core;
-using Microsoft.Extensions.DependencyInjection;
+﻿using EvilBaschdi.DependencyInjection;
 
-namespace VmMachineHwVersionUpdater.ViewModels.Internal
+namespace VmMachineHwVersionUpdater.ViewModels.Internal;
+
+/// <inheritdoc />
+public interface IConfigureDefaultCommandServices : IConfigureServiceCollection
 {
-    /// <inheritdoc />
-    public interface IConfigureDefaultCommandServices : IRunFor<IServiceCollection>
-    {
-    }
 }

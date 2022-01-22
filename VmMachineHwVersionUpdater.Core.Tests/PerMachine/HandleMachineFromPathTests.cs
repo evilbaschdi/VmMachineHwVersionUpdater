@@ -5,26 +5,25 @@ using FluentAssertions;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using Xunit;
 
-namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine
+namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;
+
+public class HandleMachineFromPathTests
 {
-    public class HandleMachineFromPathTests
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
     {
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(HandleMachineFromPath).GetConstructors());
-        }
+        assertion.Verify(typeof(HandleMachineFromPath).GetConstructors());
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_ReturnsInterfaceName(HandleMachineFromPath sut)
-        {
-            sut.Should().BeAssignableTo<IHandleMachineFromPath>();
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_ReturnsInterfaceName(HandleMachineFromPath sut)
+    {
+        sut.Should().BeAssignableTo<IHandleMachineFromPath>();
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(HandleMachineFromPath).GetMethods().Where(method => !method.IsAbstract));
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(HandleMachineFromPath).GetMethods().Where(method => !method.IsAbstract));
     }
 }

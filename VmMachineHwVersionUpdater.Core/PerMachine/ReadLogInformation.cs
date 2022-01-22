@@ -6,53 +6,52 @@ using System.Linq;
 using EvilBaschdi.Core.Extensions;
 using JetBrains.Annotations;
 
-namespace VmMachineHwVersionUpdater.Core.PerMachine
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc />
+public class ReadLogInformation : IReadLogInformation
 {
     /// <inheritdoc />
-    public class ReadLogInformation : IReadLogInformation
+    public KeyValuePair<string, string> ValueFor([NotNull] string logDirectory)
     {
-        /// <inheritdoc />
-        public KeyValuePair<string, string> ValueFor([NotNull] string logDirectory)
+        if (logDirectory == null)
         {
-            if (logDirectory == null)
-            {
-                throw new ArgumentNullException(nameof(logDirectory));
-            }
+            throw new ArgumentNullException(nameof(logDirectory));
+        }
 
-            var logLastDate = string.Empty;
-            var logLastDateDiff = string.Empty;
+        var logLastDate = string.Empty;
+        var logLastDateDiff = string.Empty;
 
-            var log = File.Exists($@"{logDirectory}\vmware.log")
-                // ReSharper disable once StringLiteralTypo
-                ? $@"{logDirectory}\vmware.log"
-                : null;
+        var log = File.Exists($@"{logDirectory}\vmware.log")
+            // ReSharper disable once StringLiteralTypo
+            ? $@"{logDirectory}\vmware.log"
+            : null;
 
-            if (string.IsNullOrWhiteSpace(log) || log.FileInfo().IsFileLocked())
-            {
-                return new(!string.IsNullOrWhiteSpace(logLastDate)
-                    ? logLastDate.Substring(0, 16)
-                    : string.Empty, logLastDateDiff);
-            }
-
-            try
-            {
-                var logLastLine = File.ReadAllLines(log).Last();
-                logLastDate = logLastLine.Split('|').First().Replace("T", " ").Substring(0, 23)
-                                         .Replace(".", ",");
-                var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff",
-                    CultureInfo.InvariantCulture);
-                var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
-                logLastDateDiff =
-                    $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
+        if (string.IsNullOrWhiteSpace(log) || log.FileInfo().IsFileLocked())
+        {
             return new(!string.IsNullOrWhiteSpace(logLastDate)
-                ? logLastDate.Substring(0, 16)
+                ? logLastDate[..16]
                 : string.Empty, logLastDateDiff);
         }
+
+        try
+        {
+            var logLastLine = File.ReadAllLines(log).Last();
+            logLastDate = logLastLine.Split('|').First().Replace("T", " ")[..23]
+                                     .Replace(".", ",");
+            var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff",
+                CultureInfo.InvariantCulture);
+            var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
+            logLastDateDiff =
+                $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
+        return new(!string.IsNullOrWhiteSpace(logLastDate)
+            ? logLastDate[..16]
+            : string.Empty, logLastDateDiff);
     }
 }

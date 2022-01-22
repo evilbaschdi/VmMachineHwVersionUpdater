@@ -157,9 +157,9 @@
             <DataGridTemplateColumn Width="100" Header="Version" IsReadOnly="True" SortMemberPath="Version">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <mah:NumericUpDown Width="90" Value="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}" 
+                        <mah:NumericUpDown Width="90" Value="{Binding HwVersion, UpdateSourceTrigger=PropertyChanged}"
                                            Minimum="1" BorderThickness="0" VerticalAlignment="Center"
-                                           IsEnabled="{Binding IsEnabledForEditing}"/>
+                                           IsEnabled="{Binding IsEnabledForEditing}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

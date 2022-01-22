@@ -1,9 +1,8 @@
 ﻿using EvilBaschdi.Core;
 
-namespace VmMachineHwVersionUpdater.Core.Settings
+namespace VmMachineHwVersionUpdater.Core.Settings;
+
+/// <inheritdoc />
+public interface ISettingsValid : IValue<bool>
 {
-    /// <inheritdoc />
-    public interface ISettingsValid : IValue<bool>
-    {
-    }
 }

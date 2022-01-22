@@ -8,88 +8,86 @@ using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Resources
+namespace VmMachineHwVersionUpdater.Resources;
+
+/// <inheritdoc />
+public class DirectorySizeConverter : IValueConverter
 {
-    /// <inheritdoc />
-    public class DirectorySizeConverter : IValueConverter
+    /// <summary>
+    ///     Calculates directory size of the current group and returns its string value
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="targetType"></param>
+    /// <param name="parameter"></param>
+    /// <param name="culture"></param>
+    /// <returns></returns>
+    public object Convert(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
     {
-        /// <summary>
-        ///     Calculates directory size of the current group and returns its string value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public object Convert(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
+        if (value == null)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-
-            if (parameter == null)
-            {
-                throw new ArgumentNullException(nameof(parameter));
-            }
-
-
-            if (culture == null)
-            {
-                throw new ArgumentNullException(nameof(culture));
-            }
-
-            if (value == DependencyProperty.UnsetValue)
-            {
-                return DependencyProperty.UnsetValue;
-            }
-
-            var collection = (ReadOnlyObservableCollection<object>)value;
-            var precision = System.Convert.ToInt32(parameter);
-            var updateEntries = collection.Cast<Machine>();
-
-            var sum = updateEntries.Sum(machine => machine.DirectorySizeGb);
-            var result = sum.GiBiBytesToKiBiBytes();
-
-            return result.ToFileSize(precision, culture);
+            throw new ArgumentNullException(nameof(value));
         }
 
-        /// <summary>
-        ///     does nothing
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public object ConvertBack(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
+        if (targetType == null)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-
-            if (parameter == null)
-            {
-                throw new ArgumentNullException(nameof(parameter));
-            }
-
-            if (culture == null)
-            {
-                throw new ArgumentNullException(nameof(culture));
-            }
-
-            throw new NotImplementedException();
+            throw new ArgumentNullException(nameof(targetType));
         }
+
+        if (parameter == null)
+        {
+            throw new ArgumentNullException(nameof(parameter));
+        }
+
+        if (culture == null)
+        {
+            throw new ArgumentNullException(nameof(culture));
+        }
+
+        if (value == DependencyProperty.UnsetValue)
+        {
+            return DependencyProperty.UnsetValue;
+        }
+
+        var collection = (ReadOnlyObservableCollection<object>)value;
+        var precision = System.Convert.ToInt32(parameter);
+        var updateEntries = collection.Cast<Machine>();
+
+        var sum = updateEntries.Sum(machine => machine.DirectorySizeGb);
+        var result = sum.GiBiBytesToKiBiBytes();
+
+        return result.ToFileSize(precision, culture);
+    }
+
+    /// <summary>
+    ///     does nothing
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="targetType"></param>
+    /// <param name="parameter"></param>
+    /// <param name="culture"></param>
+    /// <returns></returns>
+    public object ConvertBack(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
+    {
+        if (value == null)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
+
+        if (targetType == null)
+        {
+            throw new ArgumentNullException(nameof(targetType));
+        }
+
+        if (parameter == null)
+        {
+            throw new ArgumentNullException(nameof(parameter));
+        }
+
+        if (culture == null)
+        {
+            throw new ArgumentNullException(nameof(culture));
+        }
+
+        throw new NotImplementedException();
     }
 }

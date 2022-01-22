@@ -4,42 +4,41 @@ using MahApps.Metro.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels;
 
-namespace VmMachineHwVersionUpdater
+namespace VmMachineHwVersionUpdater;
+
+/// <inheritdoc cref="MetroWindow" />
+/// <summary>
+///     Interaction logic for MainWindow.xaml
+/// </summary>
+// ReSharper disable once RedundantExtendsListEntry
+public partial class MainWindow : MetroWindow
 {
-    /// <inheritdoc cref="MetroWindow" />
+    private readonly IServiceProvider _serviceProvider;
+
+    /// <inheritdoc />
     /// <summary>
-    ///     Interaction logic for MainWindow.xaml
+    ///     Constructor
     /// </summary>
-    // ReSharper disable once RedundantExtendsListEntry
-    public partial class MainWindow : MetroWindow
+    public MainWindow()
     {
-        private readonly IServiceProvider _serviceProvider;
+        InitializeComponent();
 
-        /// <inheritdoc />
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        public MainWindow()
+        _serviceProvider = App.ServiceProvider;
+        Loaded += MainWindowLoaded;
+    }
+
+    private void MainWindowLoaded(object sender, RoutedEventArgs e)
+    {
+        if (sender == null)
         {
-            InitializeComponent();
-
-            _serviceProvider = App.ServiceProvider;
-            Loaded += MainWindowLoaded;
+            throw new ArgumentNullException(nameof(sender));
         }
 
-        private void MainWindowLoaded(object sender, RoutedEventArgs e)
+        if (e == null)
         {
-            if (sender == null)
-            {
-                throw new ArgumentNullException(nameof(sender));
-            }
-
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
-            DataContext = ActivatorUtilities.GetServiceOrCreateInstance(_serviceProvider, typeof(MainWindowViewModel));
+            throw new ArgumentNullException(nameof(e));
         }
+
+        DataContext = ActivatorUtilities.GetServiceOrCreateInstance(_serviceProvider, typeof(MainWindowViewModel));
     }
 }

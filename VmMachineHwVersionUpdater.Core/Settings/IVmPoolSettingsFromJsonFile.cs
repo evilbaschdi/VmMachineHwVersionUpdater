@@ -1,9 +1,8 @@
 ﻿using EvilBaschdi.Settings;
 
-namespace VmMachineHwVersionUpdater.Core.Settings
+namespace VmMachineHwVersionUpdater.Core.Settings;
+
+/// <inheritdoc />
+public interface IVmPools : ISettingsFromJsonFile
 {
-    /// <inheritdoc />
-    public interface IVmPools : ISettingsFromJsonFile
-    {
-    }
 }
