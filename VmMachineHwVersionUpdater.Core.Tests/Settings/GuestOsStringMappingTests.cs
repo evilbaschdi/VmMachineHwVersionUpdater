@@ -26,4 +26,16 @@ public class GuestOsStringMappingTests
     {
         assertion.Verify(typeof(GuestOsStringMapping).GetMethods().Where(method => !method.IsAbstract));
     }
+
+    //[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    //public void Value_ForProvidedPath_ReturnsAppSettings(
+    //    GuestOsStringMapping sut)
+    //{
+    //    // Arrange
+
+    //    // Act
+    //    var result = sut.Value;
+
+    //    // Assert
+    //}
 }

@@ -1,5 +1,8 @@
-﻿using AutoFixture.Idioms;
+﻿using System.Linq;
+using System.Windows;
+using AutoFixture.Idioms;
 using EvilBaschdi.Testing;
+using FluentAssertions;
 using Xunit;
 
 namespace VmMachineHwVersionUpdater.Tests;
@@ -12,15 +15,15 @@ public class AppTests
         assertion.Verify(typeof(App).GetConstructors());
     }
 
-    //[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    //public void Constructor_ReturnsInterfaceName(App sut)
-    //{
-    //    sut.Should().BeAssignableTo<Application>();
-    //}
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_ReturnsInterfaceName(App sut)
+    {
+        sut.Should().BeAssignableTo<Application>();
+    }
 
-    //[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    //public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-    //{
-    //    assertion.Verify(typeof(App).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set")));
-    //}
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(App).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set")));
+    }
 }

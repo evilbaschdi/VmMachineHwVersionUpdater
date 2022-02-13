@@ -8,8 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VmMachineHwVersionUpdater.Core.DependencyInjection;
 using VmMachineHwVersionUpdater.DependencyInjection;
-using VmMachineHwVersionUpdater.ViewModels;
-using VmMachineHwVersionUpdater.ViewModels.Internal;
 #if !DEBUG
 using ControlzEx.Theming;
 #endif
@@ -24,8 +22,8 @@ namespace VmMachineHwVersionUpdater
     public partial class App : Application
     {
         private readonly IHandleAppExit _handleAppExit;
-        private readonly IHandleAppStartup _handleAppStartup;
-        private MainWindow _mainWindow;
+        private readonly IHandleAppStartup<MainOnLoaded> _handleAppStartup;
+        private MainOnLoaded _mainOnLoaded;
 
         /// <inheritdoc />
         public App()
@@ -35,7 +33,7 @@ namespace VmMachineHwVersionUpdater
 
             ServiceProvider = initServiceProviderByHostBuilder.ValueFor(ConfigureServiceCollection);
 
-            _handleAppStartup = new HandleAppStartup(hostInstance);
+            _handleAppStartup = new HandleAppStartup<MainOnLoaded>(hostInstance);
             _handleAppExit = new HandleAppExit(hostInstance);
         }
 
@@ -63,11 +61,8 @@ namespace VmMachineHwVersionUpdater
             IConfigureDefaultCommandServices configureDefaultCommandServices = new ConfigureDefaultCommandServices();
             configureDefaultCommandServices.RunFor(services);
 
-            services.AddSingleton<AddEditAnnotationDialogViewModel>();
-            services.AddTransient(typeof(AddEditAnnotationDialog));
-
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddTransient(typeof(MainWindow));
+            IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
+            configureWindowsAndViewModels.RunFor(services);
         }
 
         /// <inheritdoc />
@@ -81,8 +76,8 @@ namespace VmMachineHwVersionUpdater
             ThemeManager.Current.SyncTheme(ThemeSyncMode.SyncAll);
 #endif
 
-            _mainWindow = await _handleAppStartup.ValueForAsync<MainWindow>(ServiceProvider);
-            _mainWindow.Show();
+            _mainOnLoaded = await _handleAppStartup.ValueForAsync(ServiceProvider);
+            _mainOnLoaded.Show();
         }
 
         /// <inheritdoc />

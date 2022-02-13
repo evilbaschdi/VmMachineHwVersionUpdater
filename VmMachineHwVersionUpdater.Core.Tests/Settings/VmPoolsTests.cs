@@ -25,4 +25,16 @@ public class VmPoolsTests
     {
         assertion.Verify(typeof(VmPools).GetMethods().Where(method => !method.IsAbstract));
     }
+
+    //[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    //public void Value_ForProvidedPath_ReturnsAppSettings(
+    //    VmPools sut)
+    //{
+    //    // Arrange
+
+    //    // Act
+    //    var result = sut.Value;
+
+    //    // Assert
+    //}
 }

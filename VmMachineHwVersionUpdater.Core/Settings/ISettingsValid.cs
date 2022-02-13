@@ -3,6 +3,6 @@
 namespace VmMachineHwVersionUpdater.Core.Settings;
 
 /// <inheritdoc />
-public interface ISettingsValid : IValue<bool>
+public interface ISettingsValid : IBool
 {
 }

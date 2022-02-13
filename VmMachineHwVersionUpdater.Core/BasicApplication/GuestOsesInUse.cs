@@ -28,7 +28,7 @@ public class GuestOsesInUse : IGuestOsesInUse
             var configuration = _guestOsStringMapping.Value;
             foreach (var configurationSection in configuration.GetChildren())
             {
-                var os = configurationSection.Value.Contains(" ") ? configurationSection.Value.Split(' ')[0] : configurationSection.Value;
+                var os = configurationSection.Value.Contains(' ') ? configurationSection.Value.Split(' ')[0] : configurationSection.Value;
 
                 if (!list.Contains(os, StringComparer.InvariantCultureIgnoreCase))
                 {
