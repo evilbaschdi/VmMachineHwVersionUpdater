@@ -1,5 +1,4 @@
-﻿using System;
-using EvilBaschdi.CoreExtended.AppHelpers;
+﻿using EvilBaschdi.CoreExtended.AppHelpers;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using EvilBaschdi.Core;
+﻿using EvilBaschdi.Core;
 using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core.BasicApplication;

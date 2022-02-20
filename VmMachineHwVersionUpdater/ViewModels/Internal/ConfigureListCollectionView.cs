@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Data;
 using EvilBaschdi.Core;
 using JetBrains.Annotations;

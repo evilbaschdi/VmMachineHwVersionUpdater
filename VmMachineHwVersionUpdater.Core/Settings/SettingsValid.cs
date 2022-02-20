@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using EvilBaschdi.Core.Extensions;
+﻿using EvilBaschdi.Core.Extensions;
 using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Core.Settings;

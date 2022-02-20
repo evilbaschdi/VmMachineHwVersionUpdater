@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using EvilBaschdi.Core;
+﻿using EvilBaschdi.Core;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 

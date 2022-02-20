@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using EvilBaschdi.Core;
 using EvilBaschdi.DependencyInjection;
 using JetBrains.Annotations;

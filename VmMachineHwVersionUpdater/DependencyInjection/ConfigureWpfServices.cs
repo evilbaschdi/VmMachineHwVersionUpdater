@@ -1,5 +1,4 @@
-﻿using System;
-using EvilBaschdi.Core.Internal;
+﻿using EvilBaschdi.Core.Internal;
 using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.AppHelpers;
 using JetBrains.Annotations;

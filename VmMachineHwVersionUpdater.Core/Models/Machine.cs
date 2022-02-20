@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Enums;

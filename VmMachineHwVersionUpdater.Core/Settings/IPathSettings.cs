@@ -3,8 +3,6 @@
 // ReSharper disable once IdentifierTypo
 // ReSharper disable IdentifierTypo
 
-using System.Collections.Generic;
-
 namespace VmMachineHwVersionUpdater.Core.Settings;
 
 /// <summary>

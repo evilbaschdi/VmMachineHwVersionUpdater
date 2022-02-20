@@ -1,5 +1,4 @@
-﻿using System;
-using EvilBaschdi.Core;
+﻿using EvilBaschdi.Core;
 
 namespace VmMachineHwVersionUpdater.Core.Settings;
 

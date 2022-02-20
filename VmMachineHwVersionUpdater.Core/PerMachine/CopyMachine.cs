@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using EvilBaschdi.Core.Internal;
+﻿using EvilBaschdi.Core.Internal;
 using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;
 
