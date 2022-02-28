@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using EvilBaschdi.Core;
+﻿using EvilBaschdi.Core;
 
-namespace VmMachineHwVersionUpdater.Core.BasicApplication
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+
+/// <inheritdoc cref="IValue{T}" />
+public interface IGuestOsesInUse : IValueOfList<string>
 {
-    /// <inheritdoc cref="IValue{T}" />
-    public interface IGuestOsesInUse : IValue<List<string>>
-    {
-    }
 }

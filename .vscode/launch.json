@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/VmMachineHwVersionUpdater/bin/Debug/net5.0-windows/VmMachineHwVersionUpdater.dll",
+            "program": "${workspaceFolder}/VmMachineHwVersionUpdater/bin/Debug/net6.0-windows/VmMachineHwVersionUpdater.dll",
             "args": [],
             "cwd": "${workspaceFolder}/VmMachineHwVersionUpdater",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

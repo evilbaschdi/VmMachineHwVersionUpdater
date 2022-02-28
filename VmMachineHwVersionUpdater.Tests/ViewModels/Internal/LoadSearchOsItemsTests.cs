@@ -5,26 +5,25 @@ using FluentAssertions;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 using Xunit;
 
-namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal
+namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal;
+
+public class LoadSearchOsItemsTests
 {
-    public class LoadSearchOsItemsTests
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
     {
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(LoadSearchOsItems).GetConstructors());
-        }
+        assertion.Verify(typeof(LoadSearchOsItems).GetConstructors());
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_ReturnsInterfaceName(LoadSearchOsItems sut)
-        {
-            sut.Should().BeAssignableTo<ILoadSearchOsItems>();
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_ReturnsInterfaceName(LoadSearchOsItems sut)
+    {
+        sut.Should().BeAssignableTo<ILoadSearchOsItems>();
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(LoadSearchOsItems).GetMethods().Where(method => !method.IsAbstract));
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(LoadSearchOsItems).GetMethods().Where(method => !method.IsAbstract));
     }
 }

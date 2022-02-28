@@ -3,20 +3,19 @@ using AutoFixture.Idioms;
 using EvilBaschdi.Testing;
 using Xunit;
 
-namespace VmMachineHwVersionUpdater.Core.Tests
-{
-    public class DoubleExtensionsTests
-    {
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(DoubleExtensions).GetConstructors());
-        }
+namespace VmMachineHwVersionUpdater.Core.Tests;
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(DoubleExtensions).GetMethods().Where(method => !method.IsAbstract));
-        }
+public class DoubleExtensionsTests
+{
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(DoubleExtensions).GetConstructors());
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(DoubleExtensions).GetMethods().Where(method => !method.IsAbstract));
     }
 }

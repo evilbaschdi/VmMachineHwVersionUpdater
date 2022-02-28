@@ -5,26 +5,25 @@ using FluentAssertions;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using Xunit;
 
-namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine
+namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;
+
+public class ReadLogInformationTests
 {
-    public class ReadLogInformationTests
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
     {
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(ReadLogInformation).GetConstructors());
-        }
+        assertion.Verify(typeof(ReadLogInformation).GetConstructors());
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_ReturnsInterfaceName(ReadLogInformation sut)
-        {
-            sut.Should().BeAssignableTo<IReadLogInformation>();
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_ReturnsInterfaceName(ReadLogInformation sut)
+    {
+        sut.Should().BeAssignableTo<IReadLogInformation>();
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(ReadLogInformation).GetMethods().Where(method => !method.IsAbstract));
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(ReadLogInformation).GetMethods().Where(method => !method.IsAbstract));
     }
 }

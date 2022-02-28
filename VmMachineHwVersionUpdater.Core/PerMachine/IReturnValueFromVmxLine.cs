@@ -1,9 +1,8 @@
 ﻿using EvilBaschdi.Core;
 
-namespace VmMachineHwVersionUpdater.Core.PerMachine
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc />
+public interface IReturnValueFromVmxLine : IValueFor2<string, string, string>
 {
-    /// <inheritdoc />
-    public interface IReturnValueFromVmxLine : IValueFor2<string, string, string>
-    {
-    }
 }

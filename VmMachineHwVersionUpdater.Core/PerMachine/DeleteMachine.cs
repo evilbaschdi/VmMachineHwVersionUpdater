@@ -1,30 +1,27 @@
-﻿using System;
-using System.IO;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
-namespace VmMachineHwVersionUpdater.Core.PerMachine
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc />
+public class DeleteMachine : IDeleteMachine
 {
     /// <inheritdoc />
-    public class DeleteMachine : IDeleteMachine
+    public void RunFor([NotNull] string path)
     {
-        /// <inheritdoc />
-        public void RunFor([NotNull] string path)
+        if (path == null)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            throw new ArgumentNullException(nameof(path));
+        }
 
-            if (!File.Exists(path))
-            {
-                return;
-            }
+        if (!File.Exists(path))
+        {
+            return;
+        }
 
-            var directoryName = Path.GetDirectoryName(path);
-            if (!string.IsNullOrWhiteSpace(directoryName))
-            {
-                Directory.Delete(directoryName, true);
-            }
+        var directoryName = Path.GetDirectoryName(path);
+        if (!string.IsNullOrWhiteSpace(directoryName))
+        {
+            Directory.Delete(directoryName, true);
         }
     }
 }

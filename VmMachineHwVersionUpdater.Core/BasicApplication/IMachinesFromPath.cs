@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using EvilBaschdi.Core;
 using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Core.BasicApplication
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+
+/// <inheritdoc />
+public interface IMachinesFromPath : IValueOfList<Machine>
 {
-    /// <inheritdoc />
-    public interface IMachinesFromPath : IValue<List<Machine>>
-    {
-    }
 }

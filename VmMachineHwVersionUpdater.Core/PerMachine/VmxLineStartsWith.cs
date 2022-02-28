@@ -1,25 +1,23 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
-namespace VmMachineHwVersionUpdater.Core.PerMachine
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc />
+public class VmxLineStartsWith : IVmxLineStartsWith
 {
     /// <inheritdoc />
-    public class VmxLineStartsWith : IVmxLineStartsWith
+    public bool ValueFor([NotNull] string line, [NotNull] string key)
     {
-        /// <inheritdoc />
-        public bool ValueFor([NotNull] string line, [NotNull] string key)
+        if (line == null)
         {
-            if (line == null)
-            {
-                throw new ArgumentNullException(nameof(line));
-            }
-
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            return line.StartsWith(key, StringComparison.InvariantCultureIgnoreCase);
+            throw new ArgumentNullException(nameof(line));
         }
+
+        if (key == null)
+        {
+            throw new ArgumentNullException(nameof(key));
+        }
+
+        return line.StartsWith(key, StringComparison.InvariantCultureIgnoreCase);
     }
 }

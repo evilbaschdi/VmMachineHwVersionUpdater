@@ -1,10 +1,9 @@
 ﻿using EvilBaschdi.Core;
 using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Core.PerMachine
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc />
+public interface ICopyMachine : IRunForAsync2<Machine, string>
 {
-    /// <inheritdoc />
-    public interface ICopyMachine : IRunForAsync2<Machine, string>
-    {
-    }
 }

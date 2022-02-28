@@ -1,16 +1,14 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
+using EvilBaschdi.Core;
+using EvilBaschdi.DependencyInjection;
 using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VmMachineHwVersionUpdater.Core;
-using VmMachineHwVersionUpdater.ViewModels;
-using VmMachineHwVersionUpdater.ViewModels.Internal;
-
-#if (!DEBUG)
+using VmMachineHwVersionUpdater.Core.DependencyInjection;
+using VmMachineHwVersionUpdater.DependencyInjection;
+#if !DEBUG
 using ControlzEx.Theming;
-
 #endif
 
 namespace VmMachineHwVersionUpdater
@@ -22,41 +20,29 @@ namespace VmMachineHwVersionUpdater
     // ReSharper disable once RedundantExtendsListEntry
     public partial class App : Application
     {
-        private readonly IHost _host;
+        private readonly IHandleAppExit _handleAppExit;
+        private readonly IHandleAppStartup<MainOnLoaded> _handleAppStartup;
+        private MainOnLoaded _mainOnLoaded;
 
         /// <inheritdoc />
         public App()
         {
-            _host = Host.CreateDefaultBuilder()
-                        .ConfigureServices((_, services) => { ConfigureServices(services); })
-                        .Build();
+            IHostInstance hostInstance = new HostInstance();
+            IValueFor<Action<HostBuilderContext, IServiceCollection>, IServiceProvider> initServiceProviderByHostBuilder = new InitServiceProviderByHostBuilder(hostInstance);
 
-            ServiceProvider = _host.Services;
+            ServiceProvider = initServiceProviderByHostBuilder.ValueFor(ConfigureServiceCollection);
+
+            _handleAppStartup = new HandleAppStartup<MainOnLoaded>(hostInstance);
+            _handleAppExit = new HandleAppExit(hostInstance);
         }
 
         /// <summary>
         ///     ServiceProvider for DependencyInjection
         /// </summary>
-        public static IServiceProvider ServiceProvider { get; private set; }
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static IServiceProvider ServiceProvider { get; set; }
 
-
-        /// <inheritdoc />
-        protected override async void OnStartup(StartupEventArgs e)
-        {
-#if (!DEBUG)
-            ThemeManager.Current.SyncTheme(ThemeSyncMode.SyncAll);
-#endif
-
-            await _host.StartAsync();
-
-            //var test = ServiceProvider.GetRequiredService<MainWindowViewModel>();
-            //test.Run();
-
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-            mainWindow.Show();
-        }
-
-        private void ConfigureServices([NotNull] IServiceCollection services)
+        private void ConfigureServiceCollection(HostBuilderContext _, IServiceCollection services)
         {
             if (services == null)
             {
@@ -74,8 +60,23 @@ namespace VmMachineHwVersionUpdater
             IConfigureDefaultCommandServices configureDefaultCommandServices = new ConfigureDefaultCommandServices();
             configureDefaultCommandServices.RunFor(services);
 
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddTransient(typeof(MainWindow));
+            IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
+            configureWindowsAndViewModels.RunFor(services);
+        }
+
+        /// <inheritdoc />
+        protected override async void OnStartup(StartupEventArgs e)
+        {
+            if (e == null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
+#if !DEBUG
+            ThemeManager.Current.SyncTheme(ThemeSyncMode.SyncAll);
+#endif
+
+            _mainOnLoaded = await _handleAppStartup.ValueForAsync(ServiceProvider);
+            _mainOnLoaded.Show();
         }
 
         /// <inheritdoc />
@@ -86,12 +87,7 @@ namespace VmMachineHwVersionUpdater
                 throw new ArgumentNullException(nameof(e));
             }
 
-            //todo dispose
-
-            using (_host)
-            {
-                await _host.StopAsync(TimeSpan.FromSeconds(5));
-            }
+            await _handleAppExit.RunAsync();
 
             base.OnExit(e);
         }

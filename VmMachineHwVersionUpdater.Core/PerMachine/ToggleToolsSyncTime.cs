@@ -1,14 +1,13 @@
-﻿namespace VmMachineHwVersionUpdater.Core.PerMachine
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
+
+/// <inheritdoc cref="IToggleToolsSyncTime" />
+public class ToggleToolsSyncTime : UpsertVmxLine<bool>, IToggleToolsSyncTime
 {
-    /// <inheritdoc cref="IToggleToolsSyncTime" />
-    public class ToggleToolsSyncTime : UpsertVmxLine<bool>, IToggleToolsSyncTime
+    /// <summary>
+    ///     Constructor
+    /// </summary>
+    public ToggleToolsSyncTime()
+        : base("tools.syncTime", "TRUE", "FALSE")
     {
-        /// <summary>
-        ///     Constructor
-        /// </summary>
-        public ToggleToolsSyncTime()
-            : base("tools.syncTime", "TRUE", "FALSE")
-        {
-        }
     }
 }

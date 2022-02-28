@@ -5,26 +5,25 @@ using FluentAssertions;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using Xunit;
 
-namespace VmMachineHwVersionUpdater.Core.Tests.BasicApplication
+namespace VmMachineHwVersionUpdater.Core.Tests.BasicApplication;
+
+public class LoadTests
 {
-    public class LoadTests
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
     {
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(Load).GetConstructors());
-        }
+        assertion.Verify(typeof(Load).GetConstructors());
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_ReturnsInterfaceName(Load sut)
-        {
-            sut.Should().BeAssignableTo<ILoad>();
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_ReturnsInterfaceName(Load sut)
+    {
+        sut.Should().BeAssignableTo<ILoad>();
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(Load).GetMethods().Where(method => !method.IsAbstract));
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(Load).GetMethods().Where(method => !method.IsAbstract));
     }
 }

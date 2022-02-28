@@ -1,18 +1,17 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Enums
+﻿namespace VmMachineHwVersionUpdater.Core.Enums;
+
+/// <summary>
+///     MachineState
+/// </summary>
+public enum MachineState
 {
     /// <summary>
-    ///     MachineState
+    ///     Off
     /// </summary>
-    public enum MachineState
-    {
-        /// <summary>
-        ///     Off
-        /// </summary>
-        Off = 0,
+    Off = 0,
 
-        /// <summary>
-        ///     Paused
-        /// </summary>
-        Paused = 1
-    }
+    /// <summary>
+    ///     Paused
+    /// </summary>
+    Paused = 1
 }
