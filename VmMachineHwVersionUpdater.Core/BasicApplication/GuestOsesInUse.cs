@@ -23,8 +23,14 @@ public class GuestOsesInUse : IGuestOsesInUse
         {
             var list = new List<string>();
             var configuration = _guestOsStringMapping.Value;
+
             foreach (var configurationSection in configuration.GetChildren())
             {
+                if (configurationSection.Value == null)
+                {
+                    continue;
+                }
+
                 var os = configurationSection.Value.Contains(' ') ? configurationSection.Value.Split(' ')[0] : configurationSection.Value;
 
                 if (!list.Contains(os, StringComparer.InvariantCultureIgnoreCase))
