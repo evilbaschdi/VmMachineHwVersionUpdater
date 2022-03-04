@@ -23,6 +23,6 @@ public class ConfigureWindowsAndViewModels : IConfigureWindowsAndViewModels
         services.AddTransient(typeof(AboutWindow));
 
         services.AddSingleton<MainWindowViewModel>();
-        services.AddTransient(typeof(MainOnLoaded));
+        services.AddTransient(typeof(MainWindow));
     }
 }

@@ -1,5 +1,5 @@
 ﻿<!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
-<mah:MetroWindow x:Class="VmMachineHwVersionUpdater.MainOnLoaded"
+<mah:MetroWindow x:Class="VmMachineHwVersionUpdater.MainWindow"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
@@ -217,6 +217,15 @@
                                                     VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
+
+                <!-- Rename -->
+                <MenuItem Header="Rename..." Command="{Binding Rename.Command}">
+                    <MenuItem.Icon>
+                        <iconPacks:PackIconFeatherIcons Kind="Edit" Width="16" Height="16"
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
                 <!-- Add / Edit Annotation -->
                 <MenuItem Header="Add / Edit Annotation..." Command="{Binding AddEditAnnotation.Command}">
                     <MenuItem.Icon>

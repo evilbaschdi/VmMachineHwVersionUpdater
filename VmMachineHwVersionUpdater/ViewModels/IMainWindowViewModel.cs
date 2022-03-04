@@ -20,6 +20,9 @@ public interface IMainWindowViewModel : IRun
     public ICommandViewModel AddEditAnnotation { get; set; }
 
     /// <summary />
+    public ICommandViewModel Rename { get; set; }
+
+    /// <summary />
     public ICommandViewModel Archive { get; set; }
 
     /// <summary>

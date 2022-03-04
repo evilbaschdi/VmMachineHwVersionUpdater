@@ -38,15 +38,27 @@ public class CopyDefaultCommand : ICopyDefaultCommand
     /// <inheritdoc />
     public async Task RunAsync()
     {
+        var machine = _currentItem.Value;
+        if (!machine.IsEnabledForEditing)
+        {
+            await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Rename machine' was canceled", "Machine is currently read only");
+            return;
+        }
+
         var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Copy machine...",
-            $"Are you sure you want to copy machine '{_currentItem.Value.DisplayName}'?",
+            $"Are you sure you want to copy machine '{machine.DisplayName}'?",
             MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
         if (result == MessageDialogResult.Affirmative)
         {
             try
             {
-                var inputResult = await _dialogCoordinator.ShowInputAsync(DialogCoordinatorContext, "Copy machine...", "Enter the new directory name").ConfigureAwait(true);
+                var inputResult = await _dialogCoordinator.ShowInputAsync(
+                    DialogCoordinatorContext,
+                    "Copy machine...",
+                    "Enter the new directory name",
+                    new MetroDialogSettings { DefaultText = machine.DisplayName }
+                ).ConfigureAwait(true);
 
                 if (inputResult != null)
                 {
@@ -64,7 +76,7 @@ public class CopyDefaultCommand : ICopyDefaultCommand
                                                                                          }
                                                                                      });
 
-                                       await _copyMachine.RunForAsync(_currentItem.Value, inputResult);
+                                       await _copyMachine.RunForAsync(machine, inputResult);
                                    });
                     await controller.CloseAsync();
                 }

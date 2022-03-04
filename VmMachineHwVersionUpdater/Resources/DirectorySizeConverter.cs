@@ -9,8 +9,15 @@ using VmMachineHwVersionUpdater.Core.Models;
 namespace VmMachineHwVersionUpdater.Resources;
 
 /// <inheritdoc />
-public class DirectorySizeConverter : IValueConverter
+[ValueConversion(typeof(ReadOnlyObservableCollection<object>), typeof(string))]
+public sealed class DirectorySizeConverter : IValueConverter
 {
+    /// <summary>
+    ///     Gets a static default instance of <see cref="DirectorySizeConverter" />.
+    /// </summary>
+    // ReSharper disable once UnusedMember.Global
+    public static readonly DirectorySizeConverter Instance = new();
+
     /// <summary>
     ///     Calculates directory size of the current group and returns its string value
     /// </summary>

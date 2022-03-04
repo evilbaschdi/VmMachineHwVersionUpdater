@@ -7,8 +7,15 @@ using VmMachineHwVersionUpdater.Core.Enums;
 namespace VmMachineHwVersionUpdater.Resources;
 
 /// <inheritdoc />
-public class MachineStateToPackIconMaterialKindConverter : IValueConverter
+[ValueConversion(typeof(MachineState), typeof(PackIconMaterialKind))]
+public sealed class MachineStateToPackIconMaterialKindConverter : IValueConverter
 {
+    /// <summary>
+    ///     Gets a static default instance of <see cref="MachineStateToPackIconMaterialKindConverter" />.
+    /// </summary>
+    // ReSharper disable once UnusedMember.Global
+    public static readonly MachineStateToPackIconMaterialKindConverter Instance = new();
+
     /// <summary>
     ///     Calculates directory size of the current group and returns its string value
     /// </summary>

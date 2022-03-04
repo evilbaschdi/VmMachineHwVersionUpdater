@@ -21,8 +21,8 @@ namespace VmMachineHwVersionUpdater
     public partial class App : Application
     {
         private readonly IHandleAppExit _handleAppExit;
-        private readonly IHandleAppStartup<MainOnLoaded> _handleAppStartup;
-        private MainOnLoaded _mainOnLoaded;
+        private readonly IHandleAppStartup<MainWindow> _handleAppStartup;
+        private MainWindow _mainWindow;
 
         /// <inheritdoc />
         public App()
@@ -32,7 +32,7 @@ namespace VmMachineHwVersionUpdater
 
             ServiceProvider = initServiceProviderByHostBuilder.ValueFor(ConfigureServiceCollection);
 
-            _handleAppStartup = new HandleAppStartup<MainOnLoaded>(hostInstance);
+            _handleAppStartup = new HandleAppStartup<MainWindow>(hostInstance);
             _handleAppExit = new HandleAppExit(hostInstance);
         }
 
@@ -75,8 +75,8 @@ namespace VmMachineHwVersionUpdater
             ThemeManager.Current.SyncTheme(ThemeSyncMode.SyncAll);
 #endif
 
-            _mainOnLoaded = await _handleAppStartup.ValueForAsync(ServiceProvider);
-            _mainOnLoaded.Show();
+            _mainWindow = await _handleAppStartup.ValueForAsync(ServiceProvider);
+            _mainWindow.Show();
         }
 
         /// <inheritdoc />

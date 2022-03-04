@@ -32,6 +32,9 @@ public interface IInitDefaultCommands : IRun, IDialogCoordinatorContext
     /// <inheritdoc cref="IReloadDefaultCommand" />
     public IReloadDefaultCommand ReloadDefaultCommand { get; set; }
 
+    /// <inheritdoc cref="IRenameDefaultCommand" />
+    public IRenameDefaultCommand RenameDefaultCommand { get; set; }
+
     /// <inheritdoc cref="IStartDefaultCommand" />
     public IStartDefaultCommand StartDefaultCommand { get; set; }
 

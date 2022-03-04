@@ -51,7 +51,7 @@ namespace VmMachineHwVersionUpdater.Tests.DependencyInjection
             dummyServiceCollection.Should().HaveService<AboutWindow>().WithImplementation<AboutWindow>().AsTransient();
 
             dummyServiceCollection.Should().HaveService<MainWindowViewModel>().AsSingleton();
-            dummyServiceCollection.Should().HaveService<MainOnLoaded>().WithImplementation<MainOnLoaded>().AsTransient();
+            dummyServiceCollection.Should().HaveService<MainWindow>().WithImplementation<MainWindow>().AsTransient();
         }
     }
 }

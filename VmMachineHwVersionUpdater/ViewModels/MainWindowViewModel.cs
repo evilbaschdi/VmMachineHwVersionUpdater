@@ -77,6 +77,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         GoTo = _initDefaultCommands.GotToDefaultCommand.Value;
         OpenWithCode = _initDefaultCommands.OpenWithCodeDefaultCommand.Value;
         Reload = _initDefaultCommands.ReloadDefaultCommand.Value;
+        Rename = _initDefaultCommands.RenameDefaultCommand.Value;
         Start = _initDefaultCommands.StartDefaultCommand.Value;
         UpdateAll = _initDefaultCommands.UpdateAllDefaultCommand.Value;
     }
@@ -90,6 +91,9 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
 
     /// <inheritdoc />
     public ICommandViewModel AddEditAnnotation { get; set; }
+
+    /// <inheritdoc />
+    public ICommandViewModel Rename { get; set; }
 
     /// <inheritdoc />
     public ICommandViewModel Archive { get; set; }
