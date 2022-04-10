@@ -68,7 +68,7 @@ public class GuestOsesInUseTests
 
         // Assert
         result.Should().HaveCount(2);
-        result[0].Should().Be("Ubuntu");
-        result[1].Should().Be("Windows");
+        result.Should().HaveElementAt(0, "Ubuntu");
+        result.Should().HaveElementAt(1, "Windows");
     }
 }

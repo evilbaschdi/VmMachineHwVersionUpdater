@@ -24,7 +24,7 @@ namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal
         [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
         public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
         {
-            assertion.Verify(typeof(RenameDefaultCommand).GetMethods().Where(method => !method.IsAbstract));
+            assertion.Verify(typeof(RenameDefaultCommand).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set_")));
         }
     }
 }

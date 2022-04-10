@@ -21,9 +21,9 @@ public class ConfigureDefaultCommandServices : IConfigureDefaultCommandServices
         services.AddSingleton<IAboutContent, AboutContent>();
         services.AddSingleton<IAboutWindowClickDefaultCommand, AboutWindowClickDefaultCommand>();
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
-        services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
         services.AddSingleton<IAddEditAnnotationDefaultCommand, AddEditAnnotationDefaultCommand>();
         services.AddSingleton<IArchiveDefaultCommand, ArchiveDefaultCommand>();
+        services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
         services.AddSingleton<ICopyDefaultCommand, CopyDefaultCommand>();
         services.AddSingleton<ICurrentAssembly, CurrentAssembly>();
         services.AddSingleton<IDeleteDefaultCommand, DeleteDefaultCommand>();

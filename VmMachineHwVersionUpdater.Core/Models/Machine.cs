@@ -21,8 +21,9 @@ public class Machine : INotifyPropertyChanged
     /// <param name="updateMachineVersion"></param>
     /// <param name="toggleToolsUpgradePolicy"></param>
     /// <param name="toggleToolsSyncTime"></param>
-    public Machine([NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-                   [NotNull] IToggleToolsSyncTime toggleToolsSyncTime)
+    public Machine([NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
+                   [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+                   [NotNull] IUpdateMachineVersion updateMachineVersion)
     {
         _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
         _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
@@ -151,6 +152,12 @@ public class Machine : INotifyPropertyChanged
 
     /// <summary />
     public string GuestOs { get; set; }
+
+    /// <summary />
+    public string ExtendedInformation { get; set; }
+
+    /// <summary />
+    public string ExtendedInformationToolTip { get; set; }
 
     /// <summary />
     public string GuestOsDetailedData { get; set; }

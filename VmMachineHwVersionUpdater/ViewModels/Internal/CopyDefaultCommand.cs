@@ -57,7 +57,11 @@ public class CopyDefaultCommand : ICopyDefaultCommand
                     DialogCoordinatorContext,
                     "Copy machine...",
                     "Enter the new directory name",
-                    new MetroDialogSettings { DefaultText = machine.DisplayName }
+                    new()
+                    {
+                        DefaultText = machine.DisplayName,
+                        ColorScheme = MetroDialogColorScheme.Accented
+                    }
                 ).ConfigureAwait(true);
 
                 if (inputResult != null)

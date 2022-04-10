@@ -54,7 +54,11 @@ public class RenameDefaultCommand : IRenameDefaultCommand
                     DialogCoordinatorContext,
                     "Rename machine...",
                     "Enter the new display name",
-                    new MetroDialogSettings { DefaultText = machine.DisplayName }
+                    new()
+                    {
+                        DefaultText = machine.DisplayName,
+                        ColorScheme = MetroDialogColorScheme.Accented
+                    }
                 ).ConfigureAwait(true);
 
                 if (inputResult != null)

@@ -80,6 +80,14 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
+            <!-- ExtendedInformation -->
+            <DataGridTemplateColumn Header="🚩" IsReadOnly="True" Width="50">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ExtendedInformation}" ToolTipService.ToolTip="{Binding ExtendedInformationToolTip}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
             <!-- Play -->
             <DataGridTemplateColumn Header="Play" IsReadOnly="False" Width="50">
                 <DataGridTemplateColumn.CellTemplate>
