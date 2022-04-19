@@ -20,27 +20,27 @@ public class SetDisplayName : ISetDisplayName
             throw new ArgumentNullException(nameof(machine));
         }
 
-        var extendedInformationBuilder = new StringBuilder();    
-        var extendedInformationToolTipBuilder = new StringBuilder();   
+        var extendedInformationBuilder = new StringBuilder();
+        var extendedInformationToolTipBuilder = new StringBuilder();
 
-        if(!string.IsNullOrWhiteSpace(rawMachine.Annotation))
+        if (!string.IsNullOrWhiteSpace(rawMachine.Annotation))
         {
-             extendedInformationBuilder.Append(" 📄");
-             extendedInformationToolTipBuilder.Append(" has Annotation,");
+            extendedInformationBuilder.Append(" 📄");
+            extendedInformationToolTipBuilder.Append(" has Annotation,");
         }
 
-        if(!string.IsNullOrWhiteSpace(rawMachine.ManagedVmAutoAddVTpm))
+        if (!string.IsNullOrWhiteSpace(rawMachine.ManagedVmAutoAddVTpm))
         {
-             extendedInformationBuilder.Append(" 🔐");
-             extendedInformationToolTipBuilder.Append(" has ManagedVmAutoAddVTpm,");
+            extendedInformationBuilder.Append(" 🔐");
+            extendedInformationToolTipBuilder.Append(" has ManagedVmAutoAddVTpm,");
         }
 
-        if(!machine.IsEnabledForEditing)
+        if (!machine.IsEnabledForEditing)
         {
-             extendedInformationBuilder.Append(" 🕶");
-             extendedInformationToolTipBuilder.Append(" is currently not enabled for editing");
+            extendedInformationBuilder.Append(" 🕶");
+            extendedInformationToolTipBuilder.Append(" is currently not enabled for editing");
         }
-        
+
         machine.ExtendedInformation = extendedInformationBuilder.ToString().Trim();
         machine.ExtendedInformationToolTip = extendedInformationToolTipBuilder.ToString().Trim().Trim(',');
     }
