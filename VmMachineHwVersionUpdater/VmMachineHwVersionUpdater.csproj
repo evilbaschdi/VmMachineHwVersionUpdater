@@ -17,14 +17,14 @@
 		<Product>VM Machine Hardware Version Updater</Product>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
 		<UseWPF>true</UseWPF>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="ControlzEx" Version="5.0.1" />
-		<PackageReference Include="EvilBaschdi.CoreExtended" Version="2022.4.19.1743-develop" />
+		<PackageReference Include="EvilBaschdi.CoreExtended" Version="2022.5.3.1912-develop" />
 		<PackageReference Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
 		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
 		<PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />

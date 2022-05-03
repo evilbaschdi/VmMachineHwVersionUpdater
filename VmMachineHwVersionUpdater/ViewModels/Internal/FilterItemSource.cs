@@ -33,7 +33,7 @@ public class FilterItemSource : IFilterItemSource
         bool ValueFilter(object vm)
         {
             var filterGuestOs = true;
-            var filterDisplayNameOrAnnotation = true;
+            bool filterDisplayNameOrAnnotation;
             var machine = (Machine)vm;
 
             if (!string.IsNullOrWhiteSpace(searchOsText) && searchOsText != "(no filter)")
@@ -41,10 +41,22 @@ public class FilterItemSource : IFilterItemSource
                 filterGuestOs = machine.GuestOs.StartsWith(searchOsText, StringComparison.InvariantCultureIgnoreCase);
             }
 
-            if (!string.IsNullOrWhiteSpace(searchFilterText))
+            if (string.IsNullOrWhiteSpace(searchFilterText))
             {
-                filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase)
-                                                || machine.Annotation.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase);
+                return filterGuestOs;
+            }
+
+            if (searchFilterText.StartsWith('"') && searchFilterText.EndsWith('"') || searchFilterText.StartsWith('\'') && searchFilterText.EndsWith('\''))
+            {
+                var searchFilterTextTrimmed = searchFilterText.Trim('"', '\'');
+                filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterTextTrimmed, StringComparison.InvariantCultureIgnoreCase)
+                                                || machine.Annotation.Contains(searchFilterTextTrimmed, StringComparison.InvariantCultureIgnoreCase);
+            }
+            else
+            {
+                var searchFilterTextCharArray = searchFilterText.ToCharArray();
+                filterDisplayNameOrAnnotation = searchFilterTextCharArray.All(c => machine.DisplayName.Contains(c, StringComparison.InvariantCultureIgnoreCase)) ||
+                                                searchFilterTextCharArray.All(c => machine.Annotation.Contains(c, StringComparison.InvariantCultureIgnoreCase));
             }
 
             return filterDisplayNameOrAnnotation && filterGuestOs;
