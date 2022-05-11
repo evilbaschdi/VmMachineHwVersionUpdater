@@ -20,8 +20,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.Core" Version="2022.4.19.1731-develop" />
-		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2022.4.19.1758-develop" />
-		<PackageReference Include="EvilBaschdi.Settings" Version="2022.4.19.1802-develop" />
+		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2022.5.11.1630-develop" />
+		<PackageReference Include="EvilBaschdi.Settings" Version="2022.5.11.1632-develop" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
