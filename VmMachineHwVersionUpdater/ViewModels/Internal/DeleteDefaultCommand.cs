@@ -32,11 +32,11 @@ public class DeleteDefaultCommand : IDeleteDefaultCommand
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value
+    public DefaultCommand DefaultCommandValue
     {
         get
         {
-            async void Execute(object _) => await RunAsync();
+            async void Execute(object _) => await Value();
 
             return new()
                    {
@@ -46,7 +46,7 @@ public class DeleteDefaultCommand : IDeleteDefaultCommand
     }
 
     /// <inheritdoc />
-    public async Task RunAsync()
+    public async Task Value()
     {
         var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Delete machine...",
             $"Are you sure you want to delete '{_currentItem.Value.DisplayName}'?",
@@ -58,7 +58,7 @@ public class DeleteDefaultCommand : IDeleteDefaultCommand
             {
                 _deleteMachine.RunFor(_currentItem.Value.Path);
 
-                await _reloadDefaultCommand.RunAsync();
+                await _reloadDefaultCommand.Value();
             }
             catch (IOException ioException)
             {

@@ -32,7 +32,7 @@ public class RenameDefaultCommand : IRenameDefaultCommand
     }
 
     /// <inheritdoc />
-    public async Task RunAsync()
+    public async Task Value()
     {
         var machine = _currentItem.Value;
 
@@ -84,15 +84,15 @@ public class RenameDefaultCommand : IRenameDefaultCommand
             }
         }
 
-        await _reloadDefaultCommand.RunAsync();
+        await _reloadDefaultCommand.Value();
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value
+    public DefaultCommand DefaultCommandValue
     {
         get
         {
-            async void Execute(object _) => await RunAsync();
+            async void Execute(object _) => await Value();
 
             return new()
                    {

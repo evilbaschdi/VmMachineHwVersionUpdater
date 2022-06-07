@@ -33,7 +33,21 @@ public class ArchiveDefaultCommand : IArchiveDefaultCommand
     }
 
     /// <inheritdoc />
-    public async Task RunAsync()
+    public DefaultCommand DefaultCommandValue
+    {
+        get
+        {
+            async void Execute(object _) => await Value();
+
+            return new()
+                   {
+                       Command = new RelayCommand(Execute)
+                   };
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task Value()
     {
         var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Archive machine...",
             $"Are you sure you want to archive machine '{_currentItem.Value.DisplayName}'?",
@@ -54,21 +68,7 @@ public class ArchiveDefaultCommand : IArchiveDefaultCommand
                 await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Archive machine' was canceled", exception.Message);
             }
 
-            await _reloadDefaultCommand.RunAsync();
-        }
-    }
-
-    /// <inheritdoc />
-    public DefaultCommand Value
-    {
-        get
-        {
-            async void Execute(object _) => await RunAsync();
-
-            return new()
-                   {
-                       Command = new RelayCommand(Execute)
-                   };
+            await _reloadDefaultCommand.Value();
         }
     }
 

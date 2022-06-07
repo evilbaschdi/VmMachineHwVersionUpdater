@@ -36,7 +36,7 @@ public class CopyDefaultCommand : ICopyDefaultCommand
     }
 
     /// <inheritdoc />
-    public async Task RunAsync()
+    public async Task Value()
     {
         var machine = _currentItem.Value;
         if (!machine.IsEnabledForEditing)
@@ -80,7 +80,7 @@ public class CopyDefaultCommand : ICopyDefaultCommand
                                                                                          }
                                                                                      });
 
-                                       await _copyMachine.RunForAsync(machine, inputResult);
+                                       await _copyMachine.ValueFor(machine, inputResult);
                                    });
                     await controller.CloseAsync();
                 }
@@ -94,16 +94,16 @@ public class CopyDefaultCommand : ICopyDefaultCommand
                 await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Copy machine' was canceled", exception.Message);
             }
 
-            await _reloadDefaultCommand.RunAsync();
+            await _reloadDefaultCommand.Value();
         }
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value
+    public DefaultCommand DefaultCommandValue
     {
         get
         {
-            async void Execute(object _) => await RunAsync();
+            async void Execute(object _) => await Value();
 
             return new()
                    {

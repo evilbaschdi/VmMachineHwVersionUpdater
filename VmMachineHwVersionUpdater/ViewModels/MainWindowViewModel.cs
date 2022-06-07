@@ -69,17 +69,17 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         _initDefaultCommands.DialogCoordinatorContext = this;
         _initDefaultCommands.Run();
 
-        AboutWindowClick = _initDefaultCommands.AboutWindowClickDefaultCommand.Value;
-        AddEditAnnotation = _initDefaultCommands.AddEditAnnotationDefaultCommand.Value;
-        Archive = _initDefaultCommands.ArchiveDefaultCommand.Value;
-        Copy = _initDefaultCommands.CopyDefaultCommand.Value;
-        Delete = _initDefaultCommands.DeleteDefaultCommand.Value;
-        GoTo = _initDefaultCommands.GotToDefaultCommand.Value;
-        OpenWithCode = _initDefaultCommands.OpenWithCodeDefaultCommand.Value;
-        Reload = _initDefaultCommands.ReloadDefaultCommand.Value;
-        Rename = _initDefaultCommands.RenameDefaultCommand.Value;
-        Start = _initDefaultCommands.StartDefaultCommand.Value;
-        UpdateAll = _initDefaultCommands.UpdateAllDefaultCommand.Value;
+        AboutWindowClick = _initDefaultCommands.AboutWindowClickDefaultCommand.DefaultCommandValue;
+        AddEditAnnotation = _initDefaultCommands.AddEditAnnotationDefaultCommand.DefaultCommandValue;
+        Archive = _initDefaultCommands.ArchiveDefaultCommand.DefaultCommandValue;
+        Copy = _initDefaultCommands.CopyDefaultCommand.DefaultCommandValue;
+        Delete = _initDefaultCommands.DeleteDefaultCommand.DefaultCommandValue;
+        GoTo = _initDefaultCommands.GotToDefaultCommand.DefaultCommandValue;
+        OpenWithCode = _initDefaultCommands.OpenWithCodeDefaultCommand.DefaultCommandValue;
+        Reload = _initDefaultCommands.ReloadDefaultCommand.DefaultCommandValue;
+        Rename = _initDefaultCommands.RenameDefaultCommand.DefaultCommandValue;
+        Start = _initDefaultCommands.StartDefaultCommand.DefaultCommandValue;
+        UpdateAll = _initDefaultCommands.UpdateAllDefaultCommand.DefaultCommandValue;
     }
 
     #endregion Constructor

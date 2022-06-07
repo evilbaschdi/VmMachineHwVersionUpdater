@@ -49,7 +49,7 @@ namespace VmMachineHwVersionUpdater
             ThemeManager.Current.SyncTheme(ThemeSyncMode.SyncAll);
 #endif
 
-            _mainWindow = await _handleAppStartup.ValueForAsync(ServiceProvider);
+            _mainWindow = await _handleAppStartup.ValueFor(ServiceProvider);
             _mainWindow.Show();
         }
 
@@ -61,7 +61,7 @@ namespace VmMachineHwVersionUpdater
                 throw new ArgumentNullException(nameof(e));
             }
 
-            await _handleAppExit.RunAsync();
+            await _handleAppExit.Value();
 
             base.OnExit(e);
         }

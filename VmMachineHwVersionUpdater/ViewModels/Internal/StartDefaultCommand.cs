@@ -23,10 +23,10 @@ public class StartDefaultCommand : IStartDefaultCommand
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value => new()
-                                   {
-                                       Command = new RelayCommand(_ => Run())
-                                   };
+    public DefaultCommand DefaultCommandValue => new()
+                                                 {
+                                                     Command = new RelayCommand(_ => Run())
+                                                 };
 
     /// <inheritdoc />
     public void Run()
