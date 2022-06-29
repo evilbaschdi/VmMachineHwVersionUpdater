@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using EvilBaschdi.CoreExtended.AppHelpers;
+using EvilBaschdi.Core.AppHelpers;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;

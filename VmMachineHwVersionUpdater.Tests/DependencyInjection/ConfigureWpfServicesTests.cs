@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using AutoFixture.Idioms;
+using EvilBaschdi.Core.AppHelpers;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.AppHelpers;
 using EvilBaschdi.Testing;
 using FluentAssertions;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;

@@ -10,7 +10,7 @@ namespace VmMachineHwVersionUpdater;
 ///     Interaction logic for MainWindow.xaml
 /// </summary>
 // ReSharper disable once RedundantExtendsListEntry
-public partial class MainWindow : MetroWindow, IOnLoaded
+public partial class MainWindow : IOnLoaded
 {
     private readonly IServiceProvider _serviceProvider;
 
