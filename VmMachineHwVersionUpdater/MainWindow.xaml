@@ -14,7 +14,9 @@
                  Icon="b.ico"
                  WindowStartupLocation="CenterOwner"
                  ShowIconOnTitleBar="False"
-                 GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
+                 AllowsTransparency="True"
+                 BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
+                 BorderThickness="1">
 
     <Window.TaskbarItemInfo>
         <TaskbarItemInfo ProgressState="{Binding ProgressState}" />
@@ -218,6 +220,7 @@
         <!-- ContextMenu -->
         <DataGrid.ContextMenu>
             <ContextMenu StaysOpen="True">
+                <!-- ReSharper disable Xaml.RedundantResource -->
                 <!-- Start -->
                 <MenuItem Header="Start machine..." Command="{Binding Start.Command}">
                     <MenuItem.Icon>
@@ -257,6 +260,7 @@
                                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
+
                 <Separator />
 
                 <!-- Copy -->
@@ -283,6 +287,7 @@
                     </MenuItem.Icon>
 
                 </MenuItem>
+                <!-- ReSharper restore Xaml.RedundantResource -->
             </ContextMenu>
         </DataGrid.ContextMenu>
     </DataGrid>
