@@ -14,14 +14,14 @@
 		<Product>VM Machine Hardware Version Updater</Product>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<RootNamespace>VmMachineHwVersionUpdater.Core</RootNamespace>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.Core" Version="2022.7.4.635-develop" />
-		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2022.7.4.2107-develop" />
-		<PackageReference Include="EvilBaschdi.Settings" Version="2022.7.4.2111-develop" />
+		<PackageReference Include="EvilBaschdi.Core" Version="2022.7.10.802-develop" />
+		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2022.7.10.814-develop" />
+		<PackageReference Include="EvilBaschdi.Settings" Version="2022.7.10.817-develop" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
