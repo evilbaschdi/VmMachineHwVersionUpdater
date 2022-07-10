@@ -65,9 +65,6 @@ public class Machine : INotifyPropertyChanged
     }
 
     /// <summary />
-    public string ManagedVmAutoAddVTpm { get; init; }
-
-    /// <summary />
     public bool SyncTimeWithHost
     {
         // ReSharper disable once UnusedMember.Global
@@ -123,14 +120,16 @@ public class Machine : INotifyPropertyChanged
 
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     // ReSharper disable PropertyCanBeMadeInitOnly.Global
-    /// <summary />
-    public string DisplayName { get; set; }
 
     /// <summary />
-    public string ShortPath { get; init; }
+    public double DirectorySizeGb { get; set; }
 
     /// <summary />
-    public string Path { get; init; }
+
+    public MachineState MachineState { get; set; }
+
+    /// <summary />
+    public string Annotation { get; set; }
 
     /// <summary />
     public string Directory { get; set; }
@@ -138,32 +137,11 @@ public class Machine : INotifyPropertyChanged
     /// <summary />
     public string DirectorySize { get; set; }
 
-    /// <summary> </summary>
-    public double DirectorySizeGb { get; set; }
+    /// <summary />
+    public string DisplayName { get; set; }
 
     /// <summary />
-    public string LogLastDate { get; init; }
-
-    /// <summary />
-    public string LogLastDateDiff { get; init; }
-
-    /// <summary />
-    public string Annotation { get; set; }
-
-    /// <summary />
-    public string GuestOs { get; set; }
-
-    /// <summary />
-    public string ExtendedInformation { get; set; }
-
-    /// <summary />
-    public string ExtendedInformationToolTip { get; set; }
-
-    /// <summary />
-    public string GuestOsDetailedData { get; set; }
-
-    /// <summary />
-    public MachineState MachineState { get; set; }
+    public string EncryptionData { get; init; }
 
     /// <summary />
     public string EncryptionEncryptedKey { get; init; }
@@ -172,7 +150,31 @@ public class Machine : INotifyPropertyChanged
     public string EncryptionKeySafe { get; init; }
 
     /// <summary />
-    public string EncryptionData { get; init; }
+    public string ExtendedInformation { get; set; }
+
+    /// <summary />
+    public string ExtendedInformationToolTip { get; set; }
+
+    /// <summary />
+    public string GuestOs { get; set; }
+
+    /// <summary />
+    public string GuestOsDetailedData { get; set; }
+
+    /// <summary />
+    public string LogLastDate { get; init; }
+
+    /// <summary />
+    public string LogLastDateDiff { get; init; }
+
+    /// <summary />
+    public string ManagedVmAutoAddVTpm { get; init; }
+
+    /// <summary />
+    public string Path { get; init; }
+
+    /// <summary />
+    public string ShortPath { get; init; }
 
     /// <summary />
     public bool IsEnabledForEditing { get; set; }
