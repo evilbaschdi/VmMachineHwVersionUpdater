@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core;
-
-namespace VmMachineHwVersionUpdater.ViewModels.Internal;
+﻿namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 
 /// <inheritdoc cref="IRun" />
 /// <inheritdoc cref="IDialogCoordinatorContext" />

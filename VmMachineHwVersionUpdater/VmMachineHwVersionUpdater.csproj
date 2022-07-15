@@ -23,6 +23,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Using Include="EvilBaschdi.Core"/>
+		<Using Include="JetBrains.Annotations"/>
+		<Using Include="System.Linq"/>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.CoreExtended" Version="2022.7.14.2032-develop" />
 		<PackageReference Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
 		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />

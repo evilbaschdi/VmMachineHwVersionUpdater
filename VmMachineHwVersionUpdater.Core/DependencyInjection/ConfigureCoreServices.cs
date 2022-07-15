@@ -1,5 +1,4 @@
 ﻿using EvilBaschdi.Core.Internal;
-using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;

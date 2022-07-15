@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core;
-using JetBrains.Annotations;
-using MahApps.Metro.Controls.Dialogs;
+﻿using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.Settings;

@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace VmMachineHwVersionUpdater.Core.PerMachine;
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
 public class VmxLineStartsWith : IVmxLineStartsWith

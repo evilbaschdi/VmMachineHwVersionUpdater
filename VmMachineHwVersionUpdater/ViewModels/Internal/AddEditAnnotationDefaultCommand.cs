@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;

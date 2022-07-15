@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;

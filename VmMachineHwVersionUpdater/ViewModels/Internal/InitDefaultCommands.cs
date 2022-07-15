@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace VmMachineHwVersionUpdater.ViewModels.Internal;
+﻿namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 
 /// <inheritdoc />
 public class InitDefaultCommands : IInitDefaultCommands

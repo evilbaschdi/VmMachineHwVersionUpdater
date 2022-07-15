@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using AutoFixture.Idioms;
-using EvilBaschdi.DependencyInjection;
-using EvilBaschdi.Testing;
-using FluentAssertions;
-using Xunit;
+﻿using EvilBaschdi.DependencyInjection;
 
 namespace VmMachineHwVersionUpdater.Tests
 {

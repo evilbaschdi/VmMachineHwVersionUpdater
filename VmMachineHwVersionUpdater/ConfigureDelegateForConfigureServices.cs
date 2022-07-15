@@ -1,5 +1,4 @@
 ﻿using EvilBaschdi.DependencyInjection;
-using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

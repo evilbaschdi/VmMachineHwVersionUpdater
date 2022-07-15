@@ -1,5 +1,3 @@
-using EvilBaschdi.Core;
-
 namespace VmMachineHwVersionUpdater.Core.Models;
 
 /// <inheritdoc cref="IMachine" />

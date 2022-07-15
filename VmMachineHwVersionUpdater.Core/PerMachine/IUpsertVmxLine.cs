@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core;
-
-namespace VmMachineHwVersionUpdater.Core.PerMachine;
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc cref="IRunFor2{TIn1,TIn2}" />
 /// <inheritdoc cref="IDisposable" />

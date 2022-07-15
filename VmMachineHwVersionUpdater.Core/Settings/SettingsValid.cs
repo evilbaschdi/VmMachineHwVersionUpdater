@@ -1,5 +1,4 @@
 ﻿using EvilBaschdi.Core.Extensions;
-using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Core.Settings;
 

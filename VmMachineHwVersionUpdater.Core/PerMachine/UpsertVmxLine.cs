@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace VmMachineHwVersionUpdater.Core.PerMachine;
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
 public abstract class UpsertVmxLine<T> : IUpsertVmxLine<T>

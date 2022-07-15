@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using EvilBaschdi.Core.Extensions;
-using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 

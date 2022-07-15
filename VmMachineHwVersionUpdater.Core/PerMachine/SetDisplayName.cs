@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;

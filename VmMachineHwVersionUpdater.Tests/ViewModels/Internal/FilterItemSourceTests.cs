@@ -1,14 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Data;
-using AutoFixture.Idioms;
-using AutoFixture.Xunit2;
-using EvilBaschdi.Testing;
-using FluentAssertions;
-using NSubstitute;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
-using Xunit;
 
 namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal;
 

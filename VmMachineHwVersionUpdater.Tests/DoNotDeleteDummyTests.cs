@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace VmMachineHwVersionUpdater.Tests
+﻿namespace VmMachineHwVersionUpdater.Tests
 {
     /// <summary>
     ///     Do not delete this class.

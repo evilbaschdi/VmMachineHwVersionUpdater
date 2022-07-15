@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using VmMachineHwVersionUpdater.Core.Models;
+﻿using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;

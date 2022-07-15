@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core;
 using VmMachineHwVersionUpdater.Core.Models;
 

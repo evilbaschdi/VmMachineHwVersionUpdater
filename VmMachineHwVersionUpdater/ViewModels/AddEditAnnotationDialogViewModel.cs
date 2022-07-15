@@ -1,6 +1,5 @@
 ﻿using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 

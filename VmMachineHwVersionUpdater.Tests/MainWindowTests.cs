@@ -1,9 +1,3 @@
-using System.Linq;
-using AutoFixture.Idioms;
-using EvilBaschdi.Testing;
-using FluentAssertions;
-using Xunit;
-
 namespace VmMachineHwVersionUpdater.Tests;
 
 public class MainWindowTests

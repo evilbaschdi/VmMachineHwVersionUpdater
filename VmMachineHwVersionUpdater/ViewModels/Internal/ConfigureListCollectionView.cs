@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows.Data;
-using EvilBaschdi.Core;
-using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;

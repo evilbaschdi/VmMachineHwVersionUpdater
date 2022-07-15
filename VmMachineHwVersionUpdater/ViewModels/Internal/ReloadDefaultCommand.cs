@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using EvilBaschdi.Core.AppHelpers;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;

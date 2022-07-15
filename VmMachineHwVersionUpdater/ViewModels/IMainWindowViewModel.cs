@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Shell;
-using EvilBaschdi.Core;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;

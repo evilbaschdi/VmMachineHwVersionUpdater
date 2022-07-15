@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using EvilBaschdi.DependencyInjection;
-using JetBrains.Annotations;
 #if !DEBUG
 using ControlzEx.Theming;
 #endif

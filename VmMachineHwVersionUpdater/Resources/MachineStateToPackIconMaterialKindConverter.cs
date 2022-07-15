@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
-using JetBrains.Annotations;
 using MahApps.Metro.IconPacks;
 using VmMachineHwVersionUpdater.Core.Enums;
 
