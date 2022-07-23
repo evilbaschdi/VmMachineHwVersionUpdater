@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Settings;

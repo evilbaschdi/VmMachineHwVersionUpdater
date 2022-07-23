@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Windows.Data;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
