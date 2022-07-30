@@ -14,7 +14,7 @@
 		<OutputType>WinExe</OutputType>
 		<PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
 		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
-		<Product>VM Machine Hardware Version Updater</Product>
+		<Product>VM Toolbox</Product>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
 		<TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
@@ -24,7 +24,9 @@
 
 	<ItemGroup>
 		<Using Include="EvilBaschdi.Core" />
+		<Using Include="EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command" />
 		<Using Include="JetBrains.Annotations" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
 		<Using Include="System.Linq" />
 	</ItemGroup>
 

@@ -4,7 +4,6 @@ using System.Windows.Data;
 using System.Windows.Shell;
 using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;

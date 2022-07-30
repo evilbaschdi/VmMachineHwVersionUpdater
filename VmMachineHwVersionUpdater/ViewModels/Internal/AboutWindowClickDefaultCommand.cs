@@ -1,6 +1,4 @@
 ﻿using EvilBaschdi.CoreExtended.Controls.About;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 
@@ -9,15 +7,15 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 public class AboutWindowClickDefaultCommand : IAboutWindowClickDefaultCommand
 {
     /// <inheritdoc />
+    public DefaultCommand DefaultCommandValue => new()
+                                                 {
+                                                     Command = new RelayCommand(_ => Run())
+                                                 };
+
+    /// <inheritdoc />
     public void Run()
     {
         var aboutWindow = App.ServiceProvider.GetRequiredService<AboutWindow>();
         aboutWindow.ShowDialog();
     }
-
-    /// <inheritdoc />
-    public DefaultCommand DefaultCommandValue => new()
-                                                 {
-                                                     Command = new RelayCommand(_ => Run())
-                                                 };
 }

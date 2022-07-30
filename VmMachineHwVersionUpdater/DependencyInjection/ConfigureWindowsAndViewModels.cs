@@ -1,5 +1,4 @@
 ﻿using EvilBaschdi.CoreExtended.Controls.About;
-using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;

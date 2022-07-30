@@ -1,6 +1,5 @@
 ﻿using EvilBaschdi.DependencyInjection;
 using MahApps.Metro.Controls.Dialogs;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VmMachineHwVersionUpdater.Core.DependencyInjection;
 using VmMachineHwVersionUpdater.DependencyInjection;

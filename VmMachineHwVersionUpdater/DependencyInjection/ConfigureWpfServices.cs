@@ -1,7 +1,6 @@
 ﻿using EvilBaschdi.Core.AppHelpers;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.CoreExtended;
-using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;

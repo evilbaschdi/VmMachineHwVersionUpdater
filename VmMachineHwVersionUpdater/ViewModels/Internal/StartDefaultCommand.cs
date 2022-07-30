@@ -1,5 +1,4 @@
 ﻿using EvilBaschdi.Core.AppHelpers;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;

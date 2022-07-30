@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;

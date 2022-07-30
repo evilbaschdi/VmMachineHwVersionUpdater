@@ -1,5 +1,4 @@
 ﻿using System.Windows.Shell;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 

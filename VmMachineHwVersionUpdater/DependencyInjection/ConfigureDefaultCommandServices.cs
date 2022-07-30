@@ -1,6 +1,5 @@
 ﻿using EvilBaschdi.CoreExtended;
 using EvilBaschdi.CoreExtended.Controls.About;
-using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 

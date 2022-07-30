@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
-using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater;

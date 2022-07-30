@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 
