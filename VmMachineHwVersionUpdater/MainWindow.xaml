@@ -14,7 +14,6 @@
                  Icon="b.ico"
                  WindowStartupLocation="CenterOwner"
                  ShowIconOnTitleBar="False"
-                 AllowsTransparency="True"
                  BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
                  BorderThickness="1">
 
@@ -63,7 +62,6 @@
             </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
-
 
     <!-- DataGrid -->
     <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
