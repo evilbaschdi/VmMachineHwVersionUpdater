@@ -45,17 +45,17 @@ public class FilterItemSource : IFilterItemSource
                 return filterGuestOs;
             }
 
-            if (searchFilterText.StartsWith('"') && searchFilterText.EndsWith('"') || searchFilterText.StartsWith('\'') && searchFilterText.EndsWith('\''))
+            if (searchFilterText.StartsWith('*') && searchFilterText.EndsWith('*'))
             {
-                var searchFilterTextTrimmed = searchFilterText.Trim('"', '\'');
-                filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterTextTrimmed, StringComparison.InvariantCultureIgnoreCase)
-                                                || machine.Annotation.Contains(searchFilterTextTrimmed, StringComparison.InvariantCultureIgnoreCase);
+                var searchFilterTextTrimmed = searchFilterText.Trim('*', '\'');
+                var searchFilterTextCharArray = searchFilterTextTrimmed.ToCharArray();
+                filterDisplayNameOrAnnotation = searchFilterTextCharArray.All(c => machine.DisplayName.Contains(c, StringComparison.InvariantCultureIgnoreCase)) ||
+                                                searchFilterTextCharArray.All(c => machine.Annotation.Contains(c, StringComparison.InvariantCultureIgnoreCase));
             }
             else
             {
-                var searchFilterTextCharArray = searchFilterText.ToCharArray();
-                filterDisplayNameOrAnnotation = searchFilterTextCharArray.All(c => machine.DisplayName.Contains(c, StringComparison.InvariantCultureIgnoreCase)) ||
-                                                searchFilterTextCharArray.All(c => machine.Annotation.Contains(c, StringComparison.InvariantCultureIgnoreCase));
+                filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase)
+                                                || machine.Annotation.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase);
             }
 
             return filterDisplayNameOrAnnotation && filterGuestOs;

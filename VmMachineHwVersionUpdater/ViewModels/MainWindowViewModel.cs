@@ -33,6 +33,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     ///     Constructor
     /// </summary>
     public MainWindowViewModel(
+        IApplicationStyle applicationStyle,
         ICurrentItem currentItem,
         IInitDefaultCommands initDefaultCommands,
         ILoad load,
@@ -40,16 +41,10 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         IFilterItemSource filterItemSource,
         ICurrentItemSource currentItemSource,
         ILoadSearchOsItems loadSearchOsItems,
-        ITaskbarItemProgressState taskbarItemProgressState,
-        IRoundCorners roundCorners
+        ITaskbarItemProgressState taskbarItemProgressState
     )
-        : base(roundCorners, true, true)
+        : base(applicationStyle)
     {
-        if (roundCorners == null)
-        {
-            throw new ArgumentNullException(nameof(roundCorners));
-        }
-
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
         _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));
         _load = load ?? throw new ArgumentNullException(nameof(load));

@@ -165,6 +165,7 @@
   "windows9srv-64": "Windows Server 2016",
   "windows11-64": "Windows 11 x64",
   "windows2019srv-64": "Windows Server 2019",
+  "windows2019srvnext-64": "Windows Server 2022",
   "windows2022srv-64": "Windows Server 2022",
   "winhyperv": "Hyper-V",
   "winme": "Windows ME",
