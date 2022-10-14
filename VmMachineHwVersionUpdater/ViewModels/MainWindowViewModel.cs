@@ -137,7 +137,6 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     ///     Binding
     /// </summary>
     public ListCollectionView ListCollectionView
-
     {
         get
         {

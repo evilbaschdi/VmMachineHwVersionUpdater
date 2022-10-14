@@ -124,7 +124,6 @@ public class Machine : INotifyPropertyChanged
     public double DirectorySizeGb { get; set; }
 
     /// <summary />
-
     public MachineState MachineState { get; set; }
 
     /// <summary />

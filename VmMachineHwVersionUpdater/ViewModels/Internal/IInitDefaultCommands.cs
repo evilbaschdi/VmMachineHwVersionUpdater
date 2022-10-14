@@ -6,7 +6,6 @@ public interface IInitDefaultCommands : IRun, IDialogCoordinatorContext
 {
     // ReSharper disable UnusedMemberInSuper.Global
     /// <inheritdoc cref="IAboutWindowClickDefaultCommand" />
-
     public IAboutWindowClickDefaultCommand AboutWindowClickDefaultCommand { get; set; }
 
     /// <inheritdoc cref="IAddEditAnnotationDefaultCommand" />

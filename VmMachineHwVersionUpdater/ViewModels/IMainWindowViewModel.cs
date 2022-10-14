@@ -23,8 +23,7 @@ public interface IMainWindowViewModel : IRun
     /// <summary />
     public ICommandViewModel Archive { get; set; }
 
-    /// <summary>
-    /// </summary>
+    /// <summary />
     public ICommandViewModel Copy { get; set; }
 
     /// <summary />
@@ -51,7 +50,6 @@ public interface IMainWindowViewModel : IRun
     /// <summary>
     ///     Binding
     /// </summary>
-
     public Machine SelectedMachine { get; set; }
 
     /// <summary>
