@@ -26,7 +26,7 @@
         <mah:WindowCommands>
             <!-- Search Filter -->
             <TextBox Width="250" Height="20" TextWrapping="Wrap" IsReadOnly="{Binding SearchFilterIsReadOnly}"
-                     mah:TextBoxHelper.ClearTextButton="True"
+                     mah:TextBoxHelper.ClearTextButton="True" Style="{DynamicResource MahApps.Styles.TextBox.Search}"
                      Text="{Binding SearchFilterText,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      mah:TextBoxHelper.Watermark="enter search term" />
             <!-- Search Os -->

@@ -10,30 +10,30 @@ namespace VmMachineHwVersionUpdater;
 public class ConfigureDelegateForConfigureServices : IConfigureDelegateForConfigureServices
 {
     /// <inheritdoc />
-    public void RunFor([NotNull] HostBuilderContext _, IServiceCollection services)
+    public void RunFor([NotNull] HostBuilderContext _, IServiceCollection serviceCollection)
     {
         if (_ == null)
         {
             throw new ArgumentNullException(nameof(_));
         }
 
-        if (services == null)
+        if (serviceCollection == null)
         {
-            throw new ArgumentNullException(nameof(services));
+            throw new ArgumentNullException(nameof(serviceCollection));
         }
 
-        services.AddSingleton(_ => DialogCoordinator.Instance);
+        serviceCollection.AddSingleton(_ => DialogCoordinator.Instance);
 
         IConfigureWpfServices configureWpfServices = new ConfigureWpfServices();
-        configureWpfServices.RunFor(services);
+        configureWpfServices.RunFor(serviceCollection);
 
         IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
-        configureCoreServices.RunFor(services);
+        configureCoreServices.RunFor(serviceCollection);
 
         IConfigureDefaultCommandServices configureDefaultCommandServices = new ConfigureDefaultCommandServices();
-        configureDefaultCommandServices.RunFor(services);
+        configureDefaultCommandServices.RunFor(serviceCollection);
 
         IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
-        configureWindowsAndViewModels.RunFor(services);
+        configureWindowsAndViewModels.RunFor(serviceCollection);
     }
 }
