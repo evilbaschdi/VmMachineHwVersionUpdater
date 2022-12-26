@@ -1,4 +1,4 @@
-﻿using EvilBaschdi.CoreExtended.Controls.About;
+﻿using EvilBaschdi.About.Wpf;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 

@@ -17,7 +17,7 @@
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<Using Include="EvilBaschdi.Core" />
 		<Using Include="JetBrains.Annotations" />
@@ -26,9 +26,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.Core" Version="2022.11.8.1753-develop" />
-		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2022.11.8.1811-develop" />
-		<PackageReference Include="EvilBaschdi.Settings" Version="2022.11.24.706-develop" />
+		<PackageReference Include="EvilBaschdi.Core" Version="2022.11.29.1736-develop" />
+		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2022.12.8.740-develop" />
+		<PackageReference Include="EvilBaschdi.Settings" Version="2022.12.14.2146-develop" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

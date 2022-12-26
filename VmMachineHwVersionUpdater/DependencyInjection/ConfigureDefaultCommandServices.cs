@@ -1,5 +1,5 @@
-﻿using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Controls.About;
+﻿using EvilBaschdi.About.Core;
+using EvilBaschdi.CoreExtended;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 

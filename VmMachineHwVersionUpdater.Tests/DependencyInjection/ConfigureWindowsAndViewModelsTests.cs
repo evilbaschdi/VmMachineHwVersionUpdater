@@ -1,4 +1,5 @@
-﻿using EvilBaschdi.CoreExtended.Controls.About;
+﻿using EvilBaschdi.About.Core.Models;
+using EvilBaschdi.About.Wpf;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.DependencyInjection;

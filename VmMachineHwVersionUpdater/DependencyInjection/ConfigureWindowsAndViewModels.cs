@@ -1,4 +1,5 @@
-﻿using EvilBaschdi.CoreExtended.Controls.About;
+﻿using EvilBaschdi.About.Core.Models;
+using EvilBaschdi.About.Wpf;
 using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;
