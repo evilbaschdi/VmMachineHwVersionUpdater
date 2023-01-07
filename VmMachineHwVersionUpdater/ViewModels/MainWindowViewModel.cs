@@ -222,7 +222,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     /// </summary>
     public bool SearchOsIsEnabled
     {
-        get => _load.Value.VmDataGridItemsSource.Any();
+        get =>_load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
         // ReSharper disable once ValueParameterNotUsed
         set => OnPropertyChanged();
     }
@@ -232,7 +232,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     /// </summary>
     public bool SearchFilterIsReadOnly
     {
-        get => !_load.Value.VmDataGridItemsSource.Any();
+        get => _load.Value?.VmDataGridItemsSource == null || !_load.Value.VmDataGridItemsSource.Any();
         // ReSharper disable once ValueParameterNotUsed
         set => OnPropertyChanged();
     }
@@ -242,7 +242,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     /// </summary>
     public bool UpdateAllIsEnabled
     {
-        get => _load.Value.VmDataGridItemsSource.Any();
+        get => _load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
         // ReSharper disable once ValueParameterNotUsed
         set => OnPropertyChanged();
     }
