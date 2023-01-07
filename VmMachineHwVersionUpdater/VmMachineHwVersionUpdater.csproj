@@ -32,7 +32,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.About.WPF" Version="2022.12.23.1407-develop" />
-		<PackageReference Include="EvilBaschdi.CoreExtended" Version="2022.12.23.1446-develop" />
+		<PackageReference Include="EvilBaschdi.CoreExtended" Version="2023.1.3.1742-develop" />
 		<PackageReference Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
 		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
 		<PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
