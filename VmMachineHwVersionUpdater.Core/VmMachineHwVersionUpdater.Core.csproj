@@ -6,7 +6,7 @@
 		<Company>evilbaschdi (Sebastian Walter)</Company>
 		<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
 		<!-- ReSharper disable once UnknownProperty -->
-		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\VmMachineHwVersionUpdater.Core.xml</DocumentationFile>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>preview</LangVersion>
@@ -28,7 +28,7 @@
 	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.Core" Version="2022.11.29.1736-develop" />
 		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2022.12.8.740-develop" />
-		<PackageReference Include="EvilBaschdi.Settings" Version="2022.12.14.2146-develop" />
+		<PackageReference Include="EvilBaschdi.Settings" Version="2023.1.10.1647-develop" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
