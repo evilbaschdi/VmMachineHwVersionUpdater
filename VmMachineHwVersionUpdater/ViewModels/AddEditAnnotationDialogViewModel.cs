@@ -1,5 +1,5 @@
-﻿using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
+﻿using EvilBaschdi.Core.Wpf;
+using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 

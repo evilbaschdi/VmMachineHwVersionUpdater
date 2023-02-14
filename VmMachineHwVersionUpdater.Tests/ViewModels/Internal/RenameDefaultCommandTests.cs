@@ -1,25 +1,24 @@
 ﻿using VmMachineHwVersionUpdater.ViewModels.Internal;
 
-namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal
+namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal;
+
+public class RenameDefaultCommandTests
 {
-    public class RenameDefaultCommandTests
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
     {
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(RenameDefaultCommand).GetConstructors());
-        }
+        assertion.Verify(typeof(RenameDefaultCommand).GetConstructors());
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Constructor_ReturnsInterfaceName(RenameDefaultCommand sut)
-        {
-            sut.Should().BeAssignableTo<IRenameDefaultCommand>();
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_ReturnsInterfaceName(RenameDefaultCommand sut)
+    {
+        sut.Should().BeAssignableTo<IRenameDefaultCommand>();
+    }
 
-        [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-        public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-        {
-            assertion.Verify(typeof(RenameDefaultCommand).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set_")));
-        }
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(RenameDefaultCommand).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set_")));
     }
 }

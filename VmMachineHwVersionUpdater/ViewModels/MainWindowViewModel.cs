@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Shell;
-using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
+using EvilBaschdi.Core.Wpf;
+using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;

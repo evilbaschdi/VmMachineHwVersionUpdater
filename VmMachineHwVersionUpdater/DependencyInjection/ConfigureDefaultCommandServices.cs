@@ -1,5 +1,5 @@
 ﻿using EvilBaschdi.About.Core;
-using EvilBaschdi.CoreExtended;
+using EvilBaschdi.Core.Wpf;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
@@ -17,6 +17,7 @@ public class ConfigureDefaultCommandServices : IConfigureDefaultCommandServices
         }
 
         services.AddSingleton<IAboutContent, AboutContent>();
+        services.AddSingleton<IApplyMicaBrush, ApplyMicaBrush>();
         services.AddSingleton<IAboutWindowClickDefaultCommand, AboutWindowClickDefaultCommand>();
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
         services.AddSingleton<IAddEditAnnotationDefaultCommand, AddEditAnnotationDefaultCommand>();

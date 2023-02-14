@@ -18,7 +18,7 @@ public class ConfigureWindowsAndViewModels : IConfigureWindowsAndViewModels
         services.AddSingleton<AddEditAnnotationDialogViewModel>();
         services.AddTransient(typeof(AddEditAnnotationDialog));
 
-        services.AddSingleton<IAboutModel, AboutViewModel>();
+        services.AddSingleton<IAboutViewModel, AboutViewModel>();
         services.AddTransient(typeof(AboutWindow));
 
         services.AddSingleton<MainWindowViewModel>();

@@ -1,6 +1,6 @@
 ﻿using EvilBaschdi.About.Core;
 using EvilBaschdi.Core;
-using EvilBaschdi.CoreExtended;
+using EvilBaschdi.Core.Wpf;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.PerMachine;

@@ -1,4 +1,4 @@
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
+using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater.Tests.ViewModels;

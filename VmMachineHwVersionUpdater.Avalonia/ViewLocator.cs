@@ -8,7 +8,7 @@ namespace VmMachineHwVersionUpdater.Avalonia;
 public class ViewLocator : IDataTemplate
 {
     /// <inheritdoc />
-    public IControl Build(object? data)
+    public Control Build(object? data)
     {
         var name = data?.GetType().FullName!.Replace("ViewModel", "View");
         if (name == null)

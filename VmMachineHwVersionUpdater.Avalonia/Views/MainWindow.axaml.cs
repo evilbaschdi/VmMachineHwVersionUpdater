@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using EvilBaschdi.Avalonia.Core;
+using EvilBaschdi.Core.Avalonia;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Views;
 
