@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
@@ -20,11 +19,28 @@ public class SetDisplayName : ISetDisplayName
             throw new ArgumentNullException(nameof(machine));
         }
 
-        var displayNameBuilder = new StringBuilder(rawMachine.DisplayName.Trim());
-        displayNameBuilder.Append(!string.IsNullOrWhiteSpace(rawMachine.Annotation) ? " 📄" : "");
-        displayNameBuilder.Append(!string.IsNullOrWhiteSpace(rawMachine.ManagedVmAutoAddVTpm) ? " 🔐" : "");
-        displayNameBuilder.Append(!machine.IsEnabledForEditing ? " 🕶" : "");
+        var extendedInformationBuilder = new StringBuilder();
+        var extendedInformationToolTipBuilder = new StringBuilder();
 
-        machine.DisplayName = displayNameBuilder.ToString().Trim();
+        if (!string.IsNullOrWhiteSpace(rawMachine.Annotation))
+        {
+            extendedInformationBuilder.Append(" 📄");
+            extendedInformationToolTipBuilder.Append(" has Annotation,");
+        }
+
+        if (!string.IsNullOrWhiteSpace(rawMachine.ManagedVmAutoAddVTpm))
+        {
+            extendedInformationBuilder.Append(" 🔐");
+            extendedInformationToolTipBuilder.Append(" has ManagedVmAutoAddVTpm,");
+        }
+
+        if (!machine.IsEnabledForEditing)
+        {
+            extendedInformationBuilder.Append(" 🕶");
+            extendedInformationToolTipBuilder.Append(" is currently not enabled for editing");
+        }
+
+        machine.ExtendedInformation = extendedInformationBuilder.ToString().Trim();
+        machine.ExtendedInformationToolTip = extendedInformationToolTipBuilder.ToString().Trim().Trim(',');
     }
 }

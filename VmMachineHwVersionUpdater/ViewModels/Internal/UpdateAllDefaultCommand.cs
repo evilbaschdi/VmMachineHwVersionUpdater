@@ -1,6 +1,4 @@
 ﻿using System.Windows.Shell;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 
@@ -34,11 +32,11 @@ public class UpdateAllDefaultCommand : IUpdateAllDefaultCommand
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value
+    public DefaultCommand DefaultCommandValue
     {
         get
         {
-            async void Execute(object _) => await RunAsync();
+            async void Execute(object _) => await Value();
 
             return new()
                    {
@@ -48,7 +46,7 @@ public class UpdateAllDefaultCommand : IUpdateAllDefaultCommand
     }
 
     /// <inheritdoc />
-    public async Task RunAsync()
+    public async Task Value()
     {
         _taskbarItemProgressState.Value = TaskbarItemProgressState.Indeterminate;
 
@@ -57,7 +55,7 @@ public class UpdateAllDefaultCommand : IUpdateAllDefaultCommand
 
         _taskbarItemProgressState.Value = TaskbarItemProgressState.Normal;
 
-        await _reloadDefaultCommand.RunAsync();
+        await _reloadDefaultCommand.Value();
     }
 
     /// <inheritdoc />

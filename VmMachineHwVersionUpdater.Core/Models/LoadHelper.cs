@@ -10,7 +10,6 @@ public class LoadHelper
     public double? UpdateAllHwVersion { get; set; }
 
     /// <summary />
-
     public string UpdateAllTextBlocks { get; set; }
 
     /// <summary />

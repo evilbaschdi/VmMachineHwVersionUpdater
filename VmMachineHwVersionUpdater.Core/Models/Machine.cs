@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Enums;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 
@@ -21,8 +20,9 @@ public class Machine : INotifyPropertyChanged
     /// <param name="updateMachineVersion"></param>
     /// <param name="toggleToolsUpgradePolicy"></param>
     /// <param name="toggleToolsSyncTime"></param>
-    public Machine([NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-                   [NotNull] IToggleToolsSyncTime toggleToolsSyncTime)
+    public Machine([NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
+                   [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+                   [NotNull] IUpdateMachineVersion updateMachineVersion)
     {
         _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
         _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
@@ -62,9 +62,6 @@ public class Machine : INotifyPropertyChanged
             NotifyHwVersionChanged();
         }
     }
-
-    /// <summary />
-    public string ManagedVmAutoAddVTpm { get; init; }
 
     /// <summary />
     public bool SyncTimeWithHost
@@ -122,14 +119,15 @@ public class Machine : INotifyPropertyChanged
 
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     // ReSharper disable PropertyCanBeMadeInitOnly.Global
-    /// <summary />
-    public string DisplayName { get; set; }
 
     /// <summary />
-    public string ShortPath { get; init; }
+    public double DirectorySizeGb { get; set; }
 
     /// <summary />
-    public string Path { get; init; }
+    public MachineState MachineState { get; set; }
+
+    /// <summary />
+    public string Annotation { get; set; }
 
     /// <summary />
     public string Directory { get; set; }
@@ -137,26 +135,11 @@ public class Machine : INotifyPropertyChanged
     /// <summary />
     public string DirectorySize { get; set; }
 
-    /// <summary> </summary>
-    public double DirectorySizeGb { get; set; }
+    /// <summary />
+    public string DisplayName { get; set; }
 
     /// <summary />
-    public string LogLastDate { get; init; }
-
-    /// <summary />
-    public string LogLastDateDiff { get; init; }
-
-    /// <summary />
-    public string Annotation { get; set; }
-
-    /// <summary />
-    public string GuestOs { get; set; }
-
-    /// <summary />
-    public string GuestOsDetailedData { get; set; }
-
-    /// <summary />
-    public MachineState MachineState { get; set; }
+    public string EncryptionData { get; init; }
 
     /// <summary />
     public string EncryptionEncryptedKey { get; init; }
@@ -165,7 +148,31 @@ public class Machine : INotifyPropertyChanged
     public string EncryptionKeySafe { get; init; }
 
     /// <summary />
-    public string EncryptionData { get; init; }
+    public string ExtendedInformation { get; set; }
+
+    /// <summary />
+    public string ExtendedInformationToolTip { get; set; }
+
+    /// <summary />
+    public string GuestOs { get; set; }
+
+    /// <summary />
+    public string GuestOsDetailedData { get; set; }
+
+    /// <summary />
+    public string LogLastDate { get; init; }
+
+    /// <summary />
+    public string LogLastDateDiff { get; init; }
+
+    /// <summary />
+    public string ManagedVmAutoAddVTpm { get; init; }
+
+    /// <summary />
+    public string Path { get; init; }
+
+    /// <summary />
+    public string ShortPath { get; init; }
 
     /// <summary />
     public bool IsEnabledForEditing { get; set; }

@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using EvilBaschdi.Core.Extensions;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Enums;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.Settings;
@@ -23,20 +22,26 @@ public class HandleMachineFromPath : IHandleMachineFromPath
     /// <summary>
     ///     Constructor
     /// </summary>
+    /// <param name="parseVmxFile"></param>
+    /// <param name="setDisplayName"></param>
+    /// <param name="toggleToolsSyncTime"></param>
+    /// <param name="updateMachineVersion"></param>
     /// <param name="guestOsOutputStringMapping"></param>
     /// <param name="pathSettings"></param>
-    /// <param name="updateMachineVersion"></param>
     /// <param name="readLogInformation"></param>
-    /// <param name="parseVmxFile"></param>
-    /// <param name="toggleToolsUpgradePolicy"></param>
-    /// <param name="toggleToolsSyncTime"></param>
     /// <param name="setMachineIsEnabledForEditing"></param>
-    /// <param name="setDisplayName"></param>
-    public HandleMachineFromPath([NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping, [NotNull] IPathSettings pathSettings,
-                                 [NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] IReadLogInformation readLogInformation,
-                                 [NotNull] IParseVmxFile parseVmxFile, [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-                                 [NotNull] IToggleToolsSyncTime toggleToolsSyncTime, [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
-                                 [NotNull] ISetDisplayName setDisplayName)
+    /// <param name="toggleToolsUpgradePolicy"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public HandleMachineFromPath(
+        [NotNull] IParseVmxFile parseVmxFile,
+        [NotNull] ISetDisplayName setDisplayName,
+        [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
+        [NotNull] IUpdateMachineVersion updateMachineVersion,
+        [NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping,
+        [NotNull] IPathSettings pathSettings,
+        [NotNull] IReadLogInformation readLogInformation,
+        [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
+        [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy)
     {
         _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
         _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
@@ -82,8 +87,9 @@ public class HandleMachineFromPath : IHandleMachineFromPath
         var paused = directoryInfo?.GetFiles("*.vmss").Any();
         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
 
-        var machine = new Machine(_updateMachineVersion, _toggleToolsUpgradePolicy, _toggleToolsSyncTime)
+        var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _updateMachineVersion)
                       {
+                          DisplayName = rawMachine.DisplayName,
                           HwVersion = rawMachine.HwVersion,
                           GuestOs = _guestOsOutputStringMapping.ValueFor(rawMachine.GuestOs.Trim()),
                           GuestOsDetailedData = rawMachine.DetailedData,

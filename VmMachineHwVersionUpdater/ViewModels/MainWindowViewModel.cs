@@ -2,9 +2,8 @@
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Shell;
-using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
+using EvilBaschdi.Core.Wpf;
+using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
@@ -34,6 +33,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     ///     Constructor
     /// </summary>
     public MainWindowViewModel(
+        IApplicationStyle applicationStyle,
         ICurrentItem currentItem,
         IInitDefaultCommands initDefaultCommands,
         ILoad load,
@@ -41,16 +41,10 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         IFilterItemSource filterItemSource,
         ICurrentItemSource currentItemSource,
         ILoadSearchOsItems loadSearchOsItems,
-        ITaskbarItemProgressState taskbarItemProgressState,
-        IRoundCorners roundCorners
+        ITaskbarItemProgressState taskbarItemProgressState
     )
-        : base(roundCorners, true, true)
+        : base(applicationStyle)
     {
-        if (roundCorners == null)
-        {
-            throw new ArgumentNullException(nameof(roundCorners));
-        }
-
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
         _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));
         _load = load ?? throw new ArgumentNullException(nameof(load));
@@ -69,16 +63,17 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         _initDefaultCommands.DialogCoordinatorContext = this;
         _initDefaultCommands.Run();
 
-        AboutWindowClick = _initDefaultCommands.AboutWindowClickDefaultCommand.Value;
-        AddEditAnnotation = _initDefaultCommands.AddEditAnnotationDefaultCommand.Value;
-        Archive = _initDefaultCommands.ArchiveDefaultCommand.Value;
-        Copy = _initDefaultCommands.CopyDefaultCommand.Value;
-        Delete = _initDefaultCommands.DeleteDefaultCommand.Value;
-        GoTo = _initDefaultCommands.GotToDefaultCommand.Value;
-        OpenWithCode = _initDefaultCommands.OpenWithCodeDefaultCommand.Value;
-        Reload = _initDefaultCommands.ReloadDefaultCommand.Value;
-        Start = _initDefaultCommands.StartDefaultCommand.Value;
-        UpdateAll = _initDefaultCommands.UpdateAllDefaultCommand.Value;
+        AboutWindowClick = _initDefaultCommands.AboutWindowClickDefaultCommand.DefaultCommandValue;
+        AddEditAnnotation = _initDefaultCommands.AddEditAnnotationDefaultCommand.DefaultCommandValue;
+        Archive = _initDefaultCommands.ArchiveDefaultCommand.DefaultCommandValue;
+        Copy = _initDefaultCommands.CopyDefaultCommand.DefaultCommandValue;
+        Delete = _initDefaultCommands.DeleteDefaultCommand.DefaultCommandValue;
+        GoTo = _initDefaultCommands.GotToDefaultCommand.DefaultCommandValue;
+        OpenWithCode = _initDefaultCommands.OpenWithCodeDefaultCommand.DefaultCommandValue;
+        Reload = _initDefaultCommands.ReloadDefaultCommand.DefaultCommandValue;
+        Rename = _initDefaultCommands.RenameDefaultCommand.DefaultCommandValue;
+        Start = _initDefaultCommands.StartDefaultCommand.DefaultCommandValue;
+        UpdateAll = _initDefaultCommands.UpdateAllDefaultCommand.DefaultCommandValue;
     }
 
     #endregion Constructor
@@ -90,6 +85,9 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
 
     /// <inheritdoc />
     public ICommandViewModel AddEditAnnotation { get; set; }
+
+    /// <inheritdoc />
+    public ICommandViewModel Rename { get; set; }
 
     /// <inheritdoc />
     public ICommandViewModel Archive { get; set; }
@@ -139,7 +137,6 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     ///     Binding
     /// </summary>
     public ListCollectionView ListCollectionView
-
     {
         get
         {
@@ -225,7 +222,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     /// </summary>
     public bool SearchOsIsEnabled
     {
-        get => _load.Value.VmDataGridItemsSource.Any();
+        get =>_load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
         // ReSharper disable once ValueParameterNotUsed
         set => OnPropertyChanged();
     }
@@ -235,7 +232,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     /// </summary>
     public bool SearchFilterIsReadOnly
     {
-        get => !_load.Value.VmDataGridItemsSource.Any();
+        get => _load.Value?.VmDataGridItemsSource == null || !_load.Value.VmDataGridItemsSource.Any();
         // ReSharper disable once ValueParameterNotUsed
         set => OnPropertyChanged();
     }
@@ -245,7 +242,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     /// </summary>
     public bool UpdateAllIsEnabled
     {
-        get => _load.Value.VmDataGridItemsSource.Any();
+        get => _load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
         // ReSharper disable once ValueParameterNotUsed
         set => OnPropertyChanged();
     }

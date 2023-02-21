@@ -1,5 +1,4 @@
 ﻿using EvilBaschdi.Core.Internal;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
@@ -19,7 +18,7 @@ public class CopyMachine : ICopyMachine
     }
 
     /// <inheritdoc />
-    public async Task RunForAsync([NotNull] Machine machine, [NotNull] string newDirectoryName)
+    public async Task ValueFor([NotNull] Machine machine, [NotNull] string newDirectoryName)
     {
         if (machine == null)
         {
@@ -51,6 +50,6 @@ public class CopyMachine : ICopyMachine
             //todo: Message
         }
 
-        await _copyDirectory.RunForAsync(path, copyPath);
+        await _copyDirectory.ValueFor(path, copyPath);
     }
 }

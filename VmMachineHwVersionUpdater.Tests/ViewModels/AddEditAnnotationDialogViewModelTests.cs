@@ -1,9 +1,5 @@
-using System.Linq;
-using AutoFixture.Idioms;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
-using EvilBaschdi.Testing;
+using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 using VmMachineHwVersionUpdater.ViewModels;
-using Xunit;
 
 namespace VmMachineHwVersionUpdater.Tests.ViewModels;
 

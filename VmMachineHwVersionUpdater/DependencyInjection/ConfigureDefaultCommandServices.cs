@@ -1,7 +1,5 @@
-﻿using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Controls.About;
-using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
+﻿using EvilBaschdi.About.Core;
+using EvilBaschdi.Core.Wpf;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
@@ -19,16 +17,19 @@ public class ConfigureDefaultCommandServices : IConfigureDefaultCommandServices
         }
 
         services.AddSingleton<IAboutContent, AboutContent>();
+        services.AddSingleton<IApplyMicaBrush, ApplyMicaBrush>();
         services.AddSingleton<IAboutWindowClickDefaultCommand, AboutWindowClickDefaultCommand>();
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
         services.AddSingleton<IAddEditAnnotationDefaultCommand, AddEditAnnotationDefaultCommand>();
         services.AddSingleton<IArchiveDefaultCommand, ArchiveDefaultCommand>();
+        services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
         services.AddSingleton<ICopyDefaultCommand, CopyDefaultCommand>();
         services.AddSingleton<ICurrentAssembly, CurrentAssembly>();
         services.AddSingleton<IDeleteDefaultCommand, DeleteDefaultCommand>();
         services.AddSingleton<IGotToDefaultCommand, GotToDefaultCommand>();
         services.AddSingleton<IOpenWithCodeDefaultCommand, OpenWithCodeDefaultCommand>();
         services.AddSingleton<IReloadDefaultCommand, ReloadDefaultCommand>();
+        services.AddSingleton<IRenameDefaultCommand, RenameDefaultCommand>();
         services.AddSingleton<IStartDefaultCommand, StartDefaultCommand>();
         services.AddSingleton<IUpdateAllDefaultCommand, UpdateAllDefaultCommand>();
     }

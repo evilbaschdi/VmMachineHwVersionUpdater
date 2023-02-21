@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using EvilBaschdi.Core;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;

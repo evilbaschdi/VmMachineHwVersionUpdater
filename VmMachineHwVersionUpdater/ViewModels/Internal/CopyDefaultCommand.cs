@@ -1,7 +1,5 @@
 ﻿using System.IO;
 using EvilBaschdi.Core.Internal;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
@@ -36,17 +34,33 @@ public class CopyDefaultCommand : ICopyDefaultCommand
     }
 
     /// <inheritdoc />
-    public async Task RunAsync()
+    public async Task Value()
     {
+        var machine = _currentItem.Value;
+        if (!machine.IsEnabledForEditing)
+        {
+            await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Rename machine' was canceled", "Machine is currently read only");
+            return;
+        }
+
         var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Copy machine...",
-            $"Are you sure you want to copy machine '{_currentItem.Value.DisplayName}'?",
+            $"Are you sure you want to copy machine '{machine.DisplayName}'?",
             MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
         if (result == MessageDialogResult.Affirmative)
         {
             try
             {
-                var inputResult = await _dialogCoordinator.ShowInputAsync(DialogCoordinatorContext, "Copy machine...", "Enter the new directory name").ConfigureAwait(true);
+                var inputResult = await _dialogCoordinator.ShowInputAsync(
+                    DialogCoordinatorContext,
+                    "Copy machine...",
+                    "Enter the new directory name",
+                    new()
+                    {
+                        DefaultText = machine.DisplayName,
+                        ColorScheme = MetroDialogColorScheme.Accented
+                    }
+                ).ConfigureAwait(true);
 
                 if (inputResult != null)
                 {
@@ -64,7 +78,7 @@ public class CopyDefaultCommand : ICopyDefaultCommand
                                                                                          }
                                                                                      });
 
-                                       await _copyMachine.RunForAsync(_currentItem.Value, inputResult);
+                                       await _copyMachine.ValueFor(machine, inputResult);
                                    });
                     await controller.CloseAsync();
                 }
@@ -78,16 +92,16 @@ public class CopyDefaultCommand : ICopyDefaultCommand
                 await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Copy machine' was canceled", exception.Message);
             }
 
-            await _reloadDefaultCommand.RunAsync();
+            await _reloadDefaultCommand.Value();
         }
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value
+    public DefaultCommand DefaultCommandValue
     {
         get
         {
-            async void Execute(object _) => await RunAsync();
+            async void Execute(object _) => await Value();
 
             return new()
                    {

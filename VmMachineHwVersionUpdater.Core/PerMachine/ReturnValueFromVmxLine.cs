@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 

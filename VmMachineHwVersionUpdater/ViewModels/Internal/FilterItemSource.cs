@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using VmMachineHwVersionUpdater.Core.Models;
+﻿using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 
@@ -33,7 +32,7 @@ public class FilterItemSource : IFilterItemSource
         bool ValueFilter(object vm)
         {
             var filterGuestOs = true;
-            var filterDisplayNameOrAnnotation = true;
+            bool filterDisplayNameOrAnnotation;
             var machine = (Machine)vm;
 
             if (!string.IsNullOrWhiteSpace(searchOsText) && searchOsText != "(no filter)")
@@ -41,7 +40,19 @@ public class FilterItemSource : IFilterItemSource
                 filterGuestOs = machine.GuestOs.StartsWith(searchOsText, StringComparison.InvariantCultureIgnoreCase);
             }
 
-            if (!string.IsNullOrWhiteSpace(searchFilterText))
+            if (string.IsNullOrWhiteSpace(searchFilterText))
+            {
+                return filterGuestOs;
+            }
+
+            if (searchFilterText.StartsWith('*') && searchFilterText.EndsWith('*'))
+            {
+                var searchFilterTextTrimmed = searchFilterText.Trim('*', '\'');
+                var searchFilterTextCharArray = searchFilterTextTrimmed.ToCharArray();
+                filterDisplayNameOrAnnotation = searchFilterTextCharArray.All(c => machine.DisplayName.Contains(c, StringComparison.InvariantCultureIgnoreCase)) ||
+                                                searchFilterTextCharArray.All(c => machine.Annotation.Contains(c, StringComparison.InvariantCultureIgnoreCase));
+            }
+            else
             {
                 filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase)
                                                 || machine.Annotation.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase);

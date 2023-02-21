@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using EvilBaschdi.Core.Extensions;
-using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
@@ -15,7 +14,7 @@ public class ReadLogInformation : IReadLogInformation
             throw new ArgumentNullException(nameof(logDirectory));
         }
 
-        var logLastDate = string.Empty;
+        var lastLogDateLocal = string.Empty;
         var logLastDateDiff = string.Empty;
 
         var log = File.Exists($@"{logDirectory}\vmware.log")
@@ -25,29 +24,26 @@ public class ReadLogInformation : IReadLogInformation
 
         if (string.IsNullOrWhiteSpace(log) || log.FileInfo().IsFileLocked())
         {
-            return new(!string.IsNullOrWhiteSpace(logLastDate)
-                ? logLastDate[..16]
-                : string.Empty, logLastDateDiff);
+            return new(lastLogDateLocal, logLastDateDiff);
         }
 
         try
         {
             var logLastLine = File.ReadAllLines(log).Last();
-            logLastDate = logLastLine.Split('|').First().Replace("T", " ")[..23]
-                                     .Replace(".", ",");
-            var lastLogDateTime = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff",
-                CultureInfo.InvariantCulture);
-            var logLastDiffTimeSpan = DateTime.Now - lastLogDateTime;
-            logLastDateDiff =
-                $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
+            var logLastDate = logLastLine.Split('|').First().Replace("T", " ")[..23].Replace(".", ",");
+            var lastLogDateTimeUtc = DateTime.ParseExact(logLastDate, "yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
+            var lastLogDateTimeLocal = lastLogDateTimeUtc.ToLocalTime();
+
+            var logLastDiffTimeSpan = DateTime.Now - lastLogDateTimeLocal;
+
+            lastLogDateLocal = lastLogDateTimeLocal.ToString("yyyy-MM-dd HH:mm:ss");
+            logLastDateDiff = $"{logLastDiffTimeSpan.Days} days, {logLastDiffTimeSpan.Hours} hours and {logLastDiffTimeSpan.Minutes} minutes ago";
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
 
-        return new(!string.IsNullOrWhiteSpace(logLastDate)
-            ? logLastDate[..16]
-            : string.Empty, logLastDateDiff);
+        return new(lastLogDateLocal, logLastDateDiff);
     }
 }

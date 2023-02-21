@@ -1,9 +1,4 @@
-﻿using System.Linq;
-using AutoFixture.Idioms;
-using EvilBaschdi.Testing;
-using FluentAssertions;
-using VmMachineHwVersionUpdater.Core.Models;
-using Xunit;
+﻿using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.Models;
 

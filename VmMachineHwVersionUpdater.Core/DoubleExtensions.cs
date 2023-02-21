@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Core;
 

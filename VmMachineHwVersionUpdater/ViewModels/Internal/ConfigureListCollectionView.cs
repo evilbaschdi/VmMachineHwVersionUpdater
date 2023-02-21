@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows.Data;
-using EvilBaschdi.Core;
-using JetBrains.Annotations;
 using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
@@ -13,7 +11,6 @@ namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 public class ConfigureListCollectionView : CachedWritableValue<ListCollectionView>, IConfigureListCollectionView
 {
     [NotNull] private readonly IDialogCoordinator _dialogCoordinator;
-
     [NotNull] private readonly ILoad _load;
     [NotNull] private readonly ISettingsValid _settingsValid;
     private ListCollectionView _listCollectionView;
@@ -48,7 +45,7 @@ public class ConfigureListCollectionView : CachedWritableValue<ListCollectionVie
 
             _listCollectionView = new(loadValue.VmDataGridItemsSource);
             _listCollectionView?.GroupDescriptions?.Add(new PropertyGroupDescription("Directory"));
-            _listCollectionView.SortDescriptions.Add(new("DisplayName", ListSortDirection.Ascending));
+            _listCollectionView?.SortDescriptions.Add(new("DisplayName", ListSortDirection.Ascending));
 
             return _listCollectionView;
         }

@@ -1,6 +1,3 @@
-using EvilBaschdi.Core;
-using JetBrains.Annotations;
-
 namespace VmMachineHwVersionUpdater.Core.Models;
 
 /// <inheritdoc cref="ICurrentItem" />

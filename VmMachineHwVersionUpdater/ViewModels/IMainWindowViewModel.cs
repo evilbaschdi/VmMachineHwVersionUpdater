@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Shell;
-using EvilBaschdi.Core;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
@@ -20,10 +18,12 @@ public interface IMainWindowViewModel : IRun
     public ICommandViewModel AddEditAnnotation { get; set; }
 
     /// <summary />
+    public ICommandViewModel Rename { get; set; }
+
+    /// <summary />
     public ICommandViewModel Archive { get; set; }
 
-    /// <summary>
-    /// </summary>
+    /// <summary />
     public ICommandViewModel Copy { get; set; }
 
     /// <summary />
@@ -50,7 +50,6 @@ public interface IMainWindowViewModel : IRun
     /// <summary>
     ///     Binding
     /// </summary>
-
     public Machine SelectedMachine { get; set; }
 
     /// <summary>

@@ -1,6 +1,5 @@
-﻿using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel;
-using JetBrains.Annotations;
+﻿using EvilBaschdi.Core.Wpf;
+using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 
@@ -17,14 +16,9 @@ public class AddEditAnnotationDialogViewModel : ApplicationStyleViewModel, IAddE
     /// <summary>
     ///     Constructor
     /// </summary>
-    public AddEditAnnotationDialogViewModel([NotNull] IUpdateAnnotation updateAnnotation, [NotNull] ICurrentItem currentItem, [NotNull] IRoundCorners roundCorners)
-        : base(roundCorners, true)
+    public AddEditAnnotationDialogViewModel(IApplicationStyle applicationStyle, [NotNull] IUpdateAnnotation updateAnnotation, [NotNull] ICurrentItem currentItem)
+        : base(applicationStyle)
     {
-        if (roundCorners == null)
-        {
-            throw new ArgumentNullException(nameof(roundCorners));
-        }
-
         _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
     }

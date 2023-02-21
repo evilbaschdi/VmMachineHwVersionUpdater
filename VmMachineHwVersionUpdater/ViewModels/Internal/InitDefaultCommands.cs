@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace VmMachineHwVersionUpdater.ViewModels.Internal;
+﻿namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 
 /// <inheritdoc />
 public class InitDefaultCommands : IInitDefaultCommands
@@ -13,6 +11,7 @@ public class InitDefaultCommands : IInitDefaultCommands
     private readonly IGotToDefaultCommand _gotToDefaultCommand;
     private readonly IOpenWithCodeDefaultCommand _openWithCodeDefaultCommand;
     private readonly IReloadDefaultCommand _reloadDefaultCommand;
+    private readonly IRenameDefaultCommand _renameDefaultCommand;
     private readonly IStartDefaultCommand _startDefaultCommand;
     private readonly IUpdateAllDefaultCommand _updateAllDefaultCommand;
 
@@ -27,6 +26,7 @@ public class InitDefaultCommands : IInitDefaultCommands
                                [NotNull] IDeleteDefaultCommand deleteDefaultCommand,
                                [NotNull] IGotToDefaultCommand gotToDefaultCommand,
                                [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+                               [NotNull] IRenameDefaultCommand renameDefaultCommand,
                                [NotNull] IStartDefaultCommand startDefaultCommand,
                                [NotNull] IUpdateAllDefaultCommand updateAllDefaultCommand
     )
@@ -39,6 +39,7 @@ public class InitDefaultCommands : IInitDefaultCommands
         _deleteDefaultCommand = deleteDefaultCommand ?? throw new ArgumentNullException(nameof(deleteDefaultCommand));
         _gotToDefaultCommand = gotToDefaultCommand ?? throw new ArgumentNullException(nameof(gotToDefaultCommand));
         _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
+        _renameDefaultCommand = renameDefaultCommand ?? throw new ArgumentNullException(nameof(renameDefaultCommand));
         _startDefaultCommand = startDefaultCommand ?? throw new ArgumentNullException(nameof(startDefaultCommand));
         _updateAllDefaultCommand = updateAllDefaultCommand ?? throw new ArgumentNullException(nameof(updateAllDefaultCommand));
     }
@@ -68,6 +69,9 @@ public class InitDefaultCommands : IInitDefaultCommands
     public IReloadDefaultCommand ReloadDefaultCommand { get; set; }
 
     /// <inheritdoc />
+    public IRenameDefaultCommand RenameDefaultCommand { get; set; }
+
+    /// <inheritdoc />
     public IStartDefaultCommand StartDefaultCommand { get; set; }
 
     /// <inheritdoc />
@@ -85,6 +89,7 @@ public class InitDefaultCommands : IInitDefaultCommands
         OpenWithCodeDefaultCommand = _openWithCodeDefaultCommand;
         AddEditAnnotationDefaultCommand = _addEditAnnotationDefaultCommand;
         ReloadDefaultCommand = _reloadDefaultCommand;
+        RenameDefaultCommand = _renameDefaultCommand;
         DeleteDefaultCommand = _deleteDefaultCommand;
         GotToDefaultCommand = _gotToDefaultCommand;
         StartDefaultCommand = _startDefaultCommand;
@@ -94,5 +99,6 @@ public class InitDefaultCommands : IInitDefaultCommands
         CopyDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
         DeleteDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
         ReloadDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
+        RenameDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
     }
 }

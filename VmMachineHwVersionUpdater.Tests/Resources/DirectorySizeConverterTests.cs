@@ -1,13 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
-using AutoFixture.Idioms;
-using EvilBaschdi.Testing;
-using FluentAssertions;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Resources;
-using Xunit;
 
 namespace VmMachineHwVersionUpdater.Tests.Resources;
 

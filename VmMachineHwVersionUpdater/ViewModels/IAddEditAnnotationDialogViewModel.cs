@@ -12,7 +12,6 @@ public interface IAddEditAnnotationDialogViewModel
     /// <summary>
     ///     Binding
     /// </summary>
-
     // ReSharper disable once UnusedMember.Global
     public Machine SelectedMachine { get; set; }
 }

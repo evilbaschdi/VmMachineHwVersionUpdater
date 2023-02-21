@@ -1,13 +1,5 @@
-using System.IO;
-using System.Linq;
-using AutoFixture.Idioms;
-using AutoFixture.Xunit2;
-using EvilBaschdi.Testing;
-using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using NSubstitute;
 using VmMachineHwVersionUpdater.Core.Settings;
-using Xunit;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.Settings;
 

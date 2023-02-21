@@ -1,6 +1,5 @@
-﻿using EvilBaschdi.CoreExtended.Controls.About;
-using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
+﻿using EvilBaschdi.About.Core.Models;
+using EvilBaschdi.About.Wpf;
 using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;
@@ -19,10 +18,10 @@ public class ConfigureWindowsAndViewModels : IConfigureWindowsAndViewModels
         services.AddSingleton<AddEditAnnotationDialogViewModel>();
         services.AddTransient(typeof(AddEditAnnotationDialog));
 
-        services.AddSingleton<IAboutModel, AboutViewModel>();
+        services.AddSingleton<IAboutViewModel, AboutViewModel>();
         services.AddTransient(typeof(AboutWindow));
 
         services.AddSingleton<MainWindowViewModel>();
-        services.AddTransient(typeof(MainOnLoaded));
+        services.AddTransient(typeof(MainWindow));
     }
 }

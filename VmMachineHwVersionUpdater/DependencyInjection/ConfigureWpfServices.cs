@@ -1,8 +1,6 @@
-﻿using EvilBaschdi.Core.Internal;
-using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.AppHelpers;
-using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
+﻿using EvilBaschdi.Core.AppHelpers;
+using EvilBaschdi.Core.Internal;
+using EvilBaschdi.Core.Wpf;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;
@@ -18,6 +16,7 @@ public class ConfigureWpfServices : IConfigureWpfServices
             throw new ArgumentNullException(nameof(services));
         }
 
+        services.AddSingleton<IApplicationStyle>(new ApplicationStyle(true, true));
         services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();
         services.AddSingleton<ICopyDirectoryWithFilesWithProgress, CopyDirectoryWithFilesWithProgress>();
         services.AddSingleton<ICopyDirectoryWithProgress, CopyDirectoryWithProgress>();
@@ -27,7 +26,6 @@ public class ConfigureWpfServices : IConfigureWpfServices
         services.AddSingleton<IInitDefaultCommands, InitDefaultCommands>();
         services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
         services.AddSingleton<IProcessByPath, ProcessByPath>();
-        services.AddSingleton<IRoundCorners, RoundCorners>();
         services.AddSingleton<ITaskbarItemProgressState, CurrentTaskbarItemProgressState>();
     }
 }

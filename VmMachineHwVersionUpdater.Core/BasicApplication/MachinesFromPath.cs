@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.Core.Settings;

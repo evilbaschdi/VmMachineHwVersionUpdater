@@ -1,16 +1,15 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
-using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater;
 
 /// <inheritdoc cref="MetroWindow" />
 /// <summary>
-///     Interaction logic for MainOnLoaded.xaml
+///     Interaction logic for MainWindow.xaml
 /// </summary>
 // ReSharper disable once RedundantExtendsListEntry
-public partial class MainOnLoaded : MetroWindow, IOnLoaded
+public partial class MainWindow : IOnLoaded
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -18,7 +17,7 @@ public partial class MainOnLoaded : MetroWindow, IOnLoaded
     /// <summary>
     ///     Constructor
     /// </summary>
-    public MainOnLoaded()
+    public MainWindow()
     {
         InitializeComponent();
 

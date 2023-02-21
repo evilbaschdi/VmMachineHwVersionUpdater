@@ -1,8 +1,3 @@
-using System.Linq;
-using AutoFixture.Idioms;
-using EvilBaschdi.Testing;
-using Xunit;
-
 namespace VmMachineHwVersionUpdater.Core.Tests;
 
 public class DoubleExtensionsTests

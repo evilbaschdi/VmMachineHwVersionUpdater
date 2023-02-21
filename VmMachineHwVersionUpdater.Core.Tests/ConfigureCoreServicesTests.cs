@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using AutoFixture.Idioms;
-using EvilBaschdi.Core.Internal;
-using EvilBaschdi.Testing;
-using FluentAssertions;
+﻿using EvilBaschdi.Core.Internal;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
@@ -10,7 +6,6 @@ using VmMachineHwVersionUpdater.Core.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.Core.Settings;
-using Xunit;
 
 namespace VmMachineHwVersionUpdater.Core.Tests;
 

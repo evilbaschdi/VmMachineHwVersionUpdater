@@ -1,7 +1,5 @@
 ﻿using System.Windows;
-using EvilBaschdi.CoreExtended.AppHelpers;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using JetBrains.Annotations;
+using EvilBaschdi.Core.AppHelpers;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
@@ -24,11 +22,11 @@ public class ReloadDefaultCommand : IReloadDefaultCommand
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value
+    public DefaultCommand DefaultCommandValue
     {
         get
         {
-            async void Execute(object _) => await RunAsync();
+            async void Execute(object _) => await Value();
 
             return new()
                    {
@@ -38,7 +36,7 @@ public class ReloadDefaultCommand : IReloadDefaultCommand
     }
 
     /// <inheritdoc />
-    public async Task RunAsync()
+    public async Task Value()
     {
         var controller = await _instance.ShowProgressAsync(DialogCoordinatorContext, "Application is restarting", "Please wait...");
         controller.SetIndeterminate();

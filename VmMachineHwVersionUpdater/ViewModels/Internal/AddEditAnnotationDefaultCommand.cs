@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 
@@ -20,10 +17,10 @@ public class AddEditAnnotationDefaultCommand : IAddEditAnnotationDefaultCommand
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value => new()
-                                   {
-                                       Command = new RelayCommand(_ => Run())
-                                   };
+    public DefaultCommand DefaultCommandValue => new()
+                                                 {
+                                                     Command = new RelayCommand(_ => Run())
+                                                 };
 
     /// <inheritdoc />
     public void Run()
@@ -46,6 +43,6 @@ public class AddEditAnnotationDefaultCommand : IAddEditAnnotationDefaultCommand
             throw new ArgumentNullException(nameof(args));
         }
 
-        await _reloadDefaultCommand.RunAsync();
+        await _reloadDefaultCommand.Value();
     }
 }

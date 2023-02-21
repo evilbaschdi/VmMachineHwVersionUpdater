@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.CoreExtended.AppHelpers;
-using EvilBaschdi.CoreExtended.Mvvm.ViewModel.Command;
-using JetBrains.Annotations;
+﻿using EvilBaschdi.Core.AppHelpers;
 using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
@@ -23,10 +21,10 @@ public class StartDefaultCommand : IStartDefaultCommand
     }
 
     /// <inheritdoc />
-    public DefaultCommand Value => new()
-                                   {
-                                       Command = new RelayCommand(_ => Run())
-                                   };
+    public DefaultCommand DefaultCommandValue => new()
+                                                 {
+                                                     Command = new RelayCommand(_ => Run())
+                                                 };
 
     /// <inheritdoc />
     public void Run()

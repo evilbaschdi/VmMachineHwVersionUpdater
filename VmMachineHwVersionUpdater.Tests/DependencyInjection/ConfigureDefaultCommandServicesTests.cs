@@ -1,15 +1,11 @@
-﻿using System.Linq;
-using AutoFixture.Idioms;
-using EvilBaschdi.CoreExtended;
-using EvilBaschdi.CoreExtended.Controls.About;
-using EvilBaschdi.Testing;
-using FluentAssertions;
+﻿using EvilBaschdi.About.Core;
+using EvilBaschdi.Core;
+using EvilBaschdi.Core.Wpf;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
-using Xunit;
 
 namespace VmMachineHwVersionUpdater.Tests.DependencyInjection;
 
@@ -45,18 +41,20 @@ public class ConfigureDefaultCommandServicesTests
         sut.RunFor(dummyServiceCollection);
 
         // Assert
-        dummyServiceCollection.Should().HaveCount(13);
+        dummyServiceCollection.Should().HaveCount(15);
         dummyServiceCollection.Should().HaveService<IAboutContent>().WithImplementation<AboutContent>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IAboutWindowClickDefaultCommand>().WithImplementation<AboutWindowClickDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IAddEditAnnotation>().WithImplementation<AddEditAnnotation>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IAddEditAnnotationDefaultCommand>().WithImplementation<AddEditAnnotationDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IArchiveDefaultCommand>().WithImplementation<ArchiveDefaultCommand>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<IChangeDisplayName>().WithImplementation<ChangeDisplayName>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyDefaultCommand>().WithImplementation<CopyDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICurrentAssembly>().WithImplementation<CurrentAssembly>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IDeleteDefaultCommand>().WithImplementation<DeleteDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IGotToDefaultCommand>().WithImplementation<GotToDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IOpenWithCodeDefaultCommand>().WithImplementation<OpenWithCodeDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IReloadDefaultCommand>().WithImplementation<ReloadDefaultCommand>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<IRenameDefaultCommand>().WithImplementation<RenameDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IStartDefaultCommand>().WithImplementation<StartDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IUpdateAllDefaultCommand>().WithImplementation<UpdateAllDefaultCommand>().AsSingleton();
     }

@@ -1,13 +1,19 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using JetBrains.Annotations;
 
 namespace VmMachineHwVersionUpdater.Resources;
 
 /// <inheritdoc />
-public class GuestOsFormatter : IValueConverter
+[ValueConversion(typeof(string), typeof(string))]
+public sealed class GuestOsFormatter : IValueConverter
 {
+    /// <summary>
+    ///     Gets a static default instance of <see cref="GuestOsFormatter" />.
+    /// </summary>
+    // ReSharper disable once UnusedMember.Global
+    public static readonly GuestOsFormatter Instance = new();
+
     /// <summary>
     ///     Replaces "' " with "'\r\n"
     /// </summary>

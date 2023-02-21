@@ -1,14 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-using AutoFixture.Idioms;
-using AutoFixture.Xunit2;
-using EvilBaschdi.Testing;
-using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using NSubstitute;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Settings;
-using Xunit;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.BasicApplication;
 
@@ -68,7 +60,7 @@ public class GuestOsesInUseTests
 
         // Assert
         result.Should().HaveCount(2);
-        result[0].Should().Be("Ubuntu");
-        result[1].Should().Be("Windows");
+        result.Should().HaveElementAt(0, "Ubuntu");
+        result.Should().HaveElementAt(1, "Windows");
     }
 }

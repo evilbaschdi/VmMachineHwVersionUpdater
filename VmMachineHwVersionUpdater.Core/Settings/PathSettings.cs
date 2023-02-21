@@ -24,7 +24,6 @@ public class PathSettings : IPathSettings
     /// <summary>
     ///     Path of VMware machines
     /// </summary>
-
     public List<string> VmPool => _vmPools.Value.GetSection("VmPool").Get<List<string>>();
 
     /// <inheritdoc />

@@ -1,10 +1,5 @@
-﻿using System.Linq;
-using System.Windows.Data;
-using AutoFixture.Idioms;
-using EvilBaschdi.Testing;
-using FluentAssertions;
+﻿using System.Windows.Data;
 using VmMachineHwVersionUpdater.Resources;
-using Xunit;
 
 namespace VmMachineHwVersionUpdater.Tests.Resources;
 

@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core;
-
-namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc cref="IValue{T}" />
 public interface IGuestOsesInUse : IValueOfList<string>

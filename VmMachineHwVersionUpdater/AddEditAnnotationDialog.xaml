@@ -8,8 +8,7 @@
                  Height="450"
                  Icon="b.ico"
                  WindowStartupLocation="CenterOwner"
-                 ShowIconOnTitleBar="False"
-                 GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}">
+                 ShowIconOnTitleBar="False">
 
     <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
              Text="{Binding AnnotationText,Mode=TwoWay}" />
