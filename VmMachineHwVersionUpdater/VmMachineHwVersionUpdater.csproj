@@ -17,7 +17,7 @@
 		<Product>VM Toolbox</Product>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
-		<TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
+		<TargetFrameworks>net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
 		<UseWPF>true</UseWPF>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
@@ -31,8 +31,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.About.WPF" Version="2023.2.19.836-develop" />
-		<PackageReference Include="EvilBaschdi.Core.Wpf" Version="2023.2.20.2127-develop" />
+		<PackageReference Include="EvilBaschdi.About.WPF" Version="2023.3.9.1905-develop" />
+		<PackageReference Include="EvilBaschdi.Core.Wpf" Version="2023.3.9.1808-develop" />
 		<PackageReference Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
 		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
 		<PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />

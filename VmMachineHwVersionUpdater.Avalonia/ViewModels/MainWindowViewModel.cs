@@ -26,18 +26,21 @@ public class MainWindowViewModel : ViewModelBase
     {
         get
         {
-            var dataGridCollectionView = new DataGridCollectionView(_load.Value.VmDataGridItemsSource)
-                                         {
-                                             GroupDescriptions =
-                                             {
-                                                 new DataGridPathGroupDescription("Directory")
-                                             }
-                                         };
+            if (_load.Value.VmDataGridItemsSource != null)
+            {
+                //var dataGridCollectionView = new DataGridCollectionView(_load.Value.VmDataGridItemsSource)
+                //                             {
+                //                                 GroupDescriptions =
+                //                                 {
+                //                                     new DataGridPathGroupDescription("Directory")
+                //                                 }
+                //                             };
 
-            //IComparer comparer = new Comparer(CultureInfo.InvariantCulture);
-            //dataGridCollectionView.SortDescriptions.Add(new DataGridComparerSortDescription(comparer, ListSortDirection.Ascending));
+                //IComparer comparer = new Comparer(CultureInfo.InvariantCulture);
+                //dataGridCollectionView.SortDescriptions.Add(new DataGridComparerSortDescription(comparer, ListSortDirection.Ascending));
+            }
 
-            return dataGridCollectionView;
+            return new DataGridCollectionView(new List<Machine>());
         }
         // ReSharper disable once ValueParameterNotUsed
         set => _load.Value.VmDataGridItemsSource = new List<Machine>();

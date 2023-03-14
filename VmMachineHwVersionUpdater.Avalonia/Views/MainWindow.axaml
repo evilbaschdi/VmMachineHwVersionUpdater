@@ -7,7 +7,7 @@
         Icon="/Assets/b.ico"
         Title="VM Toolbox"
         TransparencyLevelHint="Mica"
-        Background="{x:Null}">
+        Background="Transparent">
 
     <Panel Name="RootPanel">
         <ExperimentalAcrylicBorder IsHitTestVisible="False">

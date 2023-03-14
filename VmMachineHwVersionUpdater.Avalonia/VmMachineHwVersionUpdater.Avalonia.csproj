@@ -11,7 +11,6 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>preview</LangVersion>
-		<Nullable>enable</Nullable>
 		<OutputType>WinExe</OutputType>
 		<PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
 		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
@@ -22,6 +21,7 @@
 		<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
 		<TrimMode>copyused</TrimMode>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -38,8 +38,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.About.Avalonia" Version="2023.2.19.836-develop" />
-		<PackageReference Include="EvilBaschdi.Core.Avalonia" Version="2023.2.19.751-develop" />
+		<PackageReference Include="EvilBaschdi.About.Avalonia" Version="2023.3.9.1905-develop" />
+		<PackageReference Include="EvilBaschdi.Core.Avalonia" Version="2023.3.9.1813-develop" />
 		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview5" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview5" />
