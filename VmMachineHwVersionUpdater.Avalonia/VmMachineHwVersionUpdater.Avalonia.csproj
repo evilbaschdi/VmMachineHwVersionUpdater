@@ -15,13 +15,13 @@
 		<PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
 		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
 		<Product>VM Toolbox</Product>
+		<PublishSingleFile>true</PublishSingleFile>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<!--<TargetFrameworks>net6.0;net7.0</TargetFrameworks>-->
 		<TargetFramework>net7.0</TargetFramework>
 		<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
 		<TrimMode>copyused</TrimMode>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -38,11 +38,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.About.Avalonia" Version="2023.3.9.1905-develop" />
-		<PackageReference Include="EvilBaschdi.Core.Avalonia" Version="2023.3.9.1813-develop" />
-		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview5" />
+		<PackageReference Include="EvilBaschdi.About.Avalonia" Version="2023.3.24.723-develop" />
+		<PackageReference Include="EvilBaschdi.Core.Avalonia" Version="2023.3.24.710-develop" />
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview6" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview5" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview6" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -50,9 +50,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="Assets\b.ico">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Resource>
+		<Resource Include="Assets\b.ico">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
 	</ItemGroup>
 
 	<ItemGroup>

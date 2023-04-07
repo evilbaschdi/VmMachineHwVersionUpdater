@@ -24,25 +24,13 @@ public sealed class GuestOsFormatter : IValueConverter
     /// <returns></returns>
     public object Convert(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
+        ArgumentNullException.ThrowIfNull(value);
 
-        if (targetType == null)
-        {
-            throw new ArgumentNullException(nameof(targetType));
-        }
+        ArgumentNullException.ThrowIfNull(targetType);
 
-        if (parameter == null)
-        {
-            throw new ArgumentNullException(nameof(parameter));
-        }
+        ArgumentNullException.ThrowIfNull(parameter);
 
-        if (culture == null)
-        {
-            throw new ArgumentNullException(nameof(culture));
-        }
+        ArgumentNullException.ThrowIfNull(culture);
 
         if (value == DependencyProperty.UnsetValue)
         {
@@ -64,25 +52,13 @@ public sealed class GuestOsFormatter : IValueConverter
     /// <returns></returns>
     public object ConvertBack(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
+        ArgumentNullException.ThrowIfNull(value);
 
-        if (targetType == null)
-        {
-            throw new ArgumentNullException(nameof(targetType));
-        }
+        ArgumentNullException.ThrowIfNull(targetType);
 
-        if (parameter == null)
-        {
-            throw new ArgumentNullException(nameof(parameter));
-        }
+        ArgumentNullException.ThrowIfNull(parameter);
 
-        if (culture == null)
-        {
-            throw new ArgumentNullException(nameof(culture));
-        }
+        ArgumentNullException.ThrowIfNull(culture);
 
         throw new NotImplementedException();
     }

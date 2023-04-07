@@ -16,10 +16,7 @@ public class UpdateMachineVersion : UpsertVmxLine<int>, IUpdateMachineVersion
     /// <inheritdoc />
     public void RunFor(List<Machine> machines, int newVersion)
     {
-        if (machines == null)
-        {
-            throw new ArgumentNullException(nameof(machines));
-        }
+        ArgumentNullException.ThrowIfNull(machines);
 
         Parallel.ForEach(machines.Where(m => m.IsEnabledForEditing), machine => { RunFor(machine.Path, newVersion); });
     }

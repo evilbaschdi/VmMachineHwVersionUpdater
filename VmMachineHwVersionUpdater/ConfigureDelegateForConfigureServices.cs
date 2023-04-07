@@ -12,15 +12,9 @@ public class ConfigureDelegateForConfigureServices : IConfigureDelegateForConfig
     /// <inheritdoc />
     public void RunFor([NotNull] HostBuilderContext _, IServiceCollection serviceCollection)
     {
-        if (_ == null)
-        {
-            throw new ArgumentNullException(nameof(_));
-        }
+        ArgumentNullException.ThrowIfNull(_);
 
-        if (serviceCollection == null)
-        {
-            throw new ArgumentNullException(nameof(serviceCollection));
-        }
+        ArgumentNullException.ThrowIfNull(serviceCollection);
 
         serviceCollection.AddSingleton(_ => DialogCoordinator.Instance);
 

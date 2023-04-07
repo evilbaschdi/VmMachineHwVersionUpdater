@@ -15,6 +15,7 @@
 		<PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
 		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
 		<Product>VM Toolbox</Product>
+		<PublishSingleFile>true</PublishSingleFile>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<RootNamespace>VmMachineHwVersionUpdater</RootNamespace>
 		<TargetFrameworks>net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
@@ -31,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.About.WPF" Version="2023.3.9.1905-develop" />
+		<PackageReference Include="EvilBaschdi.About.WPF" Version="2023.3.24.723-develop" />
 		<PackageReference Include="EvilBaschdi.Core.Wpf" Version="2023.3.9.1808-develop" />
 		<PackageReference Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
 		<PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
@@ -63,18 +64,6 @@
 
 	<ItemGroup>
 		<Content Include="about.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-
-		<Content Include="b_150.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-
-		<Content Include="b_70.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-
-		<Content Include="VmMachineHwVersionUpdater.VisualElementsManifest.xml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>

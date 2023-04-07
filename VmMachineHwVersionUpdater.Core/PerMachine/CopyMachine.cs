@@ -20,15 +20,9 @@ public class CopyMachine : ICopyMachine
     /// <inheritdoc />
     public async Task ValueFor([NotNull] Machine machine, [NotNull] string newDirectoryName)
     {
-        if (machine == null)
-        {
-            throw new ArgumentNullException(nameof(machine));
-        }
+        ArgumentNullException.ThrowIfNull(machine);
 
-        if (newDirectoryName == null)
-        {
-            throw new ArgumentNullException(nameof(newDirectoryName));
-        }
+        ArgumentNullException.ThrowIfNull(newDirectoryName);
 
         if (!File.Exists(machine.Path))
         {

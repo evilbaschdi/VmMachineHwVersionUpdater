@@ -33,15 +33,9 @@ public class AddEditAnnotationDefaultCommand : IAddEditAnnotationDefaultCommand
     /// <inheritdoc />
     public async void RunFor([NotNull] object sender, [NotNull] CancelEventArgs args)
     {
-        if (sender == null)
-        {
-            throw new ArgumentNullException(nameof(sender));
-        }
+        ArgumentNullException.ThrowIfNull(sender);
 
-        if (args == null)
-        {
-            throw new ArgumentNullException(nameof(args));
-        }
+        ArgumentNullException.ThrowIfNull(args);
 
         await _reloadDefaultCommand.Value();
     }

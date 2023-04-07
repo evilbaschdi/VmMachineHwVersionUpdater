@@ -9,10 +9,7 @@ public class SetMachineIsEnabledForEditing : ISetMachineIsEnabledForEditing
     /// <inheritdoc />
     public void RunFor([NotNull] Machine machine)
     {
-        if (machine == null)
-        {
-            throw new ArgumentNullException(nameof(machine));
-        }
+        ArgumentNullException.ThrowIfNull(machine);
 
         if (machine.MachineState == MachineState.Paused ||
             !string.IsNullOrWhiteSpace(machine.EncryptionKeySafe)

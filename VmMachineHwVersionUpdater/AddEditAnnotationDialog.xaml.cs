@@ -27,15 +27,9 @@ public partial class AddEditAnnotationDialog : MetroWindow, IOnLoaded
     /// <inheritdoc />
     public void RunFor(object sender, RoutedEventArgs e)
     {
-        if (sender == null)
-        {
-            throw new ArgumentNullException(nameof(sender));
-        }
+        ArgumentNullException.ThrowIfNull(sender);
 
-        if (e == null)
-        {
-            throw new ArgumentNullException(nameof(e));
-        }
+        ArgumentNullException.ThrowIfNull(e);
 
         DataContext = ActivatorUtilities.GetServiceOrCreateInstance(_serviceProvider, typeof(AddEditAnnotationDialogViewModel));
     }

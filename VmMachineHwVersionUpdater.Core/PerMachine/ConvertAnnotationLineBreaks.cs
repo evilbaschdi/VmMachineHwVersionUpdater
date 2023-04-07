@@ -10,10 +10,7 @@ public class ConvertAnnotationLineBreaks : IConvertAnnotationLineBreaks
     /// <returns></returns>
     public string ValueFor([NotNull] string value)
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException(nameof(value));
-        }
+        ArgumentNullException.ThrowIfNull(value);
 
         var r = value.Replace("|0D", "\r");
         var n = r.Replace("|0A", "\n");

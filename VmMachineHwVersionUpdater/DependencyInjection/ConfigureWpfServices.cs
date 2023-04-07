@@ -11,10 +11,7 @@ public class ConfigureWpfServices : IConfigureWpfServices
     /// <inheritdoc />
     public void RunFor([NotNull] IServiceCollection services)
     {
-        if (services == null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddSingleton<IApplicationStyle>(new ApplicationStyle(true, true));
         services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();

@@ -10,10 +10,7 @@ public class ConfigureWindowsAndViewModels : IConfigureWindowsAndViewModels
     /// <inheritdoc />
     public void RunFor([NotNull] IServiceCollection services)
     {
-        if (services == null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddSingleton<AddEditAnnotationDialogViewModel>();
         services.AddTransient(typeof(AddEditAnnotationDialog));

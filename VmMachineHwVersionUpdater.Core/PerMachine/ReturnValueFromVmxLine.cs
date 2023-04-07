@@ -8,15 +8,9 @@ public class ReturnValueFromVmxLine : IReturnValueFromVmxLine
     /// <inheritdoc />
     public string ValueFor([NotNull] string line, [NotNull] string key)
     {
-        if (line == null)
-        {
-            throw new ArgumentNullException(nameof(line));
-        }
+        ArgumentNullException.ThrowIfNull(line);
 
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
+        ArgumentNullException.ThrowIfNull(key);
 
         var value = line.Replace('"', ' ').Trim();
         value = Regex.Replace(value, $"{key} =", "", RegexOptions.IgnoreCase).Trim();

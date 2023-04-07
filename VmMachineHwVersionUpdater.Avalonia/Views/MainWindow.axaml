@@ -1,21 +1,12 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Width="1000" Height="700"
-        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow"
-        Icon="/Assets/b.ico"
-        Title="VM Toolbox"
-        TransparencyLevelHint="Mica"
-        Background="Transparent">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Width="1000" Height="700" x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow" Icon="/Assets/b.ico" Title="VM Toolbox" TransparencyLevelHint="Mica" Background="Transparent">
 
     <Panel Name="RootPanel">
         <ExperimentalAcrylicBorder IsHitTestVisible="False">
             <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial
-                    TintColor="Black"
-                    TintOpacity="1"
-                    MaterialOpacity="0.9" />
+                <ExperimentalAcrylicMaterial TintColor="Black" TintOpacity="1" MaterialOpacity="0.9" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
 
@@ -26,8 +17,8 @@
                 <TextBlock Text=" | "/>
                 <ComboBox HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 <TextBlock Text=" | "/>
-                <NumericUpDown Value="{Binding UpdateAllHwVersionValue}" HorizontalAlignment="Center" VerticalAlignment="Top"  />
-                <TextBlock Text=" | "/>
+                <!--<NumericUpDown Value="{Binding UpdateAllHwVersionValue}" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <TextBlock Text=" | "/>-->
                 <Button Name="About" Content="ℹ️" HorizontalAlignment="Center" VerticalAlignment="Top" />
             </StackPanel>
         </Panel>
@@ -35,35 +26,40 @@
         <Panel Name="MainPanel" Margin="0,0,0,0">
             <Panel>
                 <Panel Name="ContentPanel" Margin="0,0,0,0">
-                    <DataGrid Name="MachineGrid" Margin="7"
-                              Items="{Binding DataGridCollectionViewMachines}"
-                              SelectionMode="Single" ColumnWidth="*"
-                              GridLinesVisibility="Horizontal"
-                              AutoGenerateColumns="False"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              HorizontalAlignment="Center" VerticalAlignment="Top"
-                              VerticalScrollBarVisibility="Auto">
+                    <DataGrid Name="MachineGrid" Margin="7" Items="{Binding DataGridCollectionViewMachines}" SelectionMode="Single" ColumnWidth="*" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="50" FontSize="12" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Play" Width="50" FontSize="12" IsReadOnly="False"/>
-                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" Width="*" FontSize="12" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" Width="150" FontSize="12" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="200" FontSize="12" IsReadOnly="True"/>
-                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" Width="100" IsReadOnly="False" />
-                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" Width="160" IsReadOnly="False"/>
-                            <DataGridTemplateColumn Header="Version" Width="100" IsReadOnly="False">
+                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True"/>
+                            <DataGridTemplateColumn Header="Play" Width="60" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <NumericUpDown Value="{Binding HwVersion}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <Button Content="▶️" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="60" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <NumericUpDown Value="{Binding HwVersion}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120"  />
+                                        <Button Command="{Binding HwVersion}" HorizontalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" Width="*" FontSize="12" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" Width="150" FontSize="12" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="200" FontSize="12" IsReadOnly="True"/>
+                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" Width="100" IsReadOnly="False" />
+                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" Width="160" IsReadOnly="False"/>
+                            <DataGridTemplateColumn Header="Version" Width="120" IsReadOnly="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                        <NumericUpDown Value="{Binding HwVersion}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                        <NumericUpDown Value="{Binding HwVersion}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>

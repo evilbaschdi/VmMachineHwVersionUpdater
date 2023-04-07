@@ -9,15 +9,9 @@ public class SetDisplayName : ISetDisplayName
     /// <inheritdoc />
     public void RunFor([NotNull] RawMachine rawMachine, [NotNull] Machine machine)
     {
-        if (rawMachine == null)
-        {
-            throw new ArgumentNullException(nameof(rawMachine));
-        }
+        ArgumentNullException.ThrowIfNull(rawMachine);
 
-        if (machine == null)
-        {
-            throw new ArgumentNullException(nameof(machine));
-        }
+        ArgumentNullException.ThrowIfNull(machine);
 
         var extendedInformationBuilder = new StringBuilder();
         var extendedInformationToolTipBuilder = new StringBuilder();

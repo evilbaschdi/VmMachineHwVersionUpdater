@@ -6,10 +6,7 @@ public class DeleteMachine : IDeleteMachine
     /// <inheritdoc />
     public void RunFor([NotNull] string path)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+        ArgumentNullException.ThrowIfNull(path);
 
         if (!File.Exists(path))
         {
