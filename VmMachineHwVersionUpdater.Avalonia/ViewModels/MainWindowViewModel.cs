@@ -50,16 +50,3 @@ public class MainWindowViewModel : ViewModelBase
         set => _load.Value.VmDataGridItemsSource = new List<Machine>();
     }
 }
-
-/// <inheritdoc />
-public class MachineComparer : IComparer
-{
-    /// <inheritdoc />
-    public int Compare(object x, object y)
-    {
-        var xMachine = (Machine)x;
-        var yMachine = (Machine)y;
-
-        return string.Compare(xMachine?.DisplayName, yMachine?.DisplayName, StringComparison.OrdinalIgnoreCase);
-    }
-}
