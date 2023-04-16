@@ -18,12 +18,14 @@
         <Panel Name="HeaderPanel" IsVisible="False" Margin="7">
             <Panel Margin="0">
                 <Button VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" Command="{Binding AboutWindowCommand}">
-                    <ContentControl>
-                        <Image Source="/Assets/b.ico" Width="20" Height="20" />
-                    </ContentControl>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl>
+                            <Image Source="/Assets/b.ico" Width="20" Height="20" />
+                        </ContentControl>
+                        <TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,0,0,0"/>
+                    </StackPanel>
                 </Button>
             </Panel>
-            <TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,7,7,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <!-- Search Filter -->
                 <TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}" Text="{Binding SearchFilterText,Mode=TwoWay}"
@@ -48,7 +50,8 @@
             <Panel>
                 <Panel Name="ContentPanel" Margin="0,0,0,0">
                     <DataGrid Name="MachineGrid" Margin="7" Items="{Binding DataGridCollectionViewMachines}" SelectionMode="Single" ColumnWidth="*" GridLinesVisibility="Horizontal" AutoGenerateColumns="False"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+                              ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto"
+                              SelectedItem="{Binding Path=SelectedMachine}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True"/>
                             <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True"/>
@@ -60,7 +63,7 @@
                                         <!-- ReSharper disable once Xaml.StyleClassNotFound -->
                                         <Button Content="▶️" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="60" Classes="accent"
                                                 Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
-                                                CommandParameter="{Binding}" />
+                                                />
                                         <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
                                         <!-- ReSharper restore Xaml.PossibleNullReferenceException -->
                                     </DataTemplate>
@@ -97,7 +100,59 @@
                             <Style Selector="DataGridColumnHeader">
                                 <Setter Property="Background" Value="Transparent" />
                             </Style>
+                            <Style Selector="DataGridRowGroupHeader">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
+                          
                         </DataGrid.Styles>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+								<!-- Start -->
+                                <MenuItem Header="Start machine..." Command="{Binding StartCommand}">
+                                   
+                                </MenuItem>
+
+                                <!-- Rename -->
+                                <MenuItem Header="Rename..." Command="{Binding RenameCommand}">
+                                   
+                                </MenuItem>
+
+                                <!-- Add / Edit Annotation -->
+                                <MenuItem Header="Add / Edit Annotation..." Command="{Binding AddEditAnnotationCommand}">
+                                   
+                                </MenuItem>
+
+								<!-- Open with Code -->
+
+                                <!-- Open with Code -->
+                                <MenuItem Header="Open with Code..." Command="{Binding OpenWithCodeCommand}">
+                                   
+                                </MenuItem>
+
+                                <!-- Go to -->
+                                <MenuItem Header="Go to path..." Command="{Binding GoToCommand}">
+                                   
+                                </MenuItem>
+
+                                <Separator />
+
+                                <!-- Copy -->
+                                <MenuItem Header="Copy machine..." Command="{Binding CopyCommand}">
+                                   
+                                </MenuItem>
+
+                                <!-- Archive -->
+                                <MenuItem Header="Archive machine..." Command="{Binding ArchiveCommand}">
+                                   
+                                </MenuItem>
+
+                                <!-- Delete -->
+                                <MenuItem Header="Delete machine..." Command="{Binding DeleteCommand}">
+                                   
+
+                                </MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                     </DataGrid>
                 </Panel>
             </Panel>

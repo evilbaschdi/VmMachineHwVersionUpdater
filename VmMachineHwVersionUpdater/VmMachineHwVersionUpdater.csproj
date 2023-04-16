@@ -73,6 +73,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\VmMachineHwVersionUpdater.Avalonia\VmMachineHwVersionUpdater.Avalonia.csproj" />
 		<ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
 	</ItemGroup>
 

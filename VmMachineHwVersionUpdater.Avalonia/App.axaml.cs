@@ -26,10 +26,12 @@ public class App : Application
             IServiceCollection serviceCollection = new ServiceCollection();
             IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
             IConfigureAvaloniaServices configureAvaloniaServices = new ConfigureAvaloniaServices();
+            IConfigureReactiveCommandServices configureReactiveCommandServices = new ConfigureReactiveCommandServices();
             IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
 
             configureCoreServices.RunFor(serviceCollection);
             configureAvaloniaServices.RunFor(serviceCollection);
+            configureReactiveCommandServices.RunFor(serviceCollection);
             configureWindowsAndViewModels.RunFor(serviceCollection);
 
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();

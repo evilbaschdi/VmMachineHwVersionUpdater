@@ -1,9 +1,8 @@
 ﻿using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Core.BasicApplication
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+
+/// <inheritdoc />
+public interface IFilterItemSource : IValueFor<(Machine Machine, string SearchOsText, string SearchFilterText), bool>
 {
-    /// <inheritdoc />
-    public interface IFilterItemSource : IValueFor<(Machine Machine, string SearchOsText, string SearchFilterText), bool>
-    {
-    }
 }

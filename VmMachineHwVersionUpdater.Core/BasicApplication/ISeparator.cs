@@ -1,7 +1,6 @@
-﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication
+﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+
+/// <inheritdoc />
+public interface ISeparator : IObject
 {
-    /// <inheritdoc />
-    public interface ISeparator : IObject
-    {
-    }
 }

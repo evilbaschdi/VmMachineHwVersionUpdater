@@ -1,7 +1,4 @@
-﻿using EvilBaschdi.About.Core;
-using EvilBaschdi.Core.Wpf;
-using VmMachineHwVersionUpdater.Core.PerMachine;
-using VmMachineHwVersionUpdater.ViewModels.Internal;
+﻿using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;
 
@@ -16,15 +13,12 @@ public class ConfigureDefaultCommandServices : IConfigureDefaultCommandServices
             throw new ArgumentNullException(nameof(services));
         }
 
-        services.AddSingleton<IAboutContent, AboutContent>();
-        services.AddSingleton<IApplyMicaBrush, ApplyMicaBrush>();
+        services.AddSingleton<IInitDefaultCommands, InitDefaultCommands>();
+
         services.AddSingleton<IAboutWindowClickDefaultCommand, AboutWindowClickDefaultCommand>();
-        services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
         services.AddSingleton<IAddEditAnnotationDefaultCommand, AddEditAnnotationDefaultCommand>();
         services.AddSingleton<IArchiveDefaultCommand, ArchiveDefaultCommand>();
-        services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
         services.AddSingleton<ICopyDefaultCommand, CopyDefaultCommand>();
-        services.AddSingleton<ICurrentAssembly, CurrentAssembly>();
         services.AddSingleton<IDeleteDefaultCommand, DeleteDefaultCommand>();
         services.AddSingleton<IGotToDefaultCommand, GotToDefaultCommand>();
         services.AddSingleton<IOpenWithCodeDefaultCommand, OpenWithCodeDefaultCommand>();

@@ -4,10 +4,10 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls.ApplicationLifetimes;
 using EvilBaschdi.About.Avalonia;
-using EvilBaschdi.Core.AppHelpers;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
+using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
 
@@ -15,51 +15,68 @@ using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
-/// <inheritdoc />
-public class MainWindowViewModel : ViewModelBase
+/// <inheritdoc cref="IMainWindowViewModel" />
+/// <inheritdoc cref="ViewModelBase" />
+public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 {
     private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView;
     private readonly ICurrentItem _currentItem;
     private readonly IFilterDataGridCollectionView _filterDataGridCollectionView;
+    private readonly IInitReactiveCommands _initReactiveCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
-    private readonly IProcessByPath _processByPath;
+
     private readonly IServiceProvider _serviceProvider;
     private string _searchFilterText = string.Empty;
     private string _searchOsText = string.Empty;
+
+    #region Constructor
 
     /// <summary>
     ///     Constructor
     /// </summary>
     /// <param name="load"></param>
     /// <param name="currentItem"></param>
-    /// <param name="processByPath"></param>
     /// <param name="loadSearchOsItems"></param>
     /// <param name="configureDataGridCollectionView"></param>
     /// <param name="filterDataGridCollectionView"></param>
+    /// <param name="initReactiveCommands"></param>
     /// <param name="serviceProvider"></param>
     /// <exception cref="ArgumentNullException"></exception>
     public MainWindowViewModel([NotNull] ILoad load,
                                [NotNull] ICurrentItem currentItem,
-                               [NotNull] IProcessByPath processByPath,
                                [NotNull] ILoadSearchOsItems loadSearchOsItems,
                                [NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
                                [NotNull] IFilterDataGridCollectionView filterDataGridCollectionView,
+                               [NotNull] IInitReactiveCommands initReactiveCommands,
                                [NotNull] IServiceProvider serviceProvider)
 
     {
         _load = load ?? throw new ArgumentNullException(nameof(load));
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
+
         _loadSearchOsItems = loadSearchOsItems ?? throw new ArgumentNullException(nameof(loadSearchOsItems));
         _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
         _filterDataGridCollectionView = filterDataGridCollectionView ?? throw new ArgumentNullException(nameof(filterDataGridCollectionView));
+        _initReactiveCommands = initReactiveCommands ?? throw new ArgumentNullException(nameof(initReactiveCommands));
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
-        StartCommand = ReactiveCommand.Create<Machine>(StartCommandDummy);
         AboutWindowCommand = ReactiveCommand.Create(AboutWindowCommandDummy);
         UpdateAllCommand = ReactiveCommand.Create(UpdateAllCommandDummy);
+
+        Run();
     }
+
+    /// <inheritdoc />
+    public void Run()
+    {
+        _initReactiveCommands.Run();
+
+        OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.ReactiveCommandValue;
+        StartCommand = _initReactiveCommands.StartReactiveCommand.ReactiveCommandValue;
+    }
+
+    #endregion Constructor
 
     /// <summary>
     ///     Binding
@@ -85,12 +102,6 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private void StartCommandDummy(Machine currentItem)
-    {
-        _currentItem.Value = currentItem;
-        _processByPath.RunFor(_currentItem.Value.Path);
-    }
-
     #region Commands
 
     /// <summary>
@@ -103,7 +114,19 @@ public class MainWindowViewModel : ViewModelBase
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Machine, Unit> StartCommand { get; }
+    public ReactiveCommand<Unit, Unit> StartCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public ReactiveCommand<Unit, Unit> OpenWithCodeCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public Machine SelectedMachine
+    {
+        get => _currentItem.Value;
+        set => _currentItem.Value = value;
+    }
 
     #endregion Commands
 

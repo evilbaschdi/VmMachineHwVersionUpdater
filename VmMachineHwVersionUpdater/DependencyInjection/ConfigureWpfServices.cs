@@ -1,5 +1,7 @@
-﻿using EvilBaschdi.Core.Wpf;
+﻿using EvilBaschdi.About.Core;
+using EvilBaschdi.Core.Wpf;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
+using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;
@@ -14,11 +16,14 @@ public class ConfigureWpfServices : IConfigureWpfServices
 
         services.AddSingleton<IApplicationStyle>(new ApplicationStyle(true, true));
         services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();
-
         services.AddSingleton<ICurrentItemSource, CurrentItemSource>();
         services.AddSingleton<IFilterListCollectionView, FilterListCollectionView>();
-        services.AddSingleton<IInitDefaultCommands, InitDefaultCommands>();
         services.AddTransient<ISeparator, SystemWindowsControlsSeparator>();
         services.AddSingleton<ITaskbarItemProgressState, CurrentTaskbarItemProgressState>();
+        services.AddSingleton<IAboutContent, AboutContent>();
+        services.AddSingleton<IApplyMicaBrush, ApplyMicaBrush>();
+        services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
+        services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
+        services.AddSingleton<ICurrentAssembly, CurrentAssembly>();
     }
 }

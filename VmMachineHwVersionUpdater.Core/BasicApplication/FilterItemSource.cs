@@ -1,42 +1,41 @@
 ﻿using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.Core.BasicApplication
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+
+/// <inheritdoc />
+public class FilterItemSource : IFilterItemSource
 {
     /// <inheritdoc />
-    public class FilterItemSource : IFilterItemSource
+    public bool ValueFor((Machine Machine, string SearchOsText, string SearchFilterText) value)
     {
-        /// <inheritdoc />
-        public bool ValueFor((Machine Machine, string SearchOsText, string SearchFilterText) value)
+        var (machine, searchOsText, searchFilterText) = value;
+
+        var filterGuestOs = true;
+        bool filterDisplayNameOrAnnotation;
+
+        if (!string.IsNullOrWhiteSpace(searchOsText) && searchOsText != "(no filter)")
         {
-            var (machine, searchOsText, searchFilterText) = value;
-
-            var filterGuestOs = true;
-            bool filterDisplayNameOrAnnotation;
-
-            if (!string.IsNullOrWhiteSpace(searchOsText) && searchOsText != "(no filter)")
-            {
-                filterGuestOs = machine.GuestOs.StartsWith(searchOsText, StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            if (string.IsNullOrWhiteSpace(searchFilterText))
-            {
-                return filterGuestOs;
-            }
-
-            if (searchFilterText.StartsWith('*') && searchFilterText.EndsWith('*'))
-            {
-                var searchFilterTextTrimmed = searchFilterText.Trim('*', '\'');
-                var searchFilterTextCharArray = searchFilterTextTrimmed.ToCharArray();
-                filterDisplayNameOrAnnotation = searchFilterTextCharArray.All(c => machine.DisplayName.Contains(c, StringComparison.InvariantCultureIgnoreCase)) ||
-                                                searchFilterTextCharArray.All(c => machine.Annotation.Contains(c, StringComparison.InvariantCultureIgnoreCase));
-            }
-            else
-            {
-                filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase)
-                                                || machine.Annotation.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            return filterDisplayNameOrAnnotation && filterGuestOs;
+            filterGuestOs = machine.GuestOs.StartsWith(searchOsText, StringComparison.InvariantCultureIgnoreCase);
         }
+
+        if (string.IsNullOrWhiteSpace(searchFilterText))
+        {
+            return filterGuestOs;
+        }
+
+        if (searchFilterText.StartsWith('*') && searchFilterText.EndsWith('*'))
+        {
+            var searchFilterTextTrimmed = searchFilterText.Trim('*', '\'');
+            var searchFilterTextCharArray = searchFilterTextTrimmed.ToCharArray();
+            filterDisplayNameOrAnnotation = searchFilterTextCharArray.All(c => machine.DisplayName.Contains(c, StringComparison.InvariantCultureIgnoreCase)) ||
+                                            searchFilterTextCharArray.All(c => machine.Annotation.Contains(c, StringComparison.InvariantCultureIgnoreCase));
+        }
+        else
+        {
+            filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase)
+                                            || machine.Annotation.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        return filterDisplayNameOrAnnotation && filterGuestOs;
     }
 }
