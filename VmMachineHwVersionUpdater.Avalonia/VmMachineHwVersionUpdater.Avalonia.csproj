@@ -12,22 +12,15 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>preview</LangVersion>
 		<OutputType>WinExe</OutputType>
-		<PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
 		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
 		<Product>VM Toolbox</Product>
 		<PublishSingleFile>true</PublishSingleFile>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-		<!--<TargetFrameworks>net6.0;net7.0</TargetFrameworks>-->
 		<TargetFramework>net7.0</TargetFramework>
 		<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
 		<TrimMode>copyused</TrimMode>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<Folder Include="Models\" />
-		<AvaloniaResource Include="Assets\**" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<!--This helps with theme dll-s trimming.
@@ -38,11 +31,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.About.Avalonia" Version="2023.3.24.723-develop" />
-		<PackageReference Include="EvilBaschdi.Core.Avalonia" Version="2023.3.24.710-develop" />
+		<PackageReference Include="EvilBaschdi.About.Avalonia" Version="2023.4.10.1419-develop" />
+		<PackageReference Include="EvilBaschdi.Core.Avalonia" Version="2023.4.10.1354-develop" />
 		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview6" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -50,15 +54,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Resource Include="Assets\b.ico">
+		<AvaloniaResource Include="Assets\**" />
+		<Content Include="Assets\about.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Resource>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="**\*.cs">
-			<DependentUpon>$([System.String]::Copy(I%(Filename).cs))</DependentUpon>
-		</Compile>
+		<Resource Include="Assets\b.ico">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
 	</ItemGroup>
 
 </Project>

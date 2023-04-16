@@ -4,14 +4,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Width="1000" Height="700" x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow" Icon="/Assets/b.ico" Title="VM Toolbox" TransparencyLevelHint="Mica" Background="Transparent">
 
     <Panel Name="RootPanel">
-        <ExperimentalAcrylicBorder IsHitTestVisible="False">
+        <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
             <ExperimentalAcrylicBorder.Material>
                 <ExperimentalAcrylicMaterial TintColor="Black" TintOpacity="1" MaterialOpacity="0.9" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
 
         <Panel Name="HeaderPanel" IsVisible="False" Margin="7">
-            <TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Panel Margin="7">
+                <Image Source="/Assets/b.ico" Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Tapped="LogoOnTapped"/>
+            </Panel>
+            <TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,7,7,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" />
                 <TextBlock Text=" | "/>
@@ -34,7 +37,8 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <Button Content="▶️" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="60" />
+                                        <!-- ReSharper disable once Xaml.StyleClassNotFound -->
+                                        <Button Content="▶️" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="60"  Classes="accent"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>

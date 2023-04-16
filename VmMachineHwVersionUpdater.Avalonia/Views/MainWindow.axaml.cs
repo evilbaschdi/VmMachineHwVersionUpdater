@@ -23,7 +23,7 @@ public partial class MainWindow : Window
     private void Load()
     {
         IHandleOsDependentTitleBar handleOsDependentTitleBar = new HandleOsDependentTitleBar();
-        handleOsDependentTitleBar.RunFor((this, HeaderPanel, MainPanel));
+        handleOsDependentTitleBar.RunFor((this, HeaderPanel, MainPanel, AcrylicBorder));
     }
 
     // ReSharper disable UnusedParameter.Local
