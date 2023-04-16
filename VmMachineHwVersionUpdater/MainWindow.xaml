@@ -90,8 +90,8 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <!-- Play -->
-            <DataGridTemplateColumn Header="Play" IsReadOnly="False" Width="50">
+            <!-- Start -->
+            <DataGridTemplateColumn Header="Start" IsReadOnly="False" Width="50">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <DataTemplate.Resources>

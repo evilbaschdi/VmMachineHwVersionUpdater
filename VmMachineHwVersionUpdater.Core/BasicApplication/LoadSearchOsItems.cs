@@ -16,7 +16,9 @@ public class LoadSearchOsItems : CachedWritableValue<ObservableCollection<object
     /// <param name="load"></param>
     /// <param name="guestOsesInUse"></param>
     /// <param name="separator"></param>
-    public LoadSearchOsItems([NotNull] ILoad load, [NotNull] IGuestOsesInUse guestOsesInUse, [NotNull] ISeparator separator)
+    public LoadSearchOsItems([NotNull] ILoad load,
+                             [NotNull] IGuestOsesInUse guestOsesInUse,
+                             [NotNull] ISeparator separator)
     {
         _load = load ?? throw new ArgumentNullException(nameof(load));
         _guestOsesInUse = guestOsesInUse ?? throw new ArgumentNullException(nameof(guestOsesInUse));
@@ -29,10 +31,9 @@ public class LoadSearchOsItems : CachedWritableValue<ObservableCollection<object
         get
         {
             _searchOsItemCollection.Clear();
-            _load.Value.SearchOsItems?.ForEach(x => _searchOsItemCollection.Add(x));
-            //_searchOsItemCollection.Add(new Separator());
+            _load.Value.SearchOsItems?.ForEach(_searchOsItemCollection.Add);
             _searchOsItemCollection.Add(_separator.Value);
-            _guestOsesInUse.Value?.ForEach(x => _searchOsItemCollection.Add(x));
+            _guestOsesInUse.Value?.ForEach(_searchOsItemCollection.Add);
 
             return _searchOsItemCollection;
         }

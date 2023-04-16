@@ -5,15 +5,19 @@ namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 /// <inheritdoc />
 public class GuestOsesInUse : IGuestOsesInUse
 {
-    private readonly IGuestOsStringMapping _guestOsStringMapping;
+    [NotNull] private readonly IGuestOsStringMapping _guestOsStringMapping;
+    [NotNull] private readonly ILoad _load;
 
     /// <summary>
     ///     Constructor
     /// </summary>
     /// <param name="guestOsStringMapping"></param>
-    public GuestOsesInUse(IGuestOsStringMapping guestOsStringMapping)
+    /// <param name="load"></param>
+    public GuestOsesInUse([NotNull] IGuestOsStringMapping guestOsStringMapping,
+                          [NotNull] ILoad load)
     {
         _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
+        _load = load ?? throw new ArgumentNullException(nameof(load));
     }
 
     /// <inheritdoc />
@@ -23,17 +27,19 @@ public class GuestOsesInUse : IGuestOsesInUse
         {
             var list = new List<string>();
             var configuration = _guestOsStringMapping.Value;
+            var searchOsItems = _load.Value.SearchOsItems;
 
             foreach (var configurationSection in configuration.GetChildren())
             {
-                if (configurationSection.Value == null)
+                var configurationSectionValue = configurationSection.Value;
+                if (configurationSectionValue == null || !searchOsItems.Contains(configurationSectionValue, StringComparer.OrdinalIgnoreCase))
                 {
                     continue;
                 }
 
-                var os = configurationSection.Value.Contains(' ') ? configurationSection.Value.Split(' ')[0] : configurationSection.Value;
+                var os = configurationSectionValue.Contains(' ') ? configurationSectionValue.Split(' ')[0] : configurationSectionValue;
 
-                if (!list.Contains(os, StringComparer.InvariantCultureIgnoreCase))
+                if (!list.Contains(os, StringComparer.OrdinalIgnoreCase))
                 {
                     list.Add(os);
                 }

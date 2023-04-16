@@ -52,7 +52,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True"/>
                             <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True"/>
-                            <DataGridTemplateColumn Header="Play" Width="60" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable Xaml.PossibleNullReferenceException -->
