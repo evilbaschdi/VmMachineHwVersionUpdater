@@ -4,30 +4,30 @@ using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal;
 
-public class FilterItemSourceTests
+public class FilterListCollectionViewTests
 {
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(FilterItemSource).GetConstructors());
+        assertion.Verify(typeof(FilterListCollectionView).GetConstructors());
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_ReturnsInterfaceName(FilterItemSource sut)
+    public void Constructor_ReturnsInterfaceName(FilterListCollectionView sut)
     {
-        sut.Should().BeAssignableTo<IFilterItemSource>();
+        sut.Should().BeAssignableTo<IFilterListCollectionView>();
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(FilterItemSource).GetMethods().Where(method => !method.IsAbstract));
+        assertion.Verify(typeof(FilterListCollectionView).GetMethods().Where(method => !method.IsAbstract));
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_ForSearchOsText_ReturnsMachinesByFilterOnly(
         [Frozen] IConfigureListCollectionView configureListCollectionView,
-        FilterItemSource sut,
+        FilterListCollectionView sut,
         Machine machine0,
         Machine machine1
     )
@@ -38,7 +38,7 @@ public class FilterItemSourceTests
         configureListCollectionView.Value.Returns(new ListCollectionView(new List<Machine> { machine0, machine1 }));
 
         // Act
-        sut.RunFor("Windows", string.Empty);
+        sut.RunFor(("Windows", string.Empty));
 
         // Assert
         configureListCollectionView.Value.Cast<Machine>().Should().HaveCount(1);
@@ -48,7 +48,7 @@ public class FilterItemSourceTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_ForSearchFilterText_ReturnsMachinesByFilterOnly(
         [Frozen] IConfigureListCollectionView configureListCollectionView,
-        FilterItemSource sut,
+        FilterListCollectionView sut,
         Machine machine0,
         Machine machine1
     )
@@ -59,7 +59,7 @@ public class FilterItemSourceTests
         configureListCollectionView.Value.Returns(new ListCollectionView(new List<Machine> { machine0, machine1 }));
 
         // Act
-        sut.RunFor(string.Empty, "x64");
+        sut.RunFor((string.Empty, "x64"));
 
         // Assert
         configureListCollectionView.Value.Cast<Machine>().Should().HaveCount(2);
@@ -70,7 +70,7 @@ public class FilterItemSourceTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_ForSearchOsTextAndSearchFilterText_ReturnsMachinesByFilterOnly(
         [Frozen] IConfigureListCollectionView configureListCollectionView,
-        FilterItemSource sut,
+        FilterListCollectionView sut,
         Machine machine0,
         Machine machine1
     )
@@ -83,7 +83,7 @@ public class FilterItemSourceTests
         configureListCollectionView.Value.Returns(new ListCollectionView(new List<Machine> { machine0, machine1 }));
 
         // Act
-        sut.RunFor("Windows 10 x64", "dev");
+        sut.RunFor(("Windows 10 x64", "dev"));
 
         // Assert
         configureListCollectionView.Value.Cast<Machine>().Should().HaveCount(1);

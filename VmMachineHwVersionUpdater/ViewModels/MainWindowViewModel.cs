@@ -19,13 +19,13 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
 {
     private readonly IConfigureListCollectionView _configureListCollectionView;
     private readonly ICurrentItem _currentItem;
-    private readonly IFilterItemSource _filterItemSource;
+    private readonly IFilterListCollectionView _filterListCollectionView;
     private readonly IInitDefaultCommands _initDefaultCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
     private readonly ITaskbarItemProgressState _taskbarItemProgressState;
     private string _searchFilterText = string.Empty;
-    private string _searchOsText = "(no filter)";
+    private string _searchOsText = string.Empty;
 
     #region Constructor
 
@@ -38,7 +38,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         IInitDefaultCommands initDefaultCommands,
         ILoad load,
         IConfigureListCollectionView configureListCollectionView,
-        IFilterItemSource filterItemSource,
+        IFilterListCollectionView filterListCollectionView,
         ICurrentItemSource currentItemSource,
         ILoadSearchOsItems loadSearchOsItems,
         ITaskbarItemProgressState taskbarItemProgressState
@@ -49,7 +49,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));
         _load = load ?? throw new ArgumentNullException(nameof(load));
         _configureListCollectionView = configureListCollectionView ?? throw new ArgumentNullException(nameof(configureListCollectionView));
-        _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
+        _filterListCollectionView = filterListCollectionView ?? throw new ArgumentNullException(nameof(filterListCollectionView));
         CurrentItemSource = currentItemSource ?? throw new ArgumentNullException(nameof(currentItemSource));
         _loadSearchOsItems = loadSearchOsItems ?? throw new ArgumentNullException(nameof(loadSearchOsItems));
         _taskbarItemProgressState = taskbarItemProgressState ?? throw new ArgumentNullException(nameof(taskbarItemProgressState));
@@ -159,7 +159,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         set
         {
             _searchFilterText = value;
-            _filterItemSource.RunFor(SearchOsText, value);
+            _filterListCollectionView.RunFor((SearchOsText, value));
             OnPropertyChanged();
         }
     }
@@ -173,7 +173,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         set
         {
             _searchOsText = value;
-            _filterItemSource.RunFor(value, SearchFilterText);
+            _filterListCollectionView.RunFor((value, SearchFilterText));
             OnPropertyChanged();
         }
     }
@@ -222,7 +222,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     /// </summary>
     public bool SearchOsIsEnabled
     {
-        get =>_load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
+        get => _load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
         // ReSharper disable once ValueParameterNotUsed
         set => OnPropertyChanged();
     }

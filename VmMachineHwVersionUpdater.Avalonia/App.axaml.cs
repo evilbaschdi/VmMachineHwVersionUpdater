@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Avalonia.Views;
 using VmMachineHwVersionUpdater.Core.DependencyInjection;
@@ -24,15 +25,21 @@ public class App : Application
         {
             IServiceCollection serviceCollection = new ServiceCollection();
             IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
+            IConfigureAvaloniaServices configureAvaloniaServices = new ConfigureAvaloniaServices();
+            IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
+
             configureCoreServices.RunFor(serviceCollection);
-            serviceCollection.AddSingleton<MainWindowViewModel>();
+            configureAvaloniaServices.RunFor(serviceCollection);
+            configureWindowsAndViewModels.RunFor(serviceCollection);
 
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-            desktop.MainWindow = new MainWindow
-                                 {
-                                     DataContext = serviceProvider.GetRequiredService<MainWindowViewModel>()
-                                 };
+            var mainWindow = new MainWindow
+                             {
+                                 DataContext = serviceProvider.GetRequiredService<MainWindowViewModel>()
+                             };
+
+            desktop.MainWindow = mainWindow;
         }
 
         base.OnFrameworkInitializationCompleted();

@@ -1,6 +1,5 @@
-﻿using EvilBaschdi.Core.AppHelpers;
-using EvilBaschdi.Core.Internal;
-using EvilBaschdi.Core.Wpf;
+﻿using EvilBaschdi.Core.Wpf;
+using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;
@@ -15,14 +14,11 @@ public class ConfigureWpfServices : IConfigureWpfServices
 
         services.AddSingleton<IApplicationStyle>(new ApplicationStyle(true, true));
         services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();
-        services.AddSingleton<ICopyDirectoryWithFilesWithProgress, CopyDirectoryWithFilesWithProgress>();
-        services.AddSingleton<ICopyDirectoryWithProgress, CopyDirectoryWithProgress>();
-        services.AddSingleton<ICopyProgress, CopyProgress>();
+
         services.AddSingleton<ICurrentItemSource, CurrentItemSource>();
-        services.AddSingleton<IFilterItemSource, FilterItemSource>();
+        services.AddSingleton<IFilterListCollectionView, FilterListCollectionView>();
         services.AddSingleton<IInitDefaultCommands, InitDefaultCommands>();
-        services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
-        services.AddSingleton<IProcessByPath, ProcessByPath>();
+        services.AddTransient<ISeparator, SystemWindowsControlsSeparator>();
         services.AddSingleton<ITaskbarItemProgressState, CurrentTaskbarItemProgressState>();
     }
 }

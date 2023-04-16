@@ -1,7 +1,12 @@
 <Window xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Width="1000" Height="700" x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow" Icon="/Assets/b.ico" Title="VM Toolbox" TransparencyLevelHint="Mica" Background="Transparent">
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Width="1600"
+    Height="700" x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow"
+    Icon="/Assets/b.ico"
+    Title="VM Toolbox"
+    TransparencyLevelHint="Mica" Background="Transparent">
 
     <Panel Name="RootPanel">
         <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
@@ -11,34 +16,53 @@
         </ExperimentalAcrylicBorder>
 
         <Panel Name="HeaderPanel" IsVisible="False" Margin="7">
-            <Panel Margin="7">
-                <Image Source="/Assets/b.ico" Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Tapped="LogoOnTapped"/>
+            <Panel Margin="0">
+                <Button VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" Command="{Binding AboutWindowCommand}">
+                    <ContentControl>
+                        <Image Source="/Assets/b.ico" Width="20" Height="20" />
+                    </ContentControl>
+                </Button>
             </Panel>
             <TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,7,7,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <!-- Search Filter -->
+                <TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}" Text="{Binding SearchFilterText,Mode=TwoWay}"
+                         Watermark="enter search term"/>
+                <!-- Search Os -->
+                <ComboBox Width="250" Name="SearchOs" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="{Binding SearchOsIsEnabled}" ItemsSource="{Binding SearchOsItemCollection}" SelectedItem="{Binding SearchOsText}"/>
                 <TextBlock Text=" | "/>
-                <ComboBox HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock Text=" | "/>
-                <!--<NumericUpDown Value="{Binding UpdateAllHwVersionValue}" HorizontalAlignment="Center" VerticalAlignment="Top" />
-                <TextBlock Text=" | "/>-->
-                <Button Name="About" Content="ℹ️" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <!-- Restart -->
+                <!-- Update all -->
+                <Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding UpdateAllCommand}" IsEnabled="{Binding UpdateAllIsEnabled}">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<iconPacks:PackIconMaterial Kind="Update" Width="20" Height="20" HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center" />-->
+                        <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding UpdateAllTextBlockText}" />
+                    </StackPanel>
+                </Button>
+                <NumericUpDown Width="120" Value="{Binding UpdateAllHwVersionValue}" HorizontalAlignment="Center" VerticalAlignment="Top" />
             </StackPanel>
         </Panel>
 
         <Panel Name="MainPanel" Margin="0,0,0,0">
             <Panel>
                 <Panel Name="ContentPanel" Margin="0,0,0,0">
-                    <DataGrid Name="MachineGrid" Margin="7" Items="{Binding DataGridCollectionViewMachines}" SelectionMode="Single" ColumnWidth="*" GridLinesVisibility="Horizontal" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
+                    <DataGrid Name="MachineGrid" Margin="7" Items="{Binding DataGridCollectionViewMachines}" SelectionMode="Single" ColumnWidth="*" GridLinesVisibility="Horizontal" AutoGenerateColumns="False"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True"/>
                             <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True"/>
                             <DataGridTemplateColumn Header="Play" Width="60" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                        <!-- ReSharper disable Xaml.PossibleNullReferenceException -->
+                                        <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
                                         <!-- ReSharper disable once Xaml.StyleClassNotFound -->
-                                        <Button Content="▶️" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="60"  Classes="accent"/>
+                                        <Button Content="▶️" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="60" Classes="accent"
+                                                Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                CommandParameter="{Binding}" />
+                                        <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
+                                        <!-- ReSharper restore Xaml.PossibleNullReferenceException -->
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
@@ -57,13 +81,13 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <NumericUpDown Value="{Binding HwVersion}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" />
+                                        <NumericUpDown Value="{Binding HwVersion}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <NumericUpDown Value="{Binding HwVersion}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" />
+                                        <NumericUpDown Value="{Binding HwVersion}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>

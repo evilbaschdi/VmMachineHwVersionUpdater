@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace VmMachineHwVersionUpdater.ViewModels.Internal;
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
 public interface ILoadSearchOsItems : IWritableValue<ObservableCollection<object>>

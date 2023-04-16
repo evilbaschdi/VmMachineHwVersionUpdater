@@ -34,8 +34,8 @@
                       IsEnabled="{Binding SearchOsIsEnabled}"
                       ItemsSource="{Binding SearchOsItemCollection}"
                       mah:TextBoxHelper.ClearTextButton="True"
-                      mah:TextBoxHelper.Watermark="(no filter)" />
-            <!-- Load -->
+                      mah:TextBoxHelper.Watermark="select OS to filter" />
+            <!-- Restart -->
             <Button Command="{Binding Reload.Command}">
                 <StackPanel Orientation="Horizontal">
                     <iconPacks:PackIconMaterial Kind="Reload" Width="20" Height="20" HorizontalAlignment="Center"

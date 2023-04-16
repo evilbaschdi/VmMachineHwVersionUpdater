@@ -2,6 +2,7 @@
 using EvilBaschdi.Core.Internal;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
@@ -45,7 +46,7 @@ public class ConfigureWpfServicesTests
         dummyServiceCollection.Should().HaveService<ICopyDirectoryWithProgress>().WithImplementation<CopyDirectoryWithProgress>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyProgress>().WithImplementation<CopyProgress>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICurrentItemSource>().WithImplementation<CurrentItemSource>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IFilterItemSource>().WithImplementation<FilterItemSource>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<IFilterListCollectionView>().WithImplementation<FilterListCollectionView>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IInitDefaultCommands>().WithImplementation<InitDefaultCommands>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ILoadSearchOsItems>().WithImplementation<LoadSearchOsItems>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IProcessByPath>().WithImplementation<ProcessByPath>().AsSingleton();

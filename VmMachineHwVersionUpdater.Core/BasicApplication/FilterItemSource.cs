@@ -1,39 +1,17 @@
 ﻿using VmMachineHwVersionUpdater.Core.Models;
 
-namespace VmMachineHwVersionUpdater.ViewModels.Internal;
-
-/// <inheritdoc />
-public class FilterItemSource : IFilterItemSource
+namespace VmMachineHwVersionUpdater.Core.BasicApplication
 {
-    private readonly IConfigureListCollectionView _configureListCollectionView;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="configureListCollectionView"></param>
-    public FilterItemSource([NotNull] IConfigureListCollectionView configureListCollectionView)
-    {
-        _configureListCollectionView = configureListCollectionView ?? throw new ArgumentNullException(nameof(configureListCollectionView));
-    }
-
     /// <inheritdoc />
-    public void RunFor(string searchOsText, string searchFilterText)
+    public class FilterItemSource : IFilterItemSource
     {
-        if (searchOsText is null)
+        /// <inheritdoc />
+        public bool ValueFor((Machine Machine, string SearchOsText, string SearchFilterText) value)
         {
-            throw new ArgumentNullException(nameof(searchOsText));
-        }
+            var (machine, searchOsText, searchFilterText) = value;
 
-        if (searchFilterText is null)
-        {
-            throw new ArgumentNullException(nameof(searchFilterText));
-        }
-
-        bool ValueFilter(object vm)
-        {
             var filterGuestOs = true;
             bool filterDisplayNameOrAnnotation;
-            var machine = (Machine)vm;
 
             if (!string.IsNullOrWhiteSpace(searchOsText) && searchOsText != "(no filter)")
             {
@@ -60,7 +38,5 @@ public class FilterItemSource : IFilterItemSource
 
             return filterDisplayNameOrAnnotation && filterGuestOs;
         }
-
-        _configureListCollectionView.Value.Filter = ValueFilter;
     }
 }

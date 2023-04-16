@@ -1,4 +1,5 @@
-﻿using EvilBaschdi.Core.Internal;
+﻿using EvilBaschdi.Core.AppHelpers;
+using EvilBaschdi.Core.Internal;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.PerMachine;
@@ -12,25 +13,28 @@ public class ConfigureCoreServices : IConfigureCoreServices
     /// <inheritdoc />
     public void RunFor([NotNull] IServiceCollection services)
     {
-        if (services == null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddSingleton<IArchiveMachine, ArchiveMachine>();
         services.AddSingleton<IConvertAnnotationLineBreaks, ConvertAnnotationLineBreaks>();
+        services.AddSingleton<ICopyDirectoryWithFilesWithProgress, CopyDirectoryWithFilesWithProgress>();
+        services.AddSingleton<ICopyDirectoryWithProgress, CopyDirectoryWithProgress>();
         services.AddSingleton<ICopyMachine, CopyMachine>();
+        services.AddSingleton<ICopyProgress, CopyProgress>();
         services.AddSingleton<ICurrentItem, CurrentItem>();
         services.AddSingleton<IDeleteMachine, DeleteMachine>();
         services.AddSingleton<IFileListFromPath, FileListFromPath>();
+        services.AddSingleton<IFilterItemSource, FilterItemSource>();
         services.AddSingleton<IGuestOsesInUse, GuestOsesInUse>();
         services.AddSingleton<IGuestOsOutputStringMapping, GuestOsOutputStringMapping>();
         services.AddSingleton<IGuestOsStringMapping, GuestOsStringMapping>();
         services.AddSingleton<IHandleMachineFromPath, HandleMachineFromPath>();
         services.AddSingleton<ILoad, Load>();
+        services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
         services.AddSingleton<IMachinesFromPath, MachinesFromPath>();
         services.AddSingleton<IParseVmxFile, ParseVmxFile>();
         services.AddSingleton<IPathSettings, PathSettings>();
+        services.AddSingleton<IProcessByPath, ProcessByPath>();
         services.AddSingleton<IReadLogInformation, ReadLogInformation>();
         services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
         services.AddSingleton<ISetDisplayName, SetDisplayName>();

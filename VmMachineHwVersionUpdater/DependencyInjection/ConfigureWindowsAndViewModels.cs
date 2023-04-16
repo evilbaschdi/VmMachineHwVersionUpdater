@@ -1,5 +1,6 @@
 ﻿using EvilBaschdi.About.Core.Models;
 using EvilBaschdi.About.Wpf;
+using VmMachineHwVersionUpdater.Core.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels;
 
 namespace VmMachineHwVersionUpdater.DependencyInjection;

@@ -1,4 +1,5 @@
 using Avalonia;
+using Avalonia.ReactiveUI;
 using EvilBaschdi.Core.Avalonia;
 
 // ReSharper disable once ClassNeverInstantiated.Global
@@ -16,5 +17,5 @@ internal class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     // ReSharper disable once MemberCanBePrivate.Global
     public static AppBuilder BuildAvaloniaApp()
-        => new AppBuilderImplementation<App>().Value;
+        => new AppBuilderImplementation<App>().Value.UseReactiveUI();
 }
