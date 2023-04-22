@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Models;
-
-namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc cref="ILoad" />
 public class Load : CachedValue<LoadHelper>, ILoad

@@ -1,5 +1,3 @@
-using VmMachineHwVersionUpdater.Core.PerMachine;
-
 namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;
 
 public class ReturnValueFromVmxLineTests

@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using VmMachineHwVersionUpdater.Core;
-using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Resources;
 

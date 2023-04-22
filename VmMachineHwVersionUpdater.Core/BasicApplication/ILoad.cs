@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Models;
-
-namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
 public interface ILoad : IValue<LoadHelper>

@@ -1,7 +1,6 @@
 ﻿using EvilBaschdi.About.Core.Models;
 using EvilBaschdi.About.Wpf;
 using FluentAssertions.Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Core.DependencyInjection;
 using VmMachineHwVersionUpdater.DependencyInjection;
 using VmMachineHwVersionUpdater.ViewModels;

@@ -1,5 +1,4 @@
 using System.Collections;
-using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 

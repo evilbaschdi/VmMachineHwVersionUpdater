@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Avalonia.Views;
@@ -18,27 +17,33 @@ public class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
+    /// <summary>
+    ///     ServiceProvider for DependencyInjection
+    /// </summary>
+    // ReSharper disable once MemberCanBePrivate.Global
+    public static IServiceProvider ServiceProvider { get; set; }
+
     /// <inheritdoc />
     public override void OnFrameworkInitializationCompleted()
     {
+        IServiceCollection serviceCollection = new ServiceCollection();
+        IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
+        IConfigureAvaloniaServices configureAvaloniaServices = new ConfigureAvaloniaServices();
+        IConfigureReactiveCommandServices configureReactiveCommandServices = new ConfigureReactiveCommandServices();
+        IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
+
+        configureCoreServices.RunFor(serviceCollection);
+        configureAvaloniaServices.RunFor(serviceCollection);
+        configureReactiveCommandServices.RunFor(serviceCollection);
+        configureWindowsAndViewModels.RunFor(serviceCollection);
+
+        ServiceProvider = serviceCollection.BuildServiceProvider();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            IServiceCollection serviceCollection = new ServiceCollection();
-            IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
-            IConfigureAvaloniaServices configureAvaloniaServices = new ConfigureAvaloniaServices();
-            IConfigureReactiveCommandServices configureReactiveCommandServices = new ConfigureReactiveCommandServices();
-            IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
-
-            configureCoreServices.RunFor(serviceCollection);
-            configureAvaloniaServices.RunFor(serviceCollection);
-            configureReactiveCommandServices.RunFor(serviceCollection);
-            configureWindowsAndViewModels.RunFor(serviceCollection);
-
-            IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-
             var mainWindow = new MainWindow
                              {
-                                 DataContext = serviceProvider.GetRequiredService<MainWindowViewModel>()
+                                 DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>()
                              };
 
             desktop.MainWindow = mainWindow;

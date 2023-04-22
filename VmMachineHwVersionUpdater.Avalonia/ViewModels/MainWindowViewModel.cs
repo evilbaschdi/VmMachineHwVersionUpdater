@@ -4,12 +4,9 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls.ApplicationLifetimes;
 using EvilBaschdi.About.Avalonia;
-using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.Models;
 
 // ReSharper disable UnusedMember.Global
 
@@ -25,7 +22,6 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     private readonly IInitReactiveCommands _initReactiveCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
-
     private readonly IServiceProvider _serviceProvider;
     private string _searchFilterText = string.Empty;
     private string _searchOsText = string.Empty;
@@ -74,6 +70,8 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
         OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.ReactiveCommandValue;
         StartCommand = _initReactiveCommands.StartReactiveCommand.ReactiveCommandValue;
+
+        //_applicationLayout.Run();
     }
 
     #endregion Constructor

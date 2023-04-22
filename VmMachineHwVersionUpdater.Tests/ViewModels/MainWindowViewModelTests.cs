@@ -14,7 +14,7 @@ public class MainWindowViewModelTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Constructor_ReturnsInterfaceName(MainWindowViewModel sut)
     {
-        sut.Should().BeAssignableTo<ApplicationStyleViewModel>();
+        sut.Should().BeAssignableTo<ApplicationLayoutViewModel>();
         sut.Should().BeAssignableTo<IMainWindowViewModel>();
     }
 

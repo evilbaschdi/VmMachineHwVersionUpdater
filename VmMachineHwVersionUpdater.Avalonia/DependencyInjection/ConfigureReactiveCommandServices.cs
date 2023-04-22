@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
-using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
+﻿using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 

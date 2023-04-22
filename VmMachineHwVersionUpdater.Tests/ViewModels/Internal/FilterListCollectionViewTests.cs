@@ -1,5 +1,4 @@
 using System.Windows.Data;
-using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.Tests.ViewModels.Internal;

@@ -1,6 +1,5 @@
 ﻿using System.Windows.Shell;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 

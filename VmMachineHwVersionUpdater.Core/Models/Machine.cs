@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using VmMachineHwVersionUpdater.Core.Enums;
-using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.Core.Models;
 

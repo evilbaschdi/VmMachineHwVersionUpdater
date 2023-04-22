@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using EvilBaschdi.About.Core;
-using EvilBaschdi.Core;
 using EvilBaschdi.Core.Avalonia;
-using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
 

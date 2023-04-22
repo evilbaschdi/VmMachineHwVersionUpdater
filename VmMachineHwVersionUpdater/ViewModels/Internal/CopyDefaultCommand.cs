@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using EvilBaschdi.Core.Internal;
 using MahApps.Metro.Controls.Dialogs;
-using VmMachineHwVersionUpdater.Core.Models;
-using VmMachineHwVersionUpdater.Core.PerMachine;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 

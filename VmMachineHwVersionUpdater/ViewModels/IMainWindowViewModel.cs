@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Shell;
-using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.ViewModels;

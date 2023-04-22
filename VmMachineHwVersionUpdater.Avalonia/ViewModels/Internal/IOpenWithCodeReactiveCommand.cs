@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal.Core;
-
-namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
+﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc />
 public interface IOpenWithCodeReactiveCommand : IReactiveCommandUnitRun

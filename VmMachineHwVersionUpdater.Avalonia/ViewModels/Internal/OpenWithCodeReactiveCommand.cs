@@ -1,7 +1,4 @@
 ﻿using EvilBaschdi.Core.AppHelpers;
-using JetBrains.Annotations;
-using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal.Core;
-using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 

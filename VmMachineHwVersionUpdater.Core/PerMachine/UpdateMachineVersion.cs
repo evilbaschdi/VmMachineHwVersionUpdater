@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Models;
-
-namespace VmMachineHwVersionUpdater.Core.PerMachine;
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc cref="IUpdateMachineVersion" />
 public class UpdateMachineVersion : UpsertVmxLine<int>, IUpdateMachineVersion

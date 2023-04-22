@@ -1,5 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Models;
-using VmMachineHwVersionUpdater.Core.Settings;
+﻿using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 

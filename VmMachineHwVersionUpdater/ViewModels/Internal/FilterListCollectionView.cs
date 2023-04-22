@@ -1,5 +1,4 @@
 ﻿using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 

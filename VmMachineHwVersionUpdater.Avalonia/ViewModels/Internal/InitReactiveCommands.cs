@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
+﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc />
 public class InitReactiveCommands : IInitReactiveCommands

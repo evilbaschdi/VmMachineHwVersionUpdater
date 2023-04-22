@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using EvilBaschdi.Core.AppHelpers;
-using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;
 

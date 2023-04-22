@@ -19,16 +19,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Using Include="EvilBaschdi.Core" />
-		<Using Include="JetBrains.Annotations" />
-		<Using Include="Microsoft.Extensions.DependencyInjection" />
-		<Using Include="System.Linq" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.Core" Version="2023.3.9.1752-develop" />
-		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2023.4.11.1616-develop" />
-		<PackageReference Include="EvilBaschdi.Settings" Version="2023.4.11.1612-develop" />
+		<PackageReference Include="EvilBaschdi.Core" Version="2023.4.21.523-develop" />
+		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2023.4.21.557-develop" />
+		<PackageReference Include="EvilBaschdi.Settings" Version="2023.4.21.604-develop" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

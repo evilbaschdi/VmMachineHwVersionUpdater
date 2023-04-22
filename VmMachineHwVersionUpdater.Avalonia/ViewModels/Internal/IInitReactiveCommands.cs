@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core;
-
-namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
+﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc />
 public interface IInitReactiveCommands : IRun

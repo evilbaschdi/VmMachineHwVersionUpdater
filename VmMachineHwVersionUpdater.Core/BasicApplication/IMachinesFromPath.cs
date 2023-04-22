@@ -1,5 +1,3 @@
-using VmMachineHwVersionUpdater.Core.Models;
-
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />

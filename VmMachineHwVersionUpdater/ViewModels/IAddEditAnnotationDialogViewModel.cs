@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Models;
-
-namespace VmMachineHwVersionUpdater.ViewModels;
+﻿namespace VmMachineHwVersionUpdater.ViewModels;
 
 /// <summary />
 public interface IAddEditAnnotationDialogViewModel

@@ -5,7 +5,6 @@ using System.Windows.Shell;
 using EvilBaschdi.Core.Wpf;
 using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.ViewModels;
@@ -15,7 +14,7 @@ namespace VmMachineHwVersionUpdater.ViewModels;
 /// <summary>
 ///     MainWindowViewModel of VmMachineHwVersionUpdater.
 /// </summary>
-public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewModel
+public class MainWindowViewModel : ApplicationLayoutViewModel, IMainWindowViewModel
 {
     private readonly IConfigureListCollectionView _configureListCollectionView;
     private readonly ICurrentItem _currentItem;
@@ -33,6 +32,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
     ///     Constructor
     /// </summary>
     public MainWindowViewModel(
+        IApplicationLayout applicationLayout,
         IApplicationStyle applicationStyle,
         ICurrentItem currentItem,
         IInitDefaultCommands initDefaultCommands,
@@ -43,7 +43,7 @@ public class MainWindowViewModel : ApplicationStyleViewModel, IMainWindowViewMod
         ILoadSearchOsItems loadSearchOsItems,
         ITaskbarItemProgressState taskbarItemProgressState
     )
-        : base(applicationStyle)
+        : base(applicationLayout, applicationStyle)
     {
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
         _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));

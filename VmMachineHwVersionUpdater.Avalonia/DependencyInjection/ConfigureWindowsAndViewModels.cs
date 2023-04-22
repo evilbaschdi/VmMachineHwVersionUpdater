@@ -1,7 +1,6 @@
 ﻿using EvilBaschdi.About.Avalonia;
 using EvilBaschdi.About.Avalonia.Models;
-using JetBrains.Annotations;
-using Microsoft.Extensions.DependencyInjection;
+using EvilBaschdi.Core.Avalonia;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Core.DependencyInjection;
 
@@ -21,6 +20,8 @@ public class ConfigureWindowsAndViewModels : IConfigureWindowsAndViewModels
         services.AddSingleton<IAboutViewModelExtended, AboutViewModelExtended>();
         services.AddTransient(typeof(AboutWindow));
 
+        services.AddSingleton<IHandleOsDependentTitleBar, HandleOsDependentTitleBar>();
+        services.AddSingleton<IApplicationLayout>(new ApplicationLayout(true, true));
         services.AddSingleton<MainWindowViewModel>();
     }
 }

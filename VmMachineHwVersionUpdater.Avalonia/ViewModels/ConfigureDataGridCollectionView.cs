@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using Avalonia.Collections;
-using EvilBaschdi.Core;
-using JetBrains.Annotations;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;

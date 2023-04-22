@@ -44,7 +44,7 @@ public class ReloadDefaultCommand : IReloadDefaultCommand
         {
             await Task.Run(() =>
                            {
-                               var app = Application.ResourceAssembly.Location.Replace("dll", "exe");
+                               var app = $"{AppContext.BaseDirectory}VmMachineHwVersionUpdater.exe";
                                var process = _processByPath.ValueFor(app);
                                process.Start();
                                process.WaitForInputIdle();

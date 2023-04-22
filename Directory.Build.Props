@@ -1,0 +1,12 @@
+<Project>
+
+	<ItemGroup>
+		<Using Include="EvilBaschdi.Core" />
+		<Using Include="JetBrains.Annotations" />
+		<Using Include="Microsoft.Extensions.DependencyInjection" />
+		<Using Include="System.Linq" />
+		<Using Include="VmMachineHwVersionUpdater.Core.Models" />
+		<Using Include="VmMachineHwVersionUpdater.Core.PerMachine" />
+	</ItemGroup>
+
+</Project>

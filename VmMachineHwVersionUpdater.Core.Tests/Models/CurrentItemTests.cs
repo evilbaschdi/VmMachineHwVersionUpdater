@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Models;
-
-namespace VmMachineHwVersionUpdater.Core.Tests.Models;
+﻿namespace VmMachineHwVersionUpdater.Core.Tests.Models;
 
 public class CurrentItemTests
 {

@@ -1,5 +1,3 @@
-using EvilBaschdi.Core;
-
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc />

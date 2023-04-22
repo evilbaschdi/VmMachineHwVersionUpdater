@@ -1,6 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.ViewModels.Internal;

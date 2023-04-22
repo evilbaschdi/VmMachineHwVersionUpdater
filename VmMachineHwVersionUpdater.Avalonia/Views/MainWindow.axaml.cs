@@ -17,7 +17,10 @@ public partial class MainWindow : Window
 
     private void Load()
     {
-        IHandleOsDependentTitleBar handleOsDependentTitleBar = new HandleOsDependentTitleBar();
-        handleOsDependentTitleBar.RunFor((this, HeaderPanel, MainPanel, AcrylicBorder));
+        var handleOsDependentTitleBar = App.ServiceProvider?.GetRequiredService<IHandleOsDependentTitleBar>();
+        handleOsDependentTitleBar?.RunFor((this, HeaderPanel, MainPanel, AcrylicBorder));
+
+        var applicationLayout = App.ServiceProvider?.GetRequiredService<IApplicationLayout>();
+        applicationLayout?.Run();
     }
 }

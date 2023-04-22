@@ -1,8 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;
-using VmMachineHwVersionUpdater.Core.Models;
-using VmMachineHwVersionUpdater.Core.PerMachine;
 using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;

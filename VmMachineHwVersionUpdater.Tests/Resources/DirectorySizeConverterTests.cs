@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Data;
-using VmMachineHwVersionUpdater.Core.Models;
 using VmMachineHwVersionUpdater.Resources;
 
 namespace VmMachineHwVersionUpdater.Tests.Resources;

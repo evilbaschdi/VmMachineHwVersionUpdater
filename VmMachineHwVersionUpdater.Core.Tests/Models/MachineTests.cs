@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using VmMachineHwVersionUpdater.Core.Models;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.Models;
 

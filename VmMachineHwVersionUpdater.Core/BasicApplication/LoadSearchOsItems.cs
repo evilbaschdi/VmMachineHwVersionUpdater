@@ -31,6 +31,8 @@ public class LoadSearchOsItems : CachedWritableValue<ObservableCollection<object
         get
         {
             _searchOsItemCollection.Clear();
+            _searchOsItemCollection.Add(string.Empty);
+            _searchOsItemCollection.Add(_separator.Value);
             _load.Value.SearchOsItems?.ForEach(_searchOsItemCollection.Add);
             _searchOsItemCollection.Add(_separator.Value);
             _guestOsesInUse.Value?.ForEach(_searchOsItemCollection.Add);
