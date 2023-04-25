@@ -35,11 +35,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.About.Avalonia" Version="2023.4.21.629-develop" />
-		<PackageReference Include="EvilBaschdi.Core.Avalonia" Version="2023.4.21.552-develop" />
-		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview6" />
+		<PackageReference Include="EvilBaschdi.About.Avalonia" Version="2023.4.25.1701-develop" />
+		<PackageReference Include="EvilBaschdi.Core.Avalonia" Version="2023.4.25.1639-develop" />
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview7" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview6" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview7" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -22,7 +22,6 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     private readonly IInitReactiveCommands _initReactiveCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
-    private readonly IServiceProvider _serviceProvider;
     private string _searchFilterText = string.Empty;
     private string _searchOsText = string.Empty;
 
@@ -37,15 +36,13 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <param name="configureDataGridCollectionView"></param>
     /// <param name="filterDataGridCollectionView"></param>
     /// <param name="initReactiveCommands"></param>
-    /// <param name="serviceProvider"></param>
     /// <exception cref="ArgumentNullException"></exception>
     public MainWindowViewModel([NotNull] ILoad load,
                                [NotNull] ICurrentItem currentItem,
                                [NotNull] ILoadSearchOsItems loadSearchOsItems,
                                [NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
                                [NotNull] IFilterDataGridCollectionView filterDataGridCollectionView,
-                               [NotNull] IInitReactiveCommands initReactiveCommands,
-                               [NotNull] IServiceProvider serviceProvider)
+                               [NotNull] IInitReactiveCommands initReactiveCommands)
 
     {
         _load = load ?? throw new ArgumentNullException(nameof(load));
@@ -55,10 +52,9 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
         _filterDataGridCollectionView = filterDataGridCollectionView ?? throw new ArgumentNullException(nameof(filterDataGridCollectionView));
         _initReactiveCommands = initReactiveCommands ?? throw new ArgumentNullException(nameof(initReactiveCommands));
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
-        AboutWindowCommand = ReactiveCommand.Create(AboutWindowCommandDummy);
-        UpdateAllCommand = ReactiveCommand.Create(UpdateAllCommandDummy);
+        AboutWindowCommand = ReactiveCommand.Create(AboutWindowCommandAction);
+        UpdateAllCommand = ReactiveCommand.Create(UpdateAllCommandAction);
 
         Run();
     }
@@ -70,8 +66,6 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
         OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.ReactiveCommandValue;
         StartCommand = _initReactiveCommands.StartReactiveCommand.ReactiveCommandValue;
-
-        //_applicationLayout.Run();
     }
 
     #endregion Constructor
@@ -85,14 +79,14 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         set => _configureDataGridCollectionView.Value = value;
     }
 
-    private void UpdateAllCommandDummy()
+    private void UpdateAllCommandAction()
     {
         throw new NotImplementedException();
     }
 
-    private void AboutWindowCommandDummy()
+    private void AboutWindowCommandAction()
     {
-        var aboutWindow = _serviceProvider.GetRequiredService<AboutWindow>();
+        var aboutWindow = App.ServiceProvider.GetRequiredService<AboutWindow>();
         var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop ? desktop.MainWindow : null;
         if (mainWindow != null)
         {

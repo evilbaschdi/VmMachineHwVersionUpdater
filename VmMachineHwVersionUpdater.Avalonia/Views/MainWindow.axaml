@@ -52,7 +52,7 @@
 		<Panel Name="MainPanel" Margin="0,0,0,0">
 			<Panel Name="ContentPanel" Margin="0,0,0,0">
 				<Grid Margin="0,7,0,0">
-					<DataGrid Name="MachineGrid" Margin="7" Items="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*" GridLinesVisibility="Horizontal"
+					<DataGrid Name="MachineGrid" Margin="7" ItemsSource="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*" GridLinesVisibility="Horizontal"
                               SelectionMode="Single" SelectedItem="{Binding Path=SelectedMachine}" 
                               ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
 						<DataGrid.Columns>
@@ -109,12 +109,15 @@
                         </DataGrid.Styles>
 						<DataGrid.ContextMenu>
 							<ContextMenu>
+                                <!-- ReSharper disable Xaml.RedundantResource -->
 								<!-- Start -->
-								<MenuItem Header="Start machine..." Command="{Binding StartCommand}">
+                                
+                                <MenuItem Header="Start machine..." Command="{Binding StartCommand}">
 
 								</MenuItem>
+                                
 
-								<!-- Rename -->
+                                <!-- Rename -->
 								<MenuItem Header="Rename..." Command="{Binding RenameCommand}">
 
 								</MenuItem>
@@ -153,6 +156,7 @@
 
 
 								</MenuItem>
+                                <!-- ReSharper restore Xaml.RedundantResource -->
 							</ContextMenu>
 						</DataGrid.ContextMenu>
 					</DataGrid>

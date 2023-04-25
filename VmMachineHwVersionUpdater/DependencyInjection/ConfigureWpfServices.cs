@@ -15,7 +15,7 @@ public class ConfigureWpfServices : IConfigureWpfServices
 
         services.AddSingleton<IAboutContent, AboutContent>();
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
-        services.AddSingleton<IApplicationLayout>(new ApplicationLayout(true, true));
+        services.AddSingleton<IApplicationLayout, ApplicationLayout>();
         services.AddSingleton<IApplicationStyle, ApplicationStyle>();
         services.AddSingleton<IApplyMicaBrush, ApplyMicaBrush>();
         services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();

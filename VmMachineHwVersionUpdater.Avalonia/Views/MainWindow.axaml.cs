@@ -12,15 +12,15 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        Load();
+        ApplyLayout();
     }
 
-    private void Load()
+    private void ApplyLayout()
     {
         var handleOsDependentTitleBar = App.ServiceProvider?.GetRequiredService<IHandleOsDependentTitleBar>();
-        handleOsDependentTitleBar?.RunFor((this, HeaderPanel, MainPanel, AcrylicBorder));
+        handleOsDependentTitleBar?.RunFor(this);
 
         var applicationLayout = App.ServiceProvider?.GetRequiredService<IApplicationLayout>();
-        applicationLayout?.Run();
+        applicationLayout?.RunFor((this, true, true));
     }
 }

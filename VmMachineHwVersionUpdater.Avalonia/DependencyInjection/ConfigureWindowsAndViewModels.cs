@@ -21,7 +21,7 @@ public class ConfigureWindowsAndViewModels : IConfigureWindowsAndViewModels
         services.AddTransient(typeof(AboutWindow));
 
         services.AddSingleton<IHandleOsDependentTitleBar, HandleOsDependentTitleBar>();
-        services.AddSingleton<IApplicationLayout>(new ApplicationLayout(true, true));
+        services.AddSingleton<IApplicationLayout, ApplicationLayout>();
         services.AddSingleton<MainWindowViewModel>();
     }
 }

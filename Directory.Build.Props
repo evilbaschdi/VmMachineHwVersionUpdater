@@ -1,5 +1,9 @@
 <Project>
 
+	<PropertyGroup>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<Using Include="EvilBaschdi.Core" />
 		<Using Include="JetBrains.Annotations" />

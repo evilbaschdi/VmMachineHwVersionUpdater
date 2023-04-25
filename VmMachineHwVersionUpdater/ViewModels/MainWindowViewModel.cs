@@ -43,7 +43,7 @@ public class MainWindowViewModel : ApplicationLayoutViewModel, IMainWindowViewMo
         ILoadSearchOsItems loadSearchOsItems,
         ITaskbarItemProgressState taskbarItemProgressState
     )
-        : base(applicationLayout, applicationStyle)
+        : base(applicationLayout, applicationStyle, true, true)
     {
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
         _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));

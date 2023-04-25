@@ -18,7 +18,7 @@ public class AddEditAnnotationDialogViewModel : ApplicationLayoutViewModel, IAdd
                                             [NotNull] IApplicationStyle applicationStyle,
                                             [NotNull] IUpdateAnnotation updateAnnotation,
                                             [NotNull] ICurrentItem currentItem)
-        : base(applicationLayout, applicationStyle)
+        : base(applicationLayout, applicationStyle, true, false)
     {
         _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));

@@ -13,7 +13,6 @@
 		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
 		<Product>VM Machine Hardware Version Updater</Product>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-		<RootNamespace>VmMachineHwVersionUpdater.Core</RootNamespace>
 		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
@@ -22,6 +21,9 @@
 		<PackageReference Include="EvilBaschdi.Core" Version="2023.4.21.523-develop" />
 		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2023.4.21.557-develop" />
 		<PackageReference Include="EvilBaschdi.Settings" Version="2023.4.21.604-develop" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
