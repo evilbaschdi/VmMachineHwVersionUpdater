@@ -1,19 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Authors>Sebastian Walter</Authors>
-		<Company>evilbaschdi (Sebastian Walter)</Company>
-		<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<Description>Wpf</Description>
 		<IsTestProject>true</IsTestProject>
-		<LangVersion>preview</LangVersion>
-		<NoWarn>1701;1702</NoWarn>
-		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
-		<Product>VM Machine Hardware Version Updater</Product>
-		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-		<TargetFrameworks>net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
-		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

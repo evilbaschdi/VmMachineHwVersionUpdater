@@ -1,0 +1,16 @@
+<Project>
+
+	<Choose>
+		<When Condition="$(Description.Contains('Wpf'))">
+			<PropertyGroup>
+				<TargetFrameworks>net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+			</PropertyGroup>
+		</Otherwise>		
+	</Choose>
+
+</Project>

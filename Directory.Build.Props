@@ -1,8 +1,34 @@
 <Project>
 
 	<PropertyGroup>
-		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<Authors>Sebastian Walter</Authors>
+		<Company>evilbaschdi (Sebastian Walter)</Company>
+		<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
+		<!-- ReSharper disable once UnknownProperty -->
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>preview</LangVersion>
+		<PackageIconUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater/blob/master/VmMachineHwVersionUpdater/b.ico</PackageIconUrl>
+		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
+		<Product>VM Toolbox</Product>
+		<PublishSingleFile>true</PublishSingleFile>
+		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
+		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
+
+	<!-- Exact versions have to be set in Directory.Build.Targets -->
+	<Choose>
+		<When Condition="$(Description.Contains('Wpf'))">
+			<PropertyGroup>
+				<TargetFrameworks>net0.0-windows</TargetFrameworks>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<TargetFrameworks>net0</TargetFrameworks>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
 
 	<ItemGroup>
 		<Using Include="EvilBaschdi.Core" />
@@ -11,6 +37,17 @@
 		<Using Include="System.Linq" />
 		<Using Include="VmMachineHwVersionUpdater.Core.Models" />
 		<Using Include="VmMachineHwVersionUpdater.Core.PerMachine" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 </Project>

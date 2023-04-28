@@ -2,24 +2,14 @@
 
 	<PropertyGroup>
 		<ApplicationIcon>Assets\b.ico</ApplicationIcon>
-		<Authors>Sebastian Walter</Authors>
+		<Description>VM Toolbox Avalonia</Description>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-		<Company>evilbaschdi (Sebastian Walter)</Company>
-		<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
-		<!-- ReSharper disable once UnknownProperty -->
-		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<LangVersion>preview</LangVersion>
-		<OutputType>WinExe</OutputType>
-		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
-		<Product>VM Toolbox</Product>
-		<PublishSingleFile>true</PublishSingleFile>
-		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
-		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
 		<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
 		<TrimMode>copyused</TrimMode>
-		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<OutputType>WinExe</OutputType>
+		<!-- ReSharper disable once UnknownProperty -->
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -40,17 +30,6 @@
 		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview7" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview7" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
