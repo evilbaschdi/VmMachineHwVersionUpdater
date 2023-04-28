@@ -3,7 +3,7 @@
              xmlns:local="using:VmMachineHwVersionUpdater.Avalonia"
              x:Class="VmMachineHwVersionUpdater.Avalonia.App">
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <local:ViewLocator />
     </Application.DataTemplates>
 
     <Application.Styles>
