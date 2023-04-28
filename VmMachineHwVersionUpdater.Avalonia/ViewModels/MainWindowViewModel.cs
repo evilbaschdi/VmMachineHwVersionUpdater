@@ -43,7 +43,6 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
                                [NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
                                [NotNull] IFilterDataGridCollectionView filterDataGridCollectionView,
                                [NotNull] IInitReactiveCommands initReactiveCommands)
-
     {
         _load = load ?? throw new ArgumentNullException(nameof(load));
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
