@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.BasicApplication;
-
-namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
+﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc />
 public class FilterDataGridCollectionView : IFilterDataGridCollectionView

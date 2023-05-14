@@ -2,8 +2,6 @@
 
 	<PropertyGroup>
 		<Description>VM Toolbox Core</Description>
-		<!-- ReSharper disable once UnknownProperty -->
-		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

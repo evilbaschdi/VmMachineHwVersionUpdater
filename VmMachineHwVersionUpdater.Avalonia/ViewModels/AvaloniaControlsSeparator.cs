@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using VmMachineHwVersionUpdater.Core.BasicApplication;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 

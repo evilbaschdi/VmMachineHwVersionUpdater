@@ -1,6 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.BasicApplication;
 

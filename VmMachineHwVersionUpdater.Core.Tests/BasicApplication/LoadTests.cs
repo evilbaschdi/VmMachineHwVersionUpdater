@@ -1,5 +1,3 @@
-using VmMachineHwVersionUpdater.Core.BasicApplication;
-
 namespace VmMachineHwVersionUpdater.Core.Tests.BasicApplication;
 
 public class LoadTests

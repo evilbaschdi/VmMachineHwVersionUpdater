@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Settings;
-
-namespace VmMachineHwVersionUpdater.Core.Settings;
+﻿namespace VmMachineHwVersionUpdater.Core.Settings;
 
 /// <inheritdoc cref="SettingsFromJsonFile" />
 public class VmPools : SettingsFromJsonFile, IVmPools

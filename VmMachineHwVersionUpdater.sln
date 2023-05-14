@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater", "VmMachineHwVersionUpdater\VmMachineHwVersionUpdater.csproj", "{0F56EDA9-CF7F-4C49-A67B-3FCD434D4902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Wpf", "VmMachineHwVersionUpdater.Wpf\VmMachineHwVersionUpdater.Wpf.csproj", "{0F56EDA9-CF7F-4C49-A67B-3FCD434D4902}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Core", "VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj", "{3B18918B-58B3-4E14-84B0-F37B9A1DD600}"
 EndProject
@@ -20,11 +20,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Tests", "VmMachineHwVersionUpdater.Tests\VmMachineHwVersionUpdater.Tests.csproj", "{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Wpf.Tests", "VmMachineHwVersionUpdater.Wpf.Tests\VmMachineHwVersionUpdater.Wpf.Tests.csproj", "{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{70389EFF-BD01-4D12-993C-2CA6C6D59F64}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Avalonia", "VmMachineHwVersionUpdater.Avalonia\VmMachineHwVersionUpdater.Avalonia.csproj", "{D6F9C627-243B-493C-B418-F984398C1ED5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VmMachineHwVersionUpdater.Avalonia.Tests", "VmMachineHwVersionUpdater.Avalonia.Tests\VmMachineHwVersionUpdater.Avalonia.Tests.csproj", "{D932C139-FFEC-4AD7-A293-195907995EA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,18 @@ Global
 		{D6F9C627-243B-493C-B418-F984398C1ED5}.Release|x64.Build.0 = Release|Any CPU
 		{D6F9C627-243B-493C-B418-F984398C1ED5}.Release|x86.ActiveCfg = Release|Any CPU
 		{D6F9C627-243B-493C-B418-F984398C1ED5}.Release|x86.Build.0 = Release|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Debug|x64.Build.0 = Debug|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Debug|x86.Build.0 = Debug|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Release|x64.ActiveCfg = Release|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Release|x64.Build.0 = Release|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Release|x86.ActiveCfg = Release|Any CPU
+		{D932C139-FFEC-4AD7-A293-195907995EA5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +117,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7893BAF1-F4EA-41A5-819A-DFD587ED2EAD} = {70389EFF-BD01-4D12-993C-2CA6C6D59F64}
 		{6B209B5C-F9F1-4FDE-BFA4-58B6629A4D00} = {70389EFF-BD01-4D12-993C-2CA6C6D59F64}
+		{D932C139-FFEC-4AD7-A293-195907995EA5} = {70389EFF-BD01-4D12-993C-2CA6C6D59F64}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11F4F42E-0EEC-4EDC-B38D-2BFBC588DDB0}

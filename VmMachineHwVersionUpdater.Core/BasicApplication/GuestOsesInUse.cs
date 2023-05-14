@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Settings;
-
-namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
 public class GuestOsesInUse : IGuestOsesInUse

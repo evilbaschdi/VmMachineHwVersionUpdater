@@ -1,7 +1,5 @@
 ﻿using EvilBaschdi.Core.AppHelpers;
 using EvilBaschdi.Core.Internal;
-using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 

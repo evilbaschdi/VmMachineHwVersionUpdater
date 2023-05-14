@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.Settings;
 

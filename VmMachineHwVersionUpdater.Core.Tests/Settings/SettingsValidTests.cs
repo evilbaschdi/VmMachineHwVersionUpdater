@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Settings;
-
-namespace VmMachineHwVersionUpdater.Core.Tests.Settings;
+﻿namespace VmMachineHwVersionUpdater.Core.Tests.Settings;
 
 public class SettingsValidTests
 {

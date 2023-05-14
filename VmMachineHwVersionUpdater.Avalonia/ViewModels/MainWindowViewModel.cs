@@ -6,7 +6,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using EvilBaschdi.About.Avalonia;
 using ReactiveUI;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
-using VmMachineHwVersionUpdater.Core.BasicApplication;
 
 // ReSharper disable UnusedMember.Global
 

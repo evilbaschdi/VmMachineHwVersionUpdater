@@ -1,8 +1,4 @@
 ﻿using EvilBaschdi.Core.Internal;
-using FluentAssertions.Microsoft.Extensions.DependencyInjection;
-using VmMachineHwVersionUpdater.Core.BasicApplication;
-using VmMachineHwVersionUpdater.Core.DependencyInjection;
-using VmMachineHwVersionUpdater.Core.Settings;
 
 namespace VmMachineHwVersionUpdater.Core.Tests;
 

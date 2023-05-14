@@ -4,7 +4,6 @@ using Avalonia.Markup.Xaml;
 using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Avalonia.Views;
-using VmMachineHwVersionUpdater.Core.DependencyInjection;
 
 namespace VmMachineHwVersionUpdater.Avalonia;
 

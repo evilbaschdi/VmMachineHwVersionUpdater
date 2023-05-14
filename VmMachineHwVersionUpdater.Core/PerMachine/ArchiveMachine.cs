@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Settings;
-
-namespace VmMachineHwVersionUpdater.Core.PerMachine;
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
 public class ArchiveMachine : IArchiveMachine
