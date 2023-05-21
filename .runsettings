@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RunSettings>
+	<RunConfiguration>
+		<EnvironmentVariables>
+			<!--<JUSTMOCK_INSTANCE>0</JUSTMOCK_INSTANCE>
+      <CORECLR_ENABLE_PROFILING>1</CORECLR_ENABLE_PROFILING>
+      <CORECLR_PROFILER>{B7ABE522-A68F-44F2-925B-81E7488E9EC0}</CORECLR_PROFILER>
+      <CORECLR_PROFILER_PATH_64>C:\Program Files (x86)\Progress\Telerik JustMock\Libraries\CodeWeaver\64\Telerik.CodeWeaver.Profiler.dll</CORECLR_PROFILER_PATH_64>-->
+		</EnvironmentVariables>
+	</RunConfiguration>
+
+	<!-- MSTest adapter -->
+	<MSTest>
+		<MapInconclusiveToFailed>True</MapInconclusiveToFailed>
+		<CaptureTraceOutput>false</CaptureTraceOutput>
+		<DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+		<DeploymentEnabled>False</DeploymentEnabled>
+	</MSTest>
+</RunSettings>

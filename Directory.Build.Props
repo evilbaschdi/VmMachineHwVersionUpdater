@@ -1,12 +1,20 @@
 <Project>
 
 	<PropertyGroup>
+		<Authors>Sebastian Walter</Authors>
+		<Company>evilbaschdi (Sebastian Walter)</Company>
+		<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
 		<!-- ReSharper disable once UnknownProperty -->
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>preview</LangVersion>
+		<PackageProjectUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</PackageProjectUrl>
 		<Product>VM Toolbox</Product>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<PublishSingleFile>true</PublishSingleFile>
+		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
+		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.Hmm))</Version>
 	</PropertyGroup>
 
 	<!-- Exact versions have to be set in Directory.Build.Targets -->
@@ -61,13 +69,15 @@
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<NoWarn>1701;1702</NoWarn>
 	</PropertyGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-		<PackageReference Include="EvilBaschdi.Testing" Version="2023.5.16.1647-develop" />
+		<PackageReference Include="EvilBaschdi.Testing" Version="2023.5.17.1627-develop" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
 		<PackageReference Include="coverlet.collector" Version="3.2.0">
 			<PrivateAssets>all</PrivateAssets>
@@ -93,7 +103,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.6-preview.10">
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.0-pre.8-dev">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
