@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Wpf.Tests;
+﻿namespace VmMachineHwVersionUpdater.Avalonia.Tests;
 
 /// <summary>
 ///     Do not delete this class.
@@ -13,8 +13,10 @@ public class DoNotDeleteDummyTests
         // Arrange
         // Act
         // Assert
+        // Use FluentAssertions equivalent
 #pragma warning disable MFA001
         Assert.Equal(1, 1);
 #pragma warning restore MFA001
+        // Use FluentAssertions equivalent
     }
 }

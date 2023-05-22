@@ -5,9 +5,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.Core" Version="2023.5.14.959-develop" />
-		<PackageReference Include="EvilBaschdi.DependencyInjection" Version="2023.5.16.1928-develop" />
-		<PackageReference Include="EvilBaschdi.Settings" Version="2023.5.16.1928-develop" />
+		<PackageReference Include="EvilBaschdi.Core" />
+		<PackageReference Include="EvilBaschdi.DependencyInjection" />
+		<PackageReference Include="EvilBaschdi.Settings" />
 	</ItemGroup>
 
 	<ItemGroup>

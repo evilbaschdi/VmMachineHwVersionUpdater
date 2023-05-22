@@ -11,7 +11,7 @@ public class VmPoolsTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Constructor_ReturnsInterfaceName(VmPools sut)
     {
-        Assert.IsAssignableFrom<IVmPools>(sut);
+        sut.Should().BeAssignableTo<IVmPools>();
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]

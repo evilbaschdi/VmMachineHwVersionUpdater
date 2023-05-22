@@ -14,8 +14,8 @@ public class AddEditAnnotationDialogViewModelTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Constructor_ReturnsInterfaceName(AddEditAnnotationDialogViewModel sut)
     {
-        Assert.IsAssignableFrom<IAddEditAnnotationDialogViewModel>(sut);
-        Assert.IsAssignableFrom<ApplicationLayoutViewModel>(sut);
+        sut.Should().BeAssignableTo<IAddEditAnnotationDialogViewModel>();
+        sut.Should().BeAssignableTo<ApplicationLayoutViewModel>();
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]

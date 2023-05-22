@@ -1,0 +1,42 @@
+<Project>
+
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview8" />
+		<PackageVersion Include="Avalonia.Diagnostics" Version="11.0.0-preview8" />
+		<PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2023.4.25.1701-develop" />
+		<PackageVersion Include="EvilBaschdi.About.Wpf" Version="2023.4.25.1701-develop" />
+		<PackageVersion Include="EvilBaschdi.Core" Version="2023.5.14.959-develop" />
+		<PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2023.5.9.2008-develop" />
+		<PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2023.5.10.1552-develop" />
+		<PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2023.5.16.1928-develop" />
+		<PackageVersion Include="EvilBaschdi.Settings" Version="2023.5.16.1928-develop" />
+		<PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
+		<PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
+		<PackageVersion Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
+		<PackageVersion Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.11.0" />
+		<PackageVersion Include="WpfAnalyzers" Version="4.1.1" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(IsTestProject)' != 'true'">
+		<PackageVersion Include="Microsoft.SourceLink.AzureRepos.Git" Version="1.1.1" />
+		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+		<PackageVersion Include="coverlet.collector" Version="6.0.0" />
+		<PackageVersion Include="EvilBaschdi.Testing" Version="2023.5.17.1627-develop" />
+		<PackageVersion Include="FluentAssertions.Analyzers" Version="0.17.2" />
+		<PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.10" />
+		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+		<PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
+		<PackageVersion Include="xunit.analyzers" Version="1.2.0-pre.8" />
+		<PackageVersion Include="xunit.runner.console" Version="2.5.0-pre.15" />
+		<PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0-pre.8-dev" />
+	</ItemGroup>
+
+</Project>
