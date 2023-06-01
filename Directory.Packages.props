@@ -6,12 +6,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.0.0-preview8" />
-		<PackageVersion Include="Avalonia.Diagnostics" Version="11.0.0-preview8" />
-		<PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2023.5.28.912-develop" />
-		<PackageVersion Include="EvilBaschdi.About.Wpf" Version="2023.5.28.912-develop" />
+		<PackageVersion Include="Avalonia.Controls.DataGrid" Version="11.0.0-rc1.1" />
+		<PackageVersion Include="Avalonia.Diagnostics" Version="11.0.0-rc1.1" />
+		<PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2023.6.1.1613-develop" />
+		<PackageVersion Include="EvilBaschdi.About.Wpf" Version="2023.6.1.1613-develop" />
 		<PackageVersion Include="EvilBaschdi.Core" Version="2023.5.14.959-develop" />
-		<PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2023.5.9.2008-develop" />
+		<PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2023.5.31.2102-develop" />
 		<PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2023.5.10.1552-develop" />
 		<PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2023.5.16.1928-develop" />
 		<PackageVersion Include="EvilBaschdi.Settings" Version="2023.5.16.1928-develop" />
@@ -30,13 +30,13 @@
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
 		<PackageVersion Include="coverlet.collector" Version="6.0.0" />
 		<PackageVersion Include="EvilBaschdi.Testing" Version="2023.5.28.841-develop" />
-		<PackageVersion Include="FluentAssertions.Analyzers" Version="0.18.0" />
+		<PackageVersion Include="FluentAssertions.Analyzers" Version="0.19.1" />
 		<PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.10" />
-		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
+		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.1" />
 		<PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
 		<PackageVersion Include="xunit.analyzers" Version="1.2.0-pre.9" />
-		<PackageVersion Include="xunit.runner.console" Version="2.5.0-pre.21" />
-		<PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0-pre.14" />
+		<PackageVersion Include="xunit.runner.console" Version="2.5.0-pre.22" />
+		<PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0-pre.15" />
 	</ItemGroup>
 
 </Project>
