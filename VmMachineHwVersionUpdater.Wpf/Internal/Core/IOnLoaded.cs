@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace VmMachineHwVersionUpdater.Wpf;
+namespace VmMachineHwVersionUpdater.Wpf.Internal.Core;
 
 /// <summary>
 /// </summary>

@@ -1,4 +1,6 @@
-﻿namespace VmMachineHwVersionUpdater.Wpf.Tests;
+﻿using VmMachineHwVersionUpdater.Wpf.DependencyInjection;
+
+namespace VmMachineHwVersionUpdater.Wpf.Tests;
 
 public class ConfigureDelegateForConfigureServicesTests
 {

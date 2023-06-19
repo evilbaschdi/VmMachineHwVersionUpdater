@@ -19,4 +19,14 @@
 		<None Remove="TestResults\**" />
 	</ItemGroup>
 
+	<ItemGroup Condition="$(MSBuildProjectName.Contains('Core'))">
+		<None Update="Settings\GuestOsStringMapping.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
+		<None Update="Settings\VmPools.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 </Project>

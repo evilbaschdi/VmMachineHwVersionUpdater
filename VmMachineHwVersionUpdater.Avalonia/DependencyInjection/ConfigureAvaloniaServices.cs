@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using EvilBaschdi.About.Core;
 using EvilBaschdi.Core.Avalonia;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
@@ -13,11 +13,12 @@ public class ConfigureAvaloniaServices : IConfigureAvaloniaServices
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.AddSingleton<ICurrentAssembly, CurrentAssembly>();
-        services.AddSingleton<IAboutContent, AboutContent>();
         services.AddTransient<ISeparator, AvaloniaControlsSeparator>();
         services.AddSingleton<IComparer, MachineComparer>();
         services.AddSingleton<IConfigureDataGridCollectionView, ConfigureDataGridCollectionView>();
         services.AddSingleton<IFilterDataGridCollectionView, FilterDataGridCollectionView>();
+
+        services.TryAddSingleton<IHandleOsDependentTitleBar, HandleOsDependentTitleBar>();
+        services.TryAddSingleton<IApplicationLayout, ApplicationLayout>();
     }
 }

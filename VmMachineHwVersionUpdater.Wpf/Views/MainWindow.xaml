@@ -1,5 +1,5 @@
 ﻿<!-- ReSharper disable Xaml.BindingWithoutContextNotResolved -->
-<mah:MetroWindow x:Class="VmMachineHwVersionUpdater.Wpf.MainWindow"
+<mah:MetroWindow x:Class="VmMachineHwVersionUpdater.Wpf.Views.MainWindow"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
@@ -11,7 +11,7 @@
                  TitleCharacterCasing="Normal"
                  Width="1000"
                  Height="700"
-                 Icon="b.ico"
+                 Icon="/Assets/b.ico"
                  WindowStartupLocation="CenterOwner"
                  ShowIconOnTitleBar="False"
                  BorderBrush="{DynamicResource MahApps.Brushes.Accent}"

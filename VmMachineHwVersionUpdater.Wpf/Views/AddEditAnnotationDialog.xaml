@@ -1,4 +1,4 @@
-﻿<mah:MetroWindow x:Class="VmMachineHwVersionUpdater.Wpf.AddEditAnnotationDialog"
+﻿<mah:MetroWindow x:Class="VmMachineHwVersionUpdater.Wpf.Views.AddEditAnnotationDialog"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
@@ -6,7 +6,7 @@
                  TitleCharacterCasing="Normal"
                  Width="450"
                  Height="450"
-                 Icon="b.ico"
+                 Icon="/Assets/b.ico"
                  WindowStartupLocation="CenterOwner"
                  ShowIconOnTitleBar="False">
 

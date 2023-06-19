@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<ApplicationIcon>b.ico</ApplicationIcon>
+		<ApplicationIcon>Assets/b.ico</ApplicationIcon>
 		<Description>VM Toolbox Wpf</Description>
 		<UseWPF>true</UseWPF>
 		<OutputType>WinExe</OutputType>
@@ -28,23 +28,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<AppDesigner Include="Properties\" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Resource Include="b.ico">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Resource>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="about.png">
+		<Content Include="Assets\about.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<Resource Include="Assets\b.ico">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Resource>
 	</ItemGroup>
 
 </Project>

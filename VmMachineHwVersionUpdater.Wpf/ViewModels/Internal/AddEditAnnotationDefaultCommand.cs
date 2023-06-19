@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using VmMachineHwVersionUpdater.Wpf.Views;
 
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 

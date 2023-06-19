@@ -1,6 +1,7 @@
 <Project>
 
 	<PropertyGroup>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
 		<Authors>Sebastian Walter</Authors>
 		<Company>evilbaschdi (Sebastian Walter)</Company>
 		<Copyright>Copyright © 2014 - $([System.DateTime]::UtcNow.ToString(yyyy)) evilbaschdi</Copyright>
@@ -59,13 +60,12 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(IsTestProject)' != 'true'">
-		<PackageReference Include="Microsoft.SourceLink.GitHub">
+		<PackageReference Include="EvilBaschdi.Core" />
+		<PackageReference Include="EvilBaschdi.DependencyInjection" />
+		<PackageReference Include="EvilBaschdi.Settings" />
+		<PackageReference Include="DotNet.ReproducibleBuilds">
 			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.SourceLink.AzureRepos.Git">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
@@ -108,6 +108,11 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<!-- ReSharper disable once UnknownProperty -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Core')) != 'true' and  $(MSBuildProjectName.EndsWith('.Tests')) != 'true'">
+		<ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->

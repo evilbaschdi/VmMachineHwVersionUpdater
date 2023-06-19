@@ -31,17 +31,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
 		<Content Include="Assets\about.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Resource Include="Assets\b.ico">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>

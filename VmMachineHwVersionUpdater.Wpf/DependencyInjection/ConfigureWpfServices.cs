@@ -1,5 +1,5 @@
-﻿using EvilBaschdi.About.Core;
-using EvilBaschdi.Core.Wpf;
+﻿using EvilBaschdi.Core.Wpf;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.Wpf.DependencyInjection;
@@ -12,14 +12,12 @@ public class ConfigureWpfServices : IConfigureWpfServices
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        services.AddSingleton<IAboutContent, AboutContent>();
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
-        services.AddSingleton<IApplicationLayout, ApplicationLayout>();
-        services.AddSingleton<IApplicationStyle, ApplicationStyle>();
-        services.AddSingleton<IApplyMicaBrush, ApplyMicaBrush>();
+        services.TryAddSingleton<IApplicationLayout, ApplicationLayout>();
+        services.TryAddSingleton<IApplicationStyle, ApplicationStyle>();
+        services.TryAddSingleton<IApplyMicaBrush, ApplyMicaBrush>();
         services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
         services.AddSingleton<IConfigureListCollectionView, ConfigureListCollectionView>();
-        services.AddSingleton<ICurrentAssembly, CurrentAssembly>();
         services.AddSingleton<ICurrentItemSource, CurrentItemSource>();
         services.AddSingleton<IFilterListCollectionView, FilterListCollectionView>();
         services.AddTransient<ISeparator, SystemWindowsControlsSeparator>();

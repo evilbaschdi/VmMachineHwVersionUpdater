@@ -60,7 +60,11 @@ public class MainWindowViewModel : ApplicationLayoutViewModel, IMainWindowViewMo
     public void Run()
     {
         _initDefaultCommands.DialogCoordinatorContext = this;
-        _initDefaultCommands.Run();
+        _initDefaultCommands.ArchiveDefaultCommand.DialogCoordinatorContext = this;
+        _initDefaultCommands.CopyDefaultCommand.DialogCoordinatorContext = this;
+        _initDefaultCommands.DeleteDefaultCommand.DialogCoordinatorContext = this;
+        _initDefaultCommands.ReloadDefaultCommand.DialogCoordinatorContext = this;
+        _initDefaultCommands.RenameDefaultCommand.DialogCoordinatorContext = this;
 
         AboutWindowClick = _initDefaultCommands.AboutWindowClickDefaultCommand.DefaultCommandValue;
         AddEditAnnotation = _initDefaultCommands.AddEditAnnotationDefaultCommand.DefaultCommandValue;

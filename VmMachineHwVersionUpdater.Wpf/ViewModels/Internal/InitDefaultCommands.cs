@@ -3,18 +3,6 @@
 /// <inheritdoc />
 public class InitDefaultCommands : IInitDefaultCommands
 {
-    private readonly IAboutWindowClickDefaultCommand _aboutWindowClickDefaultCommand;
-    private readonly IAddEditAnnotationDefaultCommand _addEditAnnotationDefaultCommand;
-    private readonly IArchiveDefaultCommand _archiveDefaultCommand;
-    private readonly ICopyDefaultCommand _copyDefaultCommand;
-    private readonly IDeleteDefaultCommand _deleteDefaultCommand;
-    private readonly IGotToDefaultCommand _gotToDefaultCommand;
-    private readonly IOpenWithCodeDefaultCommand _openWithCodeDefaultCommand;
-    private readonly IReloadDefaultCommand _reloadDefaultCommand;
-    private readonly IRenameDefaultCommand _renameDefaultCommand;
-    private readonly IStartDefaultCommand _startDefaultCommand;
-    private readonly IUpdateAllDefaultCommand _updateAllDefaultCommand;
-
     /// <summary>
     ///     Constructor
     /// </summary>
@@ -31,17 +19,17 @@ public class InitDefaultCommands : IInitDefaultCommands
                                [NotNull] IUpdateAllDefaultCommand updateAllDefaultCommand
     )
     {
-        _aboutWindowClickDefaultCommand = aboutWindowClickDefaultCommand ?? throw new ArgumentNullException(nameof(aboutWindowClickDefaultCommand));
-        _archiveDefaultCommand = archiveDefaultCommand ?? throw new ArgumentNullException(nameof(archiveDefaultCommand));
-        _copyDefaultCommand = copyDefaultCommand ?? throw new ArgumentNullException(nameof(copyDefaultCommand));
-        _openWithCodeDefaultCommand = openWithCodeDefaultCommand ?? throw new ArgumentNullException(nameof(openWithCodeDefaultCommand));
-        _addEditAnnotationDefaultCommand = addEditAnnotationDefaultCommand ?? throw new ArgumentNullException(nameof(addEditAnnotationDefaultCommand));
-        _deleteDefaultCommand = deleteDefaultCommand ?? throw new ArgumentNullException(nameof(deleteDefaultCommand));
-        _gotToDefaultCommand = gotToDefaultCommand ?? throw new ArgumentNullException(nameof(gotToDefaultCommand));
-        _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
-        _renameDefaultCommand = renameDefaultCommand ?? throw new ArgumentNullException(nameof(renameDefaultCommand));
-        _startDefaultCommand = startDefaultCommand ?? throw new ArgumentNullException(nameof(startDefaultCommand));
-        _updateAllDefaultCommand = updateAllDefaultCommand ?? throw new ArgumentNullException(nameof(updateAllDefaultCommand));
+        AboutWindowClickDefaultCommand = aboutWindowClickDefaultCommand;
+        ArchiveDefaultCommand = archiveDefaultCommand;
+        CopyDefaultCommand = copyDefaultCommand;
+        OpenWithCodeDefaultCommand = openWithCodeDefaultCommand;
+        AddEditAnnotationDefaultCommand = addEditAnnotationDefaultCommand;
+        DeleteDefaultCommand = deleteDefaultCommand;
+        GotToDefaultCommand = gotToDefaultCommand;
+        ReloadDefaultCommand = reloadDefaultCommand;
+        RenameDefaultCommand = renameDefaultCommand;
+        StartDefaultCommand = startDefaultCommand;
+        UpdateAllDefaultCommand = updateAllDefaultCommand;
     }
 
     /// <inheritdoc />
@@ -79,26 +67,4 @@ public class InitDefaultCommands : IInitDefaultCommands
 
     /// <inheritdoc />
     public object DialogCoordinatorContext { get; set; }
-
-    /// <inheritdoc />
-    public void Run()
-    {
-        AboutWindowClickDefaultCommand = _aboutWindowClickDefaultCommand;
-        ArchiveDefaultCommand = _archiveDefaultCommand;
-        CopyDefaultCommand = _copyDefaultCommand;
-        OpenWithCodeDefaultCommand = _openWithCodeDefaultCommand;
-        AddEditAnnotationDefaultCommand = _addEditAnnotationDefaultCommand;
-        ReloadDefaultCommand = _reloadDefaultCommand;
-        RenameDefaultCommand = _renameDefaultCommand;
-        DeleteDefaultCommand = _deleteDefaultCommand;
-        GotToDefaultCommand = _gotToDefaultCommand;
-        StartDefaultCommand = _startDefaultCommand;
-        UpdateAllDefaultCommand = _updateAllDefaultCommand;
-
-        ArchiveDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
-        CopyDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
-        DeleteDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
-        ReloadDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
-        RenameDefaultCommand.DialogCoordinatorContext = DialogCoordinatorContext;
-    }
 }

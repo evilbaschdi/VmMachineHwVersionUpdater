@@ -4,20 +4,4 @@
 		<Description>VM Toolbox Core</Description>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.Core" />
-		<PackageReference Include="EvilBaschdi.DependencyInjection" />
-		<PackageReference Include="EvilBaschdi.Settings" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="Settings\GuestOsStringMapping.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-
-		<None Update="Settings\VmPools.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
 </Project>

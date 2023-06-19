@@ -1,9 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Reactive;
-using Avalonia;
 using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
-using EvilBaschdi.About.Avalonia;
 using ReactiveUI;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -45,13 +42,11 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     {
         _load = load ?? throw new ArgumentNullException(nameof(load));
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-
         _loadSearchOsItems = loadSearchOsItems ?? throw new ArgumentNullException(nameof(loadSearchOsItems));
         _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
         _filterDataGridCollectionView = filterDataGridCollectionView ?? throw new ArgumentNullException(nameof(filterDataGridCollectionView));
         _initReactiveCommands = initReactiveCommands ?? throw new ArgumentNullException(nameof(initReactiveCommands));
 
-        AboutWindowCommand = ReactiveCommand.Create(AboutWindowCommandAction);
         UpdateAllCommand = ReactiveCommand.Create(UpdateAllCommandAction);
 
         Run();
@@ -60,10 +55,12 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <inheritdoc />
     public void Run()
     {
-        _initReactiveCommands.Run();
+        //_initReactiveCommands.Run();
 
+        AboutWindowCommand = _initReactiveCommands.AboutWindowReactiveCommand.ReactiveCommandValue;
         OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.ReactiveCommandValue;
         StartCommand = _initReactiveCommands.StartReactiveCommand.ReactiveCommandValue;
+        UpdateAllCommand = _initReactiveCommands.UpdateAllReactiveCommand.ReactiveCommandValue;
     }
 
     #endregion Constructor
@@ -80,16 +77,6 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     private void UpdateAllCommandAction()
     {
         throw new NotImplementedException();
-    }
-
-    private void AboutWindowCommandAction()
-    {
-        var aboutWindow = App.ServiceProvider.GetRequiredService<AboutWindow>();
-        var mainWindow = Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop ? desktop.MainWindow : null;
-        if (mainWindow != null)
-        {
-            aboutWindow.ShowDialog(mainWindow);
-        }
     }
 
     #region Commands

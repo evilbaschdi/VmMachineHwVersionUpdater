@@ -1,8 +1,9 @@
-﻿using MahApps.Metro.Controls.Dialogs;
+﻿using EvilBaschdi.About.Core.DependencyInjection;
+using EvilBaschdi.About.Wpf.DependencyInjection;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Hosting;
-using VmMachineHwVersionUpdater.Wpf.DependencyInjection;
 
-namespace VmMachineHwVersionUpdater.Wpf;
+namespace VmMachineHwVersionUpdater.Wpf.DependencyInjection;
 
 /// <inheritdoc />
 public class ConfigureDelegateForConfigureServices : IConfigureDelegateForConfigureServices
@@ -18,6 +19,9 @@ public class ConfigureDelegateForConfigureServices : IConfigureDelegateForConfig
 
         IConfigureWpfServices configureWpfServices = new ConfigureWpfServices();
         configureWpfServices.RunFor(serviceCollection);
+
+        IConfigureAboutServices configureAboutServices = new ConfigureAboutServices();
+        configureAboutServices.RunFor(serviceCollection);
 
         IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
         configureCoreServices.RunFor(serviceCollection);

@@ -2,7 +2,7 @@
 
 /// <inheritdoc cref="IRun" />
 /// <inheritdoc cref="IDialogCoordinatorContext" />
-public interface IInitDefaultCommands : IRun, IDialogCoordinatorContext
+public interface IInitDefaultCommands : IDialogCoordinatorContext
 {
     // ReSharper disable UnusedMemberInSuper.Global
     /// <inheritdoc cref="IAboutWindowClickDefaultCommand" />

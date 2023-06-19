@@ -93,17 +93,13 @@
                             <ContextMenu>
                                 <!-- ReSharper disable Xaml.RedundantResource -->
                                 <!-- Start -->
-
                                 <MenuItem Header="Start machine..." Command="{Binding StartCommand}" />
-
 
                                 <!-- Rename -->
                                 <MenuItem Header="Rename..." Command="{Binding RenameCommand}" />
 
                                 <!-- Add / Edit Annotation -->
                                 <MenuItem Header="Add / Edit Annotation..." Command="{Binding AddEditAnnotationCommand}" />
-
-                                <!-- Open with Code -->
 
                                 <!-- Open with Code -->
                                 <MenuItem Header="Open with Code..." Command="{Binding OpenWithCodeCommand}" />

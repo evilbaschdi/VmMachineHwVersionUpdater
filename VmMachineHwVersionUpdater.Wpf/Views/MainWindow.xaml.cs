@@ -1,8 +1,9 @@
 ﻿using System.Windows;
 using MahApps.Metro.Controls;
+using VmMachineHwVersionUpdater.Wpf.Internal.Core;
 using VmMachineHwVersionUpdater.Wpf.ViewModels;
 
-namespace VmMachineHwVersionUpdater.Wpf;
+namespace VmMachineHwVersionUpdater.Wpf.Views;
 
 /// <inheritdoc cref="MetroWindow" />
 /// <summary>

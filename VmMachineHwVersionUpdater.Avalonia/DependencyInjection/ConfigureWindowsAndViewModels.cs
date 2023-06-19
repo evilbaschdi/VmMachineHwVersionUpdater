@@ -1,7 +1,5 @@
-﻿using EvilBaschdi.About.Avalonia;
-using EvilBaschdi.About.Avalonia.Models;
-using EvilBaschdi.Core.Avalonia;
-using VmMachineHwVersionUpdater.Avalonia.ViewModels;
+﻿using VmMachineHwVersionUpdater.Avalonia.ViewModels;
+using VmMachineHwVersionUpdater.Avalonia.Views;
 
 namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 
@@ -13,14 +11,9 @@ public class ConfigureWindowsAndViewModels : IConfigureWindowsAndViewModels
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        //services.AddSingleton<AddEditAnnotationDialogViewModel>();
-        //services.AddTransient(typeof(AddEditAnnotationDialog));
+        services.AddSingleton<AddEditAnnotationDialogViewModel>();
+        services.AddTransient(typeof(AddEditAnnotationDialog));
 
-        services.AddSingleton<IAboutViewModelExtended, AboutViewModelExtended>();
-        services.AddTransient(typeof(AboutWindow));
-
-        services.AddSingleton<IHandleOsDependentTitleBar, HandleOsDependentTitleBar>();
-        services.AddSingleton<IApplicationLayout, ApplicationLayout>();
         services.AddSingleton<MainWindowViewModel>();
     }
 }

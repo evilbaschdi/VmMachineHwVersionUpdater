@@ -8,7 +8,7 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 public class ReloadDefaultCommand : IReloadDefaultCommand
 {
     [NotNull] private readonly IDialogCoordinator _instance;
-    private readonly IProcessByPath _processByPath;
+    [NotNull] private readonly IProcessByPath _processByPath;
 
     /// <summary>
     ///     Constructor

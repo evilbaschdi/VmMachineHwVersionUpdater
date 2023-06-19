@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using VmMachineHwVersionUpdater.Wpf.DependencyInjection;
+using VmMachineHwVersionUpdater.Wpf.Views;
 #if !DEBUG
 using ControlzEx.Theming;
 #endif

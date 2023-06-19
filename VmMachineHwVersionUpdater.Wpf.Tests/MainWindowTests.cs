@@ -1,3 +1,6 @@
+using VmMachineHwVersionUpdater.Wpf.Internal.Core;
+using VmMachineHwVersionUpdater.Wpf.Views;
+
 namespace VmMachineHwVersionUpdater.Wpf.Tests;
 
 public class MainWindowTests

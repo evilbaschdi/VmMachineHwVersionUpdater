@@ -2,6 +2,7 @@
 using EvilBaschdi.About.Wpf;
 using VmMachineHwVersionUpdater.Wpf.DependencyInjection;
 using VmMachineHwVersionUpdater.Wpf.ViewModels;
+using VmMachineHwVersionUpdater.Wpf.Views;
 
 namespace VmMachineHwVersionUpdater.Wpf.Tests.DependencyInjection;
 
