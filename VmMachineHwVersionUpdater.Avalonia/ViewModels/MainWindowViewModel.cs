@@ -58,7 +58,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         ArchiveCommand = _initReactiveCommands.ArchiveReactiveCommand.ReactiveCommandValue;
         CopyCommand = _initReactiveCommands.CopyReactiveCommand.ReactiveCommandValue;
         DeleteCommand = _initReactiveCommands.DeleteReactiveCommand.ReactiveCommandValue;
-        GotToCommand = _initReactiveCommands.GotToReactiveCommand.ReactiveCommandValue;
+        GoToCommand = _initReactiveCommands.GoToReactiveCommand.ReactiveCommandValue;
         OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.ReactiveCommandValue;
         RenameCommand = _initReactiveCommands.RenameReactiveCommand.ReactiveCommandValue;
         StartCommand = _initReactiveCommands.StartReactiveCommand.ReactiveCommandValue;
@@ -100,7 +100,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> GotToCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> GoToCommand { get; set; }
 
     /// <summary>
     /// </summary>

@@ -19,8 +19,8 @@ public interface IInitReactiveCommands
     /// <inheritdoc cref="IDeleteReactiveCommand" />
     public IDeleteReactiveCommand DeleteReactiveCommand { get; set; }
 
-    /// <inheritdoc cref="IGotToReactiveCommand" />
-    public IGotToReactiveCommand GotToReactiveCommand { get; set; }
+    /// <inheritdoc cref="IGoToReactiveCommand" />
+    public IGoToReactiveCommand GoToReactiveCommand { get; set; }
 
     /// <inheritdoc cref="IOpenWithCodeReactiveCommand" />
     public IOpenWithCodeReactiveCommand OpenWithCodeReactiveCommand { get; set; }
