@@ -30,11 +30,7 @@ public class AddEditAnnotationDialogViewModel : ViewModelBase, IAddEditAnnotatio
     public Machine SelectedMachine
     {
         get => _currentItem.Value;
-        set
-        {
-            _currentItem.Value = value;
-            //OnPropertyChanged();
-        }
+        set => _currentItem.Value = value;
     }
 
     /// <inheritdoc />

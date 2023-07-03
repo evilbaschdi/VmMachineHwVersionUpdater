@@ -1,23 +1,20 @@
-﻿using System.IO;
-using EvilBaschdi.Core.AppHelpers;
+﻿using VmMachineHwVersionUpdater.Core.Commands;
 
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
 public class GotToDefaultCommand : IGotToDefaultCommand
 {
-    private readonly ICurrentItem _currentItem;
-    private readonly IProcessByPath _processByPath;
+    private readonly IGoToCommand _goToCommand;
 
     /// <summary>
     ///     Constructor
     /// </summary>
-    /// <param name="currentItem"></param>
-    /// <param name="processByPath"></param>
-    public GotToDefaultCommand([NotNull] ICurrentItem currentItem, [NotNull] IProcessByPath processByPath)
+    /// <param name="goToCommand"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public GotToDefaultCommand([NotNull] IGoToCommand goToCommand)
     {
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
+        _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
     }
 
     /// <inheritdoc />
@@ -29,15 +26,6 @@ public class GotToDefaultCommand : IGotToDefaultCommand
     /// <inheritdoc />
     public void Run()
     {
-        if (!File.Exists(_currentItem.Value.Path))
-        {
-            return;
-        }
-
-        var path = Path.GetDirectoryName(_currentItem.Value.Path);
-        if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
-        {
-            _processByPath.RunFor(path);
-        }
+        _goToCommand.Run();
     }
 }

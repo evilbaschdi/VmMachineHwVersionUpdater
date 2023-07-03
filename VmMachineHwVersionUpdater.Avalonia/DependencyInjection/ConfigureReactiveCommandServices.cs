@@ -17,7 +17,7 @@ public class ConfigureReactiveCommandServices : IConfigureReactiveCommandService
         services.AddSingleton<IArchiveReactiveCommand, ArchiveReactiveCommand>();
         services.AddSingleton<ICopyReactiveCommand, CopyReactiveCommand>();
         services.AddSingleton<IDeleteReactiveCommand, DeleteReactiveCommand>();
-        services.AddSingleton<IGotToReactiveCommand, GotToReactiveCommand>();
+        services.AddSingleton<IGoToReactiveCommand, GoToReactiveCommand>();
         services.AddSingleton<IOpenWithCodeReactiveCommand, OpenWithCodeReactiveCommand>();
         services.AddSingleton<IReloadReactiveCommand, ReloadReactiveCommand>();
         services.AddSingleton<IRenameReactiveCommand, RenameReactiveCommand>();

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using EvilBaschdi.Core.AppHelpers;
 using MahApps.Metro.Controls.Dialogs;
+using VmMachineHwVersionUpdater.Core.Commands;
 
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
@@ -8,17 +8,18 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 public class ReloadDefaultCommand : IReloadDefaultCommand
 {
     [NotNull] private readonly IDialogCoordinator _instance;
-    [NotNull] private readonly IProcessByPath _processByPath;
+    private readonly IReloadCommand _reloadCommand;
 
     /// <summary>
     ///     Constructor
     /// </summary>
     /// <param name="instance"></param>
-    /// <param name="processByPath"></param>
-    public ReloadDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IProcessByPath processByPath)
+    /// <param name="reloadCommand"></param>
+    public ReloadDefaultCommand([NotNull] IDialogCoordinator instance,
+                                [NotNull] IReloadCommand reloadCommand)
     {
         _instance = instance ?? throw new ArgumentNullException(nameof(instance));
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
+        _reloadCommand = reloadCommand ?? throw new ArgumentNullException(nameof(reloadCommand));
     }
 
     /// <inheritdoc />
@@ -42,13 +43,7 @@ public class ReloadDefaultCommand : IReloadDefaultCommand
         controller.SetIndeterminate();
         if (controller.IsOpen)
         {
-            await Task.Run(() =>
-                           {
-                               var app = $"{AppContext.BaseDirectory}VmMachineHwVersionUpdater.exe";
-                               var process = _processByPath.ValueFor(app);
-                               process.Start();
-                               process.WaitForInputIdle();
-                           });
+            await Task.Run(_reloadCommand.Run);
 
             await controller.CloseAsync();
             Application.Current.MainWindow?.Close();

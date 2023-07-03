@@ -29,12 +29,14 @@ public class App : Application
     {
         IServiceCollection serviceCollection = new ServiceCollection();
         IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
+        IConfigureCommandServices configureCommandServices = new ConfigureCommandServices();
         IConfigureAboutServices configureAboutServices = new ConfigureAboutServices();
         IConfigureAvaloniaServices configureAvaloniaServices = new ConfigureAvaloniaServices();
         IConfigureReactiveCommandServices configureReactiveCommandServices = new ConfigureReactiveCommandServices();
         IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
 
         configureCoreServices.RunFor(serviceCollection);
+        configureCommandServices.RunFor(serviceCollection);
         configureAboutServices.RunFor(serviceCollection);
         configureAvaloniaServices.RunFor(serviceCollection);
         configureReactiveCommandServices.RunFor(serviceCollection);

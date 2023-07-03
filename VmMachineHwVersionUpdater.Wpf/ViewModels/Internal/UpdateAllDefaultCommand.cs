@@ -19,8 +19,12 @@ public class UpdateAllDefaultCommand : IUpdateAllDefaultCommand
     /// <param name="currentItemSource"></param>
     /// <param name="taskbarItemProgressState"></param>
     /// <param name="reloadDefaultCommand"></param>
-    public UpdateAllDefaultCommand([NotNull] IUpdateMachineVersion updateMachineVersion, [NotNull] ILoad load, [NotNull] ICurrentItemSource currentItemSource,
-                                   [NotNull] ITaskbarItemProgressState taskbarItemProgressState, [NotNull] IReloadDefaultCommand reloadDefaultCommand)
+    public UpdateAllDefaultCommand(
+        [NotNull] IUpdateMachineVersion updateMachineVersion,
+        [NotNull] ILoad load,
+        [NotNull] ICurrentItemSource currentItemSource,
+        [NotNull] ITaskbarItemProgressState taskbarItemProgressState,
+        [NotNull] IReloadDefaultCommand reloadDefaultCommand)
     {
         _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
         _load = load ?? throw new ArgumentNullException(nameof(load));

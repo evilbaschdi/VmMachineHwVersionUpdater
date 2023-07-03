@@ -31,8 +31,9 @@ public class UpdateAnnotation : IUpdateAnnotation
                 _addEditAnnotation.RunFor(machine.Path, newAnnotation.Replace("\r", "|0D").Replace("\n", "|0A"));
             }
 
+            _currentItem.Value.Annotation = newAnnotation;
             //_currentItem.Value = null;
-            _addEditAnnotation.Dispose();
+            //_addEditAnnotation.Dispose();
         }
     }
 }

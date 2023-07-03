@@ -1,22 +1,20 @@
-﻿using EvilBaschdi.Core.AppHelpers;
+﻿using VmMachineHwVersionUpdater.Core.Commands;
 
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
 public class StartDefaultCommand : IStartDefaultCommand
 {
-    private readonly ICurrentItem _currentItem;
-    private readonly IProcessByPath _processByPath;
+    private readonly IStartCommand _startCommand;
 
     /// <summary>
     ///     Constructor
     /// </summary>
-    /// <param name="processByPath"></param>
-    /// <param name="currentItem"></param>
-    public StartDefaultCommand([NotNull] IProcessByPath processByPath, [NotNull] ICurrentItem currentItem)
+    /// <param name="startCommand"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public StartDefaultCommand([NotNull] IStartCommand startCommand)
     {
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+        _startCommand = startCommand ?? throw new ArgumentNullException(nameof(startCommand));
     }
 
     /// <inheritdoc />
@@ -28,6 +26,6 @@ public class StartDefaultCommand : IStartDefaultCommand
     /// <inheritdoc />
     public void Run()
     {
-        _processByPath.RunFor(_currentItem.Value.Path);
+        _startCommand.Run();
     }
 }

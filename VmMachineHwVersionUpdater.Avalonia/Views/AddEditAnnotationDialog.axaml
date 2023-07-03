@@ -19,21 +19,17 @@
 		</ExperimentalAcrylicBorder>
 
 		<Panel Name="HeaderPanel" IsVisible="False" Margin="7">
-			<Panel Margin="0">
-				<Button VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" IsEnabled="False">
+			<Panel Margin="7">
 					<StackPanel Orientation="Horizontal">
-						<ContentControl>
-							<Image Source="/Assets/b.ico" Width="20" Height="20" />
-						</ContentControl>
+						<Image Source="/Assets/b.ico" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0"/>
 						<TextBlock Text="Add / Edit Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,0,0,0" />
 					</StackPanel>
-				</Button>
 			</Panel>
 		</Panel>
 
 		<Panel Name="MainPanel" Margin="0,0,0,0">
-			<Panel Name="ContentPanel" Margin="0,0,0,0">
-				<TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding AnnotationText,Mode=TwoWay}" />
+			<Panel Name="ContentPanel" Margin="7">
+				<TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding AnnotationText, Mode=TwoWay}" />
 			</Panel>
 		</Panel>
 	</Panel>

@@ -32,12 +32,12 @@ public class DeleteDefaultCommand : IDeleteDefaultCommand
     {
         get
         {
-            async void Execute(object _) => await Value();
-
-            return new()
+            return new DefaultCommand
                    {
                        Command = new RelayCommand(Execute)
                    };
+
+            async void Execute(object _) => await Value();
         }
     }
 

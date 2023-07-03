@@ -1,23 +1,19 @@
-﻿using System.IO;
-using EvilBaschdi.Core.AppHelpers;
+﻿using VmMachineHwVersionUpdater.Core.Commands;
 
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
 public class OpenWithCodeDefaultCommand : IOpenWithCodeDefaultCommand
 {
-    private readonly ICurrentItem _currentItem;
-    private readonly IProcessByPath _processByPath;
+    private readonly IOpenWithCodeCommand _openWithCodeCommand;
 
     /// <summary>
     ///     Constructor
     /// </summary>
-    /// <param name="currentItem"></param>
-    /// <param name="processByPath"></param>
-    public OpenWithCodeDefaultCommand([NotNull] ICurrentItem currentItem, [NotNull] IProcessByPath processByPath)
+    /// <param name="openWithCodeCommand"></param>
+    public OpenWithCodeDefaultCommand([NotNull] IOpenWithCodeCommand openWithCodeCommand)
     {
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
+        _openWithCodeCommand = openWithCodeCommand ?? throw new ArgumentNullException(nameof(openWithCodeCommand));
     }
 
     /// <inheritdoc />
@@ -29,11 +25,6 @@ public class OpenWithCodeDefaultCommand : IOpenWithCodeDefaultCommand
     /// <inheritdoc />
     public void Run()
     {
-        if (!File.Exists(_currentItem.Value.Path))
-        {
-            return;
-        }
-
-        _processByPath.RunFor($"vscode://file/{_currentItem.Value.Path}");
+        _openWithCodeCommand.Run();
     }
 }

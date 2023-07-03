@@ -1,4 +1,4 @@
-﻿using EvilBaschdi.Core.AppHelpers;
+﻿using VmMachineHwVersionUpdater.Core.Commands;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -6,20 +6,16 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
 public class StartReactiveCommand : ReactiveCommandUnitRun, IStartReactiveCommand
 {
-    private readonly IProcessByPath _processByPath;
-    private readonly ICurrentItem _currentItem;
+    private readonly IStartCommand _startCommand;
 
     /// <summary>
     ///     Constructor
     /// </summary>
-    /// <param name="processByPath"></param>
-    /// <param name="currentItem"></param>
+    /// <param name="startCommand"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public StartReactiveCommand([NotNull] IProcessByPath processByPath,
-                                [NotNull] ICurrentItem currentItem)
+    public StartReactiveCommand([NotNull] IStartCommand startCommand)
     {
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+        _startCommand = startCommand ?? throw new ArgumentNullException(nameof(startCommand));
     }
 
     /// <summary>
@@ -27,6 +23,6 @@ public class StartReactiveCommand : ReactiveCommandUnitRun, IStartReactiveComman
     /// </summary>
     public override void Run()
     {
-        _processByPath.RunFor(_currentItem.Value.Path);
+        _startCommand.Run();
     }
 }

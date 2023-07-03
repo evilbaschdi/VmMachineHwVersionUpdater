@@ -34,12 +34,11 @@ public class ConfigureDataGridCollectionView : CachedWritableValue<DataGridColle
     {
         get
         {
-            if (_load.Value.VmDataGridItemsSource == null)
+            var loadValue = _load.Value;
+            if (loadValue?.VmDataGridItemsSource == null)
             {
                 return new DataGridCollectionView(new List<Machine>());
             }
-
-            var loadValue = _load.Value;
 
             if (!_settingsValid.Value)
             {

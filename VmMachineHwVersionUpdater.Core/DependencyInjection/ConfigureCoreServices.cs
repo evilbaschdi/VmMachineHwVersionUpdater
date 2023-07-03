@@ -11,7 +11,9 @@ public class ConfigureCoreServices : IConfigureCoreServices
     {
         ArgumentNullException.ThrowIfNull(services);
 
+        services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
         services.AddSingleton<IArchiveMachine, ArchiveMachine>();
+        services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
         services.AddSingleton<IConvertAnnotationLineBreaks, ConvertAnnotationLineBreaks>();
         services.AddSingleton<ICopyDirectoryWithFilesWithProgress, CopyDirectoryWithFilesWithProgress>();
         services.AddSingleton<ICopyDirectoryWithProgress, CopyDirectoryWithProgress>();

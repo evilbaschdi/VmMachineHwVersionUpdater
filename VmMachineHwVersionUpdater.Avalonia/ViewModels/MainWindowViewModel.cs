@@ -47,18 +47,20 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         _filterDataGridCollectionView = filterDataGridCollectionView ?? throw new ArgumentNullException(nameof(filterDataGridCollectionView));
         _initReactiveCommands = initReactiveCommands ?? throw new ArgumentNullException(nameof(initReactiveCommands));
 
-        UpdateAllCommand = ReactiveCommand.Create(UpdateAllCommandAction);
-
         Run();
     }
 
     /// <inheritdoc />
     public void Run()
     {
-        //_initReactiveCommands.Run();
-
         AboutWindowCommand = _initReactiveCommands.AboutWindowReactiveCommand.ReactiveCommandValue;
+        AddEditAnnotationCommand = _initReactiveCommands.AddEditAnnotationReactiveCommand.ReactiveCommandValue;
+        ArchiveCommand = _initReactiveCommands.ArchiveReactiveCommand.ReactiveCommandValue;
+        CopyCommand = _initReactiveCommands.CopyReactiveCommand.ReactiveCommandValue;
+        DeleteCommand = _initReactiveCommands.DeleteReactiveCommand.ReactiveCommandValue;
+        GotToCommand = _initReactiveCommands.GotToReactiveCommand.ReactiveCommandValue;
         OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.ReactiveCommandValue;
+        RenameCommand = _initReactiveCommands.RenameReactiveCommand.ReactiveCommandValue;
         StartCommand = _initReactiveCommands.StartReactiveCommand.ReactiveCommandValue;
         UpdateAllCommand = _initReactiveCommands.UpdateAllReactiveCommand.ReactiveCommandValue;
     }
@@ -74,11 +76,6 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         set => _configureDataGridCollectionView.Value = value;
     }
 
-    private void UpdateAllCommandAction()
-    {
-        throw new NotImplementedException();
-    }
-
     #region Commands
 
     /// <summary>
@@ -87,7 +84,31 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> UpdateAllCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> AddEditAnnotationCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public ReactiveCommand<Unit, Unit> ArchiveCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public ReactiveCommand<Unit, Unit> CopyCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public ReactiveCommand<Unit, Unit> DeleteCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public ReactiveCommand<Unit, Unit> GotToCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public ReactiveCommand<Unit, Unit> OpenWithCodeCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public ReactiveCommand<Unit, Unit> RenameCommand { get; set; }
 
     /// <summary>
     /// </summary>
@@ -95,7 +116,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> OpenWithCodeCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> UpdateAllCommand { get; set; }
 
     /// <summary>
     /// </summary>

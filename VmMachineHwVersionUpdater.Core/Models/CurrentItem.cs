@@ -9,8 +9,8 @@ public class CurrentItem : CachedWritableValue<Machine>, ICurrentItem
     protected override Machine NonCachedValue => _machine;
 
     /// <inheritdoc />
-    protected override void SaveValue([NotNull] Machine value)
+    protected override void SaveValue([NotNull] Machine machine)
     {
-        _machine = value;
+        _machine = machine;
     }
 }

@@ -1,4 +1,4 @@
-﻿using EvilBaschdi.Core.AppHelpers;
+﻿using VmMachineHwVersionUpdater.Core.Commands;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -6,20 +6,16 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
 public class OpenWithCodeReactiveCommand : ReactiveCommandUnitRun, IOpenWithCodeReactiveCommand
 {
-    private readonly IProcessByPath _processByPath;
-    private readonly ICurrentItem _currentItem;
+    private readonly IOpenWithCodeCommand _openWithCodeCommand;
 
     /// <summary>
     ///     Constructor
     /// </summary>
-    /// <param name="processByPath"></param>
-    /// <param name="currentItem"></param>
+    /// <param name="openWithCodeCommand"></param>
     /// <exception cref="ArgumentNullException"></exception>
-    public OpenWithCodeReactiveCommand([NotNull] IProcessByPath processByPath,
-                                       [NotNull] ICurrentItem currentItem)
+    public OpenWithCodeReactiveCommand([NotNull] IOpenWithCodeCommand openWithCodeCommand)
     {
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+        _openWithCodeCommand = openWithCodeCommand ?? throw new ArgumentNullException(nameof(openWithCodeCommand));
     }
 
     /// <summary>
@@ -27,11 +23,6 @@ public class OpenWithCodeReactiveCommand : ReactiveCommandUnitRun, IOpenWithCode
     /// </summary>
     public override void Run()
     {
-        if (!File.Exists(_currentItem.Value.Path))
-        {
-            return;
-        }
-
-        _processByPath.RunFor($"vscode://file/{_currentItem.Value.Path}");
+        _openWithCodeCommand.Run();
     }
 }

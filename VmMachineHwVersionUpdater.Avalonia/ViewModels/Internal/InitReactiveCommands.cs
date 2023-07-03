@@ -7,7 +7,7 @@ public class InitReactiveCommands : IInitReactiveCommands
     ///     Constructor
     /// </summary>
     /// ///
-    /// <param name="gotToReactiveCommand"></param>
+    /// <param name="goToReactiveCommand"></param>
     /// <param name="openWithCodeReactiveCommand"></param>
     /// <param name="renameReactiveCommand"></param>
     /// <param name="startReactiveCommand"></param>
@@ -25,7 +25,7 @@ public class InitReactiveCommands : IInitReactiveCommands
         [NotNull] IArchiveReactiveCommand archiveReactiveCommand,
         [NotNull] ICopyReactiveCommand copyReactiveCommand,
         [NotNull] IDeleteReactiveCommand deleteReactiveCommand,
-        [NotNull] IGotToReactiveCommand gotToReactiveCommand,
+        [NotNull] IGoToReactiveCommand goToReactiveCommand,
         [NotNull] IOpenWithCodeReactiveCommand openWithCodeReactiveCommand,
         [NotNull] IReloadReactiveCommand reloadReactiveCommand,
         [NotNull] IRenameReactiveCommand renameReactiveCommand,
@@ -38,7 +38,7 @@ public class InitReactiveCommands : IInitReactiveCommands
         ArchiveReactiveCommand = archiveReactiveCommand ?? throw new ArgumentNullException(nameof(archiveReactiveCommand));
         CopyReactiveCommand = copyReactiveCommand ?? throw new ArgumentNullException(nameof(copyReactiveCommand));
         DeleteReactiveCommand = deleteReactiveCommand ?? throw new ArgumentNullException(nameof(deleteReactiveCommand));
-        GotToReactiveCommand = gotToReactiveCommand ?? throw new ArgumentNullException(nameof(gotToReactiveCommand));
+        GoToReactiveCommand = goToReactiveCommand ?? throw new ArgumentNullException(nameof(goToReactiveCommand));
         OpenWithCodeReactiveCommand = openWithCodeReactiveCommand ?? throw new ArgumentNullException(nameof(openWithCodeReactiveCommand));
         ReloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
         RenameReactiveCommand = renameReactiveCommand ?? throw new ArgumentNullException(nameof(renameReactiveCommand));
@@ -62,7 +62,7 @@ public class InitReactiveCommands : IInitReactiveCommands
     public IDeleteReactiveCommand DeleteReactiveCommand { get; set; }
 
     /// <inheritdoc />
-    public IGotToReactiveCommand GotToReactiveCommand { get; set; }
+    public IGoToReactiveCommand GoToReactiveCommand { get; set; }
 
     /// <inheritdoc />
     public IOpenWithCodeReactiveCommand OpenWithCodeReactiveCommand { get; set; }

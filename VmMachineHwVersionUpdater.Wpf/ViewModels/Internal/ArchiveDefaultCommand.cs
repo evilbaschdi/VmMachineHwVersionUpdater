@@ -6,8 +6,8 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 /// <inheritdoc />
 public class ArchiveDefaultCommand : IArchiveDefaultCommand
 {
-    private readonly IArchiveMachine _archiveMachine;
-    private readonly ICurrentItem _currentItem;
+    [NotNull] private readonly IArchiveMachine _archiveMachine;
+    [NotNull] private readonly ICurrentItem _currentItem;
     [NotNull] private readonly IDialogCoordinator _dialogCoordinator;
     [NotNull] private readonly IReloadDefaultCommand _reloadDefaultCommand;
 
@@ -18,12 +18,13 @@ public class ArchiveDefaultCommand : IArchiveDefaultCommand
     /// <param name="currentItem"></param>
     /// <param name="archiveMachine"></param>
     /// <param name="instance"></param>
-    public ArchiveDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ICurrentItem currentItem,
+    public ArchiveDefaultCommand([NotNull] IDialogCoordinator instance,
+                                 [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+                                 [NotNull] ICurrentItem currentItem,
                                  [NotNull] IArchiveMachine archiveMachine)
     {
         _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
         _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
-
         _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
         _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
     }
@@ -54,6 +55,8 @@ public class ArchiveDefaultCommand : IArchiveDefaultCommand
             try
             {
                 _archiveMachine.RunFor(_currentItem.Value);
+
+                await _reloadDefaultCommand.Value();
             }
             catch (IOException ioException)
             {
@@ -63,8 +66,6 @@ public class ArchiveDefaultCommand : IArchiveDefaultCommand
             {
                 await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Archive machine' was canceled", exception.Message);
             }
-
-            await _reloadDefaultCommand.Value();
         }
     }
 

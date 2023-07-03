@@ -12,7 +12,6 @@ public class ConfigureDelegateForConfigureServices : IConfigureDelegateForConfig
     public void RunFor([NotNull] HostBuilderContext _, IServiceCollection serviceCollection)
     {
         ArgumentNullException.ThrowIfNull(_);
-
         ArgumentNullException.ThrowIfNull(serviceCollection);
 
         serviceCollection.AddSingleton(_ => DialogCoordinator.Instance);
@@ -25,6 +24,9 @@ public class ConfigureDelegateForConfigureServices : IConfigureDelegateForConfig
 
         IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
         configureCoreServices.RunFor(serviceCollection);
+
+        IConfigureCommandServices configureCommandServices = new ConfigureCommandServices();
+        configureCommandServices.RunFor(serviceCollection);
 
         IConfigureDefaultCommandServices configureDefaultCommandServices = new ConfigureDefaultCommandServices();
         configureDefaultCommandServices.RunFor(serviceCollection);

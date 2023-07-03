@@ -37,7 +37,7 @@ public class CopyDefaultCommand : ICopyDefaultCommand
         var machine = _currentItem.Value;
         if (!machine.IsEnabledForEditing)
         {
-            await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Rename machine' was canceled", "Machine is currently read only");
+            await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Copy machine' was canceled", "Machine is currently read only");
             return;
         }
 
@@ -58,7 +58,7 @@ public class CopyDefaultCommand : ICopyDefaultCommand
                         DefaultText = machine.DisplayName,
                         ColorScheme = MetroDialogColorScheme.Accented
                     }
-                ).ConfigureAwait(true);
+                );
 
                 if (inputResult != null)
                 {
