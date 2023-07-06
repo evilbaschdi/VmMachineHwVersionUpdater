@@ -61,6 +61,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         GoToCommand = _initReactiveCommands.GoToReactiveCommand.ReactiveCommandValue;
         OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.ReactiveCommandValue;
         RenameCommand = _initReactiveCommands.RenameReactiveCommand.ReactiveCommandValue;
+        ReloadCommand = _initReactiveCommands.ReloadReactiveCommand.ReactiveCommandValue;
         StartCommand = _initReactiveCommands.StartReactiveCommand.ReactiveCommandValue;
         UpdateAllCommand = _initReactiveCommands.UpdateAllReactiveCommand.ReactiveCommandValue;
     }
@@ -80,6 +81,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
     /// <summary>
     /// </summary>
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     public ReactiveCommand<Unit, Unit> AboutWindowCommand { get; set; }
 
     /// <summary>
@@ -108,6 +110,10 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
     /// <summary>
     /// </summary>
+    public ReactiveCommand<Unit, Unit> ReloadCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
     public ReactiveCommand<Unit, Unit> RenameCommand { get; set; }
 
     /// <summary>
@@ -117,6 +123,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <summary>
     /// </summary>
     public ReactiveCommand<Unit, Unit> UpdateAllCommand { get; set; }
+    // ReSharper restore UnusedAutoPropertyAccessor.Global
 
     /// <summary>
     /// </summary>

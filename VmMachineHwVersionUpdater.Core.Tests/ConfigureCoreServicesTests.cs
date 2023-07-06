@@ -34,7 +34,7 @@ public class ConfigureCoreServicesTests
         sut.RunFor(dummyServiceCollection);
 
         // Assert
-        dummyServiceCollection.Should().HaveCount(25);
+        dummyServiceCollection.Should().HaveCount(33);
         dummyServiceCollection.Should().HaveService<IArchiveMachine>().WithImplementation<ArchiveMachine>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IConvertAnnotationLineBreaks>().WithImplementation<ConvertAnnotationLineBreaks>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyMachine>().WithImplementation<CopyMachine>().AsSingleton();

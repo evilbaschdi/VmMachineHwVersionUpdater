@@ -10,6 +10,7 @@
                  WindowStartupLocation="CenterOwner"
                  ShowIconOnTitleBar="False">
 
+    <!-- ReSharper disable once UnusedMember.Global -->
     <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
              Text="{Binding AnnotationText,Mode=TwoWay}" />
 </mah:MetroWindow>

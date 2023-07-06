@@ -25,7 +25,7 @@ public class GuestOsesInUse : IGuestOsesInUse
         {
             var list = new List<string>();
             var configuration = _guestOsStringMapping.Value;
-            var searchOsItems = _load.Value.SearchOsItems;
+            var searchOsItems = _load.Value?.SearchOsItems ?? new List<string>();
 
             foreach (var configurationSection in configuration.GetChildren())
             {
