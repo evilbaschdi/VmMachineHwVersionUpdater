@@ -27,8 +27,8 @@
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.10" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.0-preview.23280.1" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
-    <PackageVersion Include="xunit.analyzers" Version="1.2.0-pre.48" />
-    <PackageVersion Include="xunit.runner.console" Version="2.5.0-pre.44" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0-pre.27" />
+    <PackageVersion Include="xunit.analyzers" Version="1.2.0-pre.49" />
+    <PackageVersion Include="xunit.runner.console" Version="2.5.0-pre.45" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.0-pre.28" />
   </ItemGroup>
 </Project>

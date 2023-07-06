@@ -54,7 +54,6 @@ public class ArchiveReactiveCommand : ReactiveCommandUnitRun, IArchiveReactiveCo
                 {
                     await MessageBox.Show(mainWindow, ioException.Message, "'Archive machine' was canceled", MessageBoxButtons.Ok, MessageBoxType.Error);
                 }
-
                 catch (Exception exception)
                 {
                     await MessageBox.Show(mainWindow, exception.Message, "'Archive machine' was canceled", MessageBoxButtons.Ok, MessageBoxType.Error);
