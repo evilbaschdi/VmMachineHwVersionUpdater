@@ -20,6 +20,6 @@ public class ConfigureAvaloniaServices : IConfigureAvaloniaServices
 
         services.TryAddSingleton<IHandleOsDependentTitleBar, HandleOsDependentTitleBar>();
         services.TryAddSingleton<IApplicationLayout, ApplicationLayout>();
-        services.TryAddSingleton<IMainWindowByApplicationLifetime, MainWindowsByApplicationLifetime>();
+        services.TryAddSingleton<IMainWindowByApplicationLifetime, MainWindowByApplicationLifetime>();
     }
 }
