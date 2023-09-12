@@ -25,7 +25,6 @@
 	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.About.Avalonia" />
 		<PackageReference Include="EvilBaschdi.Core.Avalonia" />
-		<PackageReference Include="Avalonia.Controls.DataGrid" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
 	</ItemGroup>

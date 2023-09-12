@@ -11,29 +11,11 @@ public static class DoubleExtensions
     /// </summary>
     /// <param name="input"></param>
     // ReSharper disable once UnusedMember.Global
-    public static double GiBiBytesToKiBiBytes(this double? input)
-    {
-        return input * 1073741824d ?? 0d;
-    }
-
-    /// <summary>
-    ///     input multiplied with 1024d * 1024d * 1024d
-    /// </summary>
-    /// <param name="input"></param>
-    // ReSharper disable once UnusedMember.Global
     public static double GiBiBytesToKiBiBytes(this double input)
     {
-        return input * 1073741824d;
-    }
-
-    /// <summary>
-    ///     input divided by 1024d * 1024d * 1024d
-    /// </summary>
-    /// <param name="input"></param>
-    // ReSharper disable once UnusedMember.Global
-    public static double KiBiBytesToGiBiBytes(this double? input)
-    {
-        return input / 1073741824d ?? 0d;
+        return input <= 0
+            ? throw new ArgumentOutOfRangeException(nameof(input))
+            : input * 1073741824d;
     }
 
     /// <summary>
@@ -43,7 +25,9 @@ public static class DoubleExtensions
     // ReSharper disable once UnusedMember.Global
     public static double KiBiBytesToGiBiBytes(this double input)
     {
-        return input / 1073741824d;
+        return input <= 0
+            ? throw new ArgumentOutOfRangeException(nameof(input))
+            : input / 1073741824d;
     }
 
     /// <summary>
@@ -55,10 +39,7 @@ public static class DoubleExtensions
     // ReSharper disable once UnusedMember.Global
     public static string ToFileSize(this double d, int precision, [NotNull] CultureInfo culture)
     {
-        if (culture == null)
-        {
-            throw new ArgumentNullException(nameof(culture));
-        }
+        ArgumentNullException.ThrowIfNull(culture);
 
         var size = Convert.ToUInt64(d);
 
