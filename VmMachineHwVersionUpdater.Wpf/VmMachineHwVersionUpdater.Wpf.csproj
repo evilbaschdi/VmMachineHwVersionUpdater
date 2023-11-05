@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<ApplicationIcon>Assets/b.ico</ApplicationIcon>
-		<Description>VM Toolbox</Description>
 		<UseWPF>true</UseWPF>
 		<OutputType>WinExe</OutputType>
 	</PropertyGroup>

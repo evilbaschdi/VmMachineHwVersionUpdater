@@ -19,13 +19,21 @@
 		<None Remove="TestResults\**" />
 	</ItemGroup>
 
+	<!--<ItemGroup>
+		<Compile Update="**\*.cs">
+			<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
+		</Compile>
+	</ItemGroup>-->
+
 	<ItemGroup Condition="$(MSBuildProjectName.Contains('Core'))">
 		<None Update="Settings\GuestOsStringMapping.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<DependentUpon>IGuestOsStringMapping.cs</DependentUpon>
 		</None>
 
 		<None Update="Settings\VmPools.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<DependentUpon>IVmPools.cs</DependentUpon>
 		</None>
 	</ItemGroup>
 
