@@ -16,7 +16,6 @@
     <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.11.0" />
-    <PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
     <PackageVersion Include="WpfAnalyzers" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">

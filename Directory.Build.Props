@@ -28,7 +28,7 @@
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<TargetFrameworks>net0</TargetFrameworks>
+				<TargetFrameworks>net0.0</TargetFrameworks>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
@@ -62,11 +62,7 @@
 	<ItemGroup Condition="'$(IsTestProject)' != 'true'">
 		<PackageReference Include="EvilBaschdi.Core" />
 		<PackageReference Include="EvilBaschdi.DependencyInjection" />
-		<PackageReference Include="EvilBaschdi.Settings" />
-		<PackageReference Include="DotNet.ReproducibleBuilds">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+		<PackageReference Include="EvilBaschdi.Settings" />		
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
