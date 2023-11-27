@@ -5,28 +5,29 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.5" />
-    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2023.10.10.1807-develop" />
-    <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2023.10.10.1807-develop" />
+    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2023.11.25.1102-develop" />
+    <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2023.11.25.1102-develop" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2023.11.8.1715-develop" />
     <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2023.11.8.1726-develop" />
-    <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2023.11.8.1723-develop" />
+    <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2023.11.25.949-develop" />
     <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2023.11.14.1729-develop" />
     <PackageVersion Include="EvilBaschdi.Settings" Version="2023.11.14.1729-develop" />
     <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.11.0" />
+    <PackageVersion Include="MessageBox.Avalonia" Version="3.1.5.1" />
     <PackageVersion Include="WpfAnalyzers" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
-    <PackageVersion Include="EvilBaschdi.Testing" Version="2023.11.8.1645-develop" />
+    <PackageVersion Include="EvilBaschdi.Testing" Version="2023.11.19.811-develop" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.26.0" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.10" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0-preview-23531-01" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
-    <PackageVersion Include="xunit.analyzers" Version="1.5.0" />
-    <PackageVersion Include="xunit.runner.console" Version="2.6.1" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3" />
+    <PackageVersion Include="xunit.analyzers" Version="1.6.0" />
+    <PackageVersion Include="xunit.runner.console" Version="2.6.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.4" />
   </ItemGroup>
 </Project>

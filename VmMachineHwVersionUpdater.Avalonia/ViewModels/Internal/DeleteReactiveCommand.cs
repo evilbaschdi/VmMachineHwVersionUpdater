@@ -1,5 +1,6 @@
 ﻿using EvilBaschdi.Core.Avalonia;
-using EvilBaschdi.Core.Avalonia.Internal;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Enums;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -40,9 +41,11 @@ public class DeleteReactiveCommand : ReactiveCommandUnitRun, IDeleteReactiveComm
         {
             var title = "Delete machine...";
             var text = $"Are you sure you want to delete '{_currentItem.Value.DisplayName}'?";
-            var result = await MessageBox.Show(mainWindow, text, title, MessageBoxButtons.YesNo);
 
-            if (result == MessageBoxResult.Yes)
+            var box = MessageBoxManager.GetMessageBoxStandard(title, text, ButtonEnum.YesNo, Icon.Question);
+            var result = await box.ShowAsPopupAsync(mainWindow);
+
+            if (result == ButtonResult.Yes)
             {
                 try
                 {
@@ -52,7 +55,13 @@ public class DeleteReactiveCommand : ReactiveCommandUnitRun, IDeleteReactiveComm
                 }
                 catch (IOException ioException)
                 {
-                    await MessageBox.Show(mainWindow, ioException.Message, "'Delete machine' was canceled", MessageBoxButtons.Ok, MessageBoxType.Error);
+                    var ioExceptionBox = MessageBoxManager.GetMessageBoxStandard(ioException.Message, "'Delete machine' was canceled", ButtonEnum.Ok, Icon.Error);
+                    await ioExceptionBox.ShowAsPopupAsync(mainWindow);
+                }
+                catch (Exception exception)
+                {
+                    var exceptionBox = MessageBoxManager.GetMessageBoxStandard(exception.Message, "'Delete machine' was canceled", ButtonEnum.Ok, Icon.Error);
+                    await exceptionBox.ShowAsPopupAsync(mainWindow);
                 }
             }
         }

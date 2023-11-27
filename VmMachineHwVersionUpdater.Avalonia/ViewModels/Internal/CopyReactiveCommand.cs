@@ -1,5 +1,8 @@
-﻿using EvilBaschdi.Core.Avalonia;
-using EvilBaschdi.Core.Avalonia.Internal;
+﻿using Avalonia.Controls;
+using EvilBaschdi.Core.Avalonia;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -43,18 +46,40 @@ public class CopyReactiveCommand : ReactiveCommandUnitRun, ICopyReactiveCommand
         var machine = _currentItem.Value;
         if (!machine.IsEnabledForEditing)
         {
-            await MessageBox.Show(mainWindow, "Machine is currently read only", "'Copy machine' was canceled", MessageBoxButtons.Ok, MessageBoxType.Warning);
+            var warningBox = MessageBoxManager.GetMessageBoxStandard("Copy 'Copy machine' was canceled", "Machine is currently read only", ButtonEnum.Ok, Icon.Warning);
+            await warningBox.ShowAsPopupAsync(mainWindow);
             return;
         }
 
-        var result = await MessageBox.Show(mainWindow, $"Are you sure you want to copy machine '{machine.DisplayName}'?", "Copy machine...", MessageBoxButtons.YesNo);
-        if (result == MessageBoxResult.Yes)
+        var box = MessageBoxManager.GetMessageBoxStandard("Copy machine...", $"Are you sure you want to copy machine '{machine.DisplayName}'?", ButtonEnum.YesNo, Icon.Question);
+        var result = await box.ShowAsPopupAsync(mainWindow);
+
+        if (result == ButtonResult.Yes)
         {
             try
             {
-                var inputResult = await DialogBox.Show(mainWindow, "Enter the new directory name", "Copy machine...");
+                var inputBox = MessageBoxManager.GetMessageBoxStandard(
+                    new MessageBoxStandardParams
+                    {
+                        ButtonDefinitions = ButtonEnum.OkCancel,
+                        ContentTitle = "Copy machine...",
+                        //ContentHeader = "Copy machine...",
+                        ContentMessage = "Enter the new directory name",
+                        Icon = Icon.Folder,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        CanResize = false,
+                        SizeToContent = SizeToContent.WidthAndHeight,
+                        ShowInCenter = true,
+                        Topmost = false,
+                        InputParams = new InputParams
+                                      {
+                                          Multiline = false
+                                      }
+                    });
 
-                if (inputResult != null)
+                var inputResult = await inputBox.ShowAsPopupAsync(mainWindow);
+
+                if (inputResult == ButtonResult.Ok && !string.IsNullOrWhiteSpace(inputBox.InputValue))
                 {
                     await Task.Run(async () =>
                                    {
@@ -67,18 +92,20 @@ public class CopyReactiveCommand : ReactiveCommandUnitRun, ICopyReactiveCommand
                                        //                                                  }
                                        //                                              });
 
-                                       await _copyMachine.ValueFor(machine, inputResult);
+                                       await _copyMachine.ValueFor(machine, inputBox.InputValue);
                                    });
                     //await controller.CloseAsync();
                 }
             }
             catch (IOException ioException)
             {
-                await MessageBox.Show(mainWindow, ioException.Message, "'Copy machine' was canceled", MessageBoxButtons.Ok, MessageBoxType.Error);
+                var ioExceptionBox = MessageBoxManager.GetMessageBoxStandard(ioException.Message, "'Copy machine' was canceled", ButtonEnum.Ok, Icon.Error);
+                await ioExceptionBox.ShowAsPopupAsync(mainWindow);
             }
             catch (Exception exception)
             {
-                await MessageBox.Show(mainWindow, exception.Message, "'Copy machine' was canceled", MessageBoxButtons.Ok, MessageBoxType.Error);
+                var exceptionBox = MessageBoxManager.GetMessageBoxStandard(exception.Message, "'Copy machine' was canceled", ButtonEnum.Ok, Icon.Error);
+                await exceptionBox.ShowAsPopupAsync(mainWindow);
             }
 
             _reloadReactiveCommand.Run();
