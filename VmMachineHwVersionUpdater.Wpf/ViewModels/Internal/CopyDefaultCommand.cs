@@ -5,31 +5,26 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class CopyDefaultCommand : ICopyDefaultCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="reloadDefaultCommand"></param>
+/// <param name="currentItem"></param>
+/// <param name="instance"></param>
+/// <param name="copyMachine"></param>
+/// <param name="copyProgress"></param>
+public class CopyDefaultCommand(
+    [NotNull] IDialogCoordinator instance,
+    [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICopyMachine copyMachine,
+    [NotNull] ICopyProgress copyProgress) : ICopyDefaultCommand
 {
-    private readonly ICopyMachine _copyMachine;
-    private readonly ICopyProgress _copyProgress;
-    private readonly ICurrentItem _currentItem;
-    private readonly IDialogCoordinator _dialogCoordinator;
-    private readonly IReloadDefaultCommand _reloadDefaultCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="reloadDefaultCommand"></param>
-    /// <param name="currentItem"></param>
-    /// <param name="instance"></param>
-    /// <param name="copyMachine"></param>
-    /// <param name="copyProgress"></param>
-    public CopyDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ICurrentItem currentItem,
-                              [NotNull] ICopyMachine copyMachine, [NotNull] ICopyProgress copyProgress)
-    {
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _copyMachine = copyMachine ?? throw new ArgumentNullException(nameof(copyMachine));
-        _copyProgress = copyProgress ?? throw new ArgumentNullException(nameof(copyProgress));
-        _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
-        _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
-    }
+    private readonly ICopyMachine _copyMachine = copyMachine ?? throw new ArgumentNullException(nameof(copyMachine));
+    private readonly ICopyProgress _copyProgress = copyProgress ?? throw new ArgumentNullException(nameof(copyProgress));
+    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly IDialogCoordinator _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
+    private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
     public async Task Value()

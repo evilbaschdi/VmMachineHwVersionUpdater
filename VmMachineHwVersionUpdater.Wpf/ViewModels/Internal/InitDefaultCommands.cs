@@ -1,69 +1,55 @@
 ﻿namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class InitDefaultCommands : IInitDefaultCommands
+/// <summary>
+///     Constructor
+/// </summary>
+public class InitDefaultCommands([NotNull] IAboutWindowClickDefaultCommand aboutWindowClickDefaultCommand,
+                           [NotNull] IArchiveDefaultCommand archiveDefaultCommand,
+                           [NotNull] ICopyDefaultCommand copyDefaultCommand,
+                           [NotNull] IOpenWithCodeDefaultCommand openWithCodeDefaultCommand,
+                           [NotNull] IAddEditAnnotationDefaultCommand addEditAnnotationDefaultCommand,
+                           [NotNull] IDeleteDefaultCommand deleteDefaultCommand,
+                           [NotNull] IGotToDefaultCommand gotToDefaultCommand,
+                           [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+                           [NotNull] IRenameDefaultCommand renameDefaultCommand,
+                           [NotNull] IStartDefaultCommand startDefaultCommand,
+                           [NotNull] IUpdateAllDefaultCommand updateAllDefaultCommand
+    ) : IInitDefaultCommands
 {
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    public InitDefaultCommands([NotNull] IAboutWindowClickDefaultCommand aboutWindowClickDefaultCommand,
-                               [NotNull] IArchiveDefaultCommand archiveDefaultCommand,
-                               [NotNull] ICopyDefaultCommand copyDefaultCommand,
-                               [NotNull] IOpenWithCodeDefaultCommand openWithCodeDefaultCommand,
-                               [NotNull] IAddEditAnnotationDefaultCommand addEditAnnotationDefaultCommand,
-                               [NotNull] IDeleteDefaultCommand deleteDefaultCommand,
-                               [NotNull] IGotToDefaultCommand gotToDefaultCommand,
-                               [NotNull] IReloadDefaultCommand reloadDefaultCommand,
-                               [NotNull] IRenameDefaultCommand renameDefaultCommand,
-                               [NotNull] IStartDefaultCommand startDefaultCommand,
-                               [NotNull] IUpdateAllDefaultCommand updateAllDefaultCommand
-    )
-    {
-        AboutWindowClickDefaultCommand = aboutWindowClickDefaultCommand;
-        ArchiveDefaultCommand = archiveDefaultCommand;
-        CopyDefaultCommand = copyDefaultCommand;
-        OpenWithCodeDefaultCommand = openWithCodeDefaultCommand;
-        AddEditAnnotationDefaultCommand = addEditAnnotationDefaultCommand;
-        DeleteDefaultCommand = deleteDefaultCommand;
-        GotToDefaultCommand = gotToDefaultCommand;
-        ReloadDefaultCommand = reloadDefaultCommand;
-        RenameDefaultCommand = renameDefaultCommand;
-        StartDefaultCommand = startDefaultCommand;
-        UpdateAllDefaultCommand = updateAllDefaultCommand;
-    }
 
     /// <inheritdoc />
-    public IAboutWindowClickDefaultCommand AboutWindowClickDefaultCommand { get; set; }
+    public IAboutWindowClickDefaultCommand AboutWindowClickDefaultCommand { get; set; } = aboutWindowClickDefaultCommand;
 
     /// <inheritdoc />
-    public IArchiveDefaultCommand ArchiveDefaultCommand { get; set; }
+    public IArchiveDefaultCommand ArchiveDefaultCommand { get; set; } = archiveDefaultCommand;
 
     /// <inheritdoc />
-    public ICopyDefaultCommand CopyDefaultCommand { get; set; }
+    public ICopyDefaultCommand CopyDefaultCommand { get; set; } = copyDefaultCommand;
 
     /// <inheritdoc />
-    public IOpenWithCodeDefaultCommand OpenWithCodeDefaultCommand { get; set; }
+    public IOpenWithCodeDefaultCommand OpenWithCodeDefaultCommand { get; set; } = openWithCodeDefaultCommand;
 
     /// <inheritdoc />
-    public IAddEditAnnotationDefaultCommand AddEditAnnotationDefaultCommand { get; set; }
+    public IAddEditAnnotationDefaultCommand AddEditAnnotationDefaultCommand { get; set; } = addEditAnnotationDefaultCommand;
 
     /// <inheritdoc />
-    public IDeleteDefaultCommand DeleteDefaultCommand { get; set; }
+    public IDeleteDefaultCommand DeleteDefaultCommand { get; set; } = deleteDefaultCommand;
 
     /// <inheritdoc />
-    public IGotToDefaultCommand GotToDefaultCommand { get; set; }
+    public IGotToDefaultCommand GotToDefaultCommand { get; set; } = gotToDefaultCommand;
 
     /// <inheritdoc />
-    public IReloadDefaultCommand ReloadDefaultCommand { get; set; }
+    public IReloadDefaultCommand ReloadDefaultCommand { get; set; } = reloadDefaultCommand;
 
     /// <inheritdoc />
-    public IRenameDefaultCommand RenameDefaultCommand { get; set; }
+    public IRenameDefaultCommand RenameDefaultCommand { get; set; } = renameDefaultCommand;
 
     /// <inheritdoc />
-    public IStartDefaultCommand StartDefaultCommand { get; set; }
+    public IStartDefaultCommand StartDefaultCommand { get; set; } = startDefaultCommand;
 
     /// <inheritdoc />
-    public IUpdateAllDefaultCommand UpdateAllDefaultCommand { get; set; }
+    public IUpdateAllDefaultCommand UpdateAllDefaultCommand { get; set; } = updateAllDefaultCommand;
 
     /// <inheritdoc />
     public object DialogCoordinatorContext { get; set; }

@@ -6,31 +6,23 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IDeleteReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-public class DeleteReactiveCommand : ReactiveCommandUnitRun, IDeleteReactiveCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="deleteMachine"></param>
+/// <param name="currentItem"></param>
+/// <param name="reloadReactiveCommand"></param>
+/// <param name="mainWindowByApplicationLifetime"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class DeleteReactiveCommand([NotNull] IDeleteMachine deleteMachine,
+                             [NotNull] ICurrentItem currentItem,
+                             [NotNull] IReloadReactiveCommand reloadReactiveCommand,
+                             [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IDeleteReactiveCommand
 {
-    private readonly IDeleteMachine _deleteMachine;
-    private readonly ICurrentItem _currentItem;
-    private readonly IReloadReactiveCommand _reloadReactiveCommand;
-    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="deleteMachine"></param>
-    /// <param name="currentItem"></param>
-    /// <param name="reloadReactiveCommand"></param>
-    /// <param name="mainWindowByApplicationLifetime"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public DeleteReactiveCommand([NotNull] IDeleteMachine deleteMachine,
-                                 [NotNull] ICurrentItem currentItem,
-                                 [NotNull] IReloadReactiveCommand reloadReactiveCommand,
-                                 [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime)
-    {
-        _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
-        _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
-    }
+    private readonly IDeleteMachine _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
+    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
+    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
     public override async void Run()

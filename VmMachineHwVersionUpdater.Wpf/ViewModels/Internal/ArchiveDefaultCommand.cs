@@ -4,30 +4,22 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class ArchiveDefaultCommand : IArchiveDefaultCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="reloadDefaultCommand"></param>
+/// <param name="currentItem"></param>
+/// <param name="archiveMachine"></param>
+/// <param name="instance"></param>
+public class ArchiveDefaultCommand([NotNull] IDialogCoordinator instance,
+                             [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+                             [NotNull] ICurrentItem currentItem,
+                             [NotNull] IArchiveMachine archiveMachine) : IArchiveDefaultCommand
 {
-    [NotNull] private readonly IArchiveMachine _archiveMachine;
-    [NotNull] private readonly ICurrentItem _currentItem;
-    [NotNull] private readonly IDialogCoordinator _dialogCoordinator;
-    [NotNull] private readonly IReloadDefaultCommand _reloadDefaultCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="reloadDefaultCommand"></param>
-    /// <param name="currentItem"></param>
-    /// <param name="archiveMachine"></param>
-    /// <param name="instance"></param>
-    public ArchiveDefaultCommand([NotNull] IDialogCoordinator instance,
-                                 [NotNull] IReloadDefaultCommand reloadDefaultCommand,
-                                 [NotNull] ICurrentItem currentItem,
-                                 [NotNull] IArchiveMachine archiveMachine)
-    {
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
-        _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
-        _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
-    }
+    [NotNull] private readonly IArchiveMachine _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
+    [NotNull] private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    [NotNull] private readonly IDialogCoordinator _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
+    [NotNull] private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
     public DefaultCommand DefaultCommandValue

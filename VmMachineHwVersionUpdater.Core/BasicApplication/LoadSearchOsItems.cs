@@ -3,27 +3,20 @@
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc cref="ILoadSearchOsItems" />
-public class LoadSearchOsItems : CachedWritableValue<ObservableCollection<object>>, ILoadSearchOsItems
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="load"></param>
+/// <param name="guestOsesInUse"></param>
+/// <param name="separator"></param>
+public class LoadSearchOsItems([NotNull] ILoad load,
+                         [NotNull] IGuestOsesInUse guestOsesInUse,
+                         [NotNull] ISeparator separator) : CachedWritableValue<ObservableCollection<object>>, ILoadSearchOsItems
 {
-    private readonly IGuestOsesInUse _guestOsesInUse;
-    private readonly ILoad _load;
-    private readonly ISeparator _separator;
-    private ObservableCollection<object> _searchOsItemCollection = new();
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="load"></param>
-    /// <param name="guestOsesInUse"></param>
-    /// <param name="separator"></param>
-    public LoadSearchOsItems([NotNull] ILoad load,
-                             [NotNull] IGuestOsesInUse guestOsesInUse,
-                             [NotNull] ISeparator separator)
-    {
-        _load = load ?? throw new ArgumentNullException(nameof(load));
-        _guestOsesInUse = guestOsesInUse ?? throw new ArgumentNullException(nameof(guestOsesInUse));
-        _separator = separator ?? throw new ArgumentNullException(nameof(separator));
-    }
+    private readonly IGuestOsesInUse _guestOsesInUse = guestOsesInUse ?? throw new ArgumentNullException(nameof(guestOsesInUse));
+    private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
+    private readonly ISeparator _separator = separator ?? throw new ArgumentNullException(nameof(separator));
+    private ObservableCollection<object> _searchOsItemCollection = [];
 
     /// <inheritdoc />
     protected override ObservableCollection<object> NonCachedValue

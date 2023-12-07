@@ -1,22 +1,16 @@
 ﻿namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class FilterListCollectionView : IFilterListCollectionView
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="configureListCollectionView"></param>
+/// <param name="filterItemSource"></param>
+public class FilterListCollectionView([NotNull] IConfigureListCollectionView configureListCollectionView,
+                                [NotNull] IFilterItemSource filterItemSource) : IFilterListCollectionView
 {
-    private readonly IConfigureListCollectionView _configureListCollectionView;
-    private readonly IFilterItemSource _filterItemSource;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="configureListCollectionView"></param>
-    /// <param name="filterItemSource"></param>
-    public FilterListCollectionView([NotNull] IConfigureListCollectionView configureListCollectionView,
-                                    [NotNull] IFilterItemSource filterItemSource)
-    {
-        _configureListCollectionView = configureListCollectionView ?? throw new ArgumentNullException(nameof(configureListCollectionView));
-        _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
-    }
+    private readonly IConfigureListCollectionView _configureListCollectionView = configureListCollectionView ?? throw new ArgumentNullException(nameof(configureListCollectionView));
+    private readonly IFilterItemSource _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
 
     /// <inheritdoc />
     public void RunFor((string SearchOsText, string SearchFilterText) value)

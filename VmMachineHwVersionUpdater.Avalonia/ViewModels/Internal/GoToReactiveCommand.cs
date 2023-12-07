@@ -4,19 +4,14 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IGoToReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-public class GoToReactiveCommand : ReactiveCommandUnitRun, IGoToReactiveCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="goToCommand"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class GoToReactiveCommand([NotNull] IGoToCommand goToCommand) : ReactiveCommandUnitRun, IGoToReactiveCommand
 {
-    private readonly IGoToCommand _goToCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="goToCommand"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public GoToReactiveCommand([NotNull] IGoToCommand goToCommand)
-    {
-        _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
-    }
+    private readonly IGoToCommand _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
 
     /// <inheritdoc />
     public override void Run()

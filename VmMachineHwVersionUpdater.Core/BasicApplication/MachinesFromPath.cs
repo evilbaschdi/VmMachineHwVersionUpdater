@@ -5,24 +5,17 @@ using EvilBaschdi.Core.Model;
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
-public class MachinesFromPath : IMachinesFromPath
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="pathSettings"></param>
+/// <param name="handleMachineFromPath"></param>
+/// <param name="fileListFromPath"></param>
+public class MachinesFromPath([NotNull] IPathSettings pathSettings, [NotNull] IHandleMachineFromPath handleMachineFromPath, [NotNull] IFileListFromPath fileListFromPath) : IMachinesFromPath
 {
-    private readonly IFileListFromPath _fileListFromPath;
-    private readonly IHandleMachineFromPath _handleMachineFromPath;
-    private readonly IPathSettings _pathSettings;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="pathSettings"></param>
-    /// <param name="handleMachineFromPath"></param>
-    /// <param name="fileListFromPath"></param>
-    public MachinesFromPath([NotNull] IPathSettings pathSettings, [NotNull] IHandleMachineFromPath handleMachineFromPath, [NotNull] IFileListFromPath fileListFromPath)
-    {
-        _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
-        _handleMachineFromPath = handleMachineFromPath ?? throw new ArgumentNullException(nameof(handleMachineFromPath));
-        _fileListFromPath = fileListFromPath ?? throw new ArgumentNullException(nameof(fileListFromPath));
-    }
+    private readonly IFileListFromPath _fileListFromPath = fileListFromPath ?? throw new ArgumentNullException(nameof(fileListFromPath));
+    private readonly IHandleMachineFromPath _handleMachineFromPath = handleMachineFromPath ?? throw new ArgumentNullException(nameof(handleMachineFromPath));
+    private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
 
     /// <inheritdoc />
     public List<Machine> Value

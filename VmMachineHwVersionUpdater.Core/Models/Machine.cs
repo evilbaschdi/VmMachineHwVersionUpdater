@@ -4,29 +4,22 @@ using VmMachineHwVersionUpdater.Core.Enums;
 namespace VmMachineHwVersionUpdater.Core.Models;
 
 /// <inheritdoc cref="INotifyPropertyChanged" />
-public class Machine : INotifyPropertyChanged
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="updateMachineVersion"></param>
+/// <param name="toggleToolsUpgradePolicy"></param>
+/// <param name="toggleToolsSyncTime"></param>
+public class Machine([NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
+               [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+               [NotNull] IUpdateMachineVersion updateMachineVersion) : INotifyPropertyChanged
 {
     private readonly bool _autoUpdateTools;
     private readonly int _hwVersion;
     private readonly bool _syncTimeWithHost;
-    private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
-    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
-    private readonly IUpdateMachineVersion _updateMachineVersion;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="updateMachineVersion"></param>
-    /// <param name="toggleToolsUpgradePolicy"></param>
-    /// <param name="toggleToolsSyncTime"></param>
-    public Machine([NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
-                   [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-                   [NotNull] IUpdateMachineVersion updateMachineVersion)
-    {
-        _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
-        _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
-        _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
-    }
+    private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
+    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
+    private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
 
     /// <summary />
     public bool AutoUpdateTools

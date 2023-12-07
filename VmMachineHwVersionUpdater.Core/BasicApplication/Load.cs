@@ -1,18 +1,13 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc cref="ILoad" />
-public class Load : CachedValue<LoadHelper>, ILoad
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="machinesFromPath"></param>
+public class Load(IMachinesFromPath machinesFromPath) : CachedValue<LoadHelper>, ILoad
 {
-    private readonly IMachinesFromPath _machinesFromPath;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="machinesFromPath"></param>
-    public Load(IMachinesFromPath machinesFromPath)
-    {
-        _machinesFromPath = machinesFromPath ?? throw new ArgumentNullException(nameof(machinesFromPath));
-    }
+    private readonly IMachinesFromPath _machinesFromPath = machinesFromPath ?? throw new ArgumentNullException(nameof(machinesFromPath));
 
     /// <inheritdoc />
     protected override LoadHelper NonCachedValue

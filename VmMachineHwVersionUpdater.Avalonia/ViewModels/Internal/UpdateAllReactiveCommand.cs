@@ -2,28 +2,21 @@
 
 /// <inheritdoc cref="IUpdateAllReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-public class UpdateAllReactiveCommand : ReactiveCommandUnitRun, IUpdateAllReactiveCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="updateMachineVersion"></param>
+/// <param name="load"></param>
+/// <param name="reloadReactiveCommand"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class UpdateAllReactiveCommand(
+    [NotNull] IUpdateMachineVersion updateMachineVersion,
+    [NotNull] ILoad load,
+    [NotNull] IReloadReactiveCommand reloadReactiveCommand) : ReactiveCommandUnitRun, IUpdateAllReactiveCommand
 {
-    [NotNull] private readonly IUpdateMachineVersion _updateMachineVersion;
-    [NotNull] private readonly ILoad _load;
-    [NotNull] private readonly IReloadReactiveCommand _reloadReactiveCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="updateMachineVersion"></param>
-    /// <param name="load"></param>
-    /// <param name="reloadReactiveCommand"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public UpdateAllReactiveCommand(
-        [NotNull] IUpdateMachineVersion updateMachineVersion,
-        [NotNull] ILoad load,
-        [NotNull] IReloadReactiveCommand reloadReactiveCommand)
-    {
-        _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
-        _load = load ?? throw new ArgumentNullException(nameof(load));
-        _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
-    }
+    [NotNull] private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+    [NotNull] private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
+    [NotNull] private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     /// <inheritdoc />
     public override void Run()

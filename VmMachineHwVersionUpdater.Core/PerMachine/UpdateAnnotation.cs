@@ -1,21 +1,15 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public class UpdateAnnotation : IUpdateAnnotation
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="currentItem"></param>
+/// <param name="addEditAnnotation"></param>
+public class UpdateAnnotation([NotNull] ICurrentItem currentItem, [NotNull] IAddEditAnnotation addEditAnnotation) : IUpdateAnnotation
 {
-    private readonly IAddEditAnnotation _addEditAnnotation;
-    private readonly ICurrentItem _currentItem;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="currentItem"></param>
-    /// <param name="addEditAnnotation"></param>
-    public UpdateAnnotation([NotNull] ICurrentItem currentItem, [NotNull] IAddEditAnnotation addEditAnnotation)
-    {
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _addEditAnnotation = addEditAnnotation ?? throw new ArgumentNullException(nameof(addEditAnnotation));
-    }
+    private readonly IAddEditAnnotation _addEditAnnotation = addEditAnnotation ?? throw new ArgumentNullException(nameof(addEditAnnotation));
+    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
 
     /// <inheritdoc cref="string" />
     public string Value

@@ -1,23 +1,17 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc cref="IAddEditAnnotationDialogViewModel" />
-public class AddEditAnnotationDialogViewModel : ViewModelBase, IAddEditAnnotationDialogViewModel
+/// <summary>
+///     Constructor
+/// </summary>
+public class AddEditAnnotationDialogViewModel(
+    [NotNull] IUpdateAnnotation updateAnnotation,
+    [NotNull] ICurrentItem currentItem) : ViewModelBase, IAddEditAnnotationDialogViewModel
 {
-    private readonly ICurrentItem _currentItem;
-    private readonly IUpdateAnnotation _updateAnnotation;
+    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly IUpdateAnnotation _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
 
     #region Constructor
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    public AddEditAnnotationDialogViewModel(
-        [NotNull] IUpdateAnnotation updateAnnotation,
-        [NotNull] ICurrentItem currentItem)
-    {
-        _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-    }
 
     #endregion Constructor
 

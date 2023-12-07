@@ -1,23 +1,17 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc />
-public class FilterDataGridCollectionView : IFilterDataGridCollectionView
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="configureDataGridCollectionView"></param>
+/// <param name="filterItemSource"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class FilterDataGridCollectionView([NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
+                                    [NotNull] IFilterItemSource filterItemSource) : IFilterDataGridCollectionView
 {
-    private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView;
-    private readonly IFilterItemSource _filterItemSource;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="configureDataGridCollectionView"></param>
-    /// <param name="filterItemSource"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public FilterDataGridCollectionView([NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
-                                        [NotNull] IFilterItemSource filterItemSource)
-    {
-        _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
-        _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
-    }
+    private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
+    private readonly IFilterItemSource _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
 
     /// <inheritdoc />
     public void RunFor((string SearchOsText, string SearchFilterText) value)

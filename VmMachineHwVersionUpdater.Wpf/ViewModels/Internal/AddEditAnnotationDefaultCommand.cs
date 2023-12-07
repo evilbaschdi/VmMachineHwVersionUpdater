@@ -4,18 +4,13 @@ using VmMachineHwVersionUpdater.Wpf.Views;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class AddEditAnnotationDefaultCommand : IAddEditAnnotationDefaultCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="reloadDefaultCommand"></param>
+public class AddEditAnnotationDefaultCommand([NotNull] IReloadDefaultCommand reloadDefaultCommand) : IAddEditAnnotationDefaultCommand
 {
-    private readonly IReloadDefaultCommand _reloadDefaultCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="reloadDefaultCommand"></param>
-    public AddEditAnnotationDefaultCommand([NotNull] IReloadDefaultCommand reloadDefaultCommand)
-    {
-        _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
-    }
+    private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
     public DefaultCommand DefaultCommandValue => new()

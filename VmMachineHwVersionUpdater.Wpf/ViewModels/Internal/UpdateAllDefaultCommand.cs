@@ -3,35 +3,26 @@
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class UpdateAllDefaultCommand : IUpdateAllDefaultCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="updateMachineVersion"></param>
+/// <param name="load"></param>
+/// <param name="currentItemSource"></param>
+/// <param name="taskbarItemProgressState"></param>
+/// <param name="reloadDefaultCommand"></param>
+public class UpdateAllDefaultCommand(
+    [NotNull] IUpdateMachineVersion updateMachineVersion,
+    [NotNull] ILoad load,
+    [NotNull] ICurrentItemSource currentItemSource,
+    [NotNull] ITaskbarItemProgressState taskbarItemProgressState,
+    [NotNull] IReloadDefaultCommand reloadDefaultCommand) : IUpdateAllDefaultCommand
 {
-    private readonly ICurrentItemSource _currentItemSource;
-    private readonly ILoad _load;
-    private readonly IReloadDefaultCommand _reloadDefaultCommand;
-    private readonly ITaskbarItemProgressState _taskbarItemProgressState;
-    private readonly IUpdateMachineVersion _updateMachineVersion;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="updateMachineVersion"></param>
-    /// <param name="load"></param>
-    /// <param name="currentItemSource"></param>
-    /// <param name="taskbarItemProgressState"></param>
-    /// <param name="reloadDefaultCommand"></param>
-    public UpdateAllDefaultCommand(
-        [NotNull] IUpdateMachineVersion updateMachineVersion,
-        [NotNull] ILoad load,
-        [NotNull] ICurrentItemSource currentItemSource,
-        [NotNull] ITaskbarItemProgressState taskbarItemProgressState,
-        [NotNull] IReloadDefaultCommand reloadDefaultCommand)
-    {
-        _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
-        _load = load ?? throw new ArgumentNullException(nameof(load));
-        _currentItemSource = currentItemSource ?? throw new ArgumentNullException(nameof(currentItemSource));
-        _taskbarItemProgressState = taskbarItemProgressState ?? throw new ArgumentNullException(nameof(taskbarItemProgressState));
-        _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
-    }
+    private readonly ICurrentItemSource _currentItemSource = currentItemSource ?? throw new ArgumentNullException(nameof(currentItemSource));
+    private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
+    private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
+    private readonly ITaskbarItemProgressState _taskbarItemProgressState = taskbarItemProgressState ?? throw new ArgumentNullException(nameof(taskbarItemProgressState));
+    private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
 
     /// <inheritdoc />
     public DefaultCommand DefaultCommandValue

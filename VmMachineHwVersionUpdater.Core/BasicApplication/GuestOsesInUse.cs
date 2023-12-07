@@ -1,22 +1,16 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
-public class GuestOsesInUse : IGuestOsesInUse
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="guestOsStringMapping"></param>
+/// <param name="load"></param>
+public class GuestOsesInUse([NotNull] IGuestOsStringMapping guestOsStringMapping,
+                      [NotNull] ILoad load) : IGuestOsesInUse
 {
-    [NotNull] private readonly IGuestOsStringMapping _guestOsStringMapping;
-    [NotNull] private readonly ILoad _load;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="guestOsStringMapping"></param>
-    /// <param name="load"></param>
-    public GuestOsesInUse([NotNull] IGuestOsStringMapping guestOsStringMapping,
-                          [NotNull] ILoad load)
-    {
-        _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
-        _load = load ?? throw new ArgumentNullException(nameof(load));
-    }
+    [NotNull] private readonly IGuestOsStringMapping _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
+    [NotNull] private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
 
     /// <inheritdoc />
     public List<string> Value
@@ -25,7 +19,7 @@ public class GuestOsesInUse : IGuestOsesInUse
         {
             var list = new List<string>();
             var configuration = _guestOsStringMapping.Value;
-            var searchOsItems = _load.Value?.SearchOsItems ?? new List<string>();
+            var searchOsItems = _load.Value?.SearchOsItems ?? [];
 
             foreach (var configurationSection in configuration.GetChildren())
             {

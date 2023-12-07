@@ -1,26 +1,19 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public class ParseVmxFile : IParseVmxFile
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="returnValueFromVmxLine"></param>
+/// <param name="vmxLineStartsWith"></param>
+/// <param name="convertAnnotationLineBreaks"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class ParseVmxFile([NotNull] IReturnValueFromVmxLine returnValueFromVmxLine, [NotNull] IVmxLineStartsWith vmxLineStartsWith,
+                    [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks) : IParseVmxFile
 {
-    [NotNull] private readonly IConvertAnnotationLineBreaks _convertAnnotationLineBreaks;
-    [NotNull] private readonly IReturnValueFromVmxLine _returnValueFromVmxLine;
-    [NotNull] private readonly IVmxLineStartsWith _vmxLineStartsWith;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="returnValueFromVmxLine"></param>
-    /// <param name="vmxLineStartsWith"></param>
-    /// <param name="convertAnnotationLineBreaks"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public ParseVmxFile([NotNull] IReturnValueFromVmxLine returnValueFromVmxLine, [NotNull] IVmxLineStartsWith vmxLineStartsWith,
-                        [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks)
-    {
-        _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
-        _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
-        _convertAnnotationLineBreaks = convertAnnotationLineBreaks ?? throw new ArgumentNullException(nameof(convertAnnotationLineBreaks));
-    }
+    [NotNull] private readonly IConvertAnnotationLineBreaks _convertAnnotationLineBreaks = convertAnnotationLineBreaks ?? throw new ArgumentNullException(nameof(convertAnnotationLineBreaks));
+    [NotNull] private readonly IReturnValueFromVmxLine _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
+    [NotNull] private readonly IVmxLineStartsWith _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
 
     /// <inheritdoc />
     public RawMachine ValueFor([NotNull] string file)

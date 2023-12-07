@@ -4,19 +4,14 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IOpenWithCodeReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-public class OpenWithCodeReactiveCommand : ReactiveCommandUnitRun, IOpenWithCodeReactiveCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="openWithCodeCommand"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class OpenWithCodeReactiveCommand([NotNull] IOpenWithCodeCommand openWithCodeCommand) : ReactiveCommandUnitRun, IOpenWithCodeReactiveCommand
 {
-    private readonly IOpenWithCodeCommand _openWithCodeCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="openWithCodeCommand"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public OpenWithCodeReactiveCommand([NotNull] IOpenWithCodeCommand openWithCodeCommand)
-    {
-        _openWithCodeCommand = openWithCodeCommand ?? throw new ArgumentNullException(nameof(openWithCodeCommand));
-    }
+    private readonly IOpenWithCodeCommand _openWithCodeCommand = openWithCodeCommand ?? throw new ArgumentNullException(nameof(openWithCodeCommand));
 
     /// <summary>
     ///     Starts VM

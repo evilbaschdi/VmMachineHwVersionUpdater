@@ -3,18 +3,13 @@
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public class CopyMachine : ICopyMachine
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="copyDirectory"></param>
+public class CopyMachine([NotNull] ICopyDirectoryWithProgress copyDirectory) : ICopyMachine
 {
-    private readonly ICopyDirectoryWithProgress _copyDirectory;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="copyDirectory"></param>
-    public CopyMachine([NotNull] ICopyDirectoryWithProgress copyDirectory)
-    {
-        _copyDirectory = copyDirectory ?? throw new ArgumentNullException(nameof(copyDirectory));
-    }
+    private readonly ICopyDirectoryWithProgress _copyDirectory = copyDirectory ?? throw new ArgumentNullException(nameof(copyDirectory));
 
     /// <inheritdoc />
     public async Task ValueFor([NotNull] Machine machine, [NotNull] string newDirectoryName)

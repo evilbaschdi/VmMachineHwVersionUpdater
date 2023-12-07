@@ -4,28 +4,23 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class DeleteDefaultCommand : IDeleteDefaultCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="dialogCoordinator"></param>
+/// <param name="currentItem"></param>
+/// <param name="deleteMachine"></param>
+/// <param name="reloadDefaultCommand"></param>
+public class DeleteDefaultCommand(
+    [NotNull] IDialogCoordinator dialogCoordinator,
+    [NotNull] ICurrentItem currentItem,
+    [NotNull] IDeleteMachine deleteMachine,
+    [NotNull] IReloadDefaultCommand reloadDefaultCommand) : IDeleteDefaultCommand
 {
-    private readonly ICurrentItem _currentItem;
-    private readonly IDeleteMachine _deleteMachine;
-    private readonly IDialogCoordinator _dialogCoordinator;
-    private readonly IReloadDefaultCommand _reloadDefaultCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="dialogCoordinator"></param>
-    /// <param name="currentItem"></param>
-    /// <param name="deleteMachine"></param>
-    /// <param name="reloadDefaultCommand"></param>
-    public DeleteDefaultCommand([NotNull] IDialogCoordinator dialogCoordinator, [NotNull] ICurrentItem currentItem, [NotNull] IDeleteMachine deleteMachine,
-                                [NotNull] IReloadDefaultCommand reloadDefaultCommand)
-    {
-        _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
-        _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
-    }
+    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly IDeleteMachine _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
+    private readonly IDialogCoordinator _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
+    private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
     public DefaultCommand DefaultCommandValue

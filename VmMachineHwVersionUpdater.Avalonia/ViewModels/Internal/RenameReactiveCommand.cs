@@ -8,32 +8,24 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IRenameReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-public class RenameReactiveCommand : ReactiveCommandUnitRun, IRenameReactiveCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="changeDisplayName"></param>
+/// <param name="currentItem"></param>
+/// <param name="reloadReactiveCommand"></param>
+/// <param name="mainWindowByApplicationLifetime"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class RenameReactiveCommand([NotNull] IChangeDisplayName changeDisplayName,
+                             [NotNull] ICurrentItem currentItem,
+                             [NotNull] IReloadReactiveCommand reloadReactiveCommand,
+                             [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime
+    ) : ReactiveCommandUnitRun, IRenameReactiveCommand
 {
-    private readonly ICurrentItem _currentItem;
-    private readonly IReloadReactiveCommand _reloadReactiveCommand;
-    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime;
-    private readonly IChangeDisplayName _changeDisplayName;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="changeDisplayName"></param>
-    /// <param name="currentItem"></param>
-    /// <param name="reloadReactiveCommand"></param>
-    /// <param name="mainWindowByApplicationLifetime"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public RenameReactiveCommand([NotNull] IChangeDisplayName changeDisplayName,
-                                 [NotNull] ICurrentItem currentItem,
-                                 [NotNull] IReloadReactiveCommand reloadReactiveCommand,
-                                 [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime
-    )
-    {
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
-        _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
-        _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
-    }
+    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
+    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
+    private readonly IChangeDisplayName _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
 
     /// <inheritdoc />
     public override async void Run()

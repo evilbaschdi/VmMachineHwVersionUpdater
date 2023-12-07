@@ -4,19 +4,14 @@ using EvilBaschdi.Core.AppHelpers;
 namespace VmMachineHwVersionUpdater.Core.Commands;
 
 /// <inheritdoc />
-public class ReloadCommand : IReloadCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="processByPath"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class ReloadCommand([NotNull] IProcessByPath processByPath) : IReloadCommand
 {
-    private readonly IProcessByPath _processByPath;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="processByPath"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public ReloadCommand([NotNull] IProcessByPath processByPath)
-    {
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
-    }
+    private readonly IProcessByPath _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
 
     /// <inheritdoc />
     public void Run()

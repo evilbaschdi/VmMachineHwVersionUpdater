@@ -3,23 +3,17 @@
 namespace VmMachineHwVersionUpdater.Core.Commands;
 
 /// <inheritdoc />
-public class GoToCommand : IGoToCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="processByPath"></param>
+/// <param name="currentItem"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class GoToCommand([NotNull] IProcessByPath processByPath,
+                   [NotNull] ICurrentItem currentItem) : IGoToCommand
 {
-    [NotNull] private readonly IProcessByPath _processByPath;
-    [NotNull] private readonly ICurrentItem _currentItem;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="processByPath"></param>
-    /// <param name="currentItem"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public GoToCommand([NotNull] IProcessByPath processByPath,
-                       [NotNull] ICurrentItem currentItem)
-    {
-        _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-    }
+    [NotNull] private readonly IProcessByPath _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
+    [NotNull] private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
 
     /// <inheritdoc />
     public void Run()

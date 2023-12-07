@@ -1,18 +1,13 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public class ArchiveMachine : IArchiveMachine
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="pathSettings"></param>
+public class ArchiveMachine([NotNull] IPathSettings pathSettings) : IArchiveMachine
 {
-    private readonly IPathSettings _pathSettings;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="pathSettings"></param>
-    public ArchiveMachine([NotNull] IPathSettings pathSettings)
-    {
-        _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
-    }
+    private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
 
     /// <inheritdoc />
     public void RunFor([NotNull] Machine machine)

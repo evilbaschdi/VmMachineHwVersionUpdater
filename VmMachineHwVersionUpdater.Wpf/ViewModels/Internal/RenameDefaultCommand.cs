@@ -4,28 +4,20 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class RenameDefaultCommand : IRenameDefaultCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="reloadDefaultCommand"></param>
+/// <param name="currentItem"></param>
+/// <param name="instance"></param>
+/// <param name="changeDisplayName"></param>
+public class RenameDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ICurrentItem currentItem,
+                            [NotNull] IChangeDisplayName changeDisplayName) : IRenameDefaultCommand
 {
-    private readonly IChangeDisplayName _changeDisplayName;
-    private readonly ICurrentItem _currentItem;
-    private readonly IDialogCoordinator _dialogCoordinator;
-    private readonly IReloadDefaultCommand _reloadDefaultCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="reloadDefaultCommand"></param>
-    /// <param name="currentItem"></param>
-    /// <param name="instance"></param>
-    /// <param name="changeDisplayName"></param>
-    public RenameDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ICurrentItem currentItem,
-                                [NotNull] IChangeDisplayName changeDisplayName)
-    {
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-        _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
-        _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
-        _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
-    }
+    private readonly IChangeDisplayName _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
+    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly IDialogCoordinator _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
+    private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
     public async Task Value()

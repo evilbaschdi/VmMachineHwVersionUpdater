@@ -1,18 +1,13 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.Settings;
 
 /// <inheritdoc cref="IGuestOsOutputStringMapping" />
-public class GuestOsOutputStringMapping : CachedValueFor<string, string>, IGuestOsOutputStringMapping
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="guestOsStringMapping"></param>
+public class GuestOsOutputStringMapping(IGuestOsStringMapping guestOsStringMapping) : CachedValueFor<string, string>, IGuestOsOutputStringMapping
 {
-    private readonly IGuestOsStringMapping _guestOsStringMapping;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="guestOsStringMapping"></param>
-    public GuestOsOutputStringMapping(IGuestOsStringMapping guestOsStringMapping)
-    {
-        _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
-    }
+    private readonly IGuestOsStringMapping _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
 
     /// <inheritdoc />
     /// <summary>

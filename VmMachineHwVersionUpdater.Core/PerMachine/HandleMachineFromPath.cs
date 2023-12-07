@@ -5,52 +5,39 @@ using VmMachineHwVersionUpdater.Core.Enums;
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public class HandleMachineFromPath : IHandleMachineFromPath
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="parseVmxFile"></param>
+/// <param name="setDisplayName"></param>
+/// <param name="toggleToolsSyncTime"></param>
+/// <param name="updateMachineVersion"></param>
+/// <param name="guestOsOutputStringMapping"></param>
+/// <param name="pathSettings"></param>
+/// <param name="readLogInformation"></param>
+/// <param name="setMachineIsEnabledForEditing"></param>
+/// <param name="toggleToolsUpgradePolicy"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class HandleMachineFromPath(
+    [NotNull] IParseVmxFile parseVmxFile,
+    [NotNull] ISetDisplayName setDisplayName,
+    [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
+    [NotNull] IUpdateMachineVersion updateMachineVersion,
+    [NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping,
+    [NotNull] IPathSettings pathSettings,
+    [NotNull] IReadLogInformation readLogInformation,
+    [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
+    [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy) : IHandleMachineFromPath
 {
-    private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping;
-    private readonly IParseVmxFile _parseVmxFile;
-    private readonly IPathSettings _pathSettings;
-    private readonly IReadLogInformation _readLogInformation;
-    private readonly ISetDisplayName _setDisplayName;
-    private readonly ISetMachineIsEnabledForEditing _setMachineIsEnabledForEditing;
-    private readonly IToggleToolsSyncTime _toggleToolsSyncTime;
-    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy;
-    private readonly IUpdateMachineVersion _updateMachineVersion;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="parseVmxFile"></param>
-    /// <param name="setDisplayName"></param>
-    /// <param name="toggleToolsSyncTime"></param>
-    /// <param name="updateMachineVersion"></param>
-    /// <param name="guestOsOutputStringMapping"></param>
-    /// <param name="pathSettings"></param>
-    /// <param name="readLogInformation"></param>
-    /// <param name="setMachineIsEnabledForEditing"></param>
-    /// <param name="toggleToolsUpgradePolicy"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public HandleMachineFromPath(
-        [NotNull] IParseVmxFile parseVmxFile,
-        [NotNull] ISetDisplayName setDisplayName,
-        [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
-        [NotNull] IUpdateMachineVersion updateMachineVersion,
-        [NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping,
-        [NotNull] IPathSettings pathSettings,
-        [NotNull] IReadLogInformation readLogInformation,
-        [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
-        [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy)
-    {
-        _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
-        _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
-        _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
-        _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
-        _parseVmxFile = parseVmxFile ?? throw new ArgumentNullException(nameof(parseVmxFile));
-        _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
-        _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
-        _setMachineIsEnabledForEditing = setMachineIsEnabledForEditing ?? throw new ArgumentNullException(nameof(setMachineIsEnabledForEditing));
-        _setDisplayName = setDisplayName ?? throw new ArgumentNullException(nameof(setDisplayName));
-    }
+    private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
+    private readonly IParseVmxFile _parseVmxFile = parseVmxFile ?? throw new ArgumentNullException(nameof(parseVmxFile));
+    private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
+    private readonly IReadLogInformation _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
+    private readonly ISetDisplayName _setDisplayName = setDisplayName ?? throw new ArgumentNullException(nameof(setDisplayName));
+    private readonly ISetMachineIsEnabledForEditing _setMachineIsEnabledForEditing = setMachineIsEnabledForEditing ?? throw new ArgumentNullException(nameof(setMachineIsEnabledForEditing));
+    private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
+    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
+    private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
 
     /// <inheritdoc />
     public Machine ValueFor([NotNull] string path, [NotNull] string file)

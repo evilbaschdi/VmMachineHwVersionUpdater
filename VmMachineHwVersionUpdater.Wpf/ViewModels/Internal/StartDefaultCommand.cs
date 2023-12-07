@@ -3,19 +3,14 @@
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class StartDefaultCommand : IStartDefaultCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="startCommand"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class StartDefaultCommand([NotNull] IStartCommand startCommand) : IStartDefaultCommand
 {
-    private readonly IStartCommand _startCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="startCommand"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public StartDefaultCommand([NotNull] IStartCommand startCommand)
-    {
-        _startCommand = startCommand ?? throw new ArgumentNullException(nameof(startCommand));
-    }
+    private readonly IStartCommand _startCommand = startCommand ?? throw new ArgumentNullException(nameof(startCommand));
 
     /// <inheritdoc />
     public DefaultCommand DefaultCommandValue => new()

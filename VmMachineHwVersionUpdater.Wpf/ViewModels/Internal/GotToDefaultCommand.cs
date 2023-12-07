@@ -3,19 +3,14 @@
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public class GotToDefaultCommand : IGotToDefaultCommand
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="goToCommand"></param>
+/// <exception cref="ArgumentNullException"></exception>
+public class GotToDefaultCommand([NotNull] IGoToCommand goToCommand) : IGotToDefaultCommand
 {
-    private readonly IGoToCommand _goToCommand;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="goToCommand"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public GotToDefaultCommand([NotNull] IGoToCommand goToCommand)
-    {
-        _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
-    }
+    private readonly IGoToCommand _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
 
     /// <inheritdoc />
     public DefaultCommand DefaultCommandValue => new()

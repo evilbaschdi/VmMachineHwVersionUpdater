@@ -5,25 +5,18 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc cref="IConfigureListCollectionView" />
-public class ConfigureListCollectionView : CachedWritableValue<ListCollectionView>, IConfigureListCollectionView
+/// <summary>
+///     Constructor
+/// </summary>
+/// <param name="load"></param>
+/// <param name="settingsValid"></param>
+/// <param name="dialogCoordinator"></param>
+public class ConfigureListCollectionView([NotNull] ILoad load, [NotNull] ISettingsValid settingsValid, [NotNull] IDialogCoordinator dialogCoordinator) : CachedWritableValue<ListCollectionView>, IConfigureListCollectionView
 {
-    [NotNull] private readonly IDialogCoordinator _dialogCoordinator;
-    [NotNull] private readonly ILoad _load;
-    [NotNull] private readonly ISettingsValid _settingsValid;
+    [NotNull] private readonly IDialogCoordinator _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
+    [NotNull] private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
+    [NotNull] private readonly ISettingsValid _settingsValid = settingsValid ?? throw new ArgumentNullException(nameof(settingsValid));
     private ListCollectionView _listCollectionView;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="load"></param>
-    /// <param name="settingsValid"></param>
-    /// <param name="dialogCoordinator"></param>
-    public ConfigureListCollectionView([NotNull] ILoad load, [NotNull] ISettingsValid settingsValid, [NotNull] IDialogCoordinator dialogCoordinator)
-    {
-        _load = load ?? throw new ArgumentNullException(nameof(load));
-        _settingsValid = settingsValid ?? throw new ArgumentNullException(nameof(settingsValid));
-        _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
-    }
 
     /// <inheritdoc />
     protected override ListCollectionView NonCachedValue

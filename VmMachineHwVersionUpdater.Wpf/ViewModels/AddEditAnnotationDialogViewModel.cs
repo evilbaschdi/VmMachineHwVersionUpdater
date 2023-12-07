@@ -4,25 +4,18 @@ using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels;
 
 /// <inheritdoc cref="IAddEditAnnotationDialogViewModel" />
-public class AddEditAnnotationDialogViewModel : ApplicationLayoutViewModel, IAddEditAnnotationDialogViewModel
+/// <summary>
+///     Constructor
+/// </summary>
+public class AddEditAnnotationDialogViewModel([NotNull] IApplicationLayout applicationLayout,
+                                        [NotNull] IApplicationStyle applicationStyle,
+                                        [NotNull] IUpdateAnnotation updateAnnotation,
+                                        [NotNull] ICurrentItem currentItem) : ApplicationLayoutViewModel(applicationLayout, applicationStyle, true, false), IAddEditAnnotationDialogViewModel
 {
-    private readonly ICurrentItem _currentItem;
-    private readonly IUpdateAnnotation _updateAnnotation;
+    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly IUpdateAnnotation _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
 
     #region Constructor
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    public AddEditAnnotationDialogViewModel([NotNull] IApplicationLayout applicationLayout,
-                                            [NotNull] IApplicationStyle applicationStyle,
-                                            [NotNull] IUpdateAnnotation updateAnnotation,
-                                            [NotNull] ICurrentItem currentItem)
-        : base(applicationLayout, applicationStyle, true, false)
-    {
-        _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
-    }
 
     #endregion Constructor
 
