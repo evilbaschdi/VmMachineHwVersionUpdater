@@ -9,9 +9,10 @@ namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 /// <param name="load"></param>
 /// <param name="guestOsesInUse"></param>
 /// <param name="separator"></param>
-public class LoadSearchOsItems([NotNull] ILoad load,
-                         [NotNull] IGuestOsesInUse guestOsesInUse,
-                         [NotNull] ISeparator separator) : CachedWritableValue<ObservableCollection<object>>, ILoadSearchOsItems
+public class LoadSearchOsItems(
+    [NotNull] ILoad load,
+    [NotNull] IGuestOsesInUse guestOsesInUse,
+    [NotNull] ISeparator separator) : CachedWritableValue<ObservableCollection<object>>, ILoadSearchOsItems
 {
     private readonly IGuestOsesInUse _guestOsesInUse = guestOsesInUse ?? throw new ArgumentNullException(nameof(guestOsesInUse));
     private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));

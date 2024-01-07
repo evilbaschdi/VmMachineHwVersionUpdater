@@ -5,6 +5,7 @@ dotnet_diagnostic.XFA001.severity = warning
 csharp_style_namespace_declarations = file_scoped:error
 dotnet_diagnostic.CA1859.severity = none
 dotnet_diagnostic.CA1860.severity = none
+dotnet_diagnostic.IDE0305.severity = none
 
 # RuleSet
 [/*Tests/*Tests]

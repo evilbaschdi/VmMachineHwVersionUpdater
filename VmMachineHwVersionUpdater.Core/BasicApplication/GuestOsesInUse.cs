@@ -6,11 +6,12 @@
 /// </summary>
 /// <param name="guestOsStringMapping"></param>
 /// <param name="load"></param>
-public class GuestOsesInUse([NotNull] IGuestOsStringMapping guestOsStringMapping,
-                      [NotNull] ILoad load) : IGuestOsesInUse
+public class GuestOsesInUse(
+    [NotNull] IGuestOsStringMapping guestOsStringMapping,
+    [NotNull] ILoad load) : IGuestOsesInUse
 {
-    [NotNull] private readonly IGuestOsStringMapping _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
-    [NotNull] private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
+    private readonly IGuestOsStringMapping _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
+    private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
 
     /// <inheritdoc />
     public List<string> Value
