@@ -29,14 +29,14 @@ public class InitReactiveCommands(
     [NotNull] IRenameReactiveCommand renameReactiveCommand,
     [NotNull] IStartReactiveCommand startReactiveCommand,
     [NotNull] IUpdateAllReactiveCommand updateAllReactiveCommand
-    ) : IInitReactiveCommands
+) : IInitReactiveCommands
 {
-
     /// <inheritdoc />
     public IAboutWindowReactiveCommand AboutWindowReactiveCommand { get; set; } = aboutWindowReactiveCommand ?? throw new ArgumentNullException(nameof(aboutWindowReactiveCommand));
 
     /// <inheritdoc />
-    public IAddEditAnnotationReactiveCommand AddEditAnnotationReactiveCommand { get; set; } = addEditAnnotationReactiveCommand ?? throw new ArgumentNullException(nameof(addEditAnnotationReactiveCommand));
+    public IAddEditAnnotationReactiveCommand AddEditAnnotationReactiveCommand { get; set; } =
+        addEditAnnotationReactiveCommand ?? throw new ArgumentNullException(nameof(addEditAnnotationReactiveCommand));
 
     /// <inheritdoc />
     public IArchiveReactiveCommand ArchiveReactiveCommand { get; set; } = archiveReactiveCommand ?? throw new ArgumentNullException(nameof(archiveReactiveCommand));
@@ -51,7 +51,8 @@ public class InitReactiveCommands(
     public IGoToReactiveCommand GoToReactiveCommand { get; set; } = goToReactiveCommand ?? throw new ArgumentNullException(nameof(goToReactiveCommand));
 
     /// <inheritdoc />
-    public IOpenWithCodeReactiveCommand OpenWithCodeReactiveCommand { get; set; } = openWithCodeReactiveCommand ?? throw new ArgumentNullException(nameof(openWithCodeReactiveCommand));
+    public IOpenWithCodeReactiveCommand OpenWithCodeReactiveCommand { get; set; } =
+        openWithCodeReactiveCommand ?? throw new ArgumentNullException(nameof(openWithCodeReactiveCommand));
 
     /// <inheritdoc />
     public IReloadReactiveCommand ReloadReactiveCommand { get; set; } = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));

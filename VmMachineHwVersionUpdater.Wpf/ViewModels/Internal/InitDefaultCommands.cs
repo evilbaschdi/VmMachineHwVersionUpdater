@@ -4,20 +4,20 @@
 /// <summary>
 ///     Constructor
 /// </summary>
-public class InitDefaultCommands([NotNull] IAboutWindowClickDefaultCommand aboutWindowClickDefaultCommand,
-                           [NotNull] IArchiveDefaultCommand archiveDefaultCommand,
-                           [NotNull] ICopyDefaultCommand copyDefaultCommand,
-                           [NotNull] IOpenWithCodeDefaultCommand openWithCodeDefaultCommand,
-                           [NotNull] IAddEditAnnotationDefaultCommand addEditAnnotationDefaultCommand,
-                           [NotNull] IDeleteDefaultCommand deleteDefaultCommand,
-                           [NotNull] IGotToDefaultCommand gotToDefaultCommand,
-                           [NotNull] IReloadDefaultCommand reloadDefaultCommand,
-                           [NotNull] IRenameDefaultCommand renameDefaultCommand,
-                           [NotNull] IStartDefaultCommand startDefaultCommand,
-                           [NotNull] IUpdateAllDefaultCommand updateAllDefaultCommand
-    ) : IInitDefaultCommands
+public class InitDefaultCommands(
+    [NotNull] IAboutWindowClickDefaultCommand aboutWindowClickDefaultCommand,
+    [NotNull] IArchiveDefaultCommand archiveDefaultCommand,
+    [NotNull] ICopyDefaultCommand copyDefaultCommand,
+    [NotNull] IOpenWithCodeDefaultCommand openWithCodeDefaultCommand,
+    [NotNull] IAddEditAnnotationDefaultCommand addEditAnnotationDefaultCommand,
+    [NotNull] IDeleteDefaultCommand deleteDefaultCommand,
+    [NotNull] IGotToDefaultCommand gotToDefaultCommand,
+    [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+    [NotNull] IRenameDefaultCommand renameDefaultCommand,
+    [NotNull] IStartDefaultCommand startDefaultCommand,
+    [NotNull] IUpdateAllDefaultCommand updateAllDefaultCommand
+) : IInitDefaultCommands
 {
-
     /// <inheritdoc />
     public IAboutWindowClickDefaultCommand AboutWindowClickDefaultCommand { get; set; } = aboutWindowClickDefaultCommand;
 
