@@ -1,80 +1,48 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="returnValueFromVmxLine"></param>
-/// <param name="vmxLineStartsWith"></param>
-/// <param name="convertAnnotationLineBreaks"></param>
-/// <exception cref="ArgumentNullException"></exception>
-public class ParseVmxFile([NotNull] IReturnValueFromVmxLine returnValueFromVmxLine, [NotNull] IVmxLineStartsWith vmxLineStartsWith,
-                    [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks) : IParseVmxFile
+public class ParseVmxFile : IParseVmxFile
 {
-    [NotNull] private readonly IConvertAnnotationLineBreaks _convertAnnotationLineBreaks = convertAnnotationLineBreaks ?? throw new ArgumentNullException(nameof(convertAnnotationLineBreaks));
-    [NotNull] private readonly IReturnValueFromVmxLine _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
-    [NotNull] private readonly IVmxLineStartsWith _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
+    private readonly IVmxLineStartsWith _vmxLineStartsWith;
+    private readonly ILineStartActions _lineStartActions;
+
+    /// <summary>
+    ///     Constructor
+    /// </summary>
+    /// <param name="vmxLineStartsWith"></param>
+    /// <param name="lineStartActions"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public ParseVmxFile(
+        [NotNull] IVmxLineStartsWith vmxLineStartsWith,
+        [NotNull] ILineStartActions lineStartActions)
+    {
+        _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
+        _lineStartActions = lineStartActions ?? throw new ArgumentNullException(nameof(lineStartActions));
+    }
 
     /// <inheritdoc />
-    public RawMachine ValueFor([NotNull] string file)
+    public RawMachine ValueFor(string file)
     {
-        if (file == null)
-        {
-            throw new ArgumentNullException(nameof(file));
-        }
+        ArgumentNullException.ThrowIfNull(file);
 
+        var lineStartActions = _lineStartActions.Value;
         var rawMachine = new RawMachine();
         var readAllLines = File.ReadAllLines(file);
 
-        Parallel.ForEach(readAllLines,
-            line =>
-            {
-                // ReSharper disable StringLiteralTypo
-                switch (line, StringComparer.InvariantCultureIgnoreCase)
-                {
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "virtualhw.version"):
-                        var rawHwVersion = _returnValueFromVmxLine.ValueFor(line, "virtualhw.version");
-                        rawMachine.HwVersion = !string.IsNullOrWhiteSpace(rawHwVersion) ? Convert.ToInt32(rawHwVersion) : 0;
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "displayname"):
-                        rawMachine.DisplayName = _returnValueFromVmxLine.ValueFor(line, "displayname");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "tools.syncTime"):
-                        rawMachine.SyncTimeWithHost = _returnValueFromVmxLine.ValueFor(line, "tools.syncTime");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "tools.upgrade.policy"):
-                        rawMachine.ToolsUpgradePolicy = _returnValueFromVmxLine.ValueFor(line, "tools.upgrade.policy");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "guestos")
-                                    && !_vmxLineStartsWith.ValueFor(line, "guestos.detailed.data")
-                                    && !_vmxLineStartsWith.ValueFor(line, "guestInfo.detailed.data"):
-                        rawMachine.GuestOs = _returnValueFromVmxLine.ValueFor(line, "guestos");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "guestOS.detailed.data") && string.IsNullOrWhiteSpace(rawMachine.DetailedData):
-                        rawMachine.DetailedData = _returnValueFromVmxLine.ValueFor(line, "guestOS.detailed.data");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "guestInfo.detailed.data"):
-                        rawMachine.DetailedData = _returnValueFromVmxLine.ValueFor(line, "guestInfo.detailed.data");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "annotation"):
-                        var rawAnnotation = _returnValueFromVmxLine.ValueFor(line, "annotation");
-                        rawMachine.Annotation = _convertAnnotationLineBreaks.ValueFor(rawAnnotation);
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "encryption.encryptedKey"):
-                        rawMachine.EncryptionEncryptedKey = _returnValueFromVmxLine.ValueFor(line, "encryption.encryptedKey");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "encryption.keySafe"):
-                        rawMachine.EncryptionKeySafe = _returnValueFromVmxLine.ValueFor(line, "encryption.keySafe");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "encryption.data"):
-                        rawMachine.EncryptionData = _returnValueFromVmxLine.ValueFor(line, "encryption.data");
-                        break;
-                    case var _ when _vmxLineStartsWith.ValueFor(line, "managedvm.autoAddVTPM"):
-                        rawMachine.ManagedVmAutoAddVTpm = _returnValueFromVmxLine.ValueFor(line, "managedvm.autoAddVTPM");
-                        break;
-                }
-                // ReSharper restore StringLiteralTypo
-            });
+        Parallel.ForEach(readAllLines, line =>
+                                       {
+                                           var lineActions = lineStartActions.Where(action => _vmxLineStartsWith.ValueFor(line, action.Key));
+                                           foreach (var action in lineActions)
+                                           {
+                                               if (action.Key == "guestOS.detailed.data" && !string.IsNullOrWhiteSpace(rawMachine.DetailedData))
+                                               {
+                                                   continue;
+                                               }
+
+                                               action.Value(rawMachine, line);
+                                               break;
+                                           }
+                                       });
 
         return rawMachine;
     }

@@ -8,10 +8,7 @@ public class ConfigureDefaultCommandServices : IConfigureDefaultCommandServices
     /// <inheritdoc />
     public void RunFor([NotNull] IServiceCollection services)
     {
-        if (services == null)
-        {
-            throw new ArgumentNullException(nameof(services));
-        }
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddSingleton<IInitDefaultCommands, InitDefaultCommands>();
 

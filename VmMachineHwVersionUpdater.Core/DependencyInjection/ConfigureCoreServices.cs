@@ -27,6 +27,7 @@ public class ConfigureCoreServices : IConfigureCoreServices
         services.AddSingleton<IGuestOsOutputStringMapping, GuestOsOutputStringMapping>();
         services.AddSingleton<IGuestOsStringMapping, GuestOsStringMapping>();
         services.AddSingleton<IHandleMachineFromPath, HandleMachineFromPath>();
+        services.AddSingleton<ILineStartActions, LineStartActions>();
         services.AddSingleton<ILoad, Load>();
         services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
         services.AddSingleton<IMachinesFromPath, MachinesFromPath>();

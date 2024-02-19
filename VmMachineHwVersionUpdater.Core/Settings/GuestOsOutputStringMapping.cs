@@ -15,10 +15,7 @@ public class GuestOsOutputStringMapping(IGuestOsStringMapping guestOsStringMappi
     /// </summary>
     protected override string NonCachedValueFor(string guestOs)
     {
-        if (guestOs == null)
-        {
-            throw new ArgumentNullException(nameof(guestOs));
-        }
+        ArgumentNullException.ThrowIfNull(guestOs);
 
         var configuration = _guestOsStringMapping.Value;
         var fullName = configuration[guestOs];

@@ -9,10 +9,7 @@ public class ReadLogInformation : IReadLogInformation
     /// <inheritdoc />
     public KeyValuePair<string, string> ValueFor([NotNull] string logDirectory)
     {
-        if (logDirectory == null)
-        {
-            throw new ArgumentNullException(nameof(logDirectory));
-        }
+        ArgumentNullException.ThrowIfNull(logDirectory);
 
         var lastLogDateLocal = string.Empty;
         var logLastDateDiff = string.Empty;
