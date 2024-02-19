@@ -29,15 +29,8 @@ public partial class MainWindow : IOnLoaded
     /// <inheritdoc />
     public void RunFor(object sender, RoutedEventArgs e)
     {
-        if (sender == null)
-        {
-            throw new ArgumentNullException(nameof(sender));
-        }
-
-        if (e == null)
-        {
-            throw new ArgumentNullException(nameof(e));
-        }
+        ArgumentNullException.ThrowIfNull(sender);
+        ArgumentNullException.ThrowIfNull(e);
 
         DataContext = ActivatorUtilities.GetServiceOrCreateInstance(_serviceProvider, typeof(MainWindowViewModel));
     }

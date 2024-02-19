@@ -11,10 +11,6 @@ public class AddEditAnnotationDialogViewModel(
     private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
     private readonly IUpdateAnnotation _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
 
-    #region Constructor
-
-    #endregion Constructor
-
     #region Properties
 
     /// <summary>

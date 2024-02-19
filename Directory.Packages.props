@@ -12,6 +12,7 @@
     <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2024.2.10.858" />
     <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2024.2.9.1805" />
     <PackageVersion Include="EvilBaschdi.Settings" Version="2024.2.9.1805" />
+    <PackageVersion Include="FluentAvaloniaUI" Version="2.0.5" />
     <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
@@ -21,12 +22,12 @@
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
-    <PackageVersion Include="EvilBaschdi.Testing" Version="2024.2.7.2234" />
+    <PackageVersion Include="EvilBaschdi.Testing" Version="2024.2.16.704" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.30.0" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.21" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.16" />
-    <PackageVersion Include="xunit.analyzers" Version="1.10.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.6" />
+    <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
+    <PackageVersion Include="xunit.analyzers" Version="1.11.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:VmMachineHwVersionUpdater.Avalonia"
-             x:Class="VmMachineHwVersionUpdater.Avalonia.App">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VmMachineHwVersionUpdater.Avalonia"
+    xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia"
+    x:Class="VmMachineHwVersionUpdater.Avalonia.App" RequestedThemeVariant="Default">
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
@@ -9,5 +10,6 @@
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
         <FluentTheme />
+        <styling:FluentAvaloniaTheme PreferSystemTheme="True" PreferUserAccentColor="True" />
     </Application.Styles>
 </Application>
