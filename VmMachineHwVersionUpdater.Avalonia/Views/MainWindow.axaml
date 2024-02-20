@@ -122,7 +122,7 @@
 						</DataGrid.ContextMenu>
 					</DataGrid>
 					<Separator Grid.Row="1" />
-					<StackPanel Grid.Row="2" Name="Footer" Orientation="Horizontal" HorizontalAlignment="Center" Margin="7,0,7,7">
+					<StackPanel Grid.Row="2" Name="Footer" Orientation="Horizontal" HorizontalAlignment="Center" Margin="7">
 						<!-- Search Filter -->
 						<TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}"
                                  Text="{Binding SearchFilterText,Mode=TwoWay}" Watermark="enter search term" />
