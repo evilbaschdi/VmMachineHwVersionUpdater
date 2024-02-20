@@ -13,7 +13,7 @@ public class FilterItemSource : IFilterItemSource
 
         if (!string.IsNullOrWhiteSpace(searchOsText) && searchOsText != "(no filter)")
         {
-            filterGuestOs = machine.GuestOs.StartsWith(searchOsText, StringComparison.InvariantCultureIgnoreCase);
+            filterGuestOs = machine.GuestOs.StartsWith(searchOsText, StringComparison.OrdinalIgnoreCase);
         }
 
         if (string.IsNullOrWhiteSpace(searchFilterText))
@@ -25,13 +25,13 @@ public class FilterItemSource : IFilterItemSource
         {
             var searchFilterTextTrimmed = searchFilterText.Trim('*', '\'');
             var searchFilterTextCharArray = searchFilterTextTrimmed.ToCharArray();
-            filterDisplayNameOrAnnotation = searchFilterTextCharArray.All(c => machine.DisplayName.Contains(c, StringComparison.InvariantCultureIgnoreCase)) ||
-                                            searchFilterTextCharArray.All(c => machine.Annotation.Contains(c, StringComparison.InvariantCultureIgnoreCase));
+            filterDisplayNameOrAnnotation = searchFilterTextCharArray.All(c => machine.DisplayName.Contains(c, StringComparison.OrdinalIgnoreCase)) ||
+                                            searchFilterTextCharArray.All(c => machine.Annotation.Contains(c, StringComparison.OrdinalIgnoreCase));
         }
         else
         {
-            filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase)
-                                            || machine.Annotation.Contains(searchFilterText, StringComparison.InvariantCultureIgnoreCase);
+            filterDisplayNameOrAnnotation = machine.DisplayName.Contains(searchFilterText, StringComparison.OrdinalIgnoreCase)
+                                            || machine.Annotation.Contains(searchFilterText, StringComparison.OrdinalIgnoreCase);
         }
 
         return filterDisplayNameOrAnnotation && filterGuestOs;

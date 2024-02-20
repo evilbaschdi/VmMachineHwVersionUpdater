@@ -30,21 +30,28 @@ public class LineStartActions : ILineStartActions
                                                                        },
                                                                        {
                                                                            "displayname",
-                                                                           (machine, line) => machine.DisplayName = _returnValueFromVmxLine.ValueFor(line, "displayname")
+                                                                           (machine, line) =>
+                                                                               machine.DisplayName = _returnValueFromVmxLine.ValueFor(line, "displayname")
                                                                        },
                                                                        {
                                                                            "tools.syncTime",
-                                                                           (machine, line) => machine.SyncTimeWithHost = _returnValueFromVmxLine.ValueFor(line, "tools.syncTime")
+                                                                           (machine, line) =>
+                                                                               machine.SyncTimeWithHost = _returnValueFromVmxLine.ValueFor(line, "tools.syncTime")
                                                                        },
                                                                        {
                                                                            "tools.upgrade.policy",
                                                                            (machine, line) =>
                                                                                machine.ToolsUpgradePolicy = _returnValueFromVmxLine.ValueFor(line, "tools.upgrade.policy")
                                                                        },
-                                                                       { "guestos", (machine, line) => machine.GuestOs = _returnValueFromVmxLine.ValueFor(line, "guestos") },
+                                                                       {
+                                                                           "guestos",
+                                                                           (machine, line) =>
+                                                                               machine.GuestOs = _returnValueFromVmxLine.ValueFor(line, "guestos")
+                                                                       },
                                                                        {
                                                                            "guestOS.detailed.data",
-                                                                           (machine, line) => machine.DetailedData = _returnValueFromVmxLine.ValueFor(line, "guestOS.detailed.data")
+                                                                           (machine, line) =>
+                                                                               machine.DetailedData = _returnValueFromVmxLine.ValueFor(line, "guestOS.detailed.data")
                                                                        },
                                                                        {
                                                                            "guestInfo.detailed.data",

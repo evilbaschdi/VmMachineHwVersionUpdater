@@ -45,15 +45,9 @@ public class HandleMachineFromPath(
     /// <inheritdoc />
     public Machine ValueFor([NotNull] string path, [NotNull] string file)
     {
-        if (path == null)
-        {
-            throw new ArgumentNullException(nameof(path));
-        }
+        ArgumentNullException.ThrowIfNull(path);
 
-        if (file == null)
-        {
-            throw new ArgumentNullException(nameof(file));
-        }
+        ArgumentNullException.ThrowIfNull(file);
 
         var archivePaths = _pathSettings.ArchivePath;
 
@@ -76,32 +70,32 @@ public class HandleMachineFromPath(
         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
 
         var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _updateMachineVersion)
-                      {
-                          DisplayName = rawMachine.DisplayName,
-                          HwVersion = rawMachine.HwVersion,
-                          GuestOs = _guestOsOutputStringMapping.ValueFor(rawMachine.GuestOs.Trim()),
-                          GuestOsDetailedData = rawMachine.DetailedData,
-                          Path = properFilePathCapitalization,
-                          Directory = path,
-                          ShortPath = properFilePathCapitalization.Replace(path, "",
+        {
+            DisplayName = rawMachine.DisplayName,
+            HwVersion = rawMachine.HwVersion,
+            GuestOs = _guestOsOutputStringMapping.ValueFor(rawMachine.GuestOs.Trim()),
+            GuestOsDetailedData = rawMachine.DetailedData,
+            Path = properFilePathCapitalization,
+            Directory = path,
+            ShortPath = properFilePathCapitalization.Replace(path, "",
                               StringComparison.CurrentCultureIgnoreCase),
-                          DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),
-                          DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),
-                          LogLastDate = logLastDate,
-                          LogLastDateDiff = logLastDateDiff,
-                          AutoUpdateTools = !string.IsNullOrWhiteSpace(rawMachine.ToolsUpgradePolicy) &&
+            DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),
+            DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),
+            LogLastDate = logLastDate,
+            LogLastDateDiff = logLastDateDiff,
+            AutoUpdateTools = !string.IsNullOrWhiteSpace(rawMachine.ToolsUpgradePolicy) &&
                                             rawMachine.ToolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
-                          SyncTimeWithHost = !string.IsNullOrWhiteSpace(rawMachine.SyncTimeWithHost) &&
+            SyncTimeWithHost = !string.IsNullOrWhiteSpace(rawMachine.SyncTimeWithHost) &&
                                              bool.Parse(rawMachine.SyncTimeWithHost),
-                          MachineState = paused.HasValue && paused.Value
+            MachineState = paused.HasValue && paused.Value
                               ? MachineState.Paused
                               : MachineState.Off,
-                          Annotation = rawMachine.Annotation,
-                          EncryptionData = rawMachine.EncryptionData,
-                          EncryptionEncryptedKey = rawMachine.EncryptionEncryptedKey,
-                          EncryptionKeySafe = rawMachine.EncryptionKeySafe,
-                          ManagedVmAutoAddVTpm = rawMachine.ManagedVmAutoAddVTpm
-                      };
+            Annotation = rawMachine.Annotation,
+            EncryptionData = rawMachine.EncryptionData,
+            EncryptionEncryptedKey = rawMachine.EncryptionEncryptedKey,
+            EncryptionKeySafe = rawMachine.EncryptionKeySafe,
+            ManagedVmAutoAddVTpm = rawMachine.ManagedVmAutoAddVTpm
+        };
 
         _setMachineIsEnabledForEditing.RunFor(machine);
         _setDisplayName.RunFor(rawMachine, machine);

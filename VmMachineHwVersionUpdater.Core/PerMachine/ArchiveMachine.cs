@@ -26,9 +26,9 @@ public class ArchiveMachine([NotNull] IPathSettings pathSettings) : IArchiveMach
             return;
         }
 
-        var machineDirectoryWithoutPath = path.ToLower().Replace($@"{machine.Directory}\", "", StringComparison.InvariantCultureIgnoreCase);
+        var machineDirectoryWithoutPath = path.ToLower().Replace($@"{machine.Directory}\", "", StringComparison.OrdinalIgnoreCase);
 
-        var archivePath = _pathSettings.ArchivePath?.FirstOrDefault(p => p.ToLower().StartsWith(machine.Directory.ToLower()));
+        var archivePath = _pathSettings.ArchivePath?.FirstOrDefault(p => p.StartsWith(machine.Directory, StringComparison.OrdinalIgnoreCase));
         archivePath = string.IsNullOrWhiteSpace(archivePath) ? Path.Combine(machine.Directory.ToLower(), "_archive") : archivePath;
 
         var destination = Path.Combine(archivePath, machineDirectoryWithoutPath.ToLower());
