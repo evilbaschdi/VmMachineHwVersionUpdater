@@ -1,8 +1,6 @@
-﻿using Avalonia.Controls;
-using EvilBaschdi.Core.Avalonia;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Dto;
-using MsBox.Avalonia.Enums;
+﻿using EvilBaschdi.Core.Avalonia;
+using EvilBaschdi.Core.Avalonia.Controls;
+using FluentAvalonia.UI.Controls;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -16,15 +14,19 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// <param name="reloadReactiveCommand"></param>
 /// <param name="mainWindowByApplicationLifetime"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class RenameReactiveCommand([NotNull] IChangeDisplayName changeDisplayName,
-                             [NotNull] ICurrentItem currentItem,
-                             [NotNull] IReloadReactiveCommand reloadReactiveCommand,
-                             [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime
-    ) : ReactiveCommandUnitRun, IRenameReactiveCommand
+public class RenameReactiveCommand(
+    [NotNull] IChangeDisplayName changeDisplayName,
+    [NotNull] ICurrentItem currentItem,
+    [NotNull] IReloadReactiveCommand reloadReactiveCommand,
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime
+) : ReactiveCommandUnitRun, IRenameReactiveCommand
 {
     private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
     private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
-    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
+
+    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
+        mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
+
     private readonly IChangeDisplayName _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
 
     /// <inheritdoc />
@@ -32,59 +34,84 @@ public class RenameReactiveCommand([NotNull] IChangeDisplayName changeDisplayNam
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         var machine = _currentItem.Value;
+
         if (!machine.IsEnabledForEditing)
         {
-            var warningBox = MessageBoxManager.GetMessageBoxStandard("'Rename machine' was canceled", "Machine is currently read only", ButtonEnum.Ok, Icon.Warning);
-            await warningBox.ShowAsPopupAsync(mainWindow);
+            var readOnlyDialog = new TaskDialog
+                                 {
+                                     Buttons =
+                                     {
+                                         TaskDialogButton.OKButton,
+                                     },
+                                     XamlRoot = mainWindow,
+                                     Title = "'Rename machine' was canceled",
+                                     IconSource = new SymbolIconSource { Symbol = Symbol.AlertUrgentFilled },
+                                     Content = "Machine is currently read only"
+                                 };
+            await readOnlyDialog.ShowAsync();
             return;
         }
 
-        var box = MessageBoxManager.GetMessageBoxStandard("Rename machine...", $"Are you sure you want to rename machine '{machine.DisplayName}'?", ButtonEnum.YesNo,
-            Icon.Question);
-        var result = await box.ShowAsPopupAsync(mainWindow);
+        var title = "Rename machine...";
+        var text = $"Are you sure you want to rename machine '{_currentItem.Value.DisplayName}'?";
 
-        if (result == ButtonResult.Yes)
+        var confirmationDialog = new ContentDialog
+                                 {
+                                     Title = title,
+                                     Content = text,
+                                     PrimaryButtonText = "Yes",
+                                     SecondaryButtonText = "No"
+                                 };
+        var result = await confirmationDialog.ShowAsync();
+
+        if (result != ContentDialogResult.Primary)
         {
-            try
-            {
-                var inputBox = MessageBoxManager.GetMessageBoxStandard(
-                    new MessageBoxStandardParams
-                    {
-                        ButtonDefinitions = ButtonEnum.OkCancel,
-                        ContentTitle = "Rename machine...",
-                        //ContentHeader = "Copy machine...",
-                        ContentMessage = "Enter the new display name",
-                        Icon = Icon.Setting,
-                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                        CanResize = false,
-                        SizeToContent = SizeToContent.WidthAndHeight,
-                        ShowInCenter = true,
-                        Topmost = false,
-                        InputParams = new InputParams
-                                      {
-                                          Multiline = false
-                                      }
-                    });
-
-                var inputResult = await inputBox.ShowAsPopupAsync(mainWindow);
-
-                if (inputResult == ButtonResult.Ok && !string.IsNullOrWhiteSpace(inputBox.InputValue))
-                {
-                    _changeDisplayName.RunFor(machine.Path, inputBox.InputValue);
-                }
-            }
-            catch (IOException ioException)
-            {
-                var ioExceptionBox = MessageBoxManager.GetMessageBoxStandard(ioException.Message, "'Rename machine' was canceled", ButtonEnum.Ok, Icon.Error);
-                await ioExceptionBox.ShowAsPopupAsync(mainWindow);
-            }
-            catch (Exception exception)
-            {
-                var exceptionBox = MessageBoxManager.GetMessageBoxStandard(exception.Message, "'Rename machine' was canceled", ButtonEnum.Ok, Icon.Error);
-                await exceptionBox.ShowAsPopupAsync(mainWindow);
-            }
-
-            _reloadReactiveCommand.Run();
+            return;
         }
+
+        var exceptionDialog = new TaskDialog
+                              {
+                                  Title = "'Rename machine' was canceled",
+                                  IconSource = new SymbolIconSource { Symbol = Symbol.AlertUrgentFilled },
+                                  Buttons =
+                                  {
+                                      TaskDialogButton.OKButton,
+                                  },
+                                  XamlRoot = mainWindow
+                              };
+        try
+        {
+            var targetDialog = new ContentDialog
+                               {
+                                   Title = "Enter the new display name",
+                                   PrimaryButtonText = "Ok",
+                                   CloseButtonText = "Cancel"
+                               };
+
+            var input = new ContentDialogInput
+                        {
+                            CaptionText = "Enter the new display name"
+                        };
+            targetDialog.Content = input;
+
+            var targetDialogResult = await targetDialog.ShowAsync();
+
+            if (targetDialogResult == ContentDialogResult.Primary && !string.IsNullOrWhiteSpace(input.ResultText))
+            {
+                _changeDisplayName.RunFor(machine.Path, input.ResultText);
+            }
+        }
+        catch (IOException ioException)
+        {
+            exceptionDialog.Content = ioException.Message;
+            await exceptionDialog.ShowAsync();
+        }
+        catch (Exception exception)
+        {
+            exceptionDialog.Content = exception.Message;
+            await exceptionDialog.ShowAsync();
+        }
+
+        _reloadReactiveCommand.Run();
     }
 }

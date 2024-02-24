@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
         x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow"
         d:DesignWidth="1600" d:DesignHeight="700" Width="1600" Height="700"
         mc:Ignorable="d"
@@ -11,11 +12,11 @@
         Background="Transparent">
 
 	<Panel Name="RootPanel">
-		<!-- <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
+		 <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
 			<ExperimentalAcrylicBorder.Material>
 				<ExperimentalAcrylicMaterial TintColor="Black" TintOpacity="1" MaterialOpacity="0.9" />
 			</ExperimentalAcrylicBorder.Material>
-		</ExperimentalAcrylicBorder> -->
+		</ExperimentalAcrylicBorder> 
 
 		<Panel Name="HeaderPanel" IsVisible="False" Margin="0">
 			<Panel Margin="0">
@@ -32,7 +33,7 @@
 
 		<Panel Name="MainPanel" Margin="0,0,0,0">
 			<Panel Name="ContentPanel" Margin="0,0,0,0">
-				<Grid Margin="7" RowDefinitions="*,1,44">
+				<Grid Margin="7" RowDefinitions="*,1,46">
 					<DataGrid Grid.Row="0" Name="MachineGrid" ItemsSource="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*"
                               GridLinesVisibility="Horizontal"
                               SelectionMode="Single" SelectedItem="{Binding Path=SelectedMachine}"
@@ -46,9 +47,13 @@
 										<!-- ReSharper disable Xaml.PossibleNullReferenceException -->
 										<!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
 										<!-- ReSharper disable once Xaml.StyleClassNotFound -->
-										<Button Content="▶️" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center"
+										<Button VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center"
                                                 HorizontalContentAlignment="Center" Width="60" Classes="accent"
-                                                Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" >
+											<StackPanel Orientation="Horizontal">
+												<controls:SymbolIcon Symbol="PlayFilled" FontSize="18" />
+											</StackPanel>
+										</Button>
 										<!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
 										<!-- ReSharper restore Xaml.PossibleNullReferenceException -->
 									</DataTemplate>
@@ -122,29 +127,43 @@
 						</DataGrid.ContextMenu>
 					</DataGrid>
 					<Separator Grid.Row="1" />
-					<StackPanel Grid.Row="2" Name="Footer" Orientation="Horizontal" HorizontalAlignment="Center" Margin="7">
-						<!-- Search Filter -->
-						<TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}"
-                                 Text="{Binding SearchFilterText,Mode=TwoWay}" Watermark="enter search term" />
-						<!-- Search Os -->
-						<ComboBox Width="250" Name="SearchOs" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="{Binding SearchOsIsEnabled}"
-                                  ItemsSource="{Binding SearchOsItemCollection}" SelectedItem="{Binding SearchOsText}" />
-                        <TextBlock Text="|" FontSize="20"/>
-						<!-- Update all -->
-						<Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding UpdateAllCommand}" IsEnabled="{Binding UpdateAllIsEnabled}">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock VerticalAlignment="Center" Text="{Binding UpdateAllTextBlockText}" />
-							</StackPanel>
-						</Button>
-						<NumericUpDown Width="120" Value="{Binding UpdateAllHwVersionValue}" HorizontalAlignment="Center" VerticalAlignment="Top" />
-						<!-- Restart -->
-						<TextBlock Text="|" FontSize="20"/>
-						<Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding ReloadCommand}" ToolTip.Tip="Restart" >
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="↺" VerticalAlignment="Center"/>
-							</StackPanel>
-						</Button>
-					</StackPanel>
+
+					<controls:CommandBar Grid.Row="2" Margin="7" HorizontalAlignment="Center">
+						<controls:CommandBar.PrimaryCommands>
+							<!-- Search Filter -->
+							<controls:CommandBarElementContainer>
+								<TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}"
+                                         Text="{Binding SearchFilterText,Mode=TwoWay}" Watermark="enter search term" />
+							</controls:CommandBarElementContainer>
+							<!-- Search Os -->
+							<controls:CommandBarElementContainer>
+								<controls:FAComboBox Width="250" Name="SearchOs" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="{Binding SearchOsIsEnabled}"
+                                          ItemsSource="{Binding SearchOsItemCollection}" SelectedItem="{Binding SearchOsText}"  IsEditable="True" IsTextSearchEnabled="True"/>
+							</controls:CommandBarElementContainer>
+							<controls:CommandBarSeparator />
+							<!-- Update all -->
+							<controls:CommandBarElementContainer>
+								<Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding UpdateAllCommand}" IsEnabled="{Binding UpdateAllIsEnabled}">
+									<StackPanel Orientation="Horizontal">
+										<TextBlock VerticalAlignment="Center" Text="{Binding UpdateAllTextBlockText}" />
+									</StackPanel>
+								</Button>
+							</controls:CommandBarElementContainer>
+							<controls:CommandBarElementContainer>
+								<NumericUpDown Width="120" Value="{Binding UpdateAllHwVersionValue}" HorizontalAlignment="Center" VerticalAlignment="Top" />
+							</controls:CommandBarElementContainer>
+							<!-- Restart -->
+							<controls:CommandBarSeparator />
+							<controls:CommandBarElementContainer>
+								<Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding ReloadCommand}" ToolTip.Tip="Restart" >
+									<StackPanel Orientation="Horizontal">
+										<controls:SymbolIcon Symbol="Sync" FontSize="18" />
+									</StackPanel>
+								</Button>
+							</controls:CommandBarElementContainer>
+						</controls:CommandBar.PrimaryCommands>
+					</controls:CommandBar>
+
 				</Grid>
 			</Panel>
 		</Panel>

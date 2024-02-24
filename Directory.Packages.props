@@ -8,20 +8,18 @@
     <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2024.2.10.1050" />
     <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2024.2.10.1050" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2024.2.8.1708" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2024.2.10.631" />
+    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2024.2.24.1257" />
     <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2024.2.10.858" />
     <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2024.2.9.1805" />
     <PackageVersion Include="EvilBaschdi.Settings" Version="2024.2.9.1805" />
-    <PackageVersion Include="FluentAvaloniaUI" Version="2.0.5" />
     <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.11.0" />
-    <PackageVersion Include="MessageBox.Avalonia" Version="3.1.5.1" />
     <PackageVersion Include="WpfAnalyzers" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.1" />
     <PackageVersion Include="EvilBaschdi.Testing" Version="2024.2.16.704" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.30.0" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.21" />
