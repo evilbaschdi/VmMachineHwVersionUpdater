@@ -5,7 +5,8 @@
 ///     Constructor
 /// </summary>
 /// <param name="pathSettings"></param>
-public class ArchiveMachine([NotNull] IPathSettings pathSettings) : IArchiveMachine
+public class ArchiveMachine(
+    [NotNull] IPathSettings pathSettings) : IArchiveMachine
 {
     private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
 

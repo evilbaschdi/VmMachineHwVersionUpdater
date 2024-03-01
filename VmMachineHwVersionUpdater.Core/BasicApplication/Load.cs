@@ -5,7 +5,8 @@
 ///     Constructor
 /// </summary>
 /// <param name="machinesFromPath"></param>
-public class Load(IMachinesFromPath machinesFromPath) : CachedValue<LoadHelper>, ILoad
+public class Load(
+    IMachinesFromPath machinesFromPath) : CachedValue<LoadHelper>, ILoad
 {
     private readonly IMachinesFromPath _machinesFromPath = machinesFromPath ?? throw new ArgumentNullException(nameof(machinesFromPath));
 

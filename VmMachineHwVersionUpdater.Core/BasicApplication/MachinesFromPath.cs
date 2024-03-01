@@ -11,7 +11,10 @@ namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 /// <param name="pathSettings"></param>
 /// <param name="handleMachineFromPath"></param>
 /// <param name="fileListFromPath"></param>
-public class MachinesFromPath([NotNull] IPathSettings pathSettings, [NotNull] IHandleMachineFromPath handleMachineFromPath, [NotNull] IFileListFromPath fileListFromPath) : IMachinesFromPath
+public class MachinesFromPath(
+    [NotNull] IPathSettings pathSettings,
+    [NotNull] IHandleMachineFromPath handleMachineFromPath,
+    [NotNull] IFileListFromPath fileListFromPath) : IMachinesFromPath
 {
     private readonly IFileListFromPath _fileListFromPath = fileListFromPath ?? throw new ArgumentNullException(nameof(fileListFromPath));
     private readonly IHandleMachineFromPath _handleMachineFromPath = handleMachineFromPath ?? throw new ArgumentNullException(nameof(handleMachineFromPath));

@@ -9,7 +9,10 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 /// <param name="load"></param>
 /// <param name="settingsValid"></param>
 /// <param name="dialogCoordinator"></param>
-public class CurrentItemSource([NotNull] ILoad load, [NotNull] ISettingsValid settingsValid, [NotNull] IDialogCoordinator dialogCoordinator) : CachedWritableValue<List<Machine>>, ICurrentItemSource
+public class CurrentItemSource(
+    [NotNull] ILoad load,
+    [NotNull] ISettingsValid settingsValid,
+    [NotNull] IDialogCoordinator dialogCoordinator) : CachedWritableValue<List<Machine>>, ICurrentItemSource
 {
     private readonly IDialogCoordinator _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
     private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));

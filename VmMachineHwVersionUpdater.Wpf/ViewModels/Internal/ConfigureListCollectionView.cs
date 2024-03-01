@@ -11,7 +11,10 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 /// <param name="load"></param>
 /// <param name="settingsValid"></param>
 /// <param name="dialogCoordinator"></param>
-public class ConfigureListCollectionView([NotNull] ILoad load, [NotNull] ISettingsValid settingsValid, [NotNull] IDialogCoordinator dialogCoordinator) : CachedWritableValue<ListCollectionView>, IConfigureListCollectionView
+public class ConfigureListCollectionView(
+    [NotNull] ILoad load,
+    [NotNull] ISettingsValid settingsValid,
+    [NotNull] IDialogCoordinator dialogCoordinator) : CachedWritableValue<ListCollectionView>, IConfigureListCollectionView
 {
     [NotNull] private readonly IDialogCoordinator _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
     [NotNull] private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));

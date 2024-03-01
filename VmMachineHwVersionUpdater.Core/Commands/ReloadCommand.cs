@@ -9,7 +9,8 @@ namespace VmMachineHwVersionUpdater.Core.Commands;
 /// </summary>
 /// <param name="processByPath"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class ReloadCommand([NotNull] IProcessByPath processByPath) : IReloadCommand
+public class ReloadCommand(
+    [NotNull] IProcessByPath processByPath) : IReloadCommand
 {
     private readonly IProcessByPath _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
 

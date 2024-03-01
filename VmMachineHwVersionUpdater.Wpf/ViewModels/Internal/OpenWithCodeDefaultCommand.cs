@@ -7,7 +7,8 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="openWithCodeCommand"></param>
-public class OpenWithCodeDefaultCommand([NotNull] IOpenWithCodeCommand openWithCodeCommand) : IOpenWithCodeDefaultCommand
+public class OpenWithCodeDefaultCommand(
+    [NotNull] IOpenWithCodeCommand openWithCodeCommand) : IOpenWithCodeDefaultCommand
 {
     private readonly IOpenWithCodeCommand _openWithCodeCommand = openWithCodeCommand ?? throw new ArgumentNullException(nameof(openWithCodeCommand));
 

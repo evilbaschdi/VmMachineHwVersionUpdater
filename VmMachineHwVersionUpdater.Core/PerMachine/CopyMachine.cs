@@ -7,7 +7,8 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine;
 ///     Constructor
 /// </summary>
 /// <param name="copyDirectory"></param>
-public class CopyMachine([NotNull] ICopyDirectoryWithProgress copyDirectory) : ICopyMachine
+public class CopyMachine(
+    [NotNull] ICopyDirectoryWithProgress copyDirectory) : ICopyMachine
 {
     private readonly ICopyDirectoryWithProgress _copyDirectory = copyDirectory ?? throw new ArgumentNullException(nameof(copyDirectory));
 

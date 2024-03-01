@@ -10,9 +10,11 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// </summary>
 /// <param name="mainWindowByApplicationLifetime"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class AboutWindowReactiveCommand([NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IAboutWindowReactiveCommand
+public class AboutWindowReactiveCommand(
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IAboutWindowReactiveCommand
 {
-    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
+    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
+        mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
     public override void Run()

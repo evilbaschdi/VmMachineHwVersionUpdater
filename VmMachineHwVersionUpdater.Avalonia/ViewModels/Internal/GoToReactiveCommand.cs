@@ -9,7 +9,8 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// </summary>
 /// <param name="goToCommand"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class GoToReactiveCommand([NotNull] IGoToCommand goToCommand) : ReactiveCommandUnitRun, IGoToReactiveCommand
+public class GoToReactiveCommand(
+    [NotNull] IGoToCommand goToCommand) : ReactiveCommandUnitRun, IGoToReactiveCommand
 {
     private readonly IGoToCommand _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
 

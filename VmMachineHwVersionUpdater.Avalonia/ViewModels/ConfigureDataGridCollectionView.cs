@@ -12,13 +12,14 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 /// <param name="settingsValid"></param>
 /// <param name="comparer"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class ConfigureDataGridCollectionView([NotNull] ILoad load,
-                                       [NotNull] ISettingsValid settingsValid,
-                                       [NotNull] IComparer comparer) : CachedWritableValue<DataGridCollectionView>, IConfigureDataGridCollectionView
+public class ConfigureDataGridCollectionView(
+    [NotNull] ILoad load,
+    [NotNull] ISettingsValid settingsValid,
+    [NotNull] IComparer comparer) : CachedWritableValue<DataGridCollectionView>, IConfigureDataGridCollectionView
 {
     private readonly IComparer _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
-    [NotNull] private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
-    [NotNull] private readonly ISettingsValid _settingsValid = settingsValid ?? throw new ArgumentNullException(nameof(settingsValid));
+    private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
+    private readonly ISettingsValid _settingsValid = settingsValid ?? throw new ArgumentNullException(nameof(settingsValid));
 
     private DataGridCollectionView _dataGridCollectionView;
 

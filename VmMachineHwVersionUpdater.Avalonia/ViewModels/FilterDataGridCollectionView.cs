@@ -7,10 +7,13 @@
 /// <param name="configureDataGridCollectionView"></param>
 /// <param name="filterItemSource"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class FilterDataGridCollectionView([NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
-                                    [NotNull] IFilterItemSource filterItemSource) : IFilterDataGridCollectionView
+public class FilterDataGridCollectionView(
+    [NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
+    [NotNull] IFilterItemSource filterItemSource) : IFilterDataGridCollectionView
 {
-    private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
+    private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView =
+        configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
+
     private readonly IFilterItemSource _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
 
     /// <inheritdoc />

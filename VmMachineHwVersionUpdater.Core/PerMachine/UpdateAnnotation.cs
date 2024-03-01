@@ -6,7 +6,9 @@
 /// </summary>
 /// <param name="currentItem"></param>
 /// <param name="addEditAnnotation"></param>
-public class UpdateAnnotation([NotNull] ICurrentItem currentItem, [NotNull] IAddEditAnnotation addEditAnnotation) : IUpdateAnnotation
+public class UpdateAnnotation(
+    [NotNull] ICurrentItem currentItem,
+    [NotNull] IAddEditAnnotation addEditAnnotation) : IUpdateAnnotation
 {
     private readonly IAddEditAnnotation _addEditAnnotation = addEditAnnotation ?? throw new ArgumentNullException(nameof(addEditAnnotation));
     private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));

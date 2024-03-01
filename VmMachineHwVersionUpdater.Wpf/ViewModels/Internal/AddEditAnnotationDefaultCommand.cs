@@ -8,7 +8,8 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="reloadDefaultCommand"></param>
-public class AddEditAnnotationDefaultCommand([NotNull] IReloadDefaultCommand reloadDefaultCommand) : IAddEditAnnotationDefaultCommand
+public class AddEditAnnotationDefaultCommand(
+    [NotNull] IReloadDefaultCommand reloadDefaultCommand) : IAddEditAnnotationDefaultCommand
 {
     private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 

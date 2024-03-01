@@ -11,162 +11,163 @@
         TransparencyLevelHint="Mica"
         Background="Transparent">
 
-	<Panel Name="RootPanel">
-		 <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
-			<ExperimentalAcrylicBorder.Material>
-				<ExperimentalAcrylicMaterial TintColor="Black" TintOpacity="1" MaterialOpacity="0.9" />
-			</ExperimentalAcrylicBorder.Material>
-		</ExperimentalAcrylicBorder> 
+    <Panel Name="RootPanel">
+        <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
+            <ExperimentalAcrylicBorder.Material>
+                <ExperimentalAcrylicMaterial TintColor="Black" TintOpacity="1" MaterialOpacity="0.9" />
+            </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
 
-		<Panel Name="HeaderPanel" IsVisible="False" Margin="0">
-			<Panel Margin="0">
-				<Button VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" Command="{Binding AboutWindowCommand}">
-					<StackPanel Orientation="Horizontal">
-						<ContentControl>
-							<Image Source="/Assets/b.ico" Width="20" Height="20" />
-						</ContentControl>
-						<TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,0,0,0" />
-					</StackPanel>
-				</Button>
-			</Panel>
-		</Panel>
+        <Panel Name="HeaderPanel" IsVisible="False" Margin="0">
+            <Panel Margin="0">
+                <Button VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" Command="{Binding AboutWindowCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl>
+                            <Image Source="/Assets/b.ico" Width="20" Height="20" />
+                        </ContentControl>
+                        <TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </Panel>
+        </Panel>
 
-		<Panel Name="MainPanel" Margin="0,0,0,0">
-			<Panel Name="ContentPanel" Margin="0,0,0,0">
-				<Grid Margin="7" RowDefinitions="*,1,46">
-					<DataGrid Grid.Row="0" Name="MachineGrid" ItemsSource="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*"
+        <Panel Name="MainPanel" Margin="0,0,0,0">
+            <Panel Name="ContentPanel" Margin="0,0,0,0">
+                <Grid Margin="7" RowDefinitions="*,1,46">
+                    <DataGrid Grid.Row="0" Name="MachineGrid" ItemsSource="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*"
                               GridLinesVisibility="Horizontal"
                               SelectionMode="Single" SelectedItem="{Binding Path=SelectedMachine}"
                               ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-						<DataGrid.Columns>
-							<DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True" />
-							<DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True" />
-							<DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<!-- ReSharper disable Xaml.PossibleNullReferenceException -->
-										<!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
-										<!-- ReSharper disable once Xaml.StyleClassNotFound -->
-										<Button VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True" />
+                            <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable Xaml.PossibleNullReferenceException -->
+                                        <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
+                                        <!-- ReSharper disable once Xaml.StyleClassNotFound -->
+                                        <Button VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center"
                                                 HorizontalContentAlignment="Center" Width="60" Classes="accent"
-                                                Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" >
-											<StackPanel Orientation="Horizontal">
-												<controls:SymbolIcon Symbol="PlayFilled" FontSize="18" />
-											</StackPanel>
-										</Button>
-										<!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
-										<!-- ReSharper restore Xaml.PossibleNullReferenceException -->
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-								<DataGridTemplateColumn.CellEditingTemplate>
-									<DataTemplate>
-										<!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-										<Button Command="{Binding HwVersion}" HorizontalAlignment="Stretch" />
-									</DataTemplate>
-								</DataGridTemplateColumn.CellEditingTemplate>
-							</DataGridTemplateColumn>
-							<DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" Width="*" FontSize="12" IsReadOnly="True" />
-							<DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" Width="150" FontSize="12" IsReadOnly="True" />
-							<DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="200" FontSize="12" IsReadOnly="True" />
-							<DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" Width="100" IsReadOnly="False" />
-							<DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" Width="160" IsReadOnly="False" />
-							<DataGridTemplateColumn Header="Version" Width="120" IsReadOnly="False">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-										<NumericUpDown Value="{Binding HwVersion}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" />
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-								<DataGridTemplateColumn.CellEditingTemplate>
-									<DataTemplate>
-										<!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-										<NumericUpDown Value="{Binding HwVersion}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" />
-									</DataTemplate>
-								</DataGridTemplateColumn.CellEditingTemplate>
-							</DataGridTemplateColumn>
-							<DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" Width="150" FontSize="12" IsReadOnly="True" />
-						</DataGrid.Columns>
-						<DataGrid.Styles>
-							<Style Selector="DataGridColumnHeader">
-								<Setter Property="Background" Value="Transparent" />
-							</Style>
-							<Style Selector="DataGridRowGroupHeader">
-								<Setter Property="Background" Value="Transparent" />
-							</Style>
-						</DataGrid.Styles>
-						<DataGrid.ContextMenu>
-							<ContextMenu>
-								<!-- ReSharper disable Xaml.RedundantResource -->
-								<!-- Start -->
-								<MenuItem Header="Start machine..." Command="{Binding StartCommand}" />
+                                                Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <controls:SymbolIcon Symbol="PlayFilled" FontSize="18" />
+                                            </StackPanel>
+                                        </Button>
+                                        <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
+                                        <!-- ReSharper restore Xaml.PossibleNullReferenceException -->
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                        <Button Command="{Binding HwVersion}" HorizontalAlignment="Stretch" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" Width="*" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" Width="150" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="200" FontSize="12" IsReadOnly="True" />
+                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" Width="100" IsReadOnly="False" />
+                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" Width="160" IsReadOnly="False" />
+                            <DataGridTemplateColumn Header="Version" Width="120" IsReadOnly="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                        <NumericUpDown Value="{Binding HwVersion}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                        <NumericUpDown Value="{Binding HwVersion}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" Width="150" FontSize="12" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                        <DataGrid.Styles>
+                            <Style Selector="DataGridColumnHeader">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
+                            <Style Selector="DataGridRowGroupHeader">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
+                        </DataGrid.Styles>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <!-- ReSharper disable Xaml.RedundantResource -->
+                                <!-- Start -->
+                                <MenuItem Header="Start machine..." Command="{Binding StartCommand}" />
 
-								<!-- Rename -->
-								<MenuItem Header="Rename..." Command="{Binding RenameCommand}" />
+                                <!-- Rename -->
+                                <MenuItem Header="Rename..." Command="{Binding RenameCommand}" />
 
-								<!-- Add / Edit Annotation -->
-								<MenuItem Header="Add / Edit Annotation..." Command="{Binding AddEditAnnotationCommand}" />
+                                <!-- Add / Edit Annotation -->
+                                <MenuItem Header="Add / Edit Annotation..." Command="{Binding AddEditAnnotationCommand}" />
 
-								<!-- Open with Code -->
-								<MenuItem Header="Open with Code..." Command="{Binding OpenWithCodeCommand}" />
+                                <!-- Open with Code -->
+                                <MenuItem Header="Open with Code..." Command="{Binding OpenWithCodeCommand}" />
 
-								<!-- Go to -->
-								<MenuItem Header="Go to path..." Command="{Binding GoToCommand}" />
+                                <!-- Go to -->
+                                <MenuItem Header="Go to path..." Command="{Binding GoToCommand}" />
 
-								<Separator />
+                                <Separator />
 
-								<!-- Copy -->
-								<MenuItem Header="Copy machine..." Command="{Binding CopyCommand}" />
+                                <!-- Copy -->
+                                <MenuItem Header="Copy machine..." Command="{Binding CopyCommand}" />
 
-								<!-- Archive -->
-								<MenuItem Header="Archive machine..." Command="{Binding ArchiveCommand}" />
+                                <!-- Archive -->
+                                <MenuItem Header="Archive machine..." Command="{Binding ArchiveCommand}" />
 
-								<!-- Delete -->
-								<MenuItem Header="Delete machine..." Command="{Binding DeleteCommand}" />
-								<!-- ReSharper restore Xaml.RedundantResource -->
-							</ContextMenu>
-						</DataGrid.ContextMenu>
-					</DataGrid>
-					<Separator Grid.Row="1" />
+                                <!-- Delete -->
+                                <MenuItem Header="Delete machine..." Command="{Binding DeleteCommand}" />
+                                <!-- ReSharper restore Xaml.RedundantResource -->
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                    <Separator Grid.Row="1" />
 
-					<controls:CommandBar Grid.Row="2" Margin="7" HorizontalAlignment="Center">
-						<controls:CommandBar.PrimaryCommands>
-							<!-- Search Filter -->
-							<controls:CommandBarElementContainer>
-								<TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}"
+                    <controls:CommandBar Grid.Row="2" Margin="7" HorizontalAlignment="Center">
+                        <controls:CommandBar.PrimaryCommands>
+                            <!-- Search Filter -->
+                            <controls:CommandBarElementContainer>
+                                <TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}"
                                          Text="{Binding SearchFilterText,Mode=TwoWay}" Watermark="enter search term" />
-							</controls:CommandBarElementContainer>
-							<!-- Search Os -->
-							<controls:CommandBarElementContainer>
-								<controls:FAComboBox Width="250" Name="SearchOs" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="{Binding SearchOsIsEnabled}"
-                                          ItemsSource="{Binding SearchOsItemCollection}" SelectedItem="{Binding SearchOsText}"  IsEditable="True" IsTextSearchEnabled="True"/>
-							</controls:CommandBarElementContainer>
-							<controls:CommandBarSeparator />
-							<!-- Update all -->
-							<controls:CommandBarElementContainer>
-								<Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding UpdateAllCommand}" IsEnabled="{Binding UpdateAllIsEnabled}">
-									<StackPanel Orientation="Horizontal">
-										<TextBlock VerticalAlignment="Center" Text="{Binding UpdateAllTextBlockText}" />
-									</StackPanel>
-								</Button>
-							</controls:CommandBarElementContainer>
-							<controls:CommandBarElementContainer>
-								<NumericUpDown Width="120" Value="{Binding UpdateAllHwVersionValue}" HorizontalAlignment="Center" VerticalAlignment="Top" />
-							</controls:CommandBarElementContainer>
-							<!-- Restart -->
-							<controls:CommandBarSeparator />
-							<controls:CommandBarElementContainer>
-								<Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding ReloadCommand}" ToolTip.Tip="Restart" >
-									<StackPanel Orientation="Horizontal">
-										<controls:SymbolIcon Symbol="Sync" FontSize="18" />
-									</StackPanel>
-								</Button>
-							</controls:CommandBarElementContainer>
-						</controls:CommandBar.PrimaryCommands>
-					</controls:CommandBar>
+                            </controls:CommandBarElementContainer>
+                            <!-- Search Os -->
+                            <controls:CommandBarElementContainer>
+                                <controls:FAComboBox Width="250" Name="SearchOs" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="{Binding SearchOsIsEnabled}"
+                                                     ItemsSource="{Binding SearchOsItemCollection}" SelectedItem="{Binding SearchOsText}" IsEditable="True"
+                                                     IsTextSearchEnabled="True" />
+                            </controls:CommandBarElementContainer>
+                            <controls:CommandBarSeparator />
+                            <!-- Update all -->
+                            <controls:CommandBarElementContainer>
+                                <Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding UpdateAllCommand}" IsEnabled="{Binding UpdateAllIsEnabled}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding UpdateAllTextBlockText}" />
+                                    </StackPanel>
+                                </Button>
+                            </controls:CommandBarElementContainer>
+                            <controls:CommandBarElementContainer>
+                                <NumericUpDown Width="120" Value="{Binding UpdateAllHwVersionValue}" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            </controls:CommandBarElementContainer>
+                            <!-- Restart -->
+                            <controls:CommandBarSeparator />
+                            <controls:CommandBarElementContainer>
+                                <Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding ReloadCommand}" ToolTip.Tip="Restart">
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:SymbolIcon Symbol="Sync" FontSize="18" />
+                                    </StackPanel>
+                                </Button>
+                            </controls:CommandBarElementContainer>
+                        </controls:CommandBar.PrimaryCommands>
+                    </controls:CommandBar>
 
-				</Grid>
-			</Panel>
-		</Panel>
-	</Panel>
+                </Grid>
+            </Panel>
+        </Panel>
+    </Panel>
 
 </Window>

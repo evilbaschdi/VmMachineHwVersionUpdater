@@ -11,10 +11,11 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 /// <param name="currentItem"></param>
 /// <param name="archiveMachine"></param>
 /// <param name="instance"></param>
-public class ArchiveDefaultCommand([NotNull] IDialogCoordinator instance,
-                             [NotNull] IReloadDefaultCommand reloadDefaultCommand,
-                             [NotNull] ICurrentItem currentItem,
-                             [NotNull] IArchiveMachine archiveMachine) : IArchiveDefaultCommand
+public class ArchiveDefaultCommand(
+    [NotNull] IDialogCoordinator instance,
+    [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+    [NotNull] ICurrentItem currentItem,
+    [NotNull] IArchiveMachine archiveMachine) : IArchiveDefaultCommand
 {
     [NotNull] private readonly IArchiveMachine _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
     [NotNull] private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));

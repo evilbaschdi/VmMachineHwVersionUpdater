@@ -8,7 +8,8 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 /// </summary>
 /// <param name="goToCommand"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class GotToDefaultCommand([NotNull] IGoToCommand goToCommand) : IGotToDefaultCommand
+public class GotToDefaultCommand(
+    [NotNull] IGoToCommand goToCommand) : IGotToDefaultCommand
 {
     private readonly IGoToCommand _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
 

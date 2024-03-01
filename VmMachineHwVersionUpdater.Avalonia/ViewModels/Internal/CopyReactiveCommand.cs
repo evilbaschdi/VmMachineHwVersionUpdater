@@ -11,10 +11,11 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// <summary>
 ///     Constructor
 /// </summary>
+/// <param name="copyMachine"></param>
+/// <param name="copyProgress"></param>
 /// <param name="currentItem"></param>
 /// <param name="reloadReactiveCommand"></param>
 /// <param name="mainWindowByApplicationLifetime"></param>
-/// <param name="copyMachine"></param>
 /// <exception cref="ArgumentNullException"></exception>
 public class CopyReactiveCommand(
     [NotNull] ICopyMachine copyMachine,

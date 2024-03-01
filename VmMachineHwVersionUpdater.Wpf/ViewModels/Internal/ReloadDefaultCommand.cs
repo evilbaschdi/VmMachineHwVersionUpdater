@@ -10,8 +10,9 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 /// </summary>
 /// <param name="instance"></param>
 /// <param name="reloadCommand"></param>
-public class ReloadDefaultCommand([NotNull] IDialogCoordinator instance,
-                            [NotNull] IReloadCommand reloadCommand) : IReloadDefaultCommand
+public class ReloadDefaultCommand(
+    [NotNull] IDialogCoordinator instance,
+    [NotNull] IReloadCommand reloadCommand) : IReloadDefaultCommand
 {
     [NotNull] private readonly IDialogCoordinator _instance = instance ?? throw new ArgumentNullException(nameof(instance));
     private readonly IReloadCommand _reloadCommand = reloadCommand ?? throw new ArgumentNullException(nameof(reloadCommand));

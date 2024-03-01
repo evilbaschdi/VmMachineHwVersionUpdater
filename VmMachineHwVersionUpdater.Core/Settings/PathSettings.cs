@@ -11,7 +11,8 @@ namespace VmMachineHwVersionUpdater.Core.Settings;
 ///     Constructor
 /// </summary>
 /// <param name="vmPools"></param>
-public class PathSettings(IVmPools vmPools) : IPathSettings
+public class PathSettings(
+    IVmPools vmPools) : IPathSettings
 {
     private readonly IVmPools _vmPools = vmPools ?? throw new ArgumentNullException(nameof(vmPools));
 

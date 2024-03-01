@@ -11,11 +11,14 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// <param name="reloadCommand"></param>
 /// <param name="mainWindowByApplicationLifetime"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class ReloadReactiveCommand([NotNull] IReloadCommand reloadCommand,
-                             [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IReloadReactiveCommand
+public class ReloadReactiveCommand(
+    [NotNull] IReloadCommand reloadCommand,
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IReloadReactiveCommand
 {
     private readonly IReloadCommand _reloadCommand = reloadCommand ?? throw new ArgumentNullException(nameof(reloadCommand));
-    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime = mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
+
+    private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
+        mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
     public override async void Run()

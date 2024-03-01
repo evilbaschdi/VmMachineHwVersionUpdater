@@ -5,7 +5,8 @@
 ///     Constructor
 /// </summary>
 /// <param name="guestOsStringMapping"></param>
-public class GuestOsOutputStringMapping(IGuestOsStringMapping guestOsStringMapping) : CachedValueFor<string, string>, IGuestOsOutputStringMapping
+public class GuestOsOutputStringMapping(
+    IGuestOsStringMapping guestOsStringMapping) : CachedValueFor<string, string>, IGuestOsOutputStringMapping
 {
     private readonly IGuestOsStringMapping _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
 

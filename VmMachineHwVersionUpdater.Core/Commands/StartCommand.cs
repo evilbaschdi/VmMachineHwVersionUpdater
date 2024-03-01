@@ -9,8 +9,9 @@ namespace VmMachineHwVersionUpdater.Core.Commands;
 /// <param name="processByPath"></param>
 /// <param name="currentItem"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class StartCommand([NotNull] IProcessByPath processByPath,
-                    [NotNull] ICurrentItem currentItem) : IStartCommand
+public class StartCommand(
+    [NotNull] IProcessByPath processByPath,
+    [NotNull] ICurrentItem currentItem) : IStartCommand
 {
     [NotNull] private readonly IProcessByPath _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
     [NotNull] private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));

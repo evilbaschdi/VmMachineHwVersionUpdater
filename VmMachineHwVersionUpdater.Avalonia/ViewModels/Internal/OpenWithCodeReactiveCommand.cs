@@ -9,7 +9,8 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// </summary>
 /// <param name="openWithCodeCommand"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class OpenWithCodeReactiveCommand([NotNull] IOpenWithCodeCommand openWithCodeCommand) : ReactiveCommandUnitRun, IOpenWithCodeReactiveCommand
+public class OpenWithCodeReactiveCommand(
+    [NotNull] IOpenWithCodeCommand openWithCodeCommand) : ReactiveCommandUnitRun, IOpenWithCodeReactiveCommand
 {
     private readonly IOpenWithCodeCommand _openWithCodeCommand = openWithCodeCommand ?? throw new ArgumentNullException(nameof(openWithCodeCommand));
 

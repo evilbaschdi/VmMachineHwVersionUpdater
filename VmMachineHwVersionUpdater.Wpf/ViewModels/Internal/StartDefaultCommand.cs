@@ -8,7 +8,8 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 /// </summary>
 /// <param name="startCommand"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class StartDefaultCommand([NotNull] IStartCommand startCommand) : IStartDefaultCommand
+public class StartDefaultCommand(
+    [NotNull] IStartCommand startCommand) : IStartDefaultCommand
 {
     private readonly IStartCommand _startCommand = startCommand ?? throw new ArgumentNullException(nameof(startCommand));
 

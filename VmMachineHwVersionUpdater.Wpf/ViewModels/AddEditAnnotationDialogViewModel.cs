@@ -7,19 +7,14 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels;
 /// <summary>
 ///     Constructor
 /// </summary>
-public class AddEditAnnotationDialogViewModel([NotNull] IApplicationLayout applicationLayout,
-                                        [NotNull] IApplicationStyle applicationStyle,
-                                        [NotNull] IUpdateAnnotation updateAnnotation,
-                                        [NotNull] ICurrentItem currentItem) : ApplicationLayoutViewModel(applicationLayout, applicationStyle, true, false), IAddEditAnnotationDialogViewModel
+public class AddEditAnnotationDialogViewModel(
+    [NotNull] IApplicationLayout applicationLayout,
+    [NotNull] IApplicationStyle applicationStyle,
+    [NotNull] IUpdateAnnotation updateAnnotation,
+    [NotNull] ICurrentItem currentItem) : ApplicationLayoutViewModel(applicationLayout, applicationStyle, true, false), IAddEditAnnotationDialogViewModel
 {
     private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
     private readonly IUpdateAnnotation _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
-
-    #region Constructor
-
-    #endregion Constructor
-
-    #region Properties
 
     /// <summary>
     ///     Binding
@@ -40,6 +35,4 @@ public class AddEditAnnotationDialogViewModel([NotNull] IApplicationLayout appli
         get => _updateAnnotation.Value;
         set => _updateAnnotation.Value = value;
     }
-
-    #endregion Properties
 }

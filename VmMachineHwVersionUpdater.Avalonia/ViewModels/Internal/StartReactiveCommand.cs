@@ -9,7 +9,8 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// </summary>
 /// <param name="startCommand"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class StartReactiveCommand([NotNull] IStartCommand startCommand) : ReactiveCommandUnitRun, IStartReactiveCommand
+public class StartReactiveCommand(
+    [NotNull] IStartCommand startCommand) : ReactiveCommandUnitRun, IStartReactiveCommand
 {
     private readonly IStartCommand _startCommand = startCommand ?? throw new ArgumentNullException(nameof(startCommand));
 

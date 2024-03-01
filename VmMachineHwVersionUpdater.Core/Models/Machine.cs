@@ -10,9 +10,10 @@ namespace VmMachineHwVersionUpdater.Core.Models;
 /// <param name="updateMachineVersion"></param>
 /// <param name="toggleToolsUpgradePolicy"></param>
 /// <param name="toggleToolsSyncTime"></param>
-public class Machine([NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
-               [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-               [NotNull] IUpdateMachineVersion updateMachineVersion) : INotifyPropertyChanged
+public class Machine(
+    [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
+    [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+    [NotNull] IUpdateMachineVersion updateMachineVersion) : INotifyPropertyChanged
 {
     private readonly bool _autoUpdateTools;
     private readonly int _hwVersion;

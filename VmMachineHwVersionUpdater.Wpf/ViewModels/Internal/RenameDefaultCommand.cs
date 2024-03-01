@@ -11,8 +11,11 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 /// <param name="currentItem"></param>
 /// <param name="instance"></param>
 /// <param name="changeDisplayName"></param>
-public class RenameDefaultCommand([NotNull] IDialogCoordinator instance, [NotNull] IReloadDefaultCommand reloadDefaultCommand, [NotNull] ICurrentItem currentItem,
-                            [NotNull] IChangeDisplayName changeDisplayName) : IRenameDefaultCommand
+public class RenameDefaultCommand(
+    [NotNull] IDialogCoordinator instance,
+    [NotNull] IReloadDefaultCommand reloadDefaultCommand,
+    [NotNull] ICurrentItem currentItem,
+    [NotNull] IChangeDisplayName changeDisplayName) : IRenameDefaultCommand
 {
     private readonly IChangeDisplayName _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
     private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));

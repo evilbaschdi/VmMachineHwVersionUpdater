@@ -8,7 +8,8 @@ namespace VmMachineHwVersionUpdater.Core.Settings;
 /// </summary>
 /// <param name="pathSettings"></param>
 /// <exception cref="ArgumentNullException"></exception>
-public class SettingsValid([NotNull] IPathSettings pathSettings) : ISettingsValid
+public class SettingsValid(
+    [NotNull] IPathSettings pathSettings) : ISettingsValid
 {
     private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
 
