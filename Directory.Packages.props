@@ -4,11 +4,11 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.9" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.10" />
     <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2024.2.10.1050" />
     <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2024.2.10.1050" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2024.2.8.1708" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2024.2.24.1257" />
+    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2024.3.5.2045" />
     <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2024.2.10.858" />
     <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2024.2.9.1805" />
     <PackageVersion Include="EvilBaschdi.Settings" Version="2024.2.9.1805" />
@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageVersion Include="coverlet.collector" Version="6.0.1" />
-    <PackageVersion Include="EvilBaschdi.Testing" Version="2024.2.16.704" />
+    <PackageVersion Include="EvilBaschdi.Testing" Version="2024.3.4.1626" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.31.0" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.21" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
