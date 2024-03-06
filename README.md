@@ -13,6 +13,8 @@ VmMachineHwVersionUpdater
 - Open vmx in vs code
 - Jump to path
 
+![Screenshot](res/Screenshot 2024-03-06 071213.png)
+
 | main | develop |
 | ------------- | ------------- |
 | [![CodeFactor](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/main)](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/main) | [![CodeFactor](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/develop)](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/develop) |
