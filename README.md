@@ -13,7 +13,7 @@ VmMachineHwVersionUpdater
 - Open vmx in vs code
 - Jump to path
 
-![Screenshot](res/Screenshot 2024-03-06 071213.png)
+![Screenshot](res/Screenshot.png)
 
 | main | develop |
 | ------------- | ------------- |
