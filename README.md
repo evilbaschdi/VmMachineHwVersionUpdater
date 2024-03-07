@@ -14,6 +14,8 @@ Features:
 - Open .vmx file in VS Code
 - Jump to path
 
+![Screenshot](res/Screenshot.png)
+
 | main | develop |
 | ------------- | ------------- |
 | [![CodeFactor](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/main)](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/main) | [![CodeFactor](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/develop)](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/develop) |
