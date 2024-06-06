@@ -8,6 +8,7 @@
       <CORECLR_PROFILER>{B7ABE522-A68F-44F2-925B-81E7488E9EC0}</CORECLR_PROFILER>
       <CORECLR_PROFILER_PATH_64>C:\Program Files (x86)\Progress\Telerik JustMock\Libraries\CodeWeaver\64\Telerik.CodeWeaver.Profiler.dll</CORECLR_PROFILER_PATH_64>-->
 		</EnvironmentVariables>
+		<ExecutionThreadApartmentState>STA</ExecutionThreadApartmentState>
 	</RunConfiguration>
 
 	<!-- MSTest adapter -->
@@ -17,4 +18,15 @@
 		<DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
 		<DeploymentEnabled>False</DeploymentEnabled>
 	</MSTest>
+
+	<DataCollectionRunSettings>
+		<DataCollectors>
+			<DataCollector friendlyName="XPlat code coverage">
+				<Configuration>
+					<Format>cobertura</Format>
+				</Configuration>
+			</DataCollector>
+		</DataCollectors>
+	</DataCollectionRunSettings>
+
 </RunSettings>

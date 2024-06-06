@@ -4,6 +4,7 @@ VmMachineHwVersionUpdater
 "Vm Machine Hardware Version Updater" is a small tool to manage VMware machine properties such as changing the hardware version of multiple VMware machines without editing the ".vmx" file.
 
 Features:
+
 - Change hardware version of one or more machines
 - Enable/disable "Synchronize guest time with host"
 - Tools upgrade policy switch (upgradeAtPowerCycle/useGlobal)

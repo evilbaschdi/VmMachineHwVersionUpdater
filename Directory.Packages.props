@@ -12,20 +12,20 @@
     <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2024.2.10.858" />
     <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2024.2.9.1805" />
     <PackageVersion Include="EvilBaschdi.Settings" Version="2024.2.9.1805" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="4.11.0" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.PicolIcons" Version="4.11.0" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.SimpleIcons" Version="4.11.0" />
+    <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="5.0.0" />
+    <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="5.0.0" />
+    <PackageVersion Include="MahApps.Metro.IconPacks.PicolIcons" Version="5.0.0" />
+    <PackageVersion Include="MahApps.Metro.IconPacks.SimpleIcons" Version="5.0.0" />
     <PackageVersion Include="WpfAnalyzers" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-    <PackageVersion Include="coverlet.collector" Version="6.0.1" />
-    <PackageVersion Include="EvilBaschdi.Testing" Version="2024.3.4.1626" />
-    <PackageVersion Include="FluentAssertions.Analyzers" Version="0.31.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.2" />
+    <PackageVersion Include="EvilBaschdi.Testing" Version="2024.5.25.743" />
+    <PackageVersion Include="FluentAssertions.Analyzers" Version="0.32.0" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.21" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-    <PackageVersion Include="xunit.analyzers" Version="1.11.0" />
-    <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
+    <PackageVersion Include="xunit.analyzers" Version="1.14.0" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.1" />
   </ItemGroup>
 </Project>

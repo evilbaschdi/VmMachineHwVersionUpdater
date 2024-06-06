@@ -1,15 +1,8 @@
 <Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
-        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow"
-        d:DesignWidth="1600" d:DesignHeight="700" Width="1600" Height="700"
-        mc:Ignorable="d"
-        Icon="/Assets/b.ico"
-        Title="VM Toolbox"
-        TransparencyLevelHint="Mica"
-        Background="Transparent">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia" x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow" d:DesignWidth="1600" d:DesignHeight="700" Width="1600" Height="700" mc:Ignorable="d" Icon="/Assets/b.ico" Title="VM Toolbox" TransparencyLevelHint="Mica" Background="Transparent">
 
     <Panel Name="RootPanel">
         <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
@@ -26,6 +19,7 @@
                             <Image Source="/Assets/b.ico" Width="20" Height="20" />
                         </ContentControl>
                         <TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,0,0,0" />
+
                     </StackPanel>
                 </Button>
             </Panel>
@@ -34,10 +28,7 @@
         <Panel Name="MainPanel" Margin="0,0,0,0">
             <Panel Name="ContentPanel" Margin="0,0,0,0">
                 <Grid Margin="7" RowDefinitions="*,1,46">
-                    <DataGrid Grid.Row="0" Name="MachineGrid" ItemsSource="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*"
-                              GridLinesVisibility="Horizontal"
-                              SelectionMode="Single" SelectedItem="{Binding Path=SelectedMachine}"
-                              ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <DataGrid Grid.Row="0" Name="MachineGrid" ItemsSource="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*" GridLinesVisibility="Horizontal" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMachine}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True" />
                             <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True" />
@@ -47,9 +38,7 @@
                                         <!-- ReSharper disable Xaml.PossibleNullReferenceException -->
                                         <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
                                         <!-- ReSharper disable once Xaml.StyleClassNotFound -->
-                                        <Button VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center"
-                                                HorizontalContentAlignment="Center" Width="60" Classes="accent"
-                                                Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                        <Button VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="60" Classes="accent" Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
                                             <StackPanel Orientation="Horizontal">
                                                 <controls:SymbolIcon Symbol="PlayFilled" FontSize="18" />
                                             </StackPanel>
@@ -132,14 +121,11 @@
                         <controls:CommandBar.PrimaryCommands>
                             <!-- Search Filter -->
                             <controls:CommandBarElementContainer>
-                                <TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}"
-                                         Text="{Binding SearchFilterText,Mode=TwoWay}" Watermark="enter search term" />
+                                <TextBox Width="250" HorizontalAlignment="Center" VerticalAlignment="Top" IsReadOnly="{Binding SearchFilterIsReadOnly}" Text="{Binding SearchFilterText,Mode=TwoWay}" Watermark="enter search term" />
                             </controls:CommandBarElementContainer>
                             <!-- Search Os -->
                             <controls:CommandBarElementContainer>
-                                <controls:FAComboBox Width="250" Name="SearchOs" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="{Binding SearchOsIsEnabled}"
-                                                     ItemsSource="{Binding SearchOsItemCollection}" SelectedItem="{Binding SearchOsText}" IsEditable="True"
-                                                     IsTextSearchEnabled="True" />
+                                <controls:FAComboBox Width="250" Name="SearchOs" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="{Binding SearchOsIsEnabled}" ItemsSource="{Binding SearchOsItemCollection}" SelectedItem="{Binding SearchOsText}" IsEditable="True" IsTextSearchEnabled="True" />
                             </controls:CommandBarElementContainer>
                             <controls:CommandBarSeparator />
                             <!-- Update all -->

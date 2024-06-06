@@ -108,7 +108,7 @@ public class CopyReactiveCommand(
                                      ShowProgressBar = true,
                                      IconSource = new SymbolIconSource { Symbol = Symbol.CopyFilled },
                                      SubHeader = "Copying",
-                                     Content = "Please wait while the maching gets copied",
+                                     Content = "Please wait while the machine gets copied",
                                      Buttons =
                                      {
                                          TaskDialogButton.CancelButton
