@@ -2,6 +2,4 @@
 
 /// <inheritdoc cref="IDefaultCommandRunAsync" />
 /// <inheritdoc cref="IDialogCoordinatorContext" />
-public interface IArchiveDefaultCommand : IDefaultCommandRunAsync, IDialogCoordinatorContext
-{
-}
+public interface IArchiveDefaultCommand : IDefaultCommandRunAsync, IDialogCoordinatorContext;

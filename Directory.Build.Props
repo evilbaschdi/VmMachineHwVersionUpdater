@@ -62,7 +62,7 @@
 	<ItemGroup Condition="'$(IsTestProject)' != 'true'">
 		<PackageReference Include="EvilBaschdi.Core" />
 		<PackageReference Include="EvilBaschdi.DependencyInjection" />
-		<PackageReference Include="EvilBaschdi.Settings" />		
+		<PackageReference Include="EvilBaschdi.Settings" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">

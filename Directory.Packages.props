@@ -4,12 +4,12 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Avalonia.Diagnostics" Version="11.0.10" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.1.0-rc2" />
     <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2024.2.10.1050" />
     <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2024.2.10.1050" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2024.2.8.1708" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2024.3.5.2045" />
-    <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2024.2.10.858" />
+    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2024.7.3.1629-develop" />
+    <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2024.6.6.1722" />
     <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2024.2.9.1805" />
     <PackageVersion Include="EvilBaschdi.Settings" Version="2024.2.9.1805" />
     <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="5.0.0" />

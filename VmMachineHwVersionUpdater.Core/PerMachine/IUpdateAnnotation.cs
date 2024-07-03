@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public interface IUpdateAnnotation : IWritableValue<string>
-{
-}
+public interface IUpdateAnnotation : IWritableValue<string>;

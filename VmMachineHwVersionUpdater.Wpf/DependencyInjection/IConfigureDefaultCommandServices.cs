@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Wpf.DependencyInjection;
 
 /// <inheritdoc />
-public interface IConfigureDefaultCommandServices : IConfigureServiceCollection
-{
-}
+public interface IConfigureDefaultCommandServices : IConfigureServiceCollection;

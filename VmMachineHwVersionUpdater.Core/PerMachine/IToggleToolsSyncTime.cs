@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public interface IToggleToolsSyncTime : IUpsertVmxLine<bool>
-{
-}
+public interface IToggleToolsSyncTime : IUpsertVmxLine<bool>;

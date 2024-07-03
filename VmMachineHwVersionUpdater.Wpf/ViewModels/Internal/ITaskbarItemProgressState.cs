@@ -3,6 +3,4 @@
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public interface ITaskbarItemProgressState : IWritableValue<TaskbarItemProgressState>
-{
-}
+public interface ITaskbarItemProgressState : IWritableValue<TaskbarItemProgressState>;

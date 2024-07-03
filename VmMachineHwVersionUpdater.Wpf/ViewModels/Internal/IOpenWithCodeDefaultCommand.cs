@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-public interface IOpenWithCodeDefaultCommand : IDefaultCommandRun
-{
-}
+public interface IOpenWithCodeDefaultCommand : IDefaultCommandRun;

@@ -2,6 +2,4 @@
 
 /// <inheritdoc cref="IWritableValue{T}" />
 /// <inheritdoc cref="ICachedValue{T}" />
-public interface ICurrentItemSource : IWritableValue<List<Machine>>, ICachedValue<List<Machine>>
-{
-}
+public interface ICurrentItemSource : IWritableValue<List<Machine>>, ICachedValue<List<Machine>>;

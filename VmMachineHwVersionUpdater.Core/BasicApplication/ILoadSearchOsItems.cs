@@ -3,6 +3,4 @@
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
-public interface ILoadSearchOsItems : IWritableValue<ObservableCollection<object>>
-{
-}
+public interface ILoadSearchOsItems : IWritableValue<ObservableCollection<object>>;

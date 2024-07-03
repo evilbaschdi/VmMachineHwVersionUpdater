@@ -2,6 +2,4 @@
 
 /// <inheritdoc cref="IDefaultCommandRunAsync" />
 /// <inheritdoc cref="IRun" />
-public interface IUpdateAllDefaultCommand : IDefaultCommandRunAsync, IRun
-{
-}
+public interface IUpdateAllDefaultCommand : IDefaultCommandRunAsync, IRun;

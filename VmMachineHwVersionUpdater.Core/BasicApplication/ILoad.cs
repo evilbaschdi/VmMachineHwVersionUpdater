@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
-public interface ILoad : ICachedValue<LoadHelper>
-{
-}
+public interface ILoad : ICachedValue<LoadHelper>;

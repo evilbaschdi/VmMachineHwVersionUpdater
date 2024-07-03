@@ -13,10 +13,7 @@ namespace VmMachineHwVersionUpdater.Avalonia;
 public class App : Application
 {
     /// <inheritdoc />
-    public override void Initialize()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
+    public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
     /// <summary>
     ///     ServiceProvider for DependencyInjection

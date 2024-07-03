@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc />
-public interface IFilterDataGridCollectionView : IRunFor<(string SearchOsText, string SearchFilterText)>
-{
-}
+public interface IFilterDataGridCollectionView : IRunFor<(string SearchOsText, string SearchFilterText)>;

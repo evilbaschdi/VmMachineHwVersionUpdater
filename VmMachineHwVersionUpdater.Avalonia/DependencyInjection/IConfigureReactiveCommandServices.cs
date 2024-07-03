@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 
 /// <inheritdoc />
-public interface IConfigureReactiveCommandServices : IConfigureServiceCollection
-{
-}
+public interface IConfigureReactiveCommandServices : IConfigureServiceCollection;

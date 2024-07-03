@@ -4,6 +4,4 @@ namespace VmMachineHwVersionUpdater.Wpf.Internal.Core;
 
 /// <summary>
 /// </summary>
-public interface IOnLoaded : IRunFor2<object, RoutedEventArgs>
-{
-}
+public interface IOnLoaded : IRunFor2<object, RoutedEventArgs>;

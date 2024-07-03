@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 
 /// <inheritdoc />
-public interface IConfigureCommandServices : IConfigureServiceCollection
-{
-}
+public interface IConfigureCommandServices : IConfigureServiceCollection;

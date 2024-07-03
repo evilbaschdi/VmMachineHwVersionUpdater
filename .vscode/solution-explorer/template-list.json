@@ -17,30 +17,5 @@
             "extension": "cs",
             "file": "./enum.cs-template",
             "parameters": "./template-parameters.js"
-        },
-        {
-            "name": "Class",
-            "extension": "ts",
-            "file": "./class.ts-template",
-            "parameters": "./template-parameters.js"
-        },
-        {
-            "name": "Interface",
-            "extension": "ts",
-            "file": "./interface.ts-template",
-            "parameters": "./template-parameters.js"
-        },
-        {
-            "name": "Default",
-            "extension": "ts",
-            "file": "./default.ts-template",
-            "parameters": "./template-parameters.js"
-        },
-        {
-            "name": "Class",
-            "extension": "vb",
-            "file": "./class.vb-template",
-            "parameters": "./template-parameters.js"
         }
-    ]
-}
+    }

@@ -2,6 +2,4 @@
 
 /// <inheritdoc cref="IDisposable" />
 /// <inheritdoc cref="IDefaultCommandRun" />
-public interface IAboutWindowClickDefaultCommand : IDefaultCommandRun
-{
-}
+public interface IAboutWindowClickDefaultCommand : IDefaultCommandRun;

@@ -1,6 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 
 /// <inheritdoc />
-public interface IConfigureAvaloniaServices : IConfigureServiceCollection
-{
-}
+public interface IConfigureAvaloniaServices : IConfigureServiceCollection;
