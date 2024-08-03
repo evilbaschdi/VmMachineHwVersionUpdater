@@ -25,11 +25,16 @@ public class GuestOsesInUseTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Value_ForProvidedMappings_ReturnsOsesSplit(
         [Frozen] IGuestOsStringMapping guestOsStringMapping,
+        [Frozen] ILoad load,
+        GuestOsesInUse sut,
         IConfigurationRoot dummConfigurationRoot,
-        IConfiguration dummyConfiguration,
-        GuestOsesInUse sut)
+        IConfiguration dummyConfiguration
+        )
     {
         // Arrange
+
+        load.Value.Returns(new LoadHelper { SearchOsItems = new List<string> { "Windows 10 x64", "Ubuntu x64" } });
+
         var configurationSections = new List<IConfigurationSection>
                                     {
                                         new ConfigurationSection(dummConfigurationRoot, "1")

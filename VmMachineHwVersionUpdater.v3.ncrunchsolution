@@ -1,9 +1,11 @@
 ﻿<SolutionConfiguration>
   <Settings>
     <AllowParallelTestExecution>True</AllowParallelTestExecution>
+    <EnableRDI>True</EnableRDI>
     <MetricsExclusionList>
       <Value>VmMachineHwVersionUpdater\VmMachineHwVersionUpdater.csproj\Properties</Value>
     </MetricsExclusionList>
+    <RdiConfigured>True</RdiConfigured>
     <SolutionConfigured>True</SolutionConfigured>
   </Settings>
 </SolutionConfiguration>

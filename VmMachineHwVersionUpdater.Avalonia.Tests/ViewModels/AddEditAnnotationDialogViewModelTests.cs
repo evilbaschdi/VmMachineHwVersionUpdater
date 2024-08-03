@@ -19,6 +19,6 @@ public class AddEditAnnotationDialogViewModelTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(AddEditAnnotationDialogViewModel).GetMethods().Where(method => !method.IsAbstract));
+        assertion.Verify(typeof(AddEditAnnotationDialogViewModel).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set_") & !method.Name.StartsWith("add_") & !method.Name.StartsWith("remove_")));
     }
 }

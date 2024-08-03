@@ -19,11 +19,12 @@ public class StartCommand(
     /// <inheritdoc />
     public void Run()
     {
-        if (!File.Exists(_currentItem.Value.Path))
+
+        if (!File.Exists(_currentItem.Value?.Path))
         {
             return;
         }
 
-        _processByPath.RunFor(_currentItem.Value.Path);
+        _processByPath.RunFor(_currentItem.Value?.Path);
     }
 }
