@@ -5,6 +5,7 @@
 public interface IInitDefaultCommands : IDialogCoordinatorContext
 {
     // ReSharper disable UnusedMemberInSuper.Global
+    // ReSharper disable UnusedMember.Global
     /// <inheritdoc cref="IAboutWindowClickDefaultCommand" />
     public IAboutWindowClickDefaultCommand AboutWindowClickDefaultCommand { get; set; }
 
@@ -37,5 +38,6 @@ public interface IInitDefaultCommands : IDialogCoordinatorContext
 
     /// <inheritdoc cref="IUpdateAllDefaultCommand" />
     public IUpdateAllDefaultCommand UpdateAllDefaultCommand { get; set; }
+    // ReSharper restore UnusedMember.Global
     // ReSharper restore UnusedMemberInSuper.Global
 }

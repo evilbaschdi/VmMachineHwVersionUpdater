@@ -29,11 +29,11 @@ public class GuestOsesInUseTests
         GuestOsesInUse sut,
         IConfigurationRoot dummConfigurationRoot,
         IConfiguration dummyConfiguration
-        )
+    )
     {
         // Arrange
 
-        load.Value.Returns(new LoadHelper { SearchOsItems = new List<string> { "Windows 10 x64", "Ubuntu x64" } });
+        load.Value.Returns(new LoadHelper { SearchOsItems = ["Windows 10 x64", "Ubuntu x64"] });
 
         var configurationSections = new List<IConfigurationSection>
                                     {

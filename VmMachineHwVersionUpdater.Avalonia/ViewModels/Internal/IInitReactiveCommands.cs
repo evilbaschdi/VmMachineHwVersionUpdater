@@ -6,6 +6,7 @@ public interface IInitReactiveCommands
 {
     /// <inheritdoc cref="IAboutWindowReactiveCommand" />
     // ReSharper disable UnusedMemberInSuper.Global
+    // ReSharper disable UnusedMember.Global
     public IAboutWindowReactiveCommand AboutWindowReactiveCommand { get; set; }
 
     /// <inheritdoc cref="IAddEditAnnotationReactiveCommand" />
@@ -37,5 +38,6 @@ public interface IInitReactiveCommands
 
     /// <inheritdoc cref="IUpdateAllReactiveCommand" />
     public IUpdateAllReactiveCommand UpdateAllReactiveCommand { get; set; }
+    // ReSharper restore UnusedMember.Global
     // ReSharper restore UnusedMemberInSuper.Global
 }
