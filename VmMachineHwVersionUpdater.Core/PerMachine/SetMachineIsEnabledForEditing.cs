@@ -11,9 +11,9 @@ public class SetMachineIsEnabledForEditing : ISetMachineIsEnabledForEditing
         ArgumentNullException.ThrowIfNull(machine);
 
         if (machine.MachineState == MachineState.Paused ||
-            !string.IsNullOrWhiteSpace(machine.EncryptionKeySafe)
-            && !string.IsNullOrWhiteSpace(machine.EncryptionData)
-            && string.IsNullOrWhiteSpace(machine.GuestOs))
+            (!string.IsNullOrWhiteSpace(machine.EncryptionKeySafe) &&
+             !string.IsNullOrWhiteSpace(machine.EncryptionData) &&
+             string.IsNullOrWhiteSpace(machine.GuestOs)))
         {
             machine.IsEnabledForEditing = false;
         }
