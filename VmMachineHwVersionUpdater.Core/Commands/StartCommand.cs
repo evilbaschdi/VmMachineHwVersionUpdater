@@ -19,7 +19,6 @@ public class StartCommand(
     /// <inheritdoc />
     public void Run()
     {
-
         if (!File.Exists(_currentItem.Value?.Path))
         {
             return;
