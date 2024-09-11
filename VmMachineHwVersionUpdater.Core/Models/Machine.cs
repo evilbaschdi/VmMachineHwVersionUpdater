@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using VmMachineHwVersionUpdater.Core.Enums;
 
 namespace VmMachineHwVersionUpdater.Core.Models;
@@ -72,10 +73,6 @@ public class Machine(
             NotifySyncTimeWithHostChanged();
         }
     }
-
-    /// <inheritdoc />
-    /// <summary />
-    public event PropertyChangedEventHandler PropertyChanged;
 
     // This method is called by the Set accessors of each property.
     // The CallerMemberName attribute that is applied to the optional propertyName
@@ -171,4 +168,35 @@ public class Machine(
     public bool IsEnabledForEditing { get; set; }
     // ReSharper restore PropertyCanBeMadeInitOnly.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
+
+    /// <inheritdoc />
+    /// <summary />
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    /// <summary>
+    /// </summary>
+    /// <param name="propertyName"></param>
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="field"></param>
+    /// <param name="value"></param>
+    /// <param name="propertyName"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value))
+        {
+            return false;
+        }
+
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
 }

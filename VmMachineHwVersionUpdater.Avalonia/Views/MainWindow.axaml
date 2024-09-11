@@ -8,11 +8,6 @@
         mc:Ignorable="d" Icon="/Assets/b.ico" Title="VM Toolbox" TransparencyLevelHint="Mica" Background="Transparent">
 
     <Panel Name="RootPanel">
-        <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
-            <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial TintColor="Black" TintOpacity="1" MaterialOpacity="0.9" />
-            </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
 
         <Panel Name="HeaderPanel" IsVisible="False" Margin="0">
             <Panel Margin="0">

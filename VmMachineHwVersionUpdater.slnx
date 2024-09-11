@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="VmMachineHwVersionUpdater.Avalonia.Tests\VmMachineHwVersionUpdater.Avalonia.Tests.csproj" />
+    <Project Path="VmMachineHwVersionUpdater.Core.Tests\VmMachineHwVersionUpdater.Core.Tests.csproj" />
+    <Project Path="VmMachineHwVersionUpdater.Wpf.Tests\VmMachineHwVersionUpdater.Wpf.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path=".runsettings" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="NuGet.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="VmMachineHwVersionUpdater.Avalonia\VmMachineHwVersionUpdater.Avalonia.csproj" />
+  <Project Path="VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
+  <Project Path="VmMachineHwVersionUpdater.Wpf\VmMachineHwVersionUpdater.Wpf.csproj" />
+</Solution>

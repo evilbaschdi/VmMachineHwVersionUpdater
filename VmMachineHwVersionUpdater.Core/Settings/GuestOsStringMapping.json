@@ -173,6 +173,8 @@
     "windows2019srv-64": "Windows Server 2019",
     "windows2019srvnext-64": "Windows Server 2022",
     "windows2022srv-64": "Windows Server 2022",
+    "windows2022srvnext-64": "Windows Server 2025",
+    "windows2025srv-64": "Windows Server 2025",
     "winhyperv": "Hyper-V",
     "winme": "Windows ME",
     "winnetbusiness": "Windows Server 2003 Small Business",

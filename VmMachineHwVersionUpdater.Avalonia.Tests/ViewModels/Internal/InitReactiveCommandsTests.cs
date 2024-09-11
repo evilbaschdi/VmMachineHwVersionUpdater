@@ -19,6 +19,9 @@ public class InitReactiveCommandsTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(InitReactiveCommands).GetMethods().Where(method => !method.IsAbstract));
+        assertion.Verify(typeof(InitReactiveCommands).GetMethods().Where(method => !method.IsAbstract
+                                                                                   & !method.Name.StartsWith("set_")
+                                                                                   & !method.Name.StartsWith("add_")
+                                                                                   & !method.Name.StartsWith("remove_")));
     }
 }

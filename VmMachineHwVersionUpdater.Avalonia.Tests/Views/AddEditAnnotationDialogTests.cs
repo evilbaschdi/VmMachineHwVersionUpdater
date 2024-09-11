@@ -20,6 +20,7 @@ public class AddEditAnnotationDialogTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(AddEditAnnotationDialog).GetMethods().Where(method => !method.IsAbstract));
+        assertion.Verify(typeof(AddEditAnnotationDialog).GetMethods().Where(method => !method.IsAbstract
+                                                                            ));
     }
 }

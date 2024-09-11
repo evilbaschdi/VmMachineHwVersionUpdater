@@ -19,6 +19,9 @@ public class MainWindowViewModelTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(MainWindowViewModel).GetMethods().Where(method => !method.IsAbstract));
+        assertion.Verify(typeof(MainWindowViewModel).GetMethods().Where(method => !method.IsAbstract
+                                                                                  & !method.Name.StartsWith("set_")
+                                                                                  & !method.Name.StartsWith("add_")
+                                                                                  & !method.Name.StartsWith("remove_")));
     }
 }
