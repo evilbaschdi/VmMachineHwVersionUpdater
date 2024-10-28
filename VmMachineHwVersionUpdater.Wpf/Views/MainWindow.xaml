@@ -248,8 +248,8 @@
                 <!-- Open with Code -->
                 <MenuItem Header="Open with Code..." Command="{Binding OpenWithCode.Command}">
                     <MenuItem.Icon>
-                        <iconPacks:PackIconSimpleIcons Kind="VisualStudioCode" Width="16" Height="16"
-                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <iconPacks:PackIconCodicons Kind="Vscode" Width="16" Height="16"
+                                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </MenuItem.Icon>
                 </MenuItem>
 

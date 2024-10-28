@@ -27,7 +27,7 @@ public class DeleteDefaultCommand(
     {
         get
         {
-            return new DefaultCommand
+            return new()
                    {
                        Command = new RelayCommand(Execute)
                    };

@@ -13,10 +13,10 @@
 	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.About.Wpf" />
 		<PackageReference Include="EvilBaschdi.Core.Wpf" />
+		<PackageReference Include="MahApps.Metro.IconPacks.Codicons" />
 		<PackageReference Include="MahApps.Metro.IconPacks.FeatherIcons" />
 		<PackageReference Include="MahApps.Metro.IconPacks.Material" />
 		<PackageReference Include="MahApps.Metro.IconPacks.PicolIcons" />
-		<PackageReference Include="MahApps.Metro.IconPacks.SimpleIcons" />
 	</ItemGroup>
 
 	<ItemGroup>

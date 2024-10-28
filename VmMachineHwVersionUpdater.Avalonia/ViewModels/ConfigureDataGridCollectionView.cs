@@ -31,7 +31,7 @@ public class ConfigureDataGridCollectionView(
             var loadValue = _load.Value;
             if (loadValue?.VmDataGridItemsSource == null)
             {
-                return new DataGridCollectionView(new List<Machine>());
+                return new(new List<Machine>());
             }
 
             if (!_settingsValid.Value)
@@ -40,7 +40,7 @@ public class ConfigureDataGridCollectionView(
                 return new(new List<Machine>());
             }
 
-            _dataGridCollectionView = new DataGridCollectionView(loadValue.VmDataGridItemsSource)
+            _dataGridCollectionView = new(loadValue.VmDataGridItemsSource)
                                       {
                                           GroupDescriptions =
                                           {

@@ -13,7 +13,7 @@ public static class DoubleExtensions
     // ReSharper disable once UnusedMember.Global
     public static double GiBiBytesToKiBiBytes(this double input)
     {
-        return input <= 0
+        return input < 0
             ? throw new ArgumentOutOfRangeException(nameof(input))
             : input * 1073741824d;
     }
@@ -25,7 +25,7 @@ public static class DoubleExtensions
     // ReSharper disable once UnusedMember.Global
     public static double KiBiBytesToGiBiBytes(this double input)
     {
-        return input <= 0
+        return input < 0
             ? throw new ArgumentOutOfRangeException(nameof(input))
             : input / 1073741824d;
     }
