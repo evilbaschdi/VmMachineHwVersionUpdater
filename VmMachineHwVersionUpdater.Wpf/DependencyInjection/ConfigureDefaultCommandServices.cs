@@ -2,11 +2,11 @@
 
 namespace VmMachineHwVersionUpdater.Wpf.DependencyInjection;
 
-/// <inheritdoc />
-public class ConfigureDefaultCommandServices : IConfigureDefaultCommandServices
+/// <summary />
+public static class ConfigureDefaultCommandServices
 {
-    /// <inheritdoc />
-    public void RunFor([NotNull] IServiceCollection services)
+    /// <summary />
+    public static void AddDefaultCommandServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 

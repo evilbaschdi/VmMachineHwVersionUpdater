@@ -14,27 +14,19 @@ public class ConfigureDefaultCommandServicesTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_ReturnsInterfaceName(ConfigureDefaultCommandServices sut)
-    {
-        sut.Should().BeAssignableTo<IConfigureDefaultCommandServices>();
-    }
-
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         assertion.Verify(typeof(ConfigureDefaultCommandServices).GetMethods().Where(method => !method.IsAbstract));
     }
 
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances(
-        ConfigureDefaultCommandServices sut
-    )
+    [Fact]
+    public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances()
     {
         // Arrange
         IServiceCollection dummyServiceCollection = new ServiceCollection();
 
         // Act
-        sut.RunFor(dummyServiceCollection);
+        dummyServiceCollection.AddDefaultCommandServices();
 
         // Assert
         dummyServiceCollection.Should().HaveCount(15);

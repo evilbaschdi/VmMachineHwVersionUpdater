@@ -32,6 +32,6 @@ public partial class AddEditAnnotationDialog : MetroWindow, IOnLoaded
 
         ArgumentNullException.ThrowIfNull(e);
 
-        DataContext = ActivatorUtilities.GetServiceOrCreateInstance(_serviceProvider, typeof(AddEditAnnotationDialogViewModel));
+        DataContext = ActivatorUtilities.GetServiceOrCreateInstance<AddEditAnnotationDialogViewModel>(_serviceProvider);
     }
 }

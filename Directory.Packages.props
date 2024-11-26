@@ -4,14 +4,14 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Avalonia.Diagnostics" Version="11.2.0-rc2" />
-    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2024.10.20.1318" />
-    <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2024.10.20.1318" />
-    <PackageVersion Include="EvilBaschdi.Core" Version="2024.7.8.734" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2024.10.27.725-develop" />
-    <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2024.10.23.1647" />
-    <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2024.10.8.1630" />
-    <PackageVersion Include="EvilBaschdi.Settings" Version="2024.10.8.1630" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.2.2" />
+    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2024.11.26.1749" />
+    <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2024.11.26.1749" />
+    <PackageVersion Include="EvilBaschdi.Core" Version="2024.10.31.739" />
+    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2024.11.26.1720" />
+    <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2024.11.26.1723" />
+    <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2024.11.12.1953" />
+    <PackageVersion Include="EvilBaschdi.Settings" Version="2024.11.12.1953" />
     <PackageVersion Include="MahApps.Metro.IconPacks.Codicons" Version="5.1.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="5.1.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="5.1.0" />
@@ -20,12 +20,12 @@
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
-    <PackageVersion Include="EvilBaschdi.Testing" Version="2024.9.27.1039" />
+    <PackageVersion Include="EvilBaschdi.Testing" Version="2024.11.21.1904" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.34.1" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.21" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-    <PackageVersion Include="xunit.analyzers" Version="1.16.0" />
+    <PackageVersion Include="xunit.analyzers" Version="1.17.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 </Project>

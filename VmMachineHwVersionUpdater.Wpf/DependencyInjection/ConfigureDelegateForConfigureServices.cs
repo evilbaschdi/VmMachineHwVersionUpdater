@@ -1,5 +1,4 @@
-﻿using EvilBaschdi.About.Core.DependencyInjection;
-using EvilBaschdi.About.Wpf.DependencyInjection;
+﻿using EvilBaschdi.About.Wpf.DependencyInjection;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Hosting;
 
@@ -16,22 +15,11 @@ public class ConfigureDelegateForConfigureServices : IConfigureDelegateForConfig
 
         serviceCollection.AddSingleton(_ => DialogCoordinator.Instance);
 
-        IConfigureWpfServices configureWpfServices = new ConfigureWpfServices();
-        configureWpfServices.RunFor(serviceCollection);
-
-        IConfigureAboutServices configureAboutServices = new ConfigureAboutServices();
-        configureAboutServices.RunFor(serviceCollection);
-
-        IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
-        configureCoreServices.RunFor(serviceCollection);
-
-        IConfigureCommandServices configureCommandServices = new ConfigureCommandServices();
-        configureCommandServices.RunFor(serviceCollection);
-
-        IConfigureDefaultCommandServices configureDefaultCommandServices = new ConfigureDefaultCommandServices();
-        configureDefaultCommandServices.RunFor(serviceCollection);
-
-        IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
-        configureWindowsAndViewModels.RunFor(serviceCollection);
+        serviceCollection.AddWpfServices();
+        serviceCollection.AddAboutServices();
+        serviceCollection.AddCoreServices();
+        serviceCollection.AddCommandServices();
+        serviceCollection.AddDefaultCommandServices();
+        serviceCollection.AddWindowsAndViewModels();
     }
 }

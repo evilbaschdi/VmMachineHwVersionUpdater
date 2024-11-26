@@ -11,27 +11,19 @@ public class ConfigureCoreServicesTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_ReturnsInterfaceName(ConfigureCoreServices sut)
-    {
-        sut.Should().BeAssignableTo<IConfigureCoreServices>();
-    }
-
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         assertion.Verify(typeof(ConfigureCoreServices).GetMethods().Where(method => !method.IsAbstract));
     }
 
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances(
-        ConfigureCoreServices sut
-    )
+    [Fact]
+    public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances()
     {
         // Arrange
         IServiceCollection dummyServiceCollection = new ServiceCollection();
 
         // Act
-        sut.RunFor(dummyServiceCollection);
+        dummyServiceCollection.AddCoreServices();
 
         // Assert
         dummyServiceCollection.Should().HaveCount(34);

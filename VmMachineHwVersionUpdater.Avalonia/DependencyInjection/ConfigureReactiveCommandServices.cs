@@ -2,11 +2,11 @@
 
 namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 
-/// <inheritdoc />
-public class ConfigureReactiveCommandServices : IConfigureReactiveCommandServices
+/// <summary />
+public static class ConfigureReactiveCommandServices
 {
-    /// <inheritdoc />
-    public void RunFor([NotNull] IServiceCollection services)
+    /// <summary />
+    public static void AddReactiveCommandServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 

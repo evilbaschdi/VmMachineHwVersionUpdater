@@ -3,7 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using EvilBaschdi.About.Avalonia.DependencyInjection;
-using EvilBaschdi.About.Core.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Avalonia.Views;
@@ -26,19 +25,13 @@ public class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         IServiceCollection serviceCollection = new ServiceCollection();
-        IConfigureCoreServices configureCoreServices = new ConfigureCoreServices();
-        IConfigureCommandServices configureCommandServices = new ConfigureCommandServices();
-        IConfigureAboutServices configureAboutServices = new ConfigureAboutServices();
-        IConfigureAvaloniaServices configureAvaloniaServices = new ConfigureAvaloniaServices();
-        IConfigureReactiveCommandServices configureReactiveCommandServices = new ConfigureReactiveCommandServices();
-        IConfigureWindowsAndViewModels configureWindowsAndViewModels = new ConfigureWindowsAndViewModels();
 
-        configureCoreServices.RunFor(serviceCollection);
-        configureCommandServices.RunFor(serviceCollection);
-        configureAboutServices.RunFor(serviceCollection);
-        configureAvaloniaServices.RunFor(serviceCollection);
-        configureReactiveCommandServices.RunFor(serviceCollection);
-        configureWindowsAndViewModels.RunFor(serviceCollection);
+        serviceCollection.AddCoreServices();
+        serviceCollection.AddAboutServices();
+        serviceCollection.AddCommandServices();
+        serviceCollection.AddAvaloniaServices();
+        serviceCollection.AddReactiveCommandServices();
+        serviceCollection.AddWindowsAndViewModels();
 
         ServiceProvider = serviceCollection.BuildServiceProvider();
 

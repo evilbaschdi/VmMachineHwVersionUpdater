@@ -14,30 +14,22 @@ public class ConfigureWpfServicesTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_ReturnsInterfaceName(ConfigureWpfServices sut)
-    {
-        sut.Should().BeAssignableTo<IConfigureWpfServices>();
-    }
-
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         assertion.Verify(typeof(ConfigureWpfServices).GetMethods().Where(method => !method.IsAbstract));
     }
 
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances(
-        ConfigureWpfServices sut
-    )
+    [Fact]
+    public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances()
     {
         // Arrange
         IServiceCollection dummyServiceCollection = new ServiceCollection();
 
         // Act
-        sut.RunFor(dummyServiceCollection);
+        dummyServiceCollection.AddWpfServices();
 
         // Assert
-        dummyServiceCollection.Should().HaveCount(11);
+        dummyServiceCollection.Should().HaveCount(8);
         dummyServiceCollection.Should().HaveService<IConfigureListCollectionView>().WithImplementation<ConfigureListCollectionView>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyDirectoryWithFilesWithProgress>().WithImplementation<CopyDirectoryWithFilesWithProgress>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyDirectoryWithProgress>().WithImplementation<CopyDirectoryWithProgress>().AsSingleton();

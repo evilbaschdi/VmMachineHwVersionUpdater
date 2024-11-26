@@ -5,11 +5,11 @@ using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 
-/// <inheritdoc />
-public class ConfigureAvaloniaServices : IConfigureAvaloniaServices
+/// <summary />
+public static class ConfigureAvaloniaServices
 {
-    /// <inheritdoc />
-    public void RunFor([NotNull] IServiceCollection services)
+    /// <summary />
+    public static void AddAvaloniaServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 

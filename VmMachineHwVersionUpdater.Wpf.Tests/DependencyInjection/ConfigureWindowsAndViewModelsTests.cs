@@ -15,27 +15,19 @@ public class ConfigureWindowsAndViewModelsTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_ReturnsInterfaceName(ConfigureWindowsAndViewModels sut)
-    {
-        sut.Should().BeAssignableTo<IConfigureWindowsAndViewModels>();
-    }
-
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         assertion.Verify(typeof(ConfigureWindowsAndViewModels).GetMethods().Where(method => !method.IsAbstract));
     }
 
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances(
-        ConfigureWindowsAndViewModels sut
-    )
+    [Fact]
+    public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances()
     {
         // Arrange
         IServiceCollection dummyServiceCollection = new ServiceCollection();
 
         // Act
-        sut.RunFor(dummyServiceCollection);
+        dummyServiceCollection.AddWindowsAndViewModels();
 
         // Assert
         dummyServiceCollection.Should().HaveCount(6);

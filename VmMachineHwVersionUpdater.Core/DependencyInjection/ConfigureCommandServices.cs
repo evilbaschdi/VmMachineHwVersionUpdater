@@ -2,11 +2,11 @@
 
 namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 
-/// <inheritdoc />
-public class ConfigureCommandServices : IConfigureCommandServices
+/// <summary />
+public static class ConfigureCommandServices
 {
-    /// <inheritdoc />
-    public void RunFor([NotNull] IServiceCollection services)
+    /// <summary />
+    public static void AddCommandServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 

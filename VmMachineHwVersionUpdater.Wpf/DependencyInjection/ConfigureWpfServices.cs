@@ -4,11 +4,11 @@ using VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.Wpf.DependencyInjection;
 
-/// <inheritdoc />
-public class ConfigureWpfServices : IConfigureWpfServices
+/// <summary />
+public static class ConfigureWpfServices
 {
-    /// <inheritdoc />
-    public void RunFor([NotNull] IServiceCollection services)
+    /// <summary />
+    public static void AddWpfServices(this IServiceCollection services)
     {
         ArgumentNullException.ThrowIfNull(services);
 

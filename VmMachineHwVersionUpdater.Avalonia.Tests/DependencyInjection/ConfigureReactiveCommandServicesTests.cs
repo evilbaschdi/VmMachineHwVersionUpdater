@@ -11,12 +11,6 @@ public class ConfigureReactiveCommandServicesTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_ReturnsInterfaceName(ConfigureReactiveCommandServices sut)
-    {
-        sut.Should().BeAssignableTo<IConfigureReactiveCommandServices>();
-    }
-
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         assertion.Verify(typeof(ConfigureReactiveCommandServices).GetMethods().Where(method => !method.IsAbstract));
