@@ -1,8 +1,7 @@
 using System;
 
-namespace {{namespace}}
+namespace {{namespace}};
+
+public enum {{name}}
 {
-    public enum {{name}}
-    {
-    }
 }

@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.About.Core;
-using EvilBaschdi.Core.Wpf;
-using VmMachineHwVersionUpdater.Wpf.DependencyInjection;
+﻿using VmMachineHwVersionUpdater.Wpf.DependencyInjection;
 using VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.Wpf.Tests.DependencyInjection;
@@ -29,15 +27,14 @@ public class ConfigureDefaultCommandServicesTests
         dummyServiceCollection.AddDefaultCommandServices();
 
         // Assert
-        dummyServiceCollection.Should().HaveCount(15);
-        dummyServiceCollection.Should().HaveService<IAboutContent>().WithImplementation<AboutContent>().AsSingleton();
+        dummyServiceCollection.Should().HaveCount(12);
+
+        dummyServiceCollection.Should().HaveService<IInitDefaultCommands>().WithImplementation<InitDefaultCommands>().AsSingleton();
+
         dummyServiceCollection.Should().HaveService<IAboutWindowClickDefaultCommand>().WithImplementation<AboutWindowClickDefaultCommand>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IAddEditAnnotation>().WithImplementation<AddEditAnnotation>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IAddEditAnnotationDefaultCommand>().WithImplementation<AddEditAnnotationDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IArchiveDefaultCommand>().WithImplementation<ArchiveDefaultCommand>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IChangeDisplayName>().WithImplementation<ChangeDisplayName>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyDefaultCommand>().WithImplementation<CopyDefaultCommand>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ICurrentAssembly>().WithImplementation<CurrentAssembly>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IDeleteDefaultCommand>().WithImplementation<DeleteDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IGotToDefaultCommand>().WithImplementation<GotToDefaultCommand>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IOpenWithCodeDefaultCommand>().WithImplementation<OpenWithCodeDefaultCommand>().AsSingleton();

@@ -51,11 +51,11 @@ public partial class App : Application
     }
 
     /// <inheritdoc />
-    protected override async void OnExit([NotNull] ExitEventArgs e)
+    protected override void OnExit([NotNull] ExitEventArgs e)
     {
         ArgumentNullException.ThrowIfNull(e);
 
-        await _handleAppExit.Value();
+        _handleAppExit.Value();
 
         base.OnExit(e);
     }

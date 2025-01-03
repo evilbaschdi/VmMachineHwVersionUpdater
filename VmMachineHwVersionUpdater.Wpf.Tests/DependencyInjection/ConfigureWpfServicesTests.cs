@@ -1,5 +1,4 @@
-﻿using EvilBaschdi.Core.AppHelpers;
-using EvilBaschdi.Core.Internal;
+﻿using EvilBaschdi.Core.Wpf;
 using VmMachineHwVersionUpdater.Wpf.DependencyInjection;
 using VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
@@ -30,15 +29,13 @@ public class ConfigureWpfServicesTests
 
         // Assert
         dummyServiceCollection.Should().HaveCount(8);
+        dummyServiceCollection.Should().HaveService<IApplicationLayout>().WithImplementation<ApplicationLayout>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<IApplicationStyle>().WithImplementation<ApplicationStyle>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<IApplyMicaBrush>().WithImplementation<ApplyMicaBrush>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IConfigureListCollectionView>().WithImplementation<ConfigureListCollectionView>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ICopyDirectoryWithFilesWithProgress>().WithImplementation<CopyDirectoryWithFilesWithProgress>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ICopyDirectoryWithProgress>().WithImplementation<CopyDirectoryWithProgress>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ICopyProgress>().WithImplementation<CopyProgress>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICurrentItemSource>().WithImplementation<CurrentItemSource>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IFilterListCollectionView>().WithImplementation<FilterListCollectionView>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IInitDefaultCommands>().WithImplementation<InitDefaultCommands>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ILoadSearchOsItems>().WithImplementation<LoadSearchOsItems>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IProcessByPath>().WithImplementation<ProcessByPath>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<ISeparator>().WithImplementation<SystemWindowsControlsSeparator>().AsTransient();
         dummyServiceCollection.Should().HaveService<ITaskbarItemProgressState>().WithImplementation<CurrentTaskbarItemProgressState>().AsSingleton();
     }
 }
