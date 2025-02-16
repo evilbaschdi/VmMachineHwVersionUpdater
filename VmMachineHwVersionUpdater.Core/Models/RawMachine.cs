@@ -29,6 +29,9 @@ public class RawMachine
     public int HwVersion { get; set; }
 
     /// <summary />
+    public int MemSize { get; set; }
+
+    /// <summary />
     public string ManagedVmAutoAddVTpm { get; set; } = "";
 
     /// <summary />

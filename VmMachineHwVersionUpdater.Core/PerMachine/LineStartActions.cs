@@ -82,6 +82,11 @@ public class LineStartActions : ILineStartActions
                                                                            "managedvm.autoAddVTPM",
                                                                            (machine, line) =>
                                                                                machine.ManagedVmAutoAddVTpm = _returnValueFromVmxLine.ValueFor(line, "managedvm.autoAddVTPM")
+                                                                       },
+                                                                       {
+                                                                           "memsize",
+                                                                           (machine, line) =>
+                                                                               machine.MemSize = Convert.ToInt32(_returnValueFromVmxLine.ValueFor(line, "memsize"))
                                                                        }
 
                                                                        // Add other actions here...

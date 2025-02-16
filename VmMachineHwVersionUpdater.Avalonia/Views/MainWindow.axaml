@@ -30,8 +30,11 @@
                               SelectedItem="{Binding Path=SelectedMachine}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
+                            <!-- Display Name -->
                             <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True" />
+                            <!-- ExtendedInformation -->
                             <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True" />
+                            <!-- Start -->
                             <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -50,11 +53,32 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+                            <!-- Path -->
                             <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" Width="*" FontSize="12" IsReadOnly="True" />
+                            <!-- Directory Size (GB) -->
                             <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" Width="150" FontSize="12" IsReadOnly="True" />
+                            <!-- Guest OS -->
                             <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="200" FontSize="12" IsReadOnly="True" />
+                            <!-- Sync Time -->
                             <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" Width="100" IsReadOnly="False" />
+                            <!-- Auto Update Tools -->
                             <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" Width="160" IsReadOnly="False" />
+                            <!-- Memory -->
+                            <DataGridTemplateColumn Header="Memory (GB)" Width="120" IsReadOnly="False">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                        <TextBlock Text="{Binding MemSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                                        <NumericUpDown Value="{Binding MemSize}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                            <!-- Version -->
                             <DataGridTemplateColumn Header="Version" Width="120" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -69,16 +93,17 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
+                            <!-- Last Log Entry -->
                             <DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" Width="150" FontSize="12" IsReadOnly="True" />
                         </DataGrid.Columns>
-                        <DataGrid.Styles>
+                        <!--<DataGrid.Styles>
                             <Style Selector="DataGridColumnHeader">
                                 <Setter Property="Background" Value="Transparent" />
                             </Style>
                             <Style Selector="DataGridRowGroupHeader">
                                 <Setter Property="Background" Value="Transparent" />
                             </Style>
-                        </DataGrid.Styles>
+                        </DataGrid.Styles>-->
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <!-- ReSharper disable Xaml.RedundantResource -->

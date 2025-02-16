@@ -43,6 +43,7 @@ public static class ConfigureCoreServices
         services.AddSingleton<IToggleToolsUpgradePolicy, ToggleToolsUpgradePolicy>();
         services.AddSingleton<IUpdateAnnotation, UpdateAnnotation>();
         services.AddSingleton<IUpdateMachineVersion, UpdateMachineVersion>();
+        services.AddSingleton<IUpdateMachineMemSize, UpdateMachineMemSize>();
         services.AddSingleton<IVmPools, VmPools>();
         services.AddSingleton<IVmxLineStartsWith, VmxLineStartsWith>();
     }

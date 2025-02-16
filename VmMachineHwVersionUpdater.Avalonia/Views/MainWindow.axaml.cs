@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using EvilBaschdi.Core.Avalonia;
 
@@ -13,6 +14,11 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         ApplyLayout();
+
+#if DEBUG
+
+        this.AttachDevTools();
+#endif
     }
 
     private void ApplyLayout()

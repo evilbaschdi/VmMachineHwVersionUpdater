@@ -9,19 +9,23 @@ namespace VmMachineHwVersionUpdater.Core.Models;
 ///     Constructor
 /// </summary>
 /// <param name="updateMachineVersion"></param>
+/// <param name="updateMachineMemSize"></param>
 /// <param name="toggleToolsUpgradePolicy"></param>
 /// <param name="toggleToolsSyncTime"></param>
 public class Machine(
     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
     [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-    [NotNull] IUpdateMachineVersion updateMachineVersion) : INotifyPropertyChanged
+    [NotNull] IUpdateMachineVersion updateMachineVersion,
+    [NotNull] IUpdateMachineMemSize updateMachineMemSize) : INotifyPropertyChanged
 {
     private readonly bool _autoUpdateTools;
     private readonly int _hwVersion;
+    private readonly int _memSize;
     private readonly bool _syncTimeWithHost;
     private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
     private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
     private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+    private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
     /// <summary />
     public bool AutoUpdateTools
@@ -58,6 +62,23 @@ public class Machine(
     }
 
     /// <summary />
+    public int MemSize
+    {
+        // ReSharper disable once UnusedMember.Global
+        get => _memSize;
+        init
+        {
+            if (_memSize == value)
+            {
+                return;
+            }
+
+            _memSize = value;
+            NotifyMemSizeChanged();
+        }
+    }
+
+    /// <summary />
     public bool SyncTimeWithHost
     {
         // ReSharper disable once UnusedMember.Global
@@ -82,6 +103,18 @@ public class Machine(
         if (IsEnabledForEditing && PropertyChanged != null)
         {
             _updateMachineVersion.RunFor(Path, _hwVersion);
+        }
+    }
+
+    // This method is called by the Set accessors of each property.
+    // The CallerMemberName attribute that is applied to the optional propertyName
+    // parameter causes the property name of the caller to be substituted as an argument.
+    private void NotifyMemSizeChanged()
+    {
+        if (IsEnabledForEditing && PropertyChanged != null)
+        {
+            var memSizeMb = _memSize * 1024;
+            _updateMachineMemSize.RunFor(Path, memSizeMb);
         }
     }
 

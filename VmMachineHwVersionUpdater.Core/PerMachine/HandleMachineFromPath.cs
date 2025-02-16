@@ -23,6 +23,7 @@ public class HandleMachineFromPath(
     [NotNull] ISetDisplayName setDisplayName,
     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
     [NotNull] IUpdateMachineVersion updateMachineVersion,
+    [NotNull] IUpdateMachineMemSize updateMachineMemSize,
     [NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping,
     [NotNull] IPathSettings pathSettings,
     [NotNull] IReadLogInformation readLogInformation,
@@ -41,6 +42,7 @@ public class HandleMachineFromPath(
     private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
     private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
     private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+    private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
     /// <inheritdoc />
     public Machine ValueFor([NotNull] string path, [NotNull] string file)
@@ -69,10 +71,11 @@ public class HandleMachineFromPath(
         var paused = directoryInfo?.GetFiles("*.vmss").Any();
         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
 
-        var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _updateMachineVersion)
+        var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _updateMachineVersion, _updateMachineMemSize)
                       {
                           DisplayName = rawMachine.DisplayName,
                           HwVersion = rawMachine.HwVersion,
+                          MemSize = rawMachine.MemSize / 1024,
                           GuestOs = _guestOsOutputStringMapping.ValueFor(rawMachine.GuestOs.Trim()),
                           GuestOsDetailedData = rawMachine.DetailedData,
                           Path = properFilePathCapitalization,
