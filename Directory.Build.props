@@ -50,8 +50,7 @@
 	<!-- ReSharper disable once UnknownProperty -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
 		<Using Include="AutoFixture.Idioms" />
-		<!--<Using Include="AutoFixture.Xunit3" />-->
-		<Using Include="AutoFixture.Xunit2" />
+		<Using Include="AutoFixture.Xunit3" />
 		<Using Include="EvilBaschdi.Testing" />
 		<Using Include="FluentAssertions" />
 		<Using Include="FluentAssertions.Microsoft.Extensions.DependencyInjection" />
@@ -72,15 +71,15 @@
 		<IsTestingPlatformApplication>false</IsTestingPlatformApplication>
 		<IsTestProject>true</IsTestProject>
 		<NoWarn>1701;1702</NoWarn>
-		<!--<OutputType>Exe</OutputType>
 		<IsTestingPlatformApplication>false</IsTestingPlatformApplication>
-		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>-->
+		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+		<OutputType>Exe</OutputType>
 	</PropertyGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-		<!--<PackageReference Include="xunit.v3" />-->
 		<PackageReference Include="EvilBaschdi.Testing" />
+		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="coverlet.collector">
 			<PrivateAssets>all</PrivateAssets>

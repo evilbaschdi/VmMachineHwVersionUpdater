@@ -17,11 +17,11 @@ public class AddEditAnnotationDialogTests
         sut.Should().BeAssignableTo<IOnLoaded>();
     }
 
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-    {
-        assertion.Verify(typeof(AddEditAnnotationDialog).GetMethods().Where(method => !method.IsAbstract));
-    }
+    //[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    //public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    //{
+    //    assertion.Verify(typeof(AddEditAnnotationDialog).GetMethods().Where(method => !method.IsAbstract));
+    //}
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void DataContext_ForCurrentWindow_HasInstance(

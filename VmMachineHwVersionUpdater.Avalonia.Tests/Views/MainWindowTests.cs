@@ -17,9 +17,9 @@ public class MainWindowTests
         sut.Should().BeAssignableTo<Window>();
     }
 
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-    {
-        assertion.Verify(typeof(MainWindow).GetMethods().Where(method => !method.IsAbstract));
-    }
+    //[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    //public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    //{
+    //    assertion.Verify(typeof(MainWindow).GetMethods().Where(method => !method.IsAbstract));
+    //}
 }

@@ -26,7 +26,7 @@ public class ConfigureCoreServicesTests
         dummyServiceCollection.AddCoreServices();
 
         // Assert
-        dummyServiceCollection.Should().HaveCount(34);
+        dummyServiceCollection.Should().HaveCount(35);
         dummyServiceCollection.Should().HaveService<IArchiveMachine>().WithImplementation<ArchiveMachine>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IConvertAnnotationLineBreaks>().WithImplementation<ConvertAnnotationLineBreaks>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyMachine>().WithImplementation<CopyMachine>().AsSingleton();
@@ -50,6 +50,7 @@ public class ConfigureCoreServicesTests
         dummyServiceCollection.Should().HaveService<IToggleToolsUpgradePolicy>().WithImplementation<ToggleToolsUpgradePolicy>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IUpdateAnnotation>().WithImplementation<UpdateAnnotation>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IUpdateMachineVersion>().WithImplementation<UpdateMachineVersion>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<IUpdateMachineMemSize>().WithImplementation<UpdateMachineMemSize>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IVmPools>().WithImplementation<VmPools>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IVmxLineStartsWith>().WithImplementation<VmxLineStartsWith>().AsSingleton();
     }

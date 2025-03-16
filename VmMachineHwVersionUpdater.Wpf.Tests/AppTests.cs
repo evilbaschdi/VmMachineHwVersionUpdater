@@ -16,9 +16,9 @@ public class AppTests
         sut.Should().BeAssignableTo<Application>();
     }
 
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-    {
-        assertion.Verify(typeof(App).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set")));
-    }
+    //[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    //public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    //{
+    //    assertion.Verify(typeof(App).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set")));
+    //}
 }

@@ -4,7 +4,6 @@ using VmMachineHwVersionUpdater.Core.Enums;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
-/// <inheritdoc />
 /// <summary>
 ///     Constructor
 /// </summary>
@@ -12,6 +11,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine;
 /// <param name="setDisplayName"></param>
 /// <param name="toggleToolsSyncTime"></param>
 /// <param name="updateMachineVersion"></param>
+/// <param name="updateMachineMemSize"></param>
 /// <param name="guestOsOutputStringMapping"></param>
 /// <param name="pathSettings"></param>
 /// <param name="readLogInformation"></param>
