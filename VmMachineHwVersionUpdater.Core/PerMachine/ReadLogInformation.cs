@@ -7,7 +7,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine;
 public class ReadLogInformation : IReadLogInformation
 {
     /// <inheritdoc />
-    public KeyValuePair<string, string> ValueFor([NotNull] string logDirectory)
+    public (string LogLastDate, string LogLastDateDiff) ValueFor([NotNull] string logDirectory)
     {
         ArgumentNullException.ThrowIfNull(logDirectory);
 
@@ -21,7 +21,7 @@ public class ReadLogInformation : IReadLogInformation
 
         if (string.IsNullOrWhiteSpace(log) || log.FileInfo().IsFileLocked())
         {
-            return new(lastLogDateLocal, logLastDateDiff);
+            return (lastLogDateLocal, logLastDateDiff);
         }
 
         try
@@ -41,6 +41,6 @@ public class ReadLogInformation : IReadLogInformation
             Console.WriteLine(e);
         }
 
-        return new(lastLogDateLocal, logLastDateDiff);
+        return (lastLogDateLocal, logLastDateDiff);
     }
 }

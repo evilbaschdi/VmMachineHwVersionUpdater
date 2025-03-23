@@ -9,18 +9,18 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="archiveMachine"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <param name="reloadReactiveCommand"></param>
 /// <param name="mainWindowByApplicationLifetime"></param>
 /// <exception cref="ArgumentNullException"></exception>
 public class ArchiveReactiveCommand(
     [NotNull] IArchiveMachine archiveMachine,
-    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IArchiveReactiveCommand
 {
     private readonly IArchiveMachine _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
@@ -34,7 +34,7 @@ public class ArchiveReactiveCommand(
         if (mainWindow != null)
         {
             var title = "Archive machine...";
-            var text = $"Are you sure you want to archive machine '{_currentItem.Value.DisplayName}'?";
+            var text = $"Are you sure you want to archive machine '{_currentMachine.Value.DisplayName}'?";
 
             var confirmationDialog = new ContentDialog
                                      {
@@ -63,7 +63,7 @@ public class ArchiveReactiveCommand(
 
             try
             {
-                _archiveMachine.RunFor(_currentItem.Value);
+                _archiveMachine.RunFor(_currentMachine.Value);
 
                 _reloadReactiveCommand.Run();
             }

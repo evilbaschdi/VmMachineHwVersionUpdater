@@ -9,27 +9,27 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="reloadDefaultCommand"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <param name="instance"></param>
 /// <param name="copyMachine"></param>
 /// <param name="copyProgress"></param>
 public class CopyDefaultCommand(
     [NotNull] IDialogCoordinator instance,
     [NotNull] IReloadDefaultCommand reloadDefaultCommand,
-    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICurrentMachine currentMachine,
     [NotNull] ICopyMachine copyMachine,
     [NotNull] ICopyProgress copyProgress) : ICopyDefaultCommand
 {
     private readonly ICopyMachine _copyMachine = copyMachine ?? throw new ArgumentNullException(nameof(copyMachine));
     private readonly ICopyProgress _copyProgress = copyProgress ?? throw new ArgumentNullException(nameof(copyProgress));
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IDialogCoordinator _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
     private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
     public async Task Value()
     {
-        var machine = _currentItem.Value;
+        var machine = _currentMachine.Value;
         if (!machine.IsEnabledForEditing)
         {
             await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Copy machine' was canceled", "Machine is currently read only");

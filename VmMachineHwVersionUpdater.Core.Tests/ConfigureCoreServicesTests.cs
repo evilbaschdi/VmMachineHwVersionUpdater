@@ -30,7 +30,7 @@ public class ConfigureCoreServicesTests
         dummyServiceCollection.Should().HaveService<IArchiveMachine>().WithImplementation<ArchiveMachine>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IConvertAnnotationLineBreaks>().WithImplementation<ConvertAnnotationLineBreaks>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyMachine>().WithImplementation<CopyMachine>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ICurrentItem>().WithImplementation<CurrentItem>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<ICurrentMachine>().WithImplementation<CurrentMachine>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IDeleteMachine>().WithImplementation<DeleteMachine>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IFileListFromPath>().WithImplementation<FileListFromPath>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IGuestOsesInUse>().WithImplementation<GuestOsesInUse>().AsSingleton();

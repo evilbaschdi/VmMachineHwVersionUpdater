@@ -19,11 +19,25 @@
 		<None Remove="TestResults\**" />
 	</ItemGroup>
 
-	<!--<ItemGroup>
-		<Compile Update="**\*.cs">
-			<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
-		</Compile>
-	</ItemGroup>-->
+	<Choose>
+		<When Condition="$(MSBuildProjectName.Contains('Core'))">
+			<ItemGroup>
+				<Compile Update="**\*.cs">
+					<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
+				</Compile>
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<ItemGroup>
+			<Compile Update="ViewModels\*.cs">
+				<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
+			</Compile>
+			<Compile Update="ViewModels\*\*.cs">
+				<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
+			</Compile>
+				</ItemGroup>
+		</Otherwise>
+	</Choose>
 
 	<ItemGroup Condition="$(MSBuildProjectName.Contains('Core'))">
 		<None Update="Settings\GuestOsStringMapping.json">

@@ -8,16 +8,16 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="dialogCoordinator"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <param name="deleteMachine"></param>
 /// <param name="reloadDefaultCommand"></param>
 public class DeleteDefaultCommand(
     [NotNull] IDialogCoordinator dialogCoordinator,
-    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICurrentMachine currentMachine,
     [NotNull] IDeleteMachine deleteMachine,
     [NotNull] IReloadDefaultCommand reloadDefaultCommand) : IDeleteDefaultCommand
 {
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IDeleteMachine _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
     private readonly IDialogCoordinator _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
     private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
@@ -40,14 +40,14 @@ public class DeleteDefaultCommand(
     public async Task Value()
     {
         var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Delete machine...",
-            $"Are you sure you want to delete '{_currentItem.Value.DisplayName}'?",
+            $"Are you sure you want to delete '{_currentMachine.Value.DisplayName}'?",
             MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
         if (result == MessageDialogResult.Affirmative)
         {
             try
             {
-                _deleteMachine.RunFor(_currentItem.Value.Path);
+                _deleteMachine.RunFor(_currentMachine.Value.Path);
 
                 await _reloadDefaultCommand.Value();
             }

@@ -11,9 +11,9 @@ public class AddEditAnnotationDialogViewModel(
     [NotNull] IApplicationLayout applicationLayout,
     [NotNull] IApplicationStyle applicationStyle,
     [NotNull] IUpdateAnnotation updateAnnotation,
-    [NotNull] ICurrentItem currentItem) : ApplicationLayoutViewModel(applicationLayout, applicationStyle, true, false), IAddEditAnnotationDialogViewModel
+    [NotNull] ICurrentMachine currentMachine) : ApplicationLayoutViewModel(applicationLayout, applicationStyle, true, false), IAddEditAnnotationDialogViewModel
 {
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IUpdateAnnotation _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
 
     /// <summary>
@@ -21,10 +21,10 @@ public class AddEditAnnotationDialogViewModel(
     /// </summary>
     public Machine SelectedMachine
     {
-        get => _currentItem.Value;
+        get => _currentMachine.Value;
         set
         {
-            _currentItem.Value = value;
+            _currentMachine.Value = value;
             OnPropertyChanged();
         }
     }

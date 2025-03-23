@@ -9,18 +9,18 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="deleteMachine"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <param name="reloadReactiveCommand"></param>
 /// <param name="mainWindowByApplicationLifetime"></param>
 /// <exception cref="ArgumentNullException"></exception>
 public class DeleteReactiveCommand(
     [NotNull] IDeleteMachine deleteMachine,
-    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IDeleteReactiveCommand
 {
     private readonly IDeleteMachine _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
@@ -34,7 +34,7 @@ public class DeleteReactiveCommand(
         if (mainWindow != null)
         {
             var title = "Delete machine...";
-            var text = $"Are you sure you want to delete machine '{_currentItem.Value.DisplayName}'?";
+            var text = $"Are you sure you want to delete machine '{_currentMachine.Value.DisplayName}'?";
 
             var confirmationDialog = new ContentDialog
                                      {
@@ -63,7 +63,7 @@ public class DeleteReactiveCommand(
 
             try
             {
-                _deleteMachine.RunFor(_currentItem.Value.Path);
+                _deleteMachine.RunFor(_currentMachine.Value.Path);
 
                 _reloadReactiveCommand.Run();
             }

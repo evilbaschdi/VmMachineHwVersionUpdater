@@ -8,24 +8,24 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="reloadDefaultCommand"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <param name="instance"></param>
 /// <param name="changeDisplayName"></param>
 public class RenameDefaultCommand(
     [NotNull] IDialogCoordinator instance,
     [NotNull] IReloadDefaultCommand reloadDefaultCommand,
-    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICurrentMachine currentMachine,
     [NotNull] IChangeDisplayName changeDisplayName) : IRenameDefaultCommand
 {
     private readonly IChangeDisplayName _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IDialogCoordinator _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
     private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
     public async Task Value()
     {
-        var machine = _currentItem.Value;
+        var machine = _currentMachine.Value;
 
         if (!machine.IsEnabledForEditing)
         {

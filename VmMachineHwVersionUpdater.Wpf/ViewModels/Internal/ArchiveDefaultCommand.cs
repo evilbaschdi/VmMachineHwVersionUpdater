@@ -8,17 +8,17 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="reloadDefaultCommand"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <param name="archiveMachine"></param>
 /// <param name="instance"></param>
 public class ArchiveDefaultCommand(
     [NotNull] IDialogCoordinator instance,
     [NotNull] IReloadDefaultCommand reloadDefaultCommand,
-    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICurrentMachine currentMachine,
     [NotNull] IArchiveMachine archiveMachine) : IArchiveDefaultCommand
 {
     [NotNull] private readonly IArchiveMachine _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
-    [NotNull] private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    [NotNull] private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     [NotNull] private readonly IDialogCoordinator _dialogCoordinator = instance ?? throw new ArgumentNullException(nameof(instance));
     [NotNull] private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
@@ -40,14 +40,14 @@ public class ArchiveDefaultCommand(
     public async Task Value()
     {
         var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Archive machine...",
-            $"Are you sure you want to archive machine '{_currentItem.Value.DisplayName}'?",
+            $"Are you sure you want to archive machine '{_currentMachine.Value.DisplayName}'?",
             MessageDialogStyle.AffirmativeAndNegative).ConfigureAwait(true);
 
         if (result == MessageDialogResult.Affirmative)
         {
             try
             {
-                _archiveMachine.RunFor(_currentItem.Value);
+                _archiveMachine.RunFor(_currentMachine.Value);
 
                 await _reloadDefaultCommand.Value();
             }

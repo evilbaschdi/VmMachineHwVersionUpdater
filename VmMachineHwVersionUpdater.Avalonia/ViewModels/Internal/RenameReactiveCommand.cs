@@ -10,18 +10,18 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 ///     Constructor
 /// </summary>
 /// <param name="changeDisplayName"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <param name="reloadReactiveCommand"></param>
 /// <param name="mainWindowByApplicationLifetime"></param>
 /// <exception cref="ArgumentNullException"></exception>
 public class RenameReactiveCommand(
     [NotNull] IChangeDisplayName changeDisplayName,
-    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime
 ) : ReactiveCommandUnitRun, IRenameReactiveCommand
 {
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
@@ -33,7 +33,7 @@ public class RenameReactiveCommand(
     public override async void Run()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
-        var machine = _currentItem.Value;
+        var machine = _currentMachine.Value;
 
         if (!machine.IsEnabledForEditing)
         {
@@ -53,7 +53,7 @@ public class RenameReactiveCommand(
         }
 
         var title = "Rename machine...";
-        var text = $"Are you sure you want to rename machine '{_currentItem.Value.DisplayName}'?";
+        var text = $"Are you sure you want to rename machine '{_currentMachine.Value.DisplayName}'?";
 
         var confirmationDialog = new ContentDialog
                                  {

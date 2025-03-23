@@ -4,4 +4,10 @@
 		<Description>VM Toolbox Core</Description>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Update="Models\CurrentMachine.cs">
+	    <DependentUpon>ICurrentMachine.cs</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

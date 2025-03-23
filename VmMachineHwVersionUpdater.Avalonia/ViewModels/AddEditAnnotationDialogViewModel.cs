@@ -6,9 +6,9 @@
 /// </summary>
 public class AddEditAnnotationDialogViewModel(
     [NotNull] IUpdateAnnotation updateAnnotation,
-    [NotNull] ICurrentItem currentItem) : ViewModelBase, IAddEditAnnotationDialogViewModel
+    [NotNull] ICurrentMachine currentMachine) : ViewModelBase, IAddEditAnnotationDialogViewModel
 {
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IUpdateAnnotation _updateAnnotation = updateAnnotation ?? throw new ArgumentNullException(nameof(updateAnnotation));
 
     #region Properties
@@ -18,8 +18,8 @@ public class AddEditAnnotationDialogViewModel(
     /// </summary>
     public Machine SelectedMachine
     {
-        get => _currentItem.Value;
-        set => _currentItem.Value = value;
+        get => _currentMachine.Value;
+        set => _currentMachine.Value = value;
     }
 
     /// <inheritdoc />

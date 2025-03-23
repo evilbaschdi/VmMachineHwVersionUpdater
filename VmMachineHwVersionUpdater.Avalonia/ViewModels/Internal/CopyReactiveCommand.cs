@@ -13,20 +13,20 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 /// </summary>
 /// <param name="copyMachine"></param>
 /// <param name="copyProgress"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <param name="reloadReactiveCommand"></param>
 /// <param name="mainWindowByApplicationLifetime"></param>
 /// <exception cref="ArgumentNullException"></exception>
 public class CopyReactiveCommand(
     [NotNull] ICopyMachine copyMachine,
     [NotNull] ICopyProgress copyProgress,
-    [NotNull] ICurrentItem currentItem,
+    [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, ICopyReactiveCommand
 {
     private readonly ICopyMachine _copyMachine = copyMachine ?? throw new ArgumentNullException(nameof(copyMachine));
     private readonly ICopyProgress _copyProgress = copyProgress ?? throw new ArgumentNullException(nameof(copyProgress));
-    private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
@@ -36,7 +36,7 @@ public class CopyReactiveCommand(
     public override async void Run()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
-        var machine = _currentItem.Value;
+        var machine = _currentMachine.Value;
 
         if (!machine.IsEnabledForEditing)
         {
@@ -56,7 +56,7 @@ public class CopyReactiveCommand(
         }
 
         var title = "Copy machine...";
-        var text = $"Are you sure you want to copy machine '{_currentItem.Value.DisplayName}'?";
+        var text = $"Are you sure you want to copy machine '{_currentMachine.Value.DisplayName}'?";
 
         var confirmationDialog = new ContentDialog
                                  {

@@ -1,4 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public interface ILineStartActions : IValue<Dictionary<string, Action<RawMachine, string>>>;
+public interface ILineStartActions : IDictionaryOf<string, Action<RawMachine, string>>;

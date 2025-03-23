@@ -7,24 +7,24 @@ namespace VmMachineHwVersionUpdater.Core.Commands;
 ///     Constructor
 /// </summary>
 /// <param name="processByPath"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <exception cref="ArgumentNullException"></exception>
 public class GoToCommand(
     [NotNull] IProcessByPath processByPath,
-    [NotNull] ICurrentItem currentItem) : IGoToCommand
+    [NotNull] ICurrentMachine currentMachine) : IGoToCommand
 {
     [NotNull] private readonly IProcessByPath _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
-    [NotNull] private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    [NotNull] private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
 
     /// <inheritdoc />
     public void Run()
     {
-        if (!File.Exists(_currentItem.Value.Path))
+        if (!File.Exists(_currentMachine.Value.Path))
         {
             return;
         }
 
-        var path = Path.GetDirectoryName(_currentItem.Value.Path);
+        var path = Path.GetDirectoryName(_currentMachine.Value.Path);
         if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
         {
             _processByPath.RunFor(path);

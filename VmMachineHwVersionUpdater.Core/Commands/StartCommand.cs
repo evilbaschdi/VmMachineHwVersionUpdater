@@ -7,23 +7,23 @@ namespace VmMachineHwVersionUpdater.Core.Commands;
 ///     Constructor
 /// </summary>
 /// <param name="processByPath"></param>
-/// <param name="currentItem"></param>
+/// <param name="currentMachine"></param>
 /// <exception cref="ArgumentNullException"></exception>
 public class StartCommand(
     [NotNull] IProcessByPath processByPath,
-    [NotNull] ICurrentItem currentItem) : IStartCommand
+    [NotNull] ICurrentMachine currentMachine) : IStartCommand
 {
     [NotNull] private readonly IProcessByPath _processByPath = processByPath ?? throw new ArgumentNullException(nameof(processByPath));
-    [NotNull] private readonly ICurrentItem _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+    [NotNull] private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
 
     /// <inheritdoc />
     public void Run()
     {
-        if (!File.Exists(_currentItem.Value?.Path))
+        if (!File.Exists(_currentMachine.Value?.Path))
         {
             return;
         }
 
-        _processByPath.RunFor(_currentItem.Value?.Path);
+        _processByPath.RunFor(_currentMachine.Value?.Path);
     }
 }

@@ -16,14 +16,12 @@ namespace VmMachineHwVersionUpdater.Wpf.ViewModels;
 public class MainWindowViewModel : ApplicationLayoutViewModel, IMainWindowViewModel
 {
     private readonly IConfigureListCollectionView _configureListCollectionView;
-    private readonly ICurrentItem _currentItem;
+    private readonly ICurrentMachine _currentMachine;
     private readonly IFilterListCollectionView _filterListCollectionView;
     private readonly IInitDefaultCommands _initDefaultCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
     private readonly ITaskbarItemProgressState _taskbarItemProgressState;
-    private string _searchFilterText = string.Empty;
-    private string _searchOsText = string.Empty;
 
     #region Constructor
 
@@ -33,7 +31,7 @@ public class MainWindowViewModel : ApplicationLayoutViewModel, IMainWindowViewMo
     public MainWindowViewModel(
         IApplicationLayout applicationLayout,
         IApplicationStyle applicationStyle,
-        ICurrentItem currentItem,
+        ICurrentMachine currentMachine,
         IInitDefaultCommands initDefaultCommands,
         ILoad load,
         IConfigureListCollectionView configureListCollectionView,
@@ -44,7 +42,7 @@ public class MainWindowViewModel : ApplicationLayoutViewModel, IMainWindowViewMo
     )
         : base(applicationLayout, applicationStyle, true, true)
     {
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+        _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
         _initDefaultCommands = initDefaultCommands ?? throw new ArgumentNullException(nameof(initDefaultCommands));
         _load = load ?? throw new ArgumentNullException(nameof(load));
         _configureListCollectionView = configureListCollectionView ?? throw new ArgumentNullException(nameof(configureListCollectionView));
@@ -128,10 +126,10 @@ public class MainWindowViewModel : ApplicationLayoutViewModel, IMainWindowViewMo
     /// </summary>
     public Machine SelectedMachine
     {
-        get => _currentItem.Value;
+        get => _currentMachine.Value;
         set
         {
-            _currentItem.Value = value;
+            _currentMachine.Value = value;
             OnPropertyChanged();
         }
     }
@@ -158,28 +156,28 @@ public class MainWindowViewModel : ApplicationLayoutViewModel, IMainWindowViewMo
     /// </summary>
     public string SearchFilterText
     {
-        get => _searchFilterText;
+        get;
         set
         {
-            _searchFilterText = value;
+            field = value;
             _filterListCollectionView.RunFor((SearchOsText, value));
             OnPropertyChanged();
         }
-    }
+    } = string.Empty;
 
     /// <summary>
     ///     Binding
     /// </summary>
     public string SearchOsText
     {
-        get => _searchOsText;
+        get;
         set
         {
-            _searchOsText = value;
+            field = value;
             _filterListCollectionView.RunFor((value, SearchFilterText));
             OnPropertyChanged();
         }
-    }
+    } = string.Empty;
 
     /// <summary>
     ///     Binding

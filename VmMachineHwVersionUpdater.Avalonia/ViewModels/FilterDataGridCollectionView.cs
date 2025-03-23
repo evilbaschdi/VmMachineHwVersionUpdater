@@ -21,12 +21,13 @@ public class FilterDataGridCollectionView(
     {
         var (searchOsText, searchFilterText) = value;
 
+        _configureDataGridCollectionView.Value.Filter = ValueFilter;
+        return;
+
         bool ValueFilter(object vm)
         {
             var machine = (Machine)vm;
             return _filterItemSource.ValueFor((machine, searchOsText, searchFilterText));
         }
-
-        _configureDataGridCollectionView.Value.Filter = ValueFilter;
     }
 }

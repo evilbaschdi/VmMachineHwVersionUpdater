@@ -1,7 +1,7 @@
 namespace VmMachineHwVersionUpdater.Core.Models;
 
-/// <inheritdoc cref="ICurrentItem" />
-public class CurrentItem : CachedWritableValue<Machine>, ICurrentItem
+/// <inheritdoc cref="ICurrentMachine" />
+public class CurrentMachine : CachedWritableValue<Machine>, ICurrentMachine
 {
     private Machine _machine;
 

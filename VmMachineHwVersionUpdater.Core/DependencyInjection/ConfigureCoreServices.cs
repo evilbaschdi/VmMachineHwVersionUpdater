@@ -19,7 +19,7 @@ public static class ConfigureCoreServices
         services.AddSingleton<ICopyDirectoryWithProgress, CopyDirectoryWithProgress>();
         services.AddSingleton<ICopyMachine, CopyMachine>();
         services.AddSingleton<ICopyProgress, CopyProgress>();
-        services.AddSingleton<ICurrentItem, CurrentItem>();
+        services.AddSingleton<ICurrentMachine, CurrentMachine>();
         services.AddSingleton<IDeleteMachine, DeleteMachine>();
         services.AddSingleton<IFileListFromPath, FileListFromPath>();
         services.AddSingleton<IFilterItemSource, FilterItemSource>();

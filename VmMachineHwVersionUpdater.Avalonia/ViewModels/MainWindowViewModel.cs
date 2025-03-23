@@ -13,13 +13,11 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 {
     private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView;
-    private readonly ICurrentItem _currentItem;
+    private readonly ICurrentMachine _currentMachine;
     private readonly IFilterDataGridCollectionView _filterDataGridCollectionView;
     private readonly IInitReactiveCommands _initReactiveCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
-    private string _searchFilterText = string.Empty;
-    private string _searchOsText = string.Empty;
 
     #region Constructor
 
@@ -27,21 +25,21 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     ///     Constructor
     /// </summary>
     /// <param name="load"></param>
-    /// <param name="currentItem"></param>
+    /// <param name="currentMachine"></param>
     /// <param name="loadSearchOsItems"></param>
     /// <param name="configureDataGridCollectionView"></param>
     /// <param name="filterDataGridCollectionView"></param>
     /// <param name="initReactiveCommands"></param>
     /// <exception cref="ArgumentNullException"></exception>
     public MainWindowViewModel([NotNull] ILoad load,
-                               [NotNull] ICurrentItem currentItem,
+                               [NotNull] ICurrentMachine currentMachine,
                                [NotNull] ILoadSearchOsItems loadSearchOsItems,
                                [NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
                                [NotNull] IFilterDataGridCollectionView filterDataGridCollectionView,
                                [NotNull] IInitReactiveCommands initReactiveCommands)
     {
         _load = load ?? throw new ArgumentNullException(nameof(load));
-        _currentItem = currentItem ?? throw new ArgumentNullException(nameof(currentItem));
+        _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
         _loadSearchOsItems = loadSearchOsItems ?? throw new ArgumentNullException(nameof(loadSearchOsItems));
         _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
         _filterDataGridCollectionView = filterDataGridCollectionView ?? throw new ArgumentNullException(nameof(filterDataGridCollectionView));
@@ -129,8 +127,8 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// </summary>
     public Machine SelectedMachine
     {
-        get => _currentItem.Value;
-        set => _currentItem.Value = value;
+        get => _currentMachine.Value;
+        set => _currentMachine.Value = value;
     }
 
     #endregion Commands
@@ -155,28 +153,32 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <summary>
     ///     Binding
     /// </summary>
-    public string SearchFilterText
+    private string SearchFilterText
     {
-        get => _searchFilterText;
+        get;
+        // ReSharper disable once PropertyCanBeMadeInitOnly.Local
+        // ReSharper disable once UnusedMember.Local
         set
         {
-            _searchFilterText = value;
+            field = value;
             _filterDataGridCollectionView.RunFor((SearchOsText, value));
         }
-    }
+    } = string.Empty;
 
     /// <summary>
     ///     Binding
     /// </summary>
-    public string SearchOsText
+    private string SearchOsText
     {
-        get => _searchOsText;
+        get;
+        // ReSharper disable once PropertyCanBeMadeInitOnly.Local
+        // ReSharper disable once UnusedMember.Local
         set
         {
-            _searchOsText = value;
+            field = value;
             _filterDataGridCollectionView.RunFor((value, SearchFilterText));
         }
-    }
+    } = string.Empty;
 
     // ReSharper disable once ValueParameterNotUsed
     /// <summary>

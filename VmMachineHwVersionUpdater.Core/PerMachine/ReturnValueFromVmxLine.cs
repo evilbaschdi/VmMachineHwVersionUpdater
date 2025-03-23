@@ -12,9 +12,9 @@ public class ReturnValueFromVmxLine : IReturnValueFromVmxLine
 
         ArgumentNullException.ThrowIfNull(key);
 
-        var value = line.Replace('"', ' ').Trim();
-        value = Regex.Replace(value, $"{key} =", "", RegexOptions.IgnoreCase).Trim();
+        var processedLine = line.Replace('"', ' ').Trim();
+        processedLine = Regex.Replace(processedLine, $"{key} =", "", RegexOptions.IgnoreCase).Trim();
 
-        return value;
+        return processedLine;
     }
 }
