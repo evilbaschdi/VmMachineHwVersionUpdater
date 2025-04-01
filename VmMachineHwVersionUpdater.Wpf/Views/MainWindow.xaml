@@ -70,7 +70,7 @@
               Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" GridLinesVisibility="Horizontal"
               SelectedValue="{Binding Path=SelectedMachine}" CanUserDeleteRows="False"
               AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
-              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent">
 
         <!-- Columns -->
         <DataGrid.Columns>

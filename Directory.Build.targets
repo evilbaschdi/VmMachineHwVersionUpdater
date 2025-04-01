@@ -25,30 +25,28 @@
 				<Compile Update="**\*.cs">
 					<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
 				</Compile>
+
+				<None Update="Settings\GuestOsStringMapping.json">
+					<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+					<DependentUpon>IGuestOsStringMapping.cs</DependentUpon>
+				</None>
+
+				<None Update="Settings\VmPools.json">
+					<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+					<DependentUpon>IVmPools.cs</DependentUpon>
+				</None>
 			</ItemGroup>
 		</When>
 		<Otherwise>
 			<ItemGroup>
-			<Compile Update="ViewModels\*.cs">
-				<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
-			</Compile>
-			<Compile Update="ViewModels\*\*.cs">
-				<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
-			</Compile>
-				</ItemGroup>
+				<Compile Update="ViewModels\*.cs">
+					<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
+				</Compile>
+				<Compile Update="ViewModels\*\*.cs">
+					<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
+				</Compile>
+			</ItemGroup>
 		</Otherwise>
 	</Choose>
-
-	<ItemGroup Condition="$(MSBuildProjectName.Contains('Core'))">
-		<None Update="Settings\GuestOsStringMapping.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<DependentUpon>IGuestOsStringMapping.cs</DependentUpon>
-		</None>
-
-		<None Update="Settings\VmPools.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<DependentUpon>IVmPools.cs</DependentUpon>
-		</None>
-	</ItemGroup>
 
 </Project>
