@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="VmMachineHwVersionUpdater.Avalonia/Views/AddEditAnnotationDialog.axaml" value="VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj" />
         <entry key="VmMachineHwVersionUpdater.Avalonia/Views/MainWindow.axaml" value="VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj" />
       </map>
     </option>

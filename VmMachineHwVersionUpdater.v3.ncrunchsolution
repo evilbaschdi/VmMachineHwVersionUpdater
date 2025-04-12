@@ -7,5 +7,6 @@
     </MetricsExclusionList>
     <RdiConfigured>True</RdiConfigured>
     <SolutionConfigured>True</SolutionConfigured>
+    <NCrunchCacheStoragePath>%HOMEDRIVE%\Git\NCrunchCache</NCrunchCacheStoragePath>
   </Settings>
 </SolutionConfiguration>
