@@ -1,13 +1,15 @@
+# Clean, restore, and build the solution
 dotnet clean
 dotnet restore
 dotnet build
 
-Set-Location VmMachineHwVersionUpdater.Wpf
-.\publish.ps1
+# Define the subDirectories to publish
+$subDirectories = @("VmMachineHwVersionUpdater.Wpf", "VmMachineHwVersionUpdater.Avalonia")
 
-Set-Location ..
-
-Set-Location VmMachineHwVersionUpdater.Avalonia
-.\publish.ps1
-
-Set-Location ..
+# Iterate over each subDirectory and run its publish script
+foreach ($subDirectory in $subDirectories) {
+    Write-Output "Start publishing '$subDirectory'..."
+    Set-Location $subDirectory
+    .\publish.ps1
+    Set-Location ..
+}

@@ -4,14 +4,14 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Avalonia.Diagnostics" Version="11.2.6" />
-    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2025.3.23.9" />
-    <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2025.3.23.9" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.2.7" />
+    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2025.4.1.20" />
+    <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2025.4.1.20" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2025.3.23.8" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2025.3.29.14" />
+    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2025.4.11.19" />
     <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2025.4.1.19" />
-    <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2025.3.23.9" />
-    <PackageVersion Include="EvilBaschdi.Settings" Version="2025.3.23.9" />
+    <PackageVersion Include="EvilBaschdi.DependencyInjection" Version="2025.4.9.16" />
+    <PackageVersion Include="EvilBaschdi.Settings" Version="2025.4.9.16" />
     <PackageVersion Include="MahApps.Metro.IconPacks.Codicons" Version="5.1.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="5.1.0" />
     <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="5.1.0" />
@@ -20,13 +20,13 @@
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <PackageVersion Include="EvilBaschdi.Testing" Version="2025.3.10.17" />
+    <PackageVersion Include="EvilBaschdi.Testing" Version="2025.4.6.7" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.34.1" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.21" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-    <PackageVersion Include="xunit.analyzers" Version="1.20.0" />
+    <PackageVersion Include="xunit.analyzers" Version="1.21.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.2" />
-    <PackageVersion Include="xunit.v3" Version="2.0.0" />
+    <PackageVersion Include="xunit.v3" Version="2.0.1" />
   </ItemGroup>
 </Project>

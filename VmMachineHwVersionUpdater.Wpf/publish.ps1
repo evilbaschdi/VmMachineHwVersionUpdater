@@ -1,2 +1,9 @@
-dotnet publish -c Release -o "C:\Apps\$((Get-Item .).Name)\x64" -r win-x64 -f net9.0-windows --no-self-contained
-dotnet publish -c Release -o "C:\Apps\$((Get-Item .).Name)\arm64" -r win-arm64 -f net9.0-windows --no-self-contained
+# This script is used to publish the App for different runtimes.
+# It sets the target framework to .NET 9.0 for Windows and specifies the runtimes for x64 and ARM64 architectures.
+$targetFramework = "net9.0-windows"
+$runtimes = @("win-x64", "win-arm64")
+$outputBase = "C:\Apps\$((Get-Item .).Name)"
+
+foreach ($runtime in $runtimes) {
+    dotnet publish -c Release -o "$outputBase\$($runtime.Replace('win-', ''))" -r $runtime -f $targetFramework --no-self-contained
+}
