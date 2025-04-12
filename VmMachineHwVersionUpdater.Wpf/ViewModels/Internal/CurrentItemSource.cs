@@ -1,25 +1,20 @@
-﻿using MahApps.Metro.Controls.Dialogs;
+﻿using System.Collections.Concurrent;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc cref="ICurrentItemSource" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="load"></param>
-/// <param name="settingsValid"></param>
-/// <param name="dialogCoordinator"></param>
 public class CurrentItemSource(
     [NotNull] ILoad load,
     [NotNull] ISettingsValid settingsValid,
-    [NotNull] IDialogCoordinator dialogCoordinator) : CachedWritableValue<List<Machine>>, ICurrentItemSource
+    [NotNull] IDialogCoordinator dialogCoordinator) : CachedWritableValue<ConcurrentBag<Machine>>, ICurrentItemSource
 {
     private readonly IDialogCoordinator _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
     private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
     private readonly ISettingsValid _settingsValid = settingsValid ?? throw new ArgumentNullException(nameof(settingsValid));
 
     /// <inheritdoc />
-    protected override List<Machine> NonCachedValue
+    protected override ConcurrentBag<Machine> NonCachedValue
     {
         get
         {
@@ -38,7 +33,7 @@ public class CurrentItemSource(
     }
 
     /// <inheritdoc />
-    protected override void SaveValue([NotNull] List<Machine> value)
+    protected override void SaveValue([NotNull] ConcurrentBag<Machine> value)
     {
         _load.Value.VmDataGridItemsSource = value ?? throw new ArgumentNullException(nameof(value));
     }

@@ -8,15 +8,6 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="ICopyReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="copyMachine"></param>
-/// <param name="copyProgress"></param>
-/// <param name="currentMachine"></param>
-/// <param name="reloadReactiveCommand"></param>
-/// <param name="mainWindowByApplicationLifetime"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class CopyReactiveCommand(
     [NotNull] ICopyMachine copyMachine,
     [NotNull] ICopyProgress copyProgress,
@@ -33,6 +24,7 @@ public class CopyReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
+    // ReSharper disable once AsyncVoidMethod
     public override async void Run()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;

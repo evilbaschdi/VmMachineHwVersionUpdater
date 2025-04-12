@@ -4,13 +4,6 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="reloadDefaultCommand"></param>
-/// <param name="currentMachine"></param>
-/// <param name="archiveMachine"></param>
-/// <param name="instance"></param>
 public class ArchiveDefaultCommand(
     [NotNull] IDialogCoordinator instance,
     [NotNull] IReloadDefaultCommand reloadDefaultCommand,
@@ -27,12 +20,13 @@ public class ArchiveDefaultCommand(
     {
         get
         {
-            async void Execute(object _) => await Value();
-
             return new()
                    {
                        Command = new RelayCommand(Execute)
                    };
+
+            // ReSharper disable once AsyncVoidMethod
+            async void Execute(object _) => await Value();
         }
     }
 

@@ -3,12 +3,6 @@
 namespace VmMachineHwVersionUpdater.Core.Commands;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="processByPath"></param>
-/// <param name="currentMachine"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class OpenWithCodeCommand(
     [NotNull] IProcessByPath processByPath,
     [NotNull] ICurrentMachine currentMachine) : IOpenWithCodeCommand

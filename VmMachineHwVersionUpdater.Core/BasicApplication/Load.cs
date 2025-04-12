@@ -1,10 +1,8 @@
-﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+﻿using System.Collections.Concurrent;
+
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc cref="ILoad" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="machinesFromPath"></param>
 public class Load(
     IMachinesFromPath machinesFromPath) : CachedValue<LoadHelper>, ILoad
 {
@@ -24,12 +22,17 @@ public class Load(
                 return loadHelper;
             }
 
-            var searchOsItems = new List<string>();
-            foreach (var machine in currentItemSource.OrderBy(m => m.GuestOs)
-                                                     .Where(item => !searchOsItems.Contains(item.GuestOs)))
-            {
-                searchOsItems.Add(machine.GuestOs);
-            }
+            var searchOsItems = new ConcurrentDictionary<string, bool>();
+
+            Parallel.ForEach(currentItemSource,
+                machine =>
+                {
+                    var guestOs = machine.GuestOs;
+                    if (!string.IsNullOrWhiteSpace(guestOs) && !searchOsItems.ContainsKey(guestOs))
+                    {
+                        searchOsItems.TryAdd(guestOs, true);
+                    }
+                });
 
             loadHelper.UpdateAllTextBlocks = $"Update all {currentItemSource.Count} machines to version";
             loadHelper.VmDataGridItemsSource = currentItemSource;

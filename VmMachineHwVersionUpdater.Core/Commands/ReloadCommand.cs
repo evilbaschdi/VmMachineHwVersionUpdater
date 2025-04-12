@@ -4,11 +4,6 @@ using EvilBaschdi.Core.AppHelpers;
 namespace VmMachineHwVersionUpdater.Core.Commands;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="processByPath"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class ReloadCommand(
     [NotNull] IProcessByPath processByPath) : IReloadCommand
 {

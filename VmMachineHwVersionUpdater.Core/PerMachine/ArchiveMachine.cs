@@ -1,10 +1,6 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="pathSettings"></param>
 public class ArchiveMachine(
     [NotNull] IPathSettings pathSettings) : IArchiveMachine
 {

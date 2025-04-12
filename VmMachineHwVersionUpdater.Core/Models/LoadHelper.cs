@@ -1,10 +1,12 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Models;
+﻿using System.Collections.Concurrent;
+
+namespace VmMachineHwVersionUpdater.Core.Models;
 
 /// <summary />
 public class LoadHelper
 {
     /// <summary />
-    public List<string> SearchOsItems { get; set; }
+    public ConcurrentDictionary<string, bool> SearchOsItems { get; set; }
 
     /// <summary />
     public double? UpdateAllHwVersion { get; set; }
@@ -13,5 +15,5 @@ public class LoadHelper
     public string UpdateAllTextBlocks { get; set; }
 
     /// <summary />
-    public List<Machine> VmDataGridItemsSource { get; set; }
+    public ConcurrentBag<Machine> VmDataGridItemsSource { get; set; }
 }

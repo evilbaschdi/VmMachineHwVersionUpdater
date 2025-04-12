@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.Configuration;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.BasicApplication;
@@ -32,8 +33,15 @@ public class GuestOsesInUseTests
     )
     {
         // Arrange
+        var dummyDictionary = new ConcurrentDictionary<string, bool>();
+        dummyDictionary.TryAdd("Windows 10 x64", true);
+        dummyDictionary.TryAdd("Ubuntu x64", true);
 
-        load.Value.Returns(new LoadHelper { SearchOsItems = ["Windows 10 x64", "Ubuntu x64"] });
+        load.Value.Returns(new LoadHelper
+                           {
+                               SearchOsItems = dummyDictionary
+                           }
+        );
 
         var configurationSections = new List<IConfigurationSection>
                                     {
@@ -63,7 +71,7 @@ public class GuestOsesInUseTests
 
         // Assert
         result.Should().HaveCount(2);
-        result.Should().HaveElementAt(0, "Ubuntu");
-        result.Should().HaveElementAt(1, "Windows");
+        result.Should().HaveElementAt(0, new("Ubuntu", true));
+        result.Should().HaveElementAt(1, new("Windows", true));
     }
 }

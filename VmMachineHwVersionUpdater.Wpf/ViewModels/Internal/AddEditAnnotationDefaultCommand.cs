@@ -4,10 +4,6 @@ using VmMachineHwVersionUpdater.Wpf.Views;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="reloadDefaultCommand"></param>
 public class AddEditAnnotationDefaultCommand(
     [NotNull] IReloadDefaultCommand reloadDefaultCommand) : IAddEditAnnotationDefaultCommand
 {
@@ -28,6 +24,7 @@ public class AddEditAnnotationDefaultCommand(
     }
 
     /// <inheritdoc />
+    // ReSharper disable once AsyncVoidMethod
     public async void RunFor([NotNull] object sender, [NotNull] CancelEventArgs args)
     {
         ArgumentNullException.ThrowIfNull(sender);

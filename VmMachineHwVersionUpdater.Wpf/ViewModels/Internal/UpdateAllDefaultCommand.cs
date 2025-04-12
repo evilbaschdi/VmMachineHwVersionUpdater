@@ -3,14 +3,6 @@
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="updateMachineVersion"></param>
-/// <param name="load"></param>
-/// <param name="currentItemSource"></param>
-/// <param name="taskbarItemProgressState"></param>
-/// <param name="reloadDefaultCommand"></param>
 public class UpdateAllDefaultCommand(
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] ILoad load,
@@ -29,12 +21,13 @@ public class UpdateAllDefaultCommand(
     {
         get
         {
-            async void Execute(object _) => await Value();
-
             return new()
                    {
                        Command = new RelayCommand(Execute)
                    };
+
+            // ReSharper disable once AsyncVoidMethod
+            async void Execute(object _) => await Value();
         }
     }
 
@@ -61,7 +54,7 @@ public class UpdateAllDefaultCommand(
         }
 
         var innerVersion = Convert.ToInt32(version.Value);
-        var localList = _currentItemSource.Value.AsParallel().Where(vm => vm.HwVersion != innerVersion).ToList();
+        var localList = _currentItemSource.Value.AsParallel().Where(vm => vm.HwVersion != innerVersion);
         _updateMachineVersion.RunFor(localList, innerVersion);
     }
 }

@@ -5,12 +5,6 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IReloadReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="reloadCommand"></param>
-/// <param name="mainWindowByApplicationLifetime"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class ReloadReactiveCommand(
     [NotNull] IReloadCommand reloadCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IReloadReactiveCommand
@@ -21,6 +15,7 @@ public class ReloadReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
+    // ReSharper disable once AsyncVoidMethod
     public override async void Run()
     {
         await Task.Run(_reloadCommand.Run);

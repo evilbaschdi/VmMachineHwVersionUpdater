@@ -2,13 +2,6 @@
 
 /// <inheritdoc cref="IUpdateAllReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="updateMachineVersion"></param>
-/// <param name="load"></param>
-/// <param name="reloadReactiveCommand"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class UpdateAllReactiveCommand(
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] ILoad load,
@@ -28,7 +21,7 @@ public class UpdateAllReactiveCommand(
         }
 
         var innerVersion = Convert.ToInt32(version.Value);
-        var localList = _load.Value.VmDataGridItemsSource.AsParallel().Where(vm => vm.HwVersion != innerVersion).ToList();
+        var localList = _load.Value.VmDataGridItemsSource.AsParallel().Where(vm => vm.HwVersion != innerVersion);
         _updateMachineVersion.RunFor(localList, innerVersion);
 
         _reloadReactiveCommand.Run();

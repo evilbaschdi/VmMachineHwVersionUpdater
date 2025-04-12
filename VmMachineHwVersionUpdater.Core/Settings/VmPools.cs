@@ -1,13 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.Settings;
 
 /// <inheritdoc cref="SettingsFromJsonFile" />
-public class VmPools : SettingsFromJsonFile, IVmPools
-{
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    public VmPools()
-        : base("Settings\\VmPools.json")
-    {
-    }
-}
+public class VmPools() : SettingsFromJsonFile("Settings\\VmPools.json"), IVmPools;

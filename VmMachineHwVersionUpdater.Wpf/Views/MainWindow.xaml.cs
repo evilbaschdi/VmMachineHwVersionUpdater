@@ -14,7 +14,6 @@ public partial class MainWindow : IOnLoaded
 {
     private readonly IServiceProvider _serviceProvider;
 
-    /// <inheritdoc />
     /// <summary>
     ///     Constructor
     /// </summary>
@@ -32,6 +31,6 @@ public partial class MainWindow : IOnLoaded
         ArgumentNullException.ThrowIfNull(sender);
         ArgumentNullException.ThrowIfNull(e);
 
-        DataContext = ActivatorUtilities.GetServiceOrCreateInstance(_serviceProvider, typeof(MainWindowViewModel));
+        DataContext = ActivatorUtilities.GetServiceOrCreateInstance<MainWindowViewModel>(_serviceProvider);
     }
 }

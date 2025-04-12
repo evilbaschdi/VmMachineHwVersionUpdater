@@ -3,11 +3,7 @@
 /// <inheritdoc />
 public class ConvertAnnotationLineBreaks : IConvertAnnotationLineBreaks
 {
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public string ValueFor([NotNull] string value)
     {
         ArgumentNullException.ThrowIfNull(value);

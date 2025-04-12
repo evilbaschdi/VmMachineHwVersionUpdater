@@ -1,9 +1,6 @@
 ﻿namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
 public class InitDefaultCommands(
     [NotNull] IAboutWindowClickDefaultCommand aboutWindowClickDefaultCommand,
     [NotNull] IArchiveDefaultCommand archiveDefaultCommand,

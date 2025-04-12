@@ -5,12 +5,6 @@ using EvilBaschdi.Core.Model;
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="pathSettings"></param>
-/// <param name="handleMachineFromPath"></param>
-/// <param name="fileListFromPath"></param>
 public class MachinesFromPath(
     [NotNull] IPathSettings pathSettings,
     [NotNull] IHandleMachineFromPath handleMachineFromPath,
@@ -21,13 +15,13 @@ public class MachinesFromPath(
     private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
 
     /// <inheritdoc />
-    public List<Machine> Value
+    public ConcurrentBag<Machine> Value
     {
         get
         {
-            var machineList = new ConcurrentBag<Machine>();
-            var machinePaths = _pathSettings.VmPool;
-            var archivePaths = _pathSettings.ArchivePath;
+            var machineBag = new ConcurrentBag<Machine>();
+            var machinePoolPaths = _pathSettings.VmPool;
+            var archivePoolPaths = _pathSettings.ArchivePath;
             var filterExtensionsToEqual = new List<string>
                                           {
                                               "vmx"
@@ -38,30 +32,35 @@ public class MachinesFromPath(
                                              FilterExtensionsToEqual = filterExtensionsToEqual
                                          };
 
-            machinePaths.AddRange(archivePaths);
+            machinePoolPaths.AddRange(archivePoolPaths);
 
-            foreach (var path in machinePaths)
+            foreach (var machinePoolPath in machinePoolPaths)
             {
-                if (!Directory.Exists(path))
+                if (!Directory.Exists(machinePoolPath))
                 {
                     continue;
                 }
 
-                var fileList = _fileListFromPath.ValueFor(path, fileListFromPathFilter);
+                var fileList = _fileListFromPath.ValueFor(machinePoolPath, fileListFromPathFilter);
                 Parallel.ForEach(fileList,
-                    file =>
+                    machineFilePath =>
                     {
-                        var machine = _handleMachineFromPath.ValueFor(path, file);
+                        var machinePath = new MachinePath
+                                          {
+                                              MachinePoolPath = machinePoolPath,
+                                              MachineFilePath = machineFilePath,
+                                          };
+                        var machine = _handleMachineFromPath.ValueFor(machinePath);
                         if (machine == null)
                         {
                             return;
                         }
 
-                        machineList.Add(machine);
+                        machineBag.Add(machine);
                     });
             }
 
-            return machineList.ToList();
+            return machineBag;
         }
     }
 }

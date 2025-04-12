@@ -1,22 +1,6 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// ///
-/// <param name="goToReactiveCommand"></param>
-/// <param name="openWithCodeReactiveCommand"></param>
-/// <param name="renameReactiveCommand"></param>
-/// <param name="startReactiveCommand"></param>
-/// <param name="aboutWindowReactiveCommand"></param>
-/// <param name="addEditAnnotationReactiveCommand"></param>
-/// <param name="archiveReactiveCommand"></param>
-/// <param name="copyReactiveCommand"></param>
-/// <param name="deleteReactiveCommand"></param>
-/// <param name="reloadReactiveCommand"></param>
-/// <param name="updateAllReactiveCommand"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class InitReactiveCommands(
     [NotNull] IAboutWindowReactiveCommand aboutWindowReactiveCommand,
     [NotNull] IAddEditAnnotationReactiveCommand addEditAnnotationReactiveCommand,

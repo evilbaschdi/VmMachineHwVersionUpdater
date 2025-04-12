@@ -3,11 +3,6 @@
 namespace VmMachineHwVersionUpdater.Core.Settings;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="pathSettings"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class SettingsValid(
     [NotNull] IPathSettings pathSettings) : ISettingsValid
 {

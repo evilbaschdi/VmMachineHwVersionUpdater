@@ -5,11 +5,6 @@ using VmMachineHwVersionUpdater.Core.Commands;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="instance"></param>
-/// <param name="reloadCommand"></param>
 public class ReloadDefaultCommand(
     [NotNull] IDialogCoordinator instance,
     [NotNull] IReloadCommand reloadCommand) : IReloadDefaultCommand
@@ -22,12 +17,13 @@ public class ReloadDefaultCommand(
     {
         get
         {
-            async void Execute(object _) => await Value();
-
             return new()
                    {
                        Command = new RelayCommand(Execute)
                    };
+
+            // ReSharper disable once AsyncVoidMethod
+            async void Execute(object _) => await Value();
         }
     }
 

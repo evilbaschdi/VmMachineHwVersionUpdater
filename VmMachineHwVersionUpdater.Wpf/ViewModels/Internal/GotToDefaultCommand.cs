@@ -3,11 +3,6 @@
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="goToCommand"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class GotToDefaultCommand(
     [NotNull] IGoToCommand goToCommand) : IGotToDefaultCommand
 {

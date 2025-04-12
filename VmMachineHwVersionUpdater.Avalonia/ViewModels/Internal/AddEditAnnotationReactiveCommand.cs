@@ -5,11 +5,6 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IAddEditAnnotationReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="mainWindowByApplicationLifetime"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class AddEditAnnotationReactiveCommand(
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IAddEditAnnotationReactiveCommand
 {

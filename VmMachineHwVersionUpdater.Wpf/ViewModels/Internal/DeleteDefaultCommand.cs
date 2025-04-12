@@ -4,13 +4,6 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="dialogCoordinator"></param>
-/// <param name="currentMachine"></param>
-/// <param name="deleteMachine"></param>
-/// <param name="reloadDefaultCommand"></param>
 public class DeleteDefaultCommand(
     [NotNull] IDialogCoordinator dialogCoordinator,
     [NotNull] ICurrentMachine currentMachine,
@@ -32,6 +25,7 @@ public class DeleteDefaultCommand(
                        Command = new RelayCommand(Execute)
                    };
 
+            // ReSharper disable once AsyncVoidMethod
             async void Execute(object _) => await Value();
         }
     }

@@ -1,12 +1,6 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="configureDataGridCollectionView"></param>
-/// <param name="filterItemSource"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class FilterDataGridCollectionView(
     [NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
     [NotNull] IFilterItemSource filterItemSource) : IFilterDataGridCollectionView

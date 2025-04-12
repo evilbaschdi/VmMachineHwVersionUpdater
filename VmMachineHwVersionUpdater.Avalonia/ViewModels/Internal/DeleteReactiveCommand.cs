@@ -5,14 +5,6 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IDeleteReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="deleteMachine"></param>
-/// <param name="currentMachine"></param>
-/// <param name="reloadReactiveCommand"></param>
-/// <param name="mainWindowByApplicationLifetime"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class DeleteReactiveCommand(
     [NotNull] IDeleteMachine deleteMachine,
     [NotNull] ICurrentMachine currentMachine,
@@ -27,6 +19,7 @@ public class DeleteReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
+    // ReSharper disable once AsyncVoidMethod
     public override async void Run()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;

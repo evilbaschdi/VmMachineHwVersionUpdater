@@ -1,4 +1,6 @@
-﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+﻿using System.Collections.Concurrent;
+
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc cref="IValue{T}" />
-public interface IGuestOsesInUse : IListOf<string>;
+public interface IGuestOsesInUse : IValue<ConcurrentDictionary<string, bool>>;

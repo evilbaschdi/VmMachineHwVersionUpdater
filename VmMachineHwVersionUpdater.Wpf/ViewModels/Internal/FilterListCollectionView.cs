@@ -1,11 +1,6 @@
 ﻿namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="configureListCollectionView"></param>
-/// <param name="filterItemSource"></param>
 public class FilterListCollectionView(
     [NotNull] IConfigureListCollectionView configureListCollectionView,
     [NotNull] IFilterItemSource filterItemSource) : IFilterListCollectionView
@@ -20,12 +15,13 @@ public class FilterListCollectionView(
     {
         var (searchOsText, searchFilterText) = value;
 
+        _configureListCollectionView.Value.Filter = ValueFilter;
+        return;
+
         bool ValueFilter(object vm)
         {
             var machine = (Machine)vm;
             return _filterItemSource.ValueFor((machine, searchOsText, searchFilterText));
         }
-
-        _configureListCollectionView.Value.Filter = ValueFilter;
     }
 }

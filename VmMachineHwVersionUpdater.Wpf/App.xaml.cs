@@ -39,6 +39,7 @@ public partial class App : Application
     public static IServiceProvider ServiceProvider { get; set; }
 
     /// <inheritdoc />
+    // ReSharper disable once AsyncVoidMethod
     protected override async void OnStartup(StartupEventArgs e)
     {
         ArgumentNullException.ThrowIfNull(e);

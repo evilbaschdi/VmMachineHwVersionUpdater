@@ -1,11 +1,6 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="currentMachine"></param>
-/// <param name="addEditAnnotation"></param>
 public class UpdateAnnotation(
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IAddEditAnnotation addEditAnnotation) : IUpdateAnnotation

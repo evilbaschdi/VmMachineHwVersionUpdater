@@ -4,11 +4,6 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IStartReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="startCommand"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class StartReactiveCommand(
     [NotNull] IStartCommand startCommand) : ReactiveCommandUnitRun, IStartReactiveCommand
 {

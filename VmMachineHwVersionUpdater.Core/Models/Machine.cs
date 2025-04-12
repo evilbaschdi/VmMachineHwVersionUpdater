@@ -1,18 +1,10 @@
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using VmMachineHwVersionUpdater.Core.Enums;
 
 namespace VmMachineHwVersionUpdater.Core.Models;
 
 /// <inheritdoc cref="INotifyPropertyChanged" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="updateMachineVersion"></param>
-/// <param name="updateMachineMemSize"></param>
-/// <param name="toggleToolsUpgradePolicy"></param>
-/// <param name="toggleToolsSyncTime"></param>
-public class Machine(
+public sealed class Machine(
     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
     [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
     [NotNull] IUpdateMachineVersion updateMachineVersion,
@@ -205,31 +197,4 @@ public class Machine(
     /// <inheritdoc />
     /// <summary />
     public event PropertyChangedEventHandler PropertyChanged;
-
-    /// <summary>
-    /// </summary>
-    /// <param name="propertyName"></param>
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new(propertyName));
-    }
-
-    /// <summary>
-    /// </summary>
-    /// <param name="field"></param>
-    /// <param name="value"></param>
-    /// <param name="propertyName"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(field, value))
-        {
-            return false;
-        }
-
-        field = value;
-        OnPropertyChanged(propertyName);
-        return true;
-    }
 }

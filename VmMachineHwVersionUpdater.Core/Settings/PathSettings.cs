@@ -7,10 +7,6 @@
 namespace VmMachineHwVersionUpdater.Core.Settings;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="vmPools"></param>
 public class PathSettings(
     IVmPools vmPools) : IPathSettings
 {

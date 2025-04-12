@@ -5,14 +5,6 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IArchiveReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="archiveMachine"></param>
-/// <param name="currentMachine"></param>
-/// <param name="reloadReactiveCommand"></param>
-/// <param name="mainWindowByApplicationLifetime"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class ArchiveReactiveCommand(
     [NotNull] IArchiveMachine archiveMachine,
     [NotNull] ICurrentMachine currentMachine,
@@ -27,6 +19,7 @@ public class ArchiveReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
+    // ReSharper disable once AsyncVoidMethod
     public override async void Run()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;

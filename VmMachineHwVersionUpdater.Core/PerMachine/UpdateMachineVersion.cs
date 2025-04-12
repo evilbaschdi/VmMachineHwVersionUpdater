@@ -1,18 +1,10 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc cref="IUpdateMachineVersion" />
-public class UpdateMachineVersion : UpsertVmxLine<int>, IUpdateMachineVersion
+public class UpdateMachineVersion() : UpsertVmxLine<int>("virtualhw.version"), IUpdateMachineVersion
 {
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    public UpdateMachineVersion()
-        : base("virtualhw.version")
-    {
-    }
-
     /// <inheritdoc />
-    public void RunFor(List<Machine> machines, int newVersion)
+    public void RunFor(ParallelQuery<Machine> machines, int newVersion)
     {
         ArgumentNullException.ThrowIfNull(machines);
 

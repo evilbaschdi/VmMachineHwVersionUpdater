@@ -5,13 +5,6 @@ using Avalonia.Collections;
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc cref="IConfigureDataGridCollectionView" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="load"></param>
-/// <param name="settingsValid"></param>
-/// <param name="comparer"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class ConfigureDataGridCollectionView(
     [NotNull] ILoad load,
     [NotNull] ISettingsValid settingsValid,

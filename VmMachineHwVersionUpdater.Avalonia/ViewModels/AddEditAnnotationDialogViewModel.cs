@@ -1,9 +1,6 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc cref="IAddEditAnnotationDialogViewModel" />
-/// <summary>
-///     Constructor
-/// </summary>
 public class AddEditAnnotationDialogViewModel(
     [NotNull] IUpdateAnnotation updateAnnotation,
     [NotNull] ICurrentMachine currentMachine) : ViewModelBase, IAddEditAnnotationDialogViewModel

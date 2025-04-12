@@ -4,9 +4,6 @@ using EvilBaschdi.Core.Wpf.Mvvm.ViewModel;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels;
 
 /// <inheritdoc cref="IAddEditAnnotationDialogViewModel" />
-/// <summary>
-///     Constructor
-/// </summary>
 public class AddEditAnnotationDialogViewModel(
     [NotNull] IApplicationLayout applicationLayout,
     [NotNull] IApplicationStyle applicationStyle,

@@ -13,7 +13,6 @@ public partial class AddEditAnnotationDialog : MetroWindow, IOnLoaded
 {
     private readonly IServiceProvider _serviceProvider;
 
-    /// <inheritdoc />
     /// <summary>
     ///     Constructor
     /// </summary>

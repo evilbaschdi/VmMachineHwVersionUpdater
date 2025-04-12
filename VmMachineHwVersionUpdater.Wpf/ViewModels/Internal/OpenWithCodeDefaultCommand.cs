@@ -3,10 +3,6 @@
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="openWithCodeCommand"></param>
 public class OpenWithCodeDefaultCommand(
     [NotNull] IOpenWithCodeCommand openWithCodeCommand) : IOpenWithCodeDefaultCommand
 {

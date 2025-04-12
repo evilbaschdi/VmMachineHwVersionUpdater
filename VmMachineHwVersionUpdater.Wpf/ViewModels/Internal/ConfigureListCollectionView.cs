@@ -5,12 +5,6 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc cref="IConfigureListCollectionView" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="load"></param>
-/// <param name="settingsValid"></param>
-/// <param name="dialogCoordinator"></param>
 public class ConfigureListCollectionView(
     [NotNull] ILoad load,
     [NotNull] ISettingsValid settingsValid,
@@ -36,7 +30,7 @@ public class ConfigureListCollectionView(
 
             //_dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Verifying VM pools from settings", $"{loadValue.VmDataGridItemsSource.Count} paths found");
 
-            _listCollectionView = new(loadValue.VmDataGridItemsSource);
+            _listCollectionView = new(loadValue.VmDataGridItemsSource.ToList());
             _listCollectionView?.GroupDescriptions?.Add(new PropertyGroupDescription("Directory"));
             _listCollectionView?.SortDescriptions.Add(new("DisplayName", ListSortDirection.Ascending));
 

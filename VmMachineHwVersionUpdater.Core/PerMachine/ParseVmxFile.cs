@@ -1,24 +1,13 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public class ParseVmxFile : IParseVmxFile
+public class ParseVmxFile(
+    [NotNull] IVmxLineStartsWith vmxLineStartsWith,
+    [NotNull] ILineStartActions lineStartActions)
+    : IParseVmxFile
 {
-    private readonly IVmxLineStartsWith _vmxLineStartsWith;
-    private readonly ILineStartActions _lineStartActions;
-
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="vmxLineStartsWith"></param>
-    /// <param name="lineStartActions"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public ParseVmxFile(
-        [NotNull] IVmxLineStartsWith vmxLineStartsWith,
-        [NotNull] ILineStartActions lineStartActions)
-    {
-        _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
-        _lineStartActions = lineStartActions ?? throw new ArgumentNullException(nameof(lineStartActions));
-    }
+    private readonly IVmxLineStartsWith _vmxLineStartsWith = vmxLineStartsWith ?? throw new ArgumentNullException(nameof(vmxLineStartsWith));
+    private readonly ILineStartActions _lineStartActions = lineStartActions ?? throw new ArgumentNullException(nameof(lineStartActions));
 
     /// <inheritdoc />
     public RawMachine ValueFor(string file)

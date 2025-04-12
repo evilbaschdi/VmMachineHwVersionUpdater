@@ -1,44 +1,43 @@
-﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+﻿using System.Collections.Concurrent;
+
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="guestOsStringMapping"></param>
-/// <param name="load"></param>
 public class GuestOsesInUse(
     [NotNull] IGuestOsStringMapping guestOsStringMapping,
-    [NotNull] ILoad load) : IGuestOsesInUse
+    [NotNull] ILoad load)
+    : IGuestOsesInUse
 {
     private readonly IGuestOsStringMapping _guestOsStringMapping = guestOsStringMapping ?? throw new ArgumentNullException(nameof(guestOsStringMapping));
     private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
 
     /// <inheritdoc />
-    public List<string> Value
+    public ConcurrentDictionary<string, bool> Value
     {
         get
         {
-            var list = new List<string>();
+            var concurrentDictionary = new ConcurrentDictionary<string, bool>();
             var configuration = _guestOsStringMapping.Value;
             var searchOsItems = _load.Value?.SearchOsItems ?? [];
 
-            foreach (var configurationSection in configuration.GetChildren())
-            {
-                var configurationSectionValue = configurationSection.Value;
-                if (configurationSectionValue == null || !searchOsItems.Contains(configurationSectionValue, StringComparer.OrdinalIgnoreCase))
+            Parallel.ForEach(configuration.GetChildren(),
+                configurationSection =>
                 {
-                    continue;
-                }
+                    var configurationSectionValue = configurationSection.Value;
+                    if (string.IsNullOrWhiteSpace(configurationSectionValue) || !searchOsItems.ContainsKey(configurationSectionValue))
+                    {
+                        return;
+                    }
 
-                var os = configurationSectionValue.Contains(' ') ? configurationSectionValue.Split(' ')[0] : configurationSectionValue;
+                    var os = configurationSectionValue.Contains(' ') ? configurationSectionValue.Split(' ')[0] : configurationSectionValue;
 
-                if (!list.Contains(os, StringComparer.OrdinalIgnoreCase))
-                {
-                    list.Add(os);
-                }
-            }
+                    if (!concurrentDictionary.ContainsKey(os))
+                    {
+                        concurrentDictionary.TryAdd(os, true);
+                    }
+                });
 
-            return list.Distinct().OrderBy(x => x).ToList();
+            return concurrentDictionary;
         }
     }
 }

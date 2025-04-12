@@ -6,14 +6,6 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IRenameReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitRun" />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="changeDisplayName"></param>
-/// <param name="currentMachine"></param>
-/// <param name="reloadReactiveCommand"></param>
-/// <param name="mainWindowByApplicationLifetime"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class RenameReactiveCommand(
     [NotNull] IChangeDisplayName changeDisplayName,
     [NotNull] ICurrentMachine currentMachine,
@@ -30,6 +22,7 @@ public class RenameReactiveCommand(
     private readonly IChangeDisplayName _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
 
     /// <inheritdoc />
+    // ReSharper disable once AsyncVoidMethod
     public override async void Run()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;

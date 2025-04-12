@@ -4,20 +4,7 @@ using VmMachineHwVersionUpdater.Core.Enums;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="parseVmxFile"></param>
-/// <param name="setDisplayName"></param>
-/// <param name="toggleToolsSyncTime"></param>
-/// <param name="updateMachineVersion"></param>
-/// <param name="updateMachineMemSize"></param>
-/// <param name="guestOsOutputStringMapping"></param>
-/// <param name="pathSettings"></param>
-/// <param name="readLogInformation"></param>
-/// <param name="setMachineIsEnabledForEditing"></param>
-/// <param name="toggleToolsUpgradePolicy"></param>
-/// <exception cref="ArgumentNullException"></exception>
+/// <inheritdoc />
 public class HandleMachineFromPath(
     [NotNull] IParseVmxFile parseVmxFile,
     [NotNull] ISetDisplayName setDisplayName,
@@ -45,26 +32,26 @@ public class HandleMachineFromPath(
     private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
     /// <inheritdoc />
-    public Machine ValueFor([NotNull] string path, [NotNull] string file)
+    public Machine ValueFor(MachinePath machinePath)
     {
-        ArgumentNullException.ThrowIfNull(path);
-
-        ArgumentNullException.ThrowIfNull(file);
+        ArgumentNullException.ThrowIfNull(machinePath);
 
         var archivePaths = _pathSettings.ArchivePath;
+        var machinePoolPath = machinePath.MachinePoolPath;
+        var machineFilePath = machinePath.MachineFilePath;
 
-        if (file.FileInfo().IsFileLocked() ||
+        if (machineFilePath.FileInfo().IsFileLocked() ||
             //has to be done to not handle the archived machines with the non-archived
             archivePaths.Any(archivePath
-                                 => !string.IsNullOrWhiteSpace(archivePath) && !path.Equals(archivePath, StringComparison.InvariantCultureIgnoreCase) &&
-                                    file.StartsWith(archivePath, StringComparison.InvariantCultureIgnoreCase)))
+                                 => !string.IsNullOrWhiteSpace(archivePath) && !machinePoolPath.Equals(archivePath, StringComparison.InvariantCultureIgnoreCase) &&
+                                    machineFilePath.StartsWith(archivePath, StringComparison.InvariantCultureIgnoreCase)))
         {
             return null;
         }
 
-        var rawMachine = _parseVmxFile.ValueFor(file);
+        var rawMachine = _parseVmxFile.ValueFor(machineFilePath);
 
-        var fileInfo = new FileInfo(file);
+        var fileInfo = new FileInfo(machineFilePath);
         var directoryInfo = fileInfo.Directory;
         var (logLastDate, logLastDateDiff) = _readLogInformation.ValueFor(directoryInfo?.FullName);
         var size = directoryInfo.GetDirectorySize();
@@ -79,8 +66,8 @@ public class HandleMachineFromPath(
                           GuestOs = _guestOsOutputStringMapping.ValueFor(rawMachine.GuestOs.Trim()),
                           GuestOsDetailedData = rawMachine.DetailedData,
                           Path = properFilePathCapitalization,
-                          Directory = path,
-                          ShortPath = properFilePathCapitalization.Replace(path, "",
+                          Directory = machinePoolPath,
+                          ShortPath = properFilePathCapitalization.Replace(machinePoolPath, "",
                               StringComparison.CurrentCultureIgnoreCase),
                           DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),
                           DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),

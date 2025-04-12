@@ -3,11 +3,6 @@
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="startCommand"></param>
-/// <exception cref="ArgumentNullException"></exception>
 public class StartDefaultCommand(
     [NotNull] IStartCommand startCommand) : IStartDefaultCommand
 {

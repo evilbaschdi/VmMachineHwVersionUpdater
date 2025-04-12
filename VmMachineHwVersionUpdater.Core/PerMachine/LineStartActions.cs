@@ -1,24 +1,15 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public class LineStartActions : ILineStartActions
+public class LineStartActions(
+    [NotNull] IReturnValueFromVmxLine returnValueFromVmxLine,
+    [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+    : ILineStartActions
 {
-    private readonly IReturnValueFromVmxLine _returnValueFromVmxLine;
-    private readonly IConvertAnnotationLineBreaks _convertAnnotationLineBreaks;
+    private readonly IReturnValueFromVmxLine _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
 
-    /// <summary>
-    ///     Constructor
-    /// </summary>
-    /// <param name="returnValueFromVmxLine"></param>
-    /// <param name="convertAnnotationLineBreaks"></param>
-    /// <exception cref="ArgumentNullException"></exception>
-    public LineStartActions(
-        [NotNull] IReturnValueFromVmxLine returnValueFromVmxLine,
-        [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks)
-    {
-        _returnValueFromVmxLine = returnValueFromVmxLine ?? throw new ArgumentNullException(nameof(returnValueFromVmxLine));
+    private readonly IConvertAnnotationLineBreaks
         _convertAnnotationLineBreaks = convertAnnotationLineBreaks ?? throw new ArgumentNullException(nameof(convertAnnotationLineBreaks));
-    }
 
     /// <inheritdoc />
     public Dictionary<string, Action<RawMachine, string>> Value => new()

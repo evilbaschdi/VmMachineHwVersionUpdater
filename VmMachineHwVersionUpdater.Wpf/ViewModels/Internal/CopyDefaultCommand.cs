@@ -5,14 +5,6 @@ using MahApps.Metro.Controls.Dialogs;
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="reloadDefaultCommand"></param>
-/// <param name="currentMachine"></param>
-/// <param name="instance"></param>
-/// <param name="copyMachine"></param>
-/// <param name="copyProgress"></param>
 public class CopyDefaultCommand(
     [NotNull] IDialogCoordinator instance,
     [NotNull] IReloadDefaultCommand reloadDefaultCommand,
@@ -94,12 +86,13 @@ public class CopyDefaultCommand(
     {
         get
         {
-            async void Execute(object _) => await Value();
-
             return new()
                    {
                        Command = new RelayCommand(Execute)
                    };
+
+            // ReSharper disable once AsyncVoidMethod
+            async void Execute(object _) => await Value();
         }
     }
 

@@ -3,10 +3,6 @@
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-/// <summary>
-///     Constructor
-/// </summary>
-/// <param name="copyDirectory"></param>
 public class CopyMachine(
     [NotNull] ICopyDirectoryWithProgress copyDirectory) : ICopyMachine
 {
