@@ -35,10 +35,10 @@ public static class ConfigureCoreServices
         services.AddSingleton<IPathSettings, PathSettings>();
         services.AddSingleton<IProcessByPath, ProcessByPath>();
         services.AddSingleton<IReadLogInformation, ReadLogInformation>();
+        services.AddSingleton<IReplaceUserProfilePlaceholder, ReplaceUserProfilePlaceholder>();
         services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
         services.AddSingleton<ISetDisplayName, SetDisplayName>();
         services.AddSingleton<ISetMachineIsEnabledForEditing, SetMachineIsEnabledForEditing>();
-        services.AddSingleton<ISettingsValid, SettingsValid>();
         services.AddSingleton<IToggleToolsSyncTime, ToggleToolsSyncTime>();
         services.AddSingleton<IToggleToolsUpgradePolicy, ToggleToolsUpgradePolicy>();
         services.AddSingleton<IUpdateAnnotation, UpdateAnnotation>();

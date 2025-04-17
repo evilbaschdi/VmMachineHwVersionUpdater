@@ -7,12 +7,10 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 /// <inheritdoc cref="IConfigureDataGridCollectionView" />
 public class ConfigureDataGridCollectionView(
     [NotNull] ILoad load,
-    [NotNull] ISettingsValid settingsValid,
     [NotNull] IComparer comparer) : CachedWritableValue<DataGridCollectionView>, IConfigureDataGridCollectionView
 {
     private readonly IComparer _comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
     private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
-    private readonly ISettingsValid _settingsValid = settingsValid ?? throw new ArgumentNullException(nameof(settingsValid));
 
     private DataGridCollectionView _dataGridCollectionView;
 
@@ -24,12 +22,6 @@ public class ConfigureDataGridCollectionView(
             var loadValue = _load.Value;
             if (loadValue?.VmDataGridItemsSource == null)
             {
-                return new(new List<Machine>());
-            }
-
-            if (!_settingsValid.Value)
-            {
-                //_dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "No virtual machines found", "Please verify settings and discs attached");
                 return new(new List<Machine>());
             }
 

@@ -45,7 +45,6 @@ public class ConfigureCoreServicesTests
         dummyServiceCollection.Should().HaveService<IReturnValueFromVmxLine>().WithImplementation<ReturnValueFromVmxLine>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ISetDisplayName>().WithImplementation<SetDisplayName>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ISetMachineIsEnabledForEditing>().WithImplementation<SetMachineIsEnabledForEditing>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ISettingsValid>().WithImplementation<SettingsValid>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IToggleToolsSyncTime>().WithImplementation<ToggleToolsSyncTime>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IToggleToolsUpgradePolicy>().WithImplementation<ToggleToolsUpgradePolicy>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IUpdateAnnotation>().WithImplementation<UpdateAnnotation>().AsSingleton();

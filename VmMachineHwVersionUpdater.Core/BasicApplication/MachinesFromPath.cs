@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using EvilBaschdi.Core.Extensions;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;
 
@@ -34,13 +35,10 @@ public class MachinesFromPath(
 
             machinePoolPaths.AddRange(archivePoolPaths);
 
-            foreach (var machinePoolPath in machinePoolPaths)
-            {
-                if (!Directory.Exists(machinePoolPath))
-                {
-                    continue;
-                }
+            var existingMachinePoolPaths = machinePoolPaths.GetExistingDirectories();
 
+            foreach (var machinePoolPath in existingMachinePoolPaths)
+            {
                 var fileList = _fileListFromPath.ValueFor(machinePoolPath, fileListFromPathFilter);
                 Parallel.ForEach(fileList,
                     machineFilePath =>

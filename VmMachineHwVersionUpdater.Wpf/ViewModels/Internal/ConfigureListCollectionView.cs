@@ -1,18 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Windows.Data;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
 
 /// <inheritdoc cref="IConfigureListCollectionView" />
 public class ConfigureListCollectionView(
-    [NotNull] ILoad load,
-    [NotNull] ISettingsValid settingsValid,
-    [NotNull] IDialogCoordinator dialogCoordinator) : CachedWritableValue<ListCollectionView>, IConfigureListCollectionView
+    [NotNull] ILoad load) : CachedWritableValue<ListCollectionView>, IConfigureListCollectionView
 {
-    [NotNull] private readonly IDialogCoordinator _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
-    [NotNull] private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
-    [NotNull] private readonly ISettingsValid _settingsValid = settingsValid ?? throw new ArgumentNullException(nameof(settingsValid));
+    private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
     private ListCollectionView _listCollectionView;
 
     /// <inheritdoc />
@@ -21,12 +16,6 @@ public class ConfigureListCollectionView(
         get
         {
             var loadValue = _load.Value;
-
-            if (!_settingsValid.Value)
-            {
-                _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "No virtual machines found", "Please verify settings and discs attached");
-                return new(new List<Machine>());
-            }
 
             //_dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Verifying VM pools from settings", $"{loadValue.VmDataGridItemsSource.Count} paths found");
 
