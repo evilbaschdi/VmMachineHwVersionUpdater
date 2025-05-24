@@ -1,19 +1,19 @@
 ﻿using Avalonia.Threading;
 using EvilBaschdi.Core.Avalonia;
 using EvilBaschdi.Core.Avalonia.Controls;
-using EvilBaschdi.Core.Internal;
+using EvilBaschdi.Core.Internal.Copy;
 using FluentAvalonia.UI.Controls;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="ICopyReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitRun" />
+/// <inheritdoc cref="ReactiveCommandUnitTask" />
 public class CopyReactiveCommand(
     [NotNull] ICopyMachine copyMachine,
     [NotNull] ICopyProgress copyProgress,
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
-    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, ICopyReactiveCommand
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitTask, ICopyReactiveCommand
 {
     private readonly ICopyMachine _copyMachine = copyMachine ?? throw new ArgumentNullException(nameof(copyMachine));
     private readonly ICopyProgress _copyProgress = copyProgress ?? throw new ArgumentNullException(nameof(copyProgress));
@@ -24,8 +24,7 @@ public class CopyReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    // ReSharper disable once AsyncVoidMethod
-    public override async void Run()
+    public override async Task RunAsync()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         var machine = _currentMachine.Value;
@@ -121,7 +120,7 @@ public class CopyReactiveCommand(
                                                                                                                   TaskDialogProgressState.Normal);
                                                                                                           });
 
-                                                            await _copyMachine.ValueFor(machine, input.ResultText);
+                                                            await _copyMachine.RunForAsync(machine, input.ResultText);
 
                                                             // All done, auto close the dialog here
                                                             Dispatcher.UIThread.Post(() => { copyDialog.Hide(TaskDialogStandardResult.OK); });
@@ -143,6 +142,6 @@ public class CopyReactiveCommand(
             await exceptionDialog.ShowAsync();
         }
 
-        _reloadReactiveCommand.Run();
+        await _reloadReactiveCommand.RunAsync();
     }
 }

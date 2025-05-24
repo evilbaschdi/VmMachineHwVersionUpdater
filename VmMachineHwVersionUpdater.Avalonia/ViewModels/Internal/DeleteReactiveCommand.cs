@@ -4,12 +4,12 @@ using FluentAvalonia.UI.Controls;
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IDeleteReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitRun" />
+/// <inheritdoc cref="ReactiveCommandUnitTask" />
 public class DeleteReactiveCommand(
     [NotNull] IDeleteMachine deleteMachine,
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
-    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IDeleteReactiveCommand
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitTask, IDeleteReactiveCommand
 {
     private readonly IDeleteMachine _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
     private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
@@ -19,8 +19,7 @@ public class DeleteReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    // ReSharper disable once AsyncVoidMethod
-    public override async void Run()
+    public override async Task RunAsync()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
 
@@ -58,7 +57,7 @@ public class DeleteReactiveCommand(
             {
                 _deleteMachine.RunFor(_currentMachine.Value.Path);
 
-                _reloadReactiveCommand.Run();
+                await _reloadReactiveCommand.RunAsync();
             }
             catch (IOException ioException)
             {

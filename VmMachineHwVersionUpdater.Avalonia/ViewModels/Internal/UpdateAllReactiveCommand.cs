@@ -1,18 +1,18 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IUpdateAllReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitRun" />
+/// <inheritdoc cref="ReactiveCommandUnitTask" />
 public class UpdateAllReactiveCommand(
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] ILoad load,
-    [NotNull] IReloadReactiveCommand reloadReactiveCommand) : ReactiveCommandUnitRun, IUpdateAllReactiveCommand
+    [NotNull] IReloadReactiveCommand reloadReactiveCommand) : ReactiveCommandUnitTask, IUpdateAllReactiveCommand
 {
-    [NotNull] private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
-    [NotNull] private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
-    [NotNull] private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
+    private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+    private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
+    private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     /// <inheritdoc />
-    public override void Run()
+    public override async Task RunAsync()
     {
         var version = _load.Value.UpdateAllHwVersion;
         if (!version.HasValue)
@@ -24,6 +24,6 @@ public class UpdateAllReactiveCommand(
         var localList = _load.Value.VmDataGridItemsSource.AsParallel().Where(vm => vm.HwVersion != innerVersion);
         _updateMachineVersion.RunFor(localList, innerVersion);
 
-        _reloadReactiveCommand.Run();
+        await _reloadReactiveCommand.RunAsync();
     }
 }

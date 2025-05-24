@@ -26,13 +26,13 @@ public class UpdateAllDefaultCommand(
                        Command = new RelayCommand(Execute)
                    };
 
-            // ReSharper disable once AsyncVoidMethod
-            async void Execute(object _) => await Value();
+            
+            async void Execute(object _) => await RunAsync();
         }
     }
 
     /// <inheritdoc />
-    public async Task Value()
+    public async Task RunAsync()
     {
         _taskbarItemProgressState.Value = TaskbarItemProgressState.Indeterminate;
 
@@ -41,7 +41,7 @@ public class UpdateAllDefaultCommand(
 
         _taskbarItemProgressState.Value = TaskbarItemProgressState.Normal;
 
-        await _reloadDefaultCommand.Value();
+        await _reloadDefaultCommand.RunAsync();
     }
 
     /// <inheritdoc />

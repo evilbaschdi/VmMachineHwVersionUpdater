@@ -51,17 +51,17 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <inheritdoc />
     public void Run()
     {
-        AboutWindowCommand = _initReactiveCommands.AboutWindowReactiveCommand.ReactiveCommandValue;
-        AddEditAnnotationCommand = _initReactiveCommands.AddEditAnnotationReactiveCommand.ReactiveCommandValue;
-        ArchiveCommand = _initReactiveCommands.ArchiveReactiveCommand.ReactiveCommandValue;
-        CopyCommand = _initReactiveCommands.CopyReactiveCommand.ReactiveCommandValue;
-        DeleteCommand = _initReactiveCommands.DeleteReactiveCommand.ReactiveCommandValue;
-        GoToCommand = _initReactiveCommands.GoToReactiveCommand.ReactiveCommandValue;
-        OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.ReactiveCommandValue;
-        RenameCommand = _initReactiveCommands.RenameReactiveCommand.ReactiveCommandValue;
-        ReloadCommand = _initReactiveCommands.ReloadReactiveCommand.ReactiveCommandValue;
-        StartCommand = _initReactiveCommands.StartReactiveCommand.ReactiveCommandValue;
-        UpdateAllCommand = _initReactiveCommands.UpdateAllReactiveCommand.ReactiveCommandValue;
+        AboutWindowCommand = _initReactiveCommands.AboutWindowReactiveCommand.Command;
+        AddEditAnnotationCommand = _initReactiveCommands.AddEditAnnotationReactiveCommand.Command;
+        ArchiveCommand = _initReactiveCommands.ArchiveReactiveCommand.Command;
+        CopyCommand = _initReactiveCommands.CopyReactiveCommand.Command;
+        DeleteCommand = _initReactiveCommands.DeleteReactiveCommand.Command;
+        GoToCommand = _initReactiveCommands.GoToReactiveCommand.Command;
+        OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.Command;
+        RenameCommand = _initReactiveCommands.RenameReactiveCommand.Command;
+        ReloadCommand = _initReactiveCommands.ReloadReactiveCommand.Command;
+        StartCommand = _initReactiveCommands.StartReactiveCommand.Command;
+        UpdateAllCommand = _initReactiveCommands.UpdateAllReactiveCommand.Command;
     }
 
     #endregion Constructor

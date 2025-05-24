@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using EvilBaschdi.Core.Internal;
+using EvilBaschdi.Core.Internal.Copy;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace VmMachineHwVersionUpdater.Wpf.ViewModels.Internal;
@@ -19,7 +19,7 @@ public class CopyDefaultCommand(
     private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
-    public async Task Value()
+    public async Task RunAsync()
     {
         var machine = _currentMachine.Value;
         if (!machine.IsEnabledForEditing)
@@ -63,7 +63,7 @@ public class CopyDefaultCommand(
                                                                                          }
                                                                                      });
 
-                                       await _copyMachine.ValueFor(machine, inputResult);
+                                       await _copyMachine.RunForAsync(machine, inputResult);
                                    });
                     await controller.CloseAsync();
                 }
@@ -77,7 +77,7 @@ public class CopyDefaultCommand(
                 await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "'Copy machine' was canceled", exception.Message);
             }
 
-            await _reloadDefaultCommand.Value();
+            await _reloadDefaultCommand.RunAsync();
         }
     }
 
@@ -91,8 +91,8 @@ public class CopyDefaultCommand(
                        Command = new RelayCommand(Execute)
                    };
 
-            // ReSharper disable once AsyncVoidMethod
-            async void Execute(object _) => await Value();
+            
+            async void Execute(object _) => await RunAsync();
         }
     }
 

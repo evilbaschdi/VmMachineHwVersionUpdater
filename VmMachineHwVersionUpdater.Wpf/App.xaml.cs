@@ -39,7 +39,7 @@ public partial class App : Application
     public static IServiceProvider ServiceProvider { get; set; }
 
     /// <inheritdoc />
-    // ReSharper disable once AsyncVoidMethod
+    
     protected override async void OnStartup(StartupEventArgs e)
     {
         ArgumentNullException.ThrowIfNull(e);
@@ -47,7 +47,7 @@ public partial class App : Application
         ThemeManager.Current.SyncTheme(ThemeSyncMode.SyncAll);
 #endif
 
-        _mainWindow = await _handleAppStartup.ValueFor(ServiceProvider);
+        _mainWindow = await _handleAppStartup.ValueForAsync(ServiceProvider);
         _mainWindow.Show();
     }
 
@@ -56,7 +56,7 @@ public partial class App : Application
     {
         ArgumentNullException.ThrowIfNull(e);
 
-        _handleAppExit.Value();
+        _handleAppExit.RunAsync();
 
         base.OnExit(e);
     }

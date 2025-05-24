@@ -24,12 +24,12 @@ public class AddEditAnnotationDefaultCommand(
     }
 
     /// <inheritdoc />
-    // ReSharper disable once AsyncVoidMethod
+    
     public async void RunFor([NotNull] object sender, [NotNull] CancelEventArgs args)
     {
         ArgumentNullException.ThrowIfNull(sender);
         ArgumentNullException.ThrowIfNull(args);
 
-        await _reloadDefaultCommand.Value();
+        await _reloadDefaultCommand.RunAsync();
     }
 }

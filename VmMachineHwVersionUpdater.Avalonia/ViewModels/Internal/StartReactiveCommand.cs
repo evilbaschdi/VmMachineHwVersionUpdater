@@ -3,17 +3,17 @@
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IStartReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitRun" />
+/// <inheritdoc cref="ReactiveCommandUnitTask" />
 public class StartReactiveCommand(
-    [NotNull] IStartCommand startCommand) : ReactiveCommandUnitRun, IStartReactiveCommand
+    [NotNull] IStartCommand startCommand) : ReactiveCommandUnitTask, IStartReactiveCommand
 {
     private readonly IStartCommand _startCommand = startCommand ?? throw new ArgumentNullException(nameof(startCommand));
 
     /// <summary>
     ///     Starts VM
     /// </summary>
-    public override void Run()
+    public override async Task RunAsync()
     {
-        _startCommand.Run();
+        await Task.Run(_startCommand.Run);
     }
 }

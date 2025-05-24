@@ -25,13 +25,13 @@ public class ArchiveDefaultCommand(
                        Command = new RelayCommand(Execute)
                    };
 
-            // ReSharper disable once AsyncVoidMethod
-            async void Execute(object _) => await Value();
+            
+            async void Execute(object _) => await RunAsync();
         }
     }
 
     /// <inheritdoc />
-    public async Task Value()
+    public async Task RunAsync()
     {
         var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Archive machine...",
             $"Are you sure you want to archive machine '{_currentMachine.Value.DisplayName}'?",
@@ -43,7 +43,7 @@ public class ArchiveDefaultCommand(
             {
                 _archiveMachine.RunFor(_currentMachine.Value);
 
-                await _reloadDefaultCommand.Value();
+                await _reloadDefaultCommand.RunAsync();
             }
             catch (IOException ioException)
             {

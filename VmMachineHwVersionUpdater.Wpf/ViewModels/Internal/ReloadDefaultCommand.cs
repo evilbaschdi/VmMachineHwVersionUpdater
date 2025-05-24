@@ -9,7 +9,7 @@ public class ReloadDefaultCommand(
     [NotNull] IDialogCoordinator instance,
     [NotNull] IReloadCommand reloadCommand) : IReloadDefaultCommand
 {
-    [NotNull] private readonly IDialogCoordinator _instance = instance ?? throw new ArgumentNullException(nameof(instance));
+    private readonly IDialogCoordinator _instance = instance ?? throw new ArgumentNullException(nameof(instance));
     private readonly IReloadCommand _reloadCommand = reloadCommand ?? throw new ArgumentNullException(nameof(reloadCommand));
 
     /// <inheritdoc />
@@ -22,13 +22,13 @@ public class ReloadDefaultCommand(
                        Command = new RelayCommand(Execute)
                    };
 
-            // ReSharper disable once AsyncVoidMethod
-            async void Execute(object _) => await Value();
+            
+            async void Execute(object _) => await RunAsync();
         }
     }
 
     /// <inheritdoc />
-    public async Task Value()
+    public async Task RunAsync()
     {
         var controller = await _instance.ShowProgressAsync(DialogCoordinatorContext, "Application is restarting", "Please wait...");
         controller.SetIndeterminate();

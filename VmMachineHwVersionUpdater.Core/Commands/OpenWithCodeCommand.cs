@@ -11,13 +11,14 @@ public class OpenWithCodeCommand(
     [NotNull] private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
 
     /// <inheritdoc />
-    public void Run()
+    public async Task RunAsync()
     {
         if (!File.Exists(_currentMachine.Value.Path))
         {
-            return;
+            await Task.CompletedTask;
         }
 
         _processByPath.RunFor($"vscode://file/{_currentMachine.Value.Path}");
+        await Task.CompletedTask;
     }
 }

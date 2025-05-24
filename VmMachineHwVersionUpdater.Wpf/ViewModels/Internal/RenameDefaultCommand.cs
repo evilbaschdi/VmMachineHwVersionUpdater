@@ -16,7 +16,7 @@ public class RenameDefaultCommand(
     private readonly IReloadDefaultCommand _reloadDefaultCommand = reloadDefaultCommand ?? throw new ArgumentNullException(nameof(reloadDefaultCommand));
 
     /// <inheritdoc />
-    public async Task Value()
+    public async Task RunAsync()
     {
         var machine = _currentMachine.Value;
 
@@ -68,7 +68,7 @@ public class RenameDefaultCommand(
             }
         }
 
-        await _reloadDefaultCommand.Value();
+        await _reloadDefaultCommand.RunAsync();
     }
 
     /// <inheritdoc />
@@ -81,8 +81,8 @@ public class RenameDefaultCommand(
                        Command = new RelayCommand(Execute)
                    };
 
-            // ReSharper disable once AsyncVoidMethod
-            async void Execute(object _) => await Value();
+            
+            async void Execute(object _) => await RunAsync();
         }
     }
 

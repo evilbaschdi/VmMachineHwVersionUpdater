@@ -1,4 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc />
-public interface ICopyReactiveCommand : IReactiveCommandUnitRun;
+public interface ICopyReactiveCommand : IReactiveCommandUnitTask;

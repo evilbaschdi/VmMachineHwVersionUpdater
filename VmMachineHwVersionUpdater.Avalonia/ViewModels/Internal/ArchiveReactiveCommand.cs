@@ -4,12 +4,12 @@ using FluentAvalonia.UI.Controls;
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IArchiveReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitRun" />
+/// <inheritdoc cref="ReactiveCommandUnitTask" />
 public class ArchiveReactiveCommand(
     [NotNull] IArchiveMachine archiveMachine,
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
-    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IArchiveReactiveCommand
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitTask, IArchiveReactiveCommand
 {
     private readonly IArchiveMachine _archiveMachine = archiveMachine ?? throw new ArgumentNullException(nameof(archiveMachine));
     private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
@@ -19,8 +19,7 @@ public class ArchiveReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    // ReSharper disable once AsyncVoidMethod
-    public override async void Run()
+    public override async Task RunAsync()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
 
@@ -58,7 +57,7 @@ public class ArchiveReactiveCommand(
             {
                 _archiveMachine.RunFor(_currentMachine.Value);
 
-                _reloadReactiveCommand.Run();
+                await _reloadReactiveCommand.RunAsync();
             }
             catch (IOException ioException)
             {

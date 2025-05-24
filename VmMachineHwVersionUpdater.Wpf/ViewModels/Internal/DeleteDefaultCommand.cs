@@ -25,13 +25,13 @@ public class DeleteDefaultCommand(
                        Command = new RelayCommand(Execute)
                    };
 
-            // ReSharper disable once AsyncVoidMethod
-            async void Execute(object _) => await Value();
+            
+            async void Execute(object _) => await RunAsync();
         }
     }
 
     /// <inheritdoc />
-    public async Task Value()
+    public async Task RunAsync()
     {
         var result = await _dialogCoordinator.ShowMessageAsync(DialogCoordinatorContext, "Delete machine...",
             $"Are you sure you want to delete '{_currentMachine.Value.DisplayName}'?",
@@ -43,7 +43,7 @@ public class DeleteDefaultCommand(
             {
                 _deleteMachine.RunFor(_currentMachine.Value.Path);
 
-                await _reloadDefaultCommand.Value();
+                await _reloadDefaultCommand.RunAsync();
             }
             catch (IOException ioException)
             {

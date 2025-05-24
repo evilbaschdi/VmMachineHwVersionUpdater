@@ -17,6 +17,6 @@ public class OpenWithCodeDefaultCommand(
     /// <inheritdoc />
     public void Run()
     {
-        _openWithCodeCommand.Run();
+        _openWithCodeCommand.RunAsync();
     }
 }

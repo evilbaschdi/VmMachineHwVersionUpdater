@@ -1,4 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.Commands;
 
 /// <inheritdoc />
-public interface IOpenWithCodeCommand : IRun;
+public interface IOpenWithCodeCommand : ITaskRun;

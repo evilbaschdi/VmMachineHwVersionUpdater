@@ -1,4 +1,4 @@
-﻿using EvilBaschdi.Core.Internal;
+﻿using EvilBaschdi.Core.Internal.Copy;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
@@ -9,7 +9,7 @@ public class CopyMachine(
     private readonly ICopyDirectoryWithProgress _copyDirectory = copyDirectory ?? throw new ArgumentNullException(nameof(copyDirectory));
 
     /// <inheritdoc />
-    public async Task ValueFor([NotNull] Machine machine, [NotNull] string newDirectoryName)
+    public async Task RunForAsync([NotNull] Machine machine, [NotNull] string newDirectoryName)
     {
         ArgumentNullException.ThrowIfNull(machine);
 
@@ -35,6 +35,6 @@ public class CopyMachine(
             //todo: Message
         }
 
-        await _copyDirectory.ValueFor(path, copyPath);
+        await _copyDirectory.RunForAsync(path, copyPath);
     }
 }

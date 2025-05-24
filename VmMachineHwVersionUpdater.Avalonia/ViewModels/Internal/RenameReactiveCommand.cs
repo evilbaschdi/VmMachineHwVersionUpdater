@@ -5,13 +5,13 @@ using FluentAvalonia.UI.Controls;
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IRenameReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitRun" />
+/// <inheritdoc cref="ReactiveCommandUnitTask" />
 public class RenameReactiveCommand(
     [NotNull] IChangeDisplayName changeDisplayName,
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime
-) : ReactiveCommandUnitRun, IRenameReactiveCommand
+) : ReactiveCommandUnitTask, IRenameReactiveCommand
 {
     private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
@@ -22,8 +22,7 @@ public class RenameReactiveCommand(
     private readonly IChangeDisplayName _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
 
     /// <inheritdoc />
-    // ReSharper disable once AsyncVoidMethod
-    public override async void Run()
+    public override async Task RunAsync()
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         var machine = _currentMachine.Value;
@@ -105,6 +104,6 @@ public class RenameReactiveCommand(
             await exceptionDialog.ShowAsync();
         }
 
-        _reloadReactiveCommand.Run();
+        await _reloadReactiveCommand.RunAsync();
     }
 }

@@ -17,19 +17,36 @@ public class HandleMachineFromPath(
     [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
     [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy) : IHandleMachineFromPath
 {
-    private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
-    private readonly IParseVmxFile _parseVmxFile = parseVmxFile ?? throw new ArgumentNullException(nameof(parseVmxFile));
-    private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
-    private readonly IReadLogInformation _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
-    private readonly ISetDisplayName _setDisplayName = setDisplayName ?? throw new ArgumentNullException(nameof(setDisplayName));
+    private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping = guestOsOutputStringMapping ??
+                                                                               throw new ArgumentNullException(
+                                                                                   nameof(guestOsOutputStringMapping));
+
+    private readonly IParseVmxFile
+        _parseVmxFile = parseVmxFile ?? throw new ArgumentNullException(nameof(parseVmxFile));
+
+    private readonly IPathSettings
+        _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
+
+    private readonly IReadLogInformation _readLogInformation =
+        readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
+
+    private readonly ISetDisplayName _setDisplayName =
+        setDisplayName ?? throw new ArgumentNullException(nameof(setDisplayName));
 
     private readonly ISetMachineIsEnabledForEditing _setMachineIsEnabledForEditing =
         setMachineIsEnabledForEditing ?? throw new ArgumentNullException(nameof(setMachineIsEnabledForEditing));
 
-    private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
-    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
-    private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
-    private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
+    private readonly IToggleToolsSyncTime _toggleToolsSyncTime =
+        toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
+
+    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy =
+        toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
+
+    private readonly IUpdateMachineVersion _updateMachineVersion =
+        updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+
+    private readonly IUpdateMachineMemSize _updateMachineMemSize =
+        updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
     /// <inheritdoc />
     public Machine ValueFor(MachinePath machinePath)
@@ -40,10 +57,12 @@ public class HandleMachineFromPath(
         var machinePoolPath = machinePath.MachinePoolPath;
         var machineFilePath = machinePath.MachineFilePath;
 
-        if (machineFilePath.FileInfo().IsFileLocked() ||
+        var fileInfo = machineFilePath.FileInfo();
+        if (fileInfo.IsFileLocked() ||
             //has to be done to not handle the archived machines with the non-archived
             archivePaths.Any(archivePath
-                                 => !string.IsNullOrWhiteSpace(archivePath) && !machinePoolPath.Equals(archivePath, StringComparison.InvariantCultureIgnoreCase) &&
+                                 => !string.IsNullOrWhiteSpace(archivePath) &&
+                                    !machinePoolPath.Equals(archivePath, StringComparison.InvariantCultureIgnoreCase) &&
                                     machineFilePath.StartsWith(archivePath, StringComparison.InvariantCultureIgnoreCase)))
         {
             return null;
@@ -51,7 +70,7 @@ public class HandleMachineFromPath(
 
         var rawMachine = _parseVmxFile.ValueFor(machineFilePath);
 
-        var fileInfo = new FileInfo(machineFilePath);
+        //var fileInfo = new FileInfo(machineFilePath);
         var directoryInfo = fileInfo.Directory;
         var (logLastDate, logLastDateDiff) = _readLogInformation.ValueFor(directoryInfo?.FullName);
         var size = directoryInfo.GetDirectorySize();
@@ -74,10 +93,10 @@ public class HandleMachineFromPath(
                           LogLastDate = logLastDate,
                           LogLastDateDiff = logLastDateDiff,
                           AutoUpdateTools = !string.IsNullOrWhiteSpace(rawMachine.ToolsUpgradePolicy) &&
-                                            rawMachine.ToolsUpgradePolicy.Equals("upgradeAtPowerCycle"),
+                                            rawMachine.ToolsUpgradePolicy.Equals("upgradeAtPowerCycle", StringComparison.OrdinalIgnoreCase),
                           SyncTimeWithHost = !string.IsNullOrWhiteSpace(rawMachine.SyncTimeWithHost) &&
-                                             bool.Parse(rawMachine.SyncTimeWithHost),
-                          MachineState = paused.HasValue && paused.Value
+                                             bool.TryParse(rawMachine.SyncTimeWithHost, out var parsedSyncTime) && parsedSyncTime,
+                          MachineState = paused == true
                               ? MachineState.Paused
                               : MachineState.Off,
                           Annotation = rawMachine.Annotation,

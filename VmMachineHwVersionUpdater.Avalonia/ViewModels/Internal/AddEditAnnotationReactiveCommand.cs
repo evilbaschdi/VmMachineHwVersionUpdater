@@ -4,21 +4,21 @@ using VmMachineHwVersionUpdater.Avalonia.Views;
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IAddEditAnnotationReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitRun" />
+/// <inheritdoc cref="ReactiveCommandUnitTask" />
 public class AddEditAnnotationReactiveCommand(
-    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitRun, IAddEditAnnotationReactiveCommand
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitTask, IAddEditAnnotationReactiveCommand
 {
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    public override void Run()
+    public override async Task RunAsync()
     {
         var addEditAnnotationDialog = App.ServiceProvider.GetRequiredService<AddEditAnnotationDialog>();
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         if (mainWindow != null)
         {
-            addEditAnnotationDialog.ShowDialog(mainWindow);
+            await addEditAnnotationDialog.ShowDialog(mainWindow);
         }
     }
 }

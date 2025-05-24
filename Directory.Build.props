@@ -35,8 +35,8 @@
 
 	<ItemGroup>
 		<Using Include="EvilBaschdi.Core" />
-		<Using Include="EvilBaschdi.DependencyInjection" />
-		<Using Include="EvilBaschdi.Settings" />
+		<Using Include="EvilBaschdi.Core.DependencyInjection" />
+		<Using Include="EvilBaschdi.Core.Settings" />
 		<Using Include="JetBrains.Annotations" />
 		<Using Include="Microsoft.Extensions.DependencyInjection" />
 		<Using Include="System.Linq" />
@@ -61,8 +61,8 @@
 
 	<ItemGroup Condition="'$(IsTestProject)' != 'true'">
 		<PackageReference Include="EvilBaschdi.Core" />
-		<PackageReference Include="EvilBaschdi.DependencyInjection" />
-		<PackageReference Include="EvilBaschdi.Settings" />
+		<PackageReference Include="EvilBaschdi.Core.DependencyInjection" />
+		<PackageReference Include="EvilBaschdi.Core.Settings" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
