@@ -6,17 +6,10 @@
   <ItemGroup>
     <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.2" />
     <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2025.7.19.7" />
-    <PackageVersion Include="EvilBaschdi.About.Wpf" Version="2025.7.19.7" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2025.7.22.17" />
     <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2025.7.19.6" />
-    <PackageVersion Include="EvilBaschdi.Core.Wpf" Version="2025.5.11.19" />
     <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2025.7.9.16" />
     <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2025.7.9.16" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.Codicons" Version="5.1.0" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.FeatherIcons" Version="5.1.0" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="5.1.0" />
-    <PackageVersion Include="MahApps.Metro.IconPacks.PicolIcons" Version="5.1.0" />
-    <PackageVersion Include="WpfAnalyzers" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />

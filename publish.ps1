@@ -4,7 +4,7 @@ dotnet restore
 dotnet build
 
 # Define the subDirectories to publish
-$subDirectories = @("VmMachineHwVersionUpdater.Wpf", "VmMachineHwVersionUpdater.Avalonia")
+$subDirectories = @("VmMachineHwVersionUpdater.Avalonia")
 
 # Iterate over each subDirectory and run its publish script
 foreach ($subDirectory in $subDirectories) {

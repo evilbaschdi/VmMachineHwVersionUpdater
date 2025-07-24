@@ -13,14 +13,11 @@
     <File Path="README.md" />
   </Folder>
 
-  <Project Path="VmMachineHwVersionUpdater.Avalonia\VmMachineHwVersionUpdater.Avalonia.csproj" />
-  <Project Path="VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
-  <Project Path="VmMachineHwVersionUpdater.Wpf\VmMachineHwVersionUpdater.Wpf.csproj" />
-
   <Folder Name="/Tests/">
     <Project Path="VmMachineHwVersionUpdater.Avalonia.Tests\VmMachineHwVersionUpdater.Avalonia.Tests.csproj" />
     <Project Path="VmMachineHwVersionUpdater.Core.Tests\VmMachineHwVersionUpdater.Core.Tests.csproj" />
-    <Project Path="VmMachineHwVersionUpdater.Wpf.Tests\VmMachineHwVersionUpdater.Wpf.Tests.csproj" />
   </Folder>
+  <Project Path="VmMachineHwVersionUpdater.Avalonia\VmMachineHwVersionUpdater.Avalonia.csproj" />
+  <Project Path="VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
 
 </Solution>

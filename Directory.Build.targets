@@ -1,18 +1,5 @@
 <Project>
 
-	<Choose>
-		<When Condition="$(MSBuildProjectName.Contains('Wpf'))">
-			<PropertyGroup>
-				<TargetFrameworks>net9.0-windows</TargetFrameworks>
-			</PropertyGroup>
-		</When>
-		<Otherwise>
-			<PropertyGroup>
-				<TargetFrameworks>net9.0</TargetFrameworks>
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
-
 	<ItemGroup>
 		<Compile Remove="TestResults\**" />
 		<EmbeddedResource Remove="TestResults\**" />

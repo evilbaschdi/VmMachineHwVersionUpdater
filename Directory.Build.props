@@ -16,22 +16,9 @@
 		<PublishSingleFile>true</PublishSingleFile>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+		<TargetFrameworks>net9.0</TargetFrameworks>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.H))</Version>
 	</PropertyGroup>
-
-	<!-- Exact versions have to be set in Directory.Build.Targets -->
-	<Choose>
-		<When Condition="$(MSBuildProjectName.Contains('Wpf'))">
-			<PropertyGroup>
-				<TargetFrameworks>net0.0-windows</TargetFrameworks>
-			</PropertyGroup>
-		</When>
-		<Otherwise>
-			<PropertyGroup>
-				<TargetFrameworks>net0.0</TargetFrameworks>
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
 
 	<ItemGroup>
 		<Using Include="EvilBaschdi.Core" />
