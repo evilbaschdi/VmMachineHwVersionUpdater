@@ -7,9 +7,7 @@
         d:DesignWidth="450" d:DesignHeight="450" Width="450" Height="450"
         Icon="/Assets/b.ico"
         Title="Add / Edit Description"
-        WindowStartupLocation="CenterOwner"
-        TransparencyLevelHint="Mica"
-        Background="Transparent">
+        WindowStartupLocation="CenterOwner">
 
     <Panel Name="RootPanel">
         <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
