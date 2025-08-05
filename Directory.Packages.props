@@ -8,14 +8,14 @@
     <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2025.7.19.7" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2025.7.22.17" />
     <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2025.7.19.6" />
-    <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2025.7.9.16" />
-    <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2025.7.9.16" />
+    <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2025.8.5.17" />
+    <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2025.8.5.17" />
   </ItemGroup>
   <ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="EvilBaschdi.Testing" Version="2025.7.14.6" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.34.1" />
-    <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.21" />
+    <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.22" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="xunit.analyzers" Version="1.23.0" />
