@@ -1,6 +1,3 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="EvilBaschdi.About.Avalonia" VersionOverride="2025.8.5.19" />
-  </ItemGroup>
 
 </Project>
