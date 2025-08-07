@@ -86,7 +86,7 @@ public class HandleMachineFromPath(
                           GuestOsDetailedData = rawMachine.DetailedData,
                           Path = properFilePathCapitalization,
                           Directory = machinePoolPath,
-                          ShortPath = properFilePathCapitalization.Replace(machinePoolPath, "",
+                          ShortPath = properFilePathCapitalization?.Replace(machinePoolPath, "",
                               StringComparison.CurrentCultureIgnoreCase),
                           DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),
                           DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),

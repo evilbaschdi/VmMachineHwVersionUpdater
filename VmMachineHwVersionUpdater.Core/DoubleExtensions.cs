@@ -11,24 +11,20 @@ public static class DoubleExtensions
     /// </summary>
     /// <param name="input"></param>
     // ReSharper disable once UnusedMember.Global
-    public static double GiBiBytesToKiBiBytes(this double input)
-    {
-        return input < 0
+    public static double GiBiBytesToKiBiBytes(this double input) =>
+        input < 0
             ? throw new ArgumentOutOfRangeException(nameof(input))
             : input * 1073741824d;
-    }
 
     /// <summary>
     ///     input divided by 1024d * 1024d * 1024d
     /// </summary>
     /// <param name="input"></param>
     // ReSharper disable once UnusedMember.Global
-    public static double KiBiBytesToGiBiBytes(this double input)
-    {
-        return input < 0
+    public static double KiBiBytesToGiBiBytes(this double input) =>
+        input < 0
             ? throw new ArgumentOutOfRangeException(nameof(input))
             : input / 1073741824d;
-    }
 
     /// <summary>
     ///     Converts a double into FileSize string

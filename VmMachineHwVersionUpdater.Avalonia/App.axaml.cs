@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using EvilBaschdi.About.Avalonia.DependencyInjection;
+using EvilBaschdi.Core.Avalonia;
 using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Avalonia.Views;
@@ -44,6 +45,12 @@ public class App : Application
                              {
                                  DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>()
                              };
+
+            var handleOsDependentTitleBar = ServiceProvider?.GetRequiredService<IHandleOsDependentTitleBar>();
+            handleOsDependentTitleBar?.RunFor(mainWindow);
+
+            var applicationLayout = ServiceProvider?.GetRequiredService<IApplicationLayout>();
+            applicationLayout?.RunFor((mainWindow, true, true));
 
             desktop.MainWindow = mainWindow;
         }
