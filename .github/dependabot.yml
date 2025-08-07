@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # Enable version updates for NuGet
+  - package-ecosystem: "nuget"
+    # Look for a solution file or a project file in the root directory
+    directory: "/"
+    schedule:
+      # Check for updates daily
+      interval: "daily"
