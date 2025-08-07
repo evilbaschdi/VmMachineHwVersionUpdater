@@ -1,6 +1,3 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="Avalonia.Diagnostics" VersionOverride="11.3.3" />
-  </ItemGroup>
 
 </Project>
