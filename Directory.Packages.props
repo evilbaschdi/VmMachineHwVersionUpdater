@@ -7,7 +7,7 @@
     <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.2" />
     <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2025.7.19.7" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2025.7.22.17" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2025.7.19.6" />
+    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2025.8.5.19" />
     <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2025.8.5.17" />
     <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2025.8.5.17" />
   </ItemGroup>
