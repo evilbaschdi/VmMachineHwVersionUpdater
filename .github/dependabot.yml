@@ -7,3 +7,11 @@ updates:
     schedule:
       # Check for updates daily
       interval: "daily"
+    groups:
+      # Group all NuGet packages together.
+      # This is a workaround for a Dependabot issue where it incorrectly adds
+      # 'Version' attributes to .csproj files when using Central Package Management.
+      # Grouping all updates can help Dependabot process the updates correctly.
+      nuget-packages:
+        patterns:
+          - "*"

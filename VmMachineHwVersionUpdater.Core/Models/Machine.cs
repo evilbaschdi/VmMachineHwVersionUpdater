@@ -184,7 +184,7 @@ public sealed class Machine(
     public string ManagedVmAutoAddVTpm { get; init; }
 
     /// <summary />
-    public string Path { get; init; }
+    public string Path { get; set; }
 
     /// <summary />
     public string ShortPath { get; init; }
