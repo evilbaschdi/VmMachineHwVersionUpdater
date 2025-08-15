@@ -190,5 +190,6 @@
     "winvista": "Windows Vista",
     "winxphome": "Windows XP Home",
     "winxppro-64": "Windows XP Professional x64",
-    "winxppro": "Windows XP Professional"
+    "winxppro": "Windows XP Professional",
+    "Debian_arm64": "Debian arm64"
   }

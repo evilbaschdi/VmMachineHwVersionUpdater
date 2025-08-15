@@ -1,12 +1,13 @@
 ﻿using System.Globalization;
 using EvilBaschdi.Core.Extensions;
 using VmMachineHwVersionUpdater.Core.Enums;
+using VmMachineHwVersionUpdater.Core.Strategies;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
 public class HandleMachineFromPath(
-    [NotNull] IParseVmxFile parseVmxFile,
+    [NotNull] IMachineParserStrategy machineParserStrategy,
     [NotNull] ISetDisplayName setDisplayName,
     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
     [NotNull] IUpdateMachineVersion updateMachineVersion,
@@ -21,8 +22,8 @@ public class HandleMachineFromPath(
                                                                                throw new ArgumentNullException(
                                                                                    nameof(guestOsOutputStringMapping));
 
-    private readonly IParseVmxFile
-        _parseVmxFile = parseVmxFile ?? throw new ArgumentNullException(nameof(parseVmxFile));
+    private readonly IMachineParserStrategy
+        _machineParserStrategy = machineParserStrategy ?? throw new ArgumentNullException(nameof(machineParserStrategy));
 
     private readonly IPathSettings
         _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
@@ -68,7 +69,7 @@ public class HandleMachineFromPath(
             return null;
         }
 
-        var rawMachine = _parseVmxFile.ValueFor(machineFilePath);
+        var rawMachine = _machineParserStrategy.Parse(machineFilePath);
 
         //var fileInfo = new FileInfo(machineFilePath);
         var directoryInfo = fileInfo.Directory;
@@ -77,33 +78,46 @@ public class HandleMachineFromPath(
         var paused = directoryInfo?.GetFiles("*.vmss").Any();
         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
 
+        var guestOs = string.Empty;
+
+        switch (rawMachine.MachineType)
+        {
+            case MachineType.Vmx:
+                guestOs = rawMachine.GuestOs;
+                break;
+            case MachineType.Vbox:
+                guestOs = rawMachine.OSType;
+                break;
+        }
+
         var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _updateMachineVersion, _updateMachineMemSize)
                       {
-                          DisplayName = rawMachine.DisplayName,
                           HwVersion = rawMachine.HwVersion,
+
                           MemSize = rawMachine.MemSize / 1024,
-                          GuestOs = _guestOsOutputStringMapping.ValueFor(rawMachine.GuestOs.Trim()),
-                          GuestOsDetailedData = rawMachine.DetailedData,
-                          Path = properFilePathCapitalization,
-                          Directory = machinePoolPath,
                           ShortPath = properFilePathCapitalization?.Replace(machinePoolPath, "",
                               StringComparison.CurrentCultureIgnoreCase),
-                          DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),
-                          DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),
                           LogLastDate = logLastDate,
                           LogLastDateDiff = logLastDateDiff,
                           AutoUpdateTools = !string.IsNullOrWhiteSpace(rawMachine.ToolsUpgradePolicy) &&
                                             rawMachine.ToolsUpgradePolicy.Equals("upgradeAtPowerCycle", StringComparison.OrdinalIgnoreCase),
                           SyncTimeWithHost = !string.IsNullOrWhiteSpace(rawMachine.SyncTimeWithHost) &&
                                              bool.TryParse(rawMachine.SyncTimeWithHost, out var parsedSyncTime) && parsedSyncTime,
-                          MachineState = paused == true
-                              ? MachineState.Paused
-                              : MachineState.Off,
-                          Annotation = rawMachine.Annotation,
                           EncryptionData = rawMachine.EncryptionData,
                           EncryptionEncryptedKey = rawMachine.EncryptionEncryptedKey,
                           EncryptionKeySafe = rawMachine.EncryptionKeySafe,
-                          ManagedVmAutoAddVTpm = rawMachine.ManagedVmAutoAddVTpm
+                          ManagedVmAutoAddVTpm = rawMachine.ManagedVmAutoAddVTpm,
+                          DisplayName = rawMachine.DisplayName,
+                          GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs?.Trim() ?? string.Empty),
+                          GuestOsDetailedData = rawMachine.DetailedData,
+                          Path = properFilePathCapitalization,
+                          Directory = machinePoolPath,
+                          DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),
+                          DirectorySize = size.ToFileSize(2, CultureInfo.GetCultureInfo(1033)),
+                          MachineState = paused == true
+                              ? MachineState.Paused
+                              : MachineState.Off,
+                          Annotation = rawMachine.Annotation
                       };
 
         _setMachineIsEnabledForEditing.RunFor(machine);

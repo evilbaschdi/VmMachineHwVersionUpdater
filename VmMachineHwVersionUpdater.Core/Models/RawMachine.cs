@@ -1,3 +1,5 @@
+using VmMachineHwVersionUpdater.Core.Enums;
+
 namespace VmMachineHwVersionUpdater.Core.Models;
 
 /// <summary>
@@ -39,4 +41,17 @@ public class RawMachine
 
     /// <summary />
     public string ToolsUpgradePolicy { get; set; } = "";
+
+    /// <summary />
+    public int CpuCount { get; set; }
+
+    /// <summary />
+    public int VirtualBoxHwVersion { get; set; }
+
+    /// <summary />
+    // ReSharper disable once InconsistentNaming
+    public string OSType { get; set; }
+
+    /// <summary />
+    public MachineType MachineType { get; set; }
 }

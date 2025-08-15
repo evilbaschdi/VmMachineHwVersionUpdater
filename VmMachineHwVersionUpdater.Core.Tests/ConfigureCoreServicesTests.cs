@@ -1,4 +1,5 @@
 ﻿using EvilBaschdi.Core.Internal;
+using VmMachineHwVersionUpdater.Core.Strategies;
 
 namespace VmMachineHwVersionUpdater.Core.Tests;
 
@@ -27,6 +28,7 @@ public class ConfigureCoreServicesTests
 
         // Assert
         dummyServiceCollection.Should().HaveCount(35);
+        dummyServiceCollection.Should().HaveCount(37);
         dummyServiceCollection.Should().HaveService<IArchiveMachine>().WithImplementation<ArchiveMachine>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IConvertAnnotationLineBreaks>().WithImplementation<ConvertAnnotationLineBreaks>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ICopyMachine>().WithImplementation<CopyMachine>().AsSingleton();
@@ -39,6 +41,8 @@ public class ConfigureCoreServicesTests
         dummyServiceCollection.Should().HaveService<IHandleMachineFromPath>().WithImplementation<HandleMachineFromPath>().AsSingleton();
         dummyServiceCollection.Should().HaveService<ILoad>().WithImplementation<Load>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IMachinesFromPath>().WithImplementation<MachinesFromPath>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<IMachineParserStrategy>().WithImplementation<MachineParserStrategy>().AsSingleton();
+        dummyServiceCollection.Should().HaveService<IParseVboxFile>().WithImplementation<ParseVboxFile>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IParseVmxFile>().WithImplementation<ParseVmxFile>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IPathSettings>().WithImplementation<PathSettings>().AsSingleton();
         dummyServiceCollection.Should().HaveService<IReadLogInformation>().WithImplementation<ReadLogInformation>().AsSingleton();

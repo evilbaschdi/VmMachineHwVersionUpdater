@@ -25,7 +25,8 @@ public class MachinesFromPath(
             var archivePoolPaths = _pathSettings.ArchivePath;
             var filterExtensionsToEqual = new List<string>
                                           {
-                                              "vmx"
+                                              "vmx",
+                                              "vbox"
                                           };
 
             var fileListFromPathFilter = new FileListFromPathFilter

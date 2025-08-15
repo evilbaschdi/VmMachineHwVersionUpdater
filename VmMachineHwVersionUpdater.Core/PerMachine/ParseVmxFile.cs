@@ -1,4 +1,6 @@
-﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
+﻿using VmMachineHwVersionUpdater.Core.Enums;
+
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
 public class ParseVmxFile(
@@ -15,7 +17,11 @@ public class ParseVmxFile(
         ArgumentNullException.ThrowIfNull(file);
 
         var lineStartActions = _lineStartActions.Value;
-        var rawMachine = new RawMachine();
+        var rawMachine = new RawMachine
+                         {
+                             MachineType = MachineType.Vmx
+                         };
+
         var readAllLines = File.ReadAllLines(file);
 
         Parallel.ForEach(readAllLines, line =>
@@ -32,7 +38,6 @@ public class ParseVmxFile(
                                                break;
                                            }
                                        });
-
         return rawMachine;
     }
 }

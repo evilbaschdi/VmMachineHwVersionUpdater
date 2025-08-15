@@ -1,6 +1,7 @@
 ﻿using EvilBaschdi.Core.AppHelpers;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Internal.Copy;
+using VmMachineHwVersionUpdater.Core.Strategies;
 
 namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 
@@ -32,6 +33,8 @@ public static class ConfigureCoreServices
         services.AddSingleton<ILoad, Load>();
         services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
         services.AddSingleton<IMachinesFromPath, MachinesFromPath>();
+        services.AddSingleton<IMachineParserStrategy, MachineParserStrategy>();
+        services.AddSingleton<IParseVboxFile, ParseVboxFile>();
         services.AddSingleton<IParseVmxFile, ParseVmxFile>();
         services.AddSingleton<IPathSettings, PathSettings>();
         services.AddSingleton<IProcessByPath, ProcessByPath>();
