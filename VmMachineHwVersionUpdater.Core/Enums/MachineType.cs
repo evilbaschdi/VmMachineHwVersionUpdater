@@ -14,4 +14,9 @@ public enum MachineType
     ///     VBOX
     /// </summary>
     Vbox = 1,
+
+    /// <summary>
+    ///     Hyper-V
+    /// </summary>
+    HyperV = 2,
 }
