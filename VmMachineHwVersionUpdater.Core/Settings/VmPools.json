@@ -1,15 +1,18 @@
 {
-    "VmPool": [
-        "V:\\vm\\VMware",
-        "M:\\vm\\VMware",
-        "C:\\vm\\VMware",
-        "C:\\vm\\VirtualBox",
-        "{UserProfile}/vm/vmware"
-      ],
-    "ArchivePath": [
-        "V:\\vm\\VMware\\_archive",
-        "M:\\vm\\VMware\\_archive",
-        "C:\\vm\\VMware\\_archive",
-        "{UserProfile}/vm/vmware/_archive"
-      ]
-  }
+  "VmPool": [
+    "C:\\vm\\VMware",
+    "M:\\vm\\VMware",
+    "V:\\vm\\VMware",
+    "C:\\vm\\VirtualBox",
+    "M:\\vm\\VirtualBox",
+    "V:\\vm\\VirtualBox",
+    "{UserProfile}/vm/vmware",
+    "{UserProfile}/vm/VirtualBox"
+  ],
+  "ArchivePath": [
+    "C:\\vm\\VMware\\_archive",
+    "M:\\vm\\VMware\\_archive",
+    "V:\\vm\\VMware\\_archive",
+    "{UserProfile}/vm/vmware/_archive"
+  ]
+}
