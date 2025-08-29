@@ -11,6 +11,7 @@
     <File Path="NuGet.config" />
     <File Path="publish.ps1" />
     <File Path="README.md" />
+    <File Path="docs\Solution-Architecture.md" />
   </Folder>
 
   <Folder Name="/Tests/">

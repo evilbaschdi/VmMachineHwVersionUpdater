@@ -17,6 +17,8 @@ Features:
 
 ![Screenshot](res/Screenshot.png)
 
-| main | develop |
-| ------------- | ------------- |
+[Solution Architecture](/docs/Solution-Architecture.md)
+
+| main                                                                                                                                                                                                           | develop                                                                                                                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [![CodeFactor](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/main)](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/main) | [![CodeFactor](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/develop)](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/develop) |
