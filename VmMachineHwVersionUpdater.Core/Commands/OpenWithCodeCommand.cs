@@ -11,7 +11,7 @@ public class OpenWithCodeCommand(
     [NotNull] private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
 
     /// <inheritdoc />
-    public async Task RunAsync()
+    public async Task RunAsync(CancellationToken cancellationToken = default)
     {
         if (!File.Exists(_currentMachine.Value.Path))
         {

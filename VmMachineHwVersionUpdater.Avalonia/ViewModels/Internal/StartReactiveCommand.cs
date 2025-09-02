@@ -21,7 +21,7 @@ public class StartReactiveCommand(
     /// <summary>
     ///     Starts VM
     /// </summary>
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         var currentMachine = _currentMachine.Value;
@@ -43,6 +43,6 @@ public class StartReactiveCommand(
             await exceptionDialog.ShowAsync();
         }
 
-        await Task.Run(_startCommand.Run);
+        await Task.Run(_startCommand.Run, cancellationToken);
     }
 }

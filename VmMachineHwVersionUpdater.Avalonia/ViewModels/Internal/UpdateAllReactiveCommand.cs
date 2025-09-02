@@ -12,7 +12,7 @@ public class UpdateAllReactiveCommand(
     private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     /// <inheritdoc />
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
         var version = _load.Value.UpdateAllHwVersion;
         if (!version.HasValue)
@@ -24,6 +24,6 @@ public class UpdateAllReactiveCommand(
         var localList = _load.Value.VmDataGridItemsSource.AsParallel().Where(vm => vm.HwVersion != innerVersion);
         _updateMachineVersion.RunFor(localList, innerVersion);
 
-        await _reloadReactiveCommand.RunAsync();
+        await _reloadReactiveCommand.RunAsync(cancellationToken);
     }
 }

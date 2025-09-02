@@ -15,9 +15,9 @@ public class ReloadReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        await Task.Run(_reloadCommand.Run);
+        await Task.Run(_reloadCommand.Run, cancellationToken);
 
         _mainWindowByApplicationLifetime.Value?.Close();
     }

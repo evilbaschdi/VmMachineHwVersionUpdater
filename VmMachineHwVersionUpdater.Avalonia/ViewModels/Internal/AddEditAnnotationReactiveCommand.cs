@@ -12,7 +12,7 @@ public class AddEditAnnotationReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
         var addEditAnnotationDialog = App.ServiceProvider.GetRequiredService<AddEditAnnotationDialog>();
         var mainWindow = _mainWindowByApplicationLifetime.Value;

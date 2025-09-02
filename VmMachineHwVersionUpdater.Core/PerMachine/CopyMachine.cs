@@ -9,7 +9,7 @@ public class CopyMachine(
     private readonly ICopyDirectoryWithProgress _copyDirectory = copyDirectory ?? throw new ArgumentNullException(nameof(copyDirectory));
 
     /// <inheritdoc />
-    public async Task RunForAsync([NotNull] Machine machine, [NotNull] string newDirectoryName)
+    public async Task RunForAsync([NotNull] Machine machine, [NotNull] string newDirectoryName, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(machine);
 
@@ -35,6 +35,6 @@ public class CopyMachine(
             //todo: Message
         }
 
-        await _copyDirectory.RunForAsync(path, copyPath);
+        await _copyDirectory.RunForAsync(path, copyPath, cancellationToken);
     }
 }

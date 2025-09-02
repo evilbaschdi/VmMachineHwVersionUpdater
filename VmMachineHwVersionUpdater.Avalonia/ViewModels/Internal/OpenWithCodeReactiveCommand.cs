@@ -12,8 +12,8 @@ public class OpenWithCodeReactiveCommand(
     /// <summary>
     ///     Starts VM
     /// </summary>
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        await _openWithCodeCommand.RunAsync();
+        await _openWithCodeCommand.RunAsync(cancellationToken);
     }
 }

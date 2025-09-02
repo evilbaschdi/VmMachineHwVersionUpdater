@@ -24,7 +24,7 @@ public class CopyReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         var machine = _currentMachine.Value;
@@ -120,11 +120,11 @@ public class CopyReactiveCommand(
                                                                                                                   TaskDialogProgressState.Normal);
                                                                                                           });
 
-                                                            await _copyMachine.RunForAsync(machine, input.ResultText);
+                                                            await _copyMachine.RunForAsync(machine, input.ResultText, cancellationToken);
 
                                                             // All done, auto close the dialog here
                                                             Dispatcher.UIThread.Post(() => { copyDialog.Hide(TaskDialogStandardResult.OK); });
-                                                        });
+                                                        }, cancellationToken);
                                      };
 
                 copyDialog.XamlRoot = mainWindow;
@@ -142,6 +142,6 @@ public class CopyReactiveCommand(
             await exceptionDialog.ShowAsync();
         }
 
-        await _reloadReactiveCommand.RunAsync();
+        await _reloadReactiveCommand.RunAsync(cancellationToken);
     }
 }

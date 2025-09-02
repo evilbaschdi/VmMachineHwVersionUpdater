@@ -22,7 +22,7 @@ public class RenameReactiveCommand(
     private readonly IChangeDisplayName _changeDisplayName = changeDisplayName ?? throw new ArgumentNullException(nameof(changeDisplayName));
 
     /// <inheritdoc />
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         var machine = _currentMachine.Value;
@@ -104,6 +104,6 @@ public class RenameReactiveCommand(
             await exceptionDialog.ShowAsync();
         }
 
-        await _reloadReactiveCommand.RunAsync();
+        await _reloadReactiveCommand.RunAsync(cancellationToken);
     }
 }

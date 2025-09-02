@@ -10,8 +10,8 @@ public class GoToReactiveCommand(
     private readonly IGoToCommand _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
 
     /// <inheritdoc />
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        await Task.Run(_goToCommand.Run);
+        await Task.Run(_goToCommand.Run, cancellationToken);
     }
 }

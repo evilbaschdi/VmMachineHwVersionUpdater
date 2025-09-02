@@ -19,7 +19,7 @@ public class ArchiveReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
 
@@ -57,7 +57,7 @@ public class ArchiveReactiveCommand(
             {
                 _archiveMachine.RunFor(_currentMachine.Value);
 
-                await _reloadReactiveCommand.RunAsync();
+                await _reloadReactiveCommand.RunAsync(cancellationToken);
             }
             catch (IOException ioException)
             {

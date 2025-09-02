@@ -12,7 +12,7 @@ public class AboutWindowReactiveCommand(
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
 
     /// <inheritdoc />
-    public override async Task RunAsync()
+    public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
         var aboutWindow = App.ServiceProvider.GetRequiredService<AboutWindow>();
         var mainWindow = _mainWindowByApplicationLifetime.Value;
