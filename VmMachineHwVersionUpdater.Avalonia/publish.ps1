@@ -1,5 +1,5 @@
 # This script is used to publish the App for different runtimes.
-# It sets the target framework to .NET 9.0 and specifies the runtimes for x64 and ARM64 architectures.
+# It sets the target framework to .NET 10.0 and specifies the runtimes for x64 and ARM64 architectures.
 $targetFramework = "net10.0"
 $runtimes = @("win-x64", "win-arm64")
 $outputBase = "C:\Apps\$((Get-Item .).Name)"
