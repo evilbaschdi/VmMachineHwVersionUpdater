@@ -23,7 +23,7 @@ public class UpdateAllReactiveCommand(
         }
 
         var innerVersion = Convert.ToInt32(version.Value);
-        var localList = _load.Value.VmDataGridItemsSource.AsParallel().Where(vm => vm.HwVersion != innerVersion && vm.IsEnabledForEditing && vm.MachineType == MachineType.Vmx);
+        var localList = _load.Value.VmDataGridItemsSource.AsParallel().Where(vm => vm.HwVersion != innerVersion && vm.MachineType == MachineType.Vmx);
         _updateMachineVersion.RunFor(localList, innerVersion);
 
         await _reloadReactiveCommand.RunAsync(cancellationToken);
