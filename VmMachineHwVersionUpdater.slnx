@@ -12,6 +12,11 @@
     <File Path="publish.ps1" />
     <File Path="README.md" />
     <File Path="docs\Solution-Architecture.md" />
+    <File Path=".github\copilot-instructions.md" />
+    <File Path=".github\instructions\testing.instructions.md" />
+    <File Path=".github\instructions\code-style.instructions.md" />
+    <File Path=".github\TESTING_GUIDELINES.md" />
+    <File Path=".github\CODE_STYLE_GUIDELINES.md" />
   </Folder>
 
   <Folder Name="/Tests/">
