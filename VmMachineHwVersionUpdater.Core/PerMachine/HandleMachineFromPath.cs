@@ -78,17 +78,12 @@ public class HandleMachineFromPath(
         var paused = directoryInfo?.GetFiles("*.vmss").Any();
         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
 
-        var guestOs = string.Empty;
-
-        switch (rawMachine.MachineType)
+        var guestOs = rawMachine.MachineType switch
         {
-            case MachineType.Vmx:
-                guestOs = rawMachine.GuestOs;
-                break;
-            case MachineType.Vbox:
-                guestOs = rawMachine.OSType;
-                break;
-        }
+            MachineType.Vmx => rawMachine.GuestOs,
+            MachineType.Vbox => rawMachine.OSType,
+            _ => string.Empty
+        };
 
         var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _updateMachineVersion, _updateMachineMemSize)
                       {
@@ -117,7 +112,8 @@ public class HandleMachineFromPath(
                           MachineState = paused == true
                               ? MachineState.Paused
                               : MachineState.Off,
-                          Annotation = rawMachine.Annotation
+                          Annotation = rawMachine.Annotation,
+                          MachineType = rawMachine.MachineType
                       };
 
         _setMachineIsEnabledForEditing.RunFor(machine);

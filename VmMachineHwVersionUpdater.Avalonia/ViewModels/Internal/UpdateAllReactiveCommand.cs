@@ -1,4 +1,6 @@
-﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
+﻿using VmMachineHwVersionUpdater.Core.Enums;
+
+namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IUpdateAllReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitTask" />
@@ -21,7 +23,7 @@ public class UpdateAllReactiveCommand(
         }
 
         var innerVersion = Convert.ToInt32(version.Value);
-        var localList = _load.Value.VmDataGridItemsSource.AsParallel().Where(vm => vm.HwVersion != innerVersion);
+        var localList = _load.Value.VmDataGridItemsSource.AsParallel().Where(vm => vm.HwVersion != innerVersion && vm.IsEnabledForEditing && vm.MachineType == MachineType.Vmx);
         _updateMachineVersion.RunFor(localList, innerVersion);
 
         await _reloadReactiveCommand.RunAsync(cancellationToken);

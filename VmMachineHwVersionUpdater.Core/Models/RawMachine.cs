@@ -53,5 +53,6 @@ public class RawMachine
     public string OSType { get; set; }
 
     /// <summary />
+    // ReSharper disable once PropertyCanBeMadeInitOnly.Global
     public MachineType MachineType { get; set; }
 }

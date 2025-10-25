@@ -191,6 +191,10 @@ public sealed class Machine(
 
     /// <summary />
     public bool IsEnabledForEditing { get; set; }
+
+    /// <summary />
+    public MachineType MachineType { get; set; }
+
     // ReSharper restore PropertyCanBeMadeInitOnly.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 
