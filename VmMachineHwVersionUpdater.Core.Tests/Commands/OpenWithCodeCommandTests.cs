@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Commands;
-
-namespace VmMachineHwVersionUpdater.Core.Tests.Commands;
+﻿namespace VmMachineHwVersionUpdater.Core.Tests.Commands;
 
 public class OpenWithCodeCommandTests
 {

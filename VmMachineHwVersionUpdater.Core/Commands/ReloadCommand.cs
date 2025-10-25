@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using EvilBaschdi.Core.AppHelpers;
 
 namespace VmMachineHwVersionUpdater.Core.Commands;
 

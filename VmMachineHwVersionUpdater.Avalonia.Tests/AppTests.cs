@@ -1,32 +1,45 @@
-﻿using Avalonia;
+﻿using System.Reflection;
+using Avalonia;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Tests;
 
-public class AppTests
+public class AppTests : AvaloniaTestBase
 {
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
+    [Fact]
+    public void Constructor_HasNullGuards()
     {
-        assertion.Verify(typeof(App).GetConstructors());
+        // Constructor has no parameters, so no null guards to test
+        typeof(App).GetConstructors().Should().NotBeEmpty();
+    }
+
+    [Fact]
+    public void Constructor_ReturnsInterfaceName()
+    {
+        // Test that the type is assignable to Application without actually instantiating
+        typeof(App).Should().BeAssignableTo<Application>();
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_ReturnsInterfaceName(App sut)
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        sut.Should().BeAssignableTo<Application>();
-    }
+        // Check what methods this class actually declares
+        var methods = typeof(App)
+                      .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                      .Where(m => !m.IsAbstract && !m.IsSpecialName)
+                      .ToArray();
 
-    //[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    //public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
-    //{
-    //    assertion.Verify(typeof(App).GetMethods()
-    //                                .Where(method => !method.IsAbstract &
-    //                                                 !method.IsStatic &
-    //                                                 !method.Name.StartsWith("get", StringComparison.OrdinalIgnoreCase) &
-    //                                                 !method.Name.StartsWith("set", StringComparison.OrdinalIgnoreCase) &
-    //                                                 !method.Name.StartsWith("add", StringComparison.OrdinalIgnoreCase) &
-    //                                                 !method.Name.StartsWith("remove", StringComparison.OrdinalIgnoreCase) &
-    //                                                 !method.Name.StartsWith("clear", StringComparison.OrdinalIgnoreCase) &
-    //                                                 !method.Name.StartsWith("try", StringComparison.OrdinalIgnoreCase)));
-    //}
+        // App class has Initialize() and OnFrameworkInitializationCompleted() methods,
+        // but both have no parameters, so there are no null guards to test
+        var methodsWithParameters = methods.Where(m => m.GetParameters().Length > 0).ToArray();
+
+        if (methodsWithParameters.Length > 0)
+        {
+            assertion.Verify(methodsWithParameters);
+        }
+
+        // Verify that we found the expected methods (Initialize and OnFrameworkInitializationCompleted)
+        methods.Should().Contain(m => m.Name == "Initialize", "App should override Initialize method");
+        methods.Should().Contain(m => m.Name == "OnFrameworkInitializationCompleted",
+            "App should override OnFrameworkInitializationCompleted method");
+    }
 }

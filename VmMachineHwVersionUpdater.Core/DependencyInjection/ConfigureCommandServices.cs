@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Commands;
-
-namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
+﻿namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 
 /// <summary />
 public static class ConfigureCommandServices

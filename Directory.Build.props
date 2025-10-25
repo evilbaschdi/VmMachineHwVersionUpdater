@@ -20,8 +20,20 @@
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.H))</Version>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<IsPackable>false</IsPackable>
+		<IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+		<IsTestProject>true</IsTestProject>
+		<NoWarn>1701;1702</NoWarn>
+		<IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<Using Include="EvilBaschdi.Core" />
+		<Using Include="EvilBaschdi.Core.AppHelpers" />
 		<Using Include="EvilBaschdi.Core.DependencyInjection" />
 		<Using Include="EvilBaschdi.Core.Settings" />
 		<Using Include="JetBrains.Annotations" />
@@ -32,6 +44,9 @@
 		<Using Include="VmMachineHwVersionUpdater.Core.Models" />
 		<Using Include="VmMachineHwVersionUpdater.Core.PerMachine" />
 		<Using Include="VmMachineHwVersionUpdater.Core.Settings" />
+		<Using Include="VmMachineHwVersionUpdater.Core.Strategies" />
+		<Using Include="VmMachineHwVersionUpdater.Core.Commands" />
+		<Using Include="VmMachineHwVersionUpdater.Core.Enums" />
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
@@ -46,22 +61,16 @@
 		<Using Include="Xunit" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(IsTestProject)' != 'true'">
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia.Tests'))">
+		<Using Include="Avalonia.Controls" />
+		<Using Include="Avalonia.Headless" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.Core" />
 		<PackageReference Include="EvilBaschdi.Core.DependencyInjection" />
 		<PackageReference Include="EvilBaschdi.Core.Settings" />
 	</ItemGroup>
-
-	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-		<GenerateDocumentationFile>False</GenerateDocumentationFile>
-		<IsPackable>false</IsPackable>
-		<IsTestingPlatformApplication>false</IsTestingPlatformApplication>
-		<IsTestProject>true</IsTestProject>
-		<NoWarn>1701;1702</NoWarn>
-		<IsTestingPlatformApplication>false</IsTestingPlatformApplication>
-		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-		<OutputType>Exe</OutputType>
-	</PropertyGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
@@ -92,6 +101,10 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia.Tests'))">
+		<PackageReference Include="Avalonia.Headless" />
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->

@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Enums;
-
-namespace VmMachineHwVersionUpdater.Core.PerMachine;
+﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
 public class ParseVmxFile(

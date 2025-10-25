@@ -1,5 +1,4 @@
 using System.Xml.Linq;
-using VmMachineHwVersionUpdater.Core.Enums;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
@@ -26,7 +25,8 @@ public class ParseVboxFile : IParseVboxFile
             return rawMachine;
         }
 
-        rawMachine.VirtualBoxHwVersion = int.TryParse(machineNode.Attribute("version")?.Value, out var version) ? version : 0;
+        rawMachine.VirtualBoxHwVersion =
+            int.TryParse(machineNode.Attribute("version")?.Value, out var version) ? version : 0;
 
         rawMachine.DisplayName = machineNode.Attribute("name")?.Value ?? string.Empty;
         rawMachine.OSType = machineNode.Attribute("OSType")?.Value ?? string.Empty;

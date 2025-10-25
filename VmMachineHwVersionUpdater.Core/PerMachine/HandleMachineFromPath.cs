@@ -1,7 +1,5 @@
 ﻿using System.Globalization;
 using EvilBaschdi.Core.Extensions;
-using VmMachineHwVersionUpdater.Core.Enums;
-using VmMachineHwVersionUpdater.Core.Strategies;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 

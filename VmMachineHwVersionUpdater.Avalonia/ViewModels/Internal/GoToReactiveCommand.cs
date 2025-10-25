@@ -1,6 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Core.Commands;
-
-namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
+﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IGoToReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitTask" />

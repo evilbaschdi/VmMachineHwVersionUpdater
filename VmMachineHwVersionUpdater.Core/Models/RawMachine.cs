@@ -1,5 +1,3 @@
-using VmMachineHwVersionUpdater.Core.Enums;
-
 namespace VmMachineHwVersionUpdater.Core.Models;
 
 /// <summary>
@@ -50,7 +48,7 @@ public class RawMachine
 
     /// <summary />
     // ReSharper disable once InconsistentNaming
-    public string OSType { get; set; }
+    public string OSType { get; set; } = "";
 
     /// <summary />
     // ReSharper disable once PropertyCanBeMadeInitOnly.Global

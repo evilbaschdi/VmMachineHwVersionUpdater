@@ -30,38 +30,61 @@ public class UpdateMachineVersionTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_MachinesNotNull_CallsUpsertVmxLineRunFor(
-        UpdateMachineVersion sut,
         int dummyNewVersion,
         Machine dummyMachine0,
         Machine dummyMachine1,
-        Machine dummyMachine2,
-        string dummyPath0,
-        string dummyPath1,
-        string dummyPath2
+        Machine dummyMachine2
     )
     {
         // Arrange
-        dummyMachine0.IsEnabledForEditing = true;
-        dummyMachine1.IsEnabledForEditing = true;
-        dummyMachine2.IsEnabledForEditing = false;
+        var sut = new UpdateMachineVersion();
 
-        dummyMachine0.Path = dummyPath0;
-        dummyMachine1.Path = dummyPath1;
-        dummyMachine2.Path = dummyPath2;
+        // Create temporary files for testing
+        var tempPath0 = Path.GetTempFileName();
+        var tempPath1 = Path.GetTempFileName();
+        var tempPath2 = Path.GetTempFileName();
 
-        var machines = new[]
-                       {
-                           dummyMachine0,
-                           dummyMachine1,
-                           dummyMachine2
-                       }.AsParallel();
+        try
+        {
+            // Create basic VMX content for testing
+            var vmxContent = "displayName = \"Test Machine\"\nvirtualhw.version = \"10\"";
+            File.WriteAllText(tempPath0, vmxContent);
+            File.WriteAllText(tempPath1, vmxContent);
+            File.WriteAllText(tempPath2, vmxContent);
 
-        // Act
-        sut.RunFor(machines, dummyNewVersion);
+            dummyMachine0.IsEnabledForEditing = true;
+            dummyMachine1.IsEnabledForEditing = true;
+            dummyMachine2.IsEnabledForEditing = false; // This one should be skipped
 
-        // Assert
-        sut.Received(1).RunFor(dummyPath0, dummyNewVersion);
-        sut.Received(1).RunFor(dummyPath1, dummyNewVersion);
-        sut.Received(1).RunFor(dummyPath2, dummyNewVersion);
+            dummyMachine0.Path = tempPath0;
+            dummyMachine1.Path = tempPath1;
+            dummyMachine2.Path = tempPath2;
+
+            var machines = new[]
+            {
+                dummyMachine0,
+                dummyMachine1,
+                dummyMachine2
+            }.AsParallel();
+
+            // Act
+            sut.RunFor(machines, dummyNewVersion);
+
+            // Assert - verify that the enabled machines had their files updated
+            var content0 = File.ReadAllText(tempPath0);
+            var content1 = File.ReadAllText(tempPath1);
+            var content2 = File.ReadAllText(tempPath2);
+
+            content0.Should().Contain($"virtualhw.version = \"{dummyNewVersion}\"");
+            content1.Should().Contain($"virtualhw.version = \"{dummyNewVersion}\"");
+            content2.Should().Contain("virtualhw.version = \"10\""); // Should remain unchanged
+        }
+        finally
+        {
+            // Clean up temporary files
+            File.Delete(tempPath0);
+            File.Delete(tempPath1);
+            File.Delete(tempPath2);
+        }
     }
 }

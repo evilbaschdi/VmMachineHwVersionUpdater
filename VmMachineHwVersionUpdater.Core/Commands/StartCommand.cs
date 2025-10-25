@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core.AppHelpers;
-
-namespace VmMachineHwVersionUpdater.Core.Commands;
+﻿namespace VmMachineHwVersionUpdater.Core.Commands;
 
 /// <inheritdoc />
 public class StartCommand(

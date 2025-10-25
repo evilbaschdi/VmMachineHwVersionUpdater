@@ -11,15 +11,17 @@ public class MachineParserStrategy : IMachineParserStrategy
     /// </summary>
     /// <param name="parseVmxFile"></param>
     /// <param name="parseVboxFile"></param>
-    public MachineParserStrategy(IParseVmxFile parseVmxFile, IParseVboxFile parseVboxFile)
+    public MachineParserStrategy([NotNull] IParseVmxFile parseVmxFile, [NotNull] IParseVboxFile parseVboxFile)
     {
-        _parseVmxFile = parseVmxFile;
-        _parseVboxFile = parseVboxFile;
+        _parseVmxFile = parseVmxFile ?? throw new ArgumentNullException(nameof(parseVmxFile));
+        _parseVboxFile = parseVboxFile ?? throw new ArgumentNullException(nameof(parseVboxFile));
     }
 
     /// <inheritdoc />
-    public RawMachine Parse(string filePath)
+    public RawMachine Parse([NotNull] string filePath)
     {
+        if (filePath == null) throw new ArgumentNullException(nameof(filePath));
+
         var extension = Path.GetExtension(filePath);
 
         return extension.ToLowerInvariant() switch
