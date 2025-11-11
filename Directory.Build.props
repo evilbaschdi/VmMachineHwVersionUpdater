@@ -16,7 +16,7 @@
 		<PublishSingleFile>true</PublishSingleFile>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-		<TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+		<TargetFramework>net10.0</TargetFramework>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.H))</Version>
 	</PropertyGroup>
 
@@ -64,6 +64,7 @@
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia.Tests'))">
 		<Using Include="Avalonia.Controls" />
 		<Using Include="Avalonia.Headless" />
+		<Using Include="EvilBaschdi.Testing.Avalonia" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -76,7 +77,10 @@
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
 		<PackageReference Include="EvilBaschdi.Testing" />
 		<PackageReference Include="xunit.v3" />
+		<PackageReference Include="xunit.v3.runner.utility" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="System.Net.Http" />
+		<PackageReference Include="System.Text.RegularExpressions" />
 		<PackageReference Include="coverlet.collector">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -104,11 +108,12 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia.Tests'))">
+		<PackageReference Include="EvilBaschdi.Testing.Avalonia" />
 		<PackageReference Include="Avalonia.Headless" />
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
-	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Core')) != 'true' and  $(MSBuildProjectName.EndsWith('.Tests')) != 'true'">
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Core')) != 'true' and $(MSBuildProjectName.EndsWith('.Tests')) != 'true'">
 		<ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
 	</ItemGroup>
 

@@ -3,7 +3,7 @@ using VmMachineHwVersionUpdater.Avalonia.Views;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Tests.Views;
 
-public class AddEditAnnotationDialogTests : AvaloniaTestBase
+public class AddEditAnnotationDialogTests : AvaloniaTestBase<App>
 {
     [Fact]
     public void Constructor_HasNullGuards()

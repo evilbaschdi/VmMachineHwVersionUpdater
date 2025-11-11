@@ -3,7 +3,7 @@ using VmMachineHwVersionUpdater.Avalonia.Views;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Tests.Views;
 
-public class MainWindowTests : AvaloniaTestBase
+public class MainWindowTests : AvaloniaTestBase<App>
 {
     [Fact]
     public void Constructor_HasNullGuards()

@@ -21,9 +21,15 @@ public class LoadSearchOsItems(
             _searchOsItemCollection.Clear();
             _searchOsItemCollection.Add(string.Empty);
             _searchOsItemCollection.Add(_separator.Value);
-            foreach (var name in _load.Value.SearchOsItems.OrderBy(item => item.Key))
+
+            var searchOsItems = _load.Value.SearchOsItems;
+            if (!(searchOsItems is null || searchOsItems.IsEmpty))
+
             {
-                _searchOsItemCollection.Add(name.Key);
+                foreach (var name in searchOsItems.OrderBy(item => item.Key))
+                {
+                    _searchOsItemCollection.Add(name.Key);
+                }
             }
 
             _searchOsItemCollection.Add(_separator.Value);
