@@ -79,8 +79,6 @@
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.v3.runner.utility" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
-		<PackageReference Include="System.Net.Http" />
-		<PackageReference Include="System.Text.RegularExpressions" />
 		<PackageReference Include="coverlet.collector">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
