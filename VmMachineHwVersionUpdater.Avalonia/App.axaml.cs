@@ -43,7 +43,7 @@ public class App : Application
             BindingPlugins.DataValidators.RemoveAt(0);
             var mainWindow = new MainWindow
                              {
-                                 DataContext = ServiceProvider.GetRequiredService<MainWindowViewModel>()
+                                 DataContext = ServiceProvider?.GetRequiredService<MainWindowViewModel>()
                              };
 
             var handleOsDependentTitleBar = ServiceProvider?.GetRequiredService<IHandleOsDependentTitleBar>();

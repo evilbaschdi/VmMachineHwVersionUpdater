@@ -24,7 +24,6 @@ public class LoadSearchOsItems(
 
             var searchOsItems = _load.Value.SearchOsItems;
             if (!(searchOsItems is null || searchOsItems.IsEmpty))
-
             {
                 foreach (var name in searchOsItems.OrderBy(item => item.Key))
                 {
