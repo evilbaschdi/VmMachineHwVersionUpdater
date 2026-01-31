@@ -20,7 +20,7 @@ public class ParseVboxFile : IParseVboxFile
         XNamespace ns = "http://www.virtualbox.org/";
 
         var machineNode = xDocument.Descendants(ns + "Machine").FirstOrDefault();
-        if (machineNode == null)
+        if (machineNode is null)
         {
             return rawMachine;
         }
@@ -38,25 +38,25 @@ public class ParseVboxFile : IParseVboxFile
         }
 
         var hardwareNode = machineNode.Descendants(ns + "Hardware").FirstOrDefault();
-        if (hardwareNode == null)
+        if (hardwareNode is null)
         {
             return rawMachine;
         }
 
         var memoryNode = hardwareNode.Descendants(ns + "Memory").FirstOrDefault();
-        if (memoryNode != null)
+        if (memoryNode is not null)
         {
             rawMachine.MemSize = int.TryParse(memoryNode.Attribute("RAMSize")?.Value, out var ramSize) ? ramSize : 0;
         }
 
         var platformNode = machineNode.Descendants(ns + "Platform").FirstOrDefault();
-        if (platformNode == null)
+        if (platformNode is null)
         {
             return rawMachine;
         }
 
         var cpuNode = platformNode.Descendants(ns + "CPU").FirstOrDefault();
-        if (cpuNode != null)
+        if (cpuNode is not null)
         {
             rawMachine.CpuCount = int.TryParse(cpuNode.Attribute("count")?.Value, out var count) ? count : 0;
         }

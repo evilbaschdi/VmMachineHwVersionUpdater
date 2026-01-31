@@ -43,7 +43,7 @@ public class GuestOsesInUseTests
             }
         );
 
-        var configurationSections = new List<IConfigurationSection>
+        var configurationSections = new IConfigurationSection[]
         {
             new ConfigurationSection(dummConfigurationRoot, "1")
             {

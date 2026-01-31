@@ -23,7 +23,7 @@ public class ArchiveReactiveCommand(
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
 
-        if (mainWindow != null)
+        if (mainWindow is not null)
         {
             var title = "Archive machine...";
             var text = $"Are you sure you want to archive machine '{_currentMachine.Value.DisplayName}'?";

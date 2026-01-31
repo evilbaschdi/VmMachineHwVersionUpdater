@@ -22,7 +22,7 @@ public class ConfigureDataGridCollectionView(
             var loadValue = _load.Value;
             if (loadValue?.VmDataGridItemsSource == null)
             {
-                return new(new List<Machine>());
+                return new((List<Machine>)[]);
             }
 
             _dataGridCollectionView = new(loadValue.VmDataGridItemsSource)

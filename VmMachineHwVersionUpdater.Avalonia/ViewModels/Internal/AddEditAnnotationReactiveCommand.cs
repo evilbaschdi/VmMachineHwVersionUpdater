@@ -16,7 +16,7 @@ public class AddEditAnnotationReactiveCommand(
     {
         var addEditAnnotationDialog = App.ServiceProvider.GetRequiredService<AddEditAnnotationDialog>();
         var mainWindow = _mainWindowByApplicationLifetime.Value;
-        if (mainWindow != null)
+        if (mainWindow is not null)
         {
             await addEditAnnotationDialog.ShowDialog(mainWindow);
         }

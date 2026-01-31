@@ -20,7 +20,7 @@ public class MachineParserStrategy : IMachineParserStrategy
     /// <inheritdoc />
     public RawMachine Parse([NotNull] string filePath)
     {
-        if (filePath == null) throw new ArgumentNullException(nameof(filePath));
+        ArgumentNullException.ThrowIfNull(filePath);
 
         var extension = Path.GetExtension(filePath);
 

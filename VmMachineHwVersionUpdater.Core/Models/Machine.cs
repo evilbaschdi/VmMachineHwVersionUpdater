@@ -91,7 +91,7 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifyHwVersionChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged != null)
+        if (IsEnabledForEditing && PropertyChanged is not null)
         {
             _updateMachineVersion.RunFor(Path, _hwVersion);
         }
@@ -102,7 +102,7 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifyMemSizeChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged != null)
+        if (IsEnabledForEditing && PropertyChanged is not null)
         {
             var memSizeMb = _memSize * 1024;
             _updateMachineMemSize.RunFor(Path, memSizeMb);
@@ -114,7 +114,7 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifyAutoUpdateToolsChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged != null)
+        if (IsEnabledForEditing && PropertyChanged is not null)
         {
             _toggleToolsUpgradePolicy.RunFor(Path, _autoUpdateTools);
         }
@@ -125,7 +125,7 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifySyncTimeWithHostChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged != null)
+        if (IsEnabledForEditing && PropertyChanged is not null)
         {
             _toggleToolsSyncTime.RunFor(Path, _syncTimeWithHost);
         }

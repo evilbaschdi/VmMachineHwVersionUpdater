@@ -23,7 +23,7 @@ public class DeleteReactiveCommand(
     {
         var mainWindow = _mainWindowByApplicationLifetime.Value;
 
-        if (mainWindow != null)
+        if (mainWindow is not null)
         {
             var title = "Delete machine...";
             var text = $"Are you sure you want to delete machine '{_currentMachine.Value.DisplayName}'?";

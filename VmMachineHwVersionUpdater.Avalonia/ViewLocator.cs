@@ -13,14 +13,14 @@ public class ViewLocator : IDataTemplate
         ArgumentNullException.ThrowIfNull(data);
         var name = data.GetType().FullName?.Replace("ViewModel", "View");
 
-        if (name == null)
+        if (name is null)
         {
             return new TextBlock { Text = "View Not Found" };
         }
 
         var type = Type.GetType(name);
 
-        if (type != null)
+        if (type is not null)
         {
             return (Control)Activator.CreateInstance(type)!;
         }

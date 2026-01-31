@@ -23,11 +23,7 @@ public class MachinesFromPath(
             var machineBag = new ConcurrentBag<Machine>();
             var machinePoolPaths = _pathSettings.VmPool;
             var archivePoolPaths = _pathSettings.ArchivePath;
-            var filterExtensionsToEqual = new List<string>
-                                          {
-                                              "vmx",
-                                              "vbox"
-                                          };
+            var filterExtensionsToEqual = (List<string>)["vmx", "vbox"];
 
             var fileListFromPathFilter = new FileListFromPathFilter
                                          {
@@ -50,7 +46,7 @@ public class MachinesFromPath(
                                               MachineFilePath = machineFilePath,
                                           };
                         var machine = _handleMachineFromPath.ValueFor(machinePath);
-                        if (machine == null)
+                        if (machine is null)
                         {
                             return;
                         }

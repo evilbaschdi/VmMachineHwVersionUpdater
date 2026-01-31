@@ -16,7 +16,7 @@ public class AboutWindowReactiveCommand(
     {
         var aboutWindow = App.ServiceProvider.GetRequiredService<AboutWindow>();
         var mainWindow = _mainWindowByApplicationLifetime.Value;
-        if (mainWindow != null)
+        if (mainWindow is not null)
         {
             await aboutWindow.ShowDialog(mainWindow);
         }
