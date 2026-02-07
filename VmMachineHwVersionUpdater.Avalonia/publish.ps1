@@ -6,18 +6,28 @@ $appsDirectory = "C:\Apps"
 $appName = (Get-Item .).Name
 $outputBase = "$appsDirectory\$appName"
 
-# Copy AppLauncher and rename it to the app name
-$appLauncherSource = "$appsDirectory\AppLauncher\x64\AppLauncher.exe"
-$appLauncherTarget = "$appsDirectory\$appName\$appName.exe"
-
 foreach ($runtime in $runtimes) {
-    dotnet publish -c Release -o "$outputBase\$($runtime.Replace('win-', ''))" -r $runtime -f $targetFramework --no-self-contained
+    $arch = $runtime.Replace('win-', '')
+    Write-Host "Publishing for $runtime..." -ForegroundColor Cyan
+
+    dotnet publish `
+        -c Release `
+        -r $runtime `
+        -f $targetFramework `
+        --self-contained true `
+        -p:PublishAot=true `
+        -p:PublishTrimmed=true `
+        -o "$outputBase\$arch"
 }
 
+# Launcher Logik
+$appLauncherSource = "$appsDirectory\AppLauncher\x64\AppLauncher.exe"
+$appLauncherTarget = "$outputBase\$appName.exe" # Ziel im Hauptordner
+
 if (Test-Path $appLauncherSource) {
-    Write-Output "Copying AppLauncher to $appLauncherTarget..."
+    if (!(Test-Path $outputBase)) { New-Item -ItemType Directory -Path $outputBase }
     Copy-Item -Path $appLauncherSource -Destination $appLauncherTarget -Force
-    Write-Output "Launcher ready: $appLauncherTarget"
+    Write-Host "Launcher ready: $appLauncherTarget" -ForegroundColor Green
 }
 else {
     Write-Warning "AppLauncher not found at $appLauncherSource"

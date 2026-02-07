@@ -40,7 +40,9 @@ public class App : Application
         {
             // Line below is needed to remove Avalonia data validation.
             // Without this line you will get duplicate validations from both Avalonia and CT
+#pragma warning disable IL2026
             BindingPlugins.DataValidators.RemoveAt(0);
+#pragma warning restore IL2026
             var mainWindow = new MainWindow
                              {
                                  DataContext = ServiceProvider?.GetRequiredService<MainWindowViewModel>()

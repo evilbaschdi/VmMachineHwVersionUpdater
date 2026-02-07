@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
+using VmMachineHwVersionUpdater.Avalonia.Views;
 
 namespace VmMachineHwVersionUpdater.Avalonia;
 
@@ -11,21 +12,13 @@ public class ViewLocator : IDataTemplate
     public Control Build([NotNull] object data)
     {
         ArgumentNullException.ThrowIfNull(data);
-        var name = data.GetType().FullName?.Replace("ViewModel", "View");
-
-        if (name is null)
+        
+        return data switch
         {
-            return new TextBlock { Text = "View Not Found" };
-        }
-
-        var type = Type.GetType(name);
-
-        if (type is not null)
-        {
-            return (Control)Activator.CreateInstance(type)!;
-        }
-
-        return new TextBlock { Text = "Not Found: " + name };
+            MainWindowViewModel => new MainWindow(),
+            AddEditAnnotationDialogViewModel => new AddEditAnnotationDialog(),
+            _ => new TextBlock { Text = "Not Found: " + data.GetType().FullName }
+        };
     }
 
     /// <inheritdoc />
