@@ -33,6 +33,7 @@ public class CopyMachine(
         if (path.Equals(copyPath))
         {
             //todo: Message
+            return;
         }
 
         await _copyDirectory.RunForAsync(path, copyPath, cancellationToken);

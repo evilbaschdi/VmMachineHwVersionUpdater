@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/VmMachineHwVersionUpdater/VmMachineHwVersionUpdater.csproj",
+                "${workspaceFolder}/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/VmMachineHwVersionUpdater/VmMachineHwVersionUpdater.csproj",
+                "${workspaceFolder}/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/VmMachineHwVersionUpdater/VmMachineHwVersionUpdater.csproj",
+                "${workspaceFolder}/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

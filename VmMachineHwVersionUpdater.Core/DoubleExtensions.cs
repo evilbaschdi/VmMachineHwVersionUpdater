@@ -6,67 +6,68 @@ namespace VmMachineHwVersionUpdater.Core;
 /// </summary>
 public static class DoubleExtensions
 {
-    /// <summary>
-    ///     input multiplied with 1024d * 1024d * 1024d
-    /// </summary>
     /// <param name="input"></param>
-    // ReSharper disable once UnusedMember.Global
-    public static double GiBiBytesToKiBiBytes(this double input) =>
-        input < 0
-            ? throw new ArgumentOutOfRangeException(nameof(input))
-            : input * 1073741824d;
-
-    /// <summary>
-    ///     input divided by 1024d * 1024d * 1024d
-    /// </summary>
-    /// <param name="input"></param>
-    // ReSharper disable once UnusedMember.Global
-    public static double KiBiBytesToGiBiBytes(this double input) =>
-        input < 0
-            ? throw new ArgumentOutOfRangeException(nameof(input))
-            : input / 1073741824d;
-
-    /// <summary>
-    ///     Converts a double into FileSize string
-    /// </summary>
-    /// <param name="d"></param>
-    /// <param name="precision"></param>
-    /// <param name="culture"></param>
-    // ReSharper disable once UnusedMember.Global
-    public static string ToFileSize(this double d, int precision, [NotNull] CultureInfo culture)
+    extension(double input)
     {
-        ArgumentNullException.ThrowIfNull(culture);
+        /// <summary>
+        ///     input multiplied with 1024d * 1024d * 1024d
+        /// </summary>
+        // ReSharper disable once UnusedMember.Global
+        public double GiBiBytesToKiBiBytes() =>
+            input < 0
+                ? throw new ArgumentOutOfRangeException(nameof(input))
+                : input * 1073741824d;
 
-        var size = Convert.ToUInt64(d);
+        /// <summary>
+        ///     input divided by 1024d * 1024d * 1024d
+        /// </summary>
+        // ReSharper disable once UnusedMember.Global
+        public double KiBiBytesToGiBiBytes() =>
+            input < 0
+                ? throw new ArgumentOutOfRangeException(nameof(input))
+                : input / 1073741824d;
 
-        if (size < 1024d)
+        /// <summary>
+        ///     Converts a double into FileSize string
+        /// </summary>
+        /// <param name="precision"></param>
+        /// <param name="culture"></param>
+        // ReSharper disable once UnusedMember.Global
+        public string ToFileSize(int precision, [NotNull] CultureInfo culture)
         {
-            return $"{size.ToString("F0", culture)} bytes";
-        }
+            ArgumentNullException.ThrowIfNull(culture);
 
-        if (size >> 10 < 1024d)
-        {
-            return $"{(size / (float)1024d).ToString($"F{precision}", culture)} KB";
-        }
+            var size = Convert.ToUInt64(input);
 
-        if (size >> 20 < 1024d)
-        {
-            return $"{((size >> 10) / (float)1024d).ToString($"F{precision}", culture)} MB";
-        }
+            if (size < 1024d)
+            {
+                return $"{size.ToString("F0", culture)} bytes";
+            }
 
-        if (size >> 30 < 1024d)
-        {
-            return $"{((size >> 20) / (float)1024d).ToString($"F{precision}", culture)} GB";
-        }
+            if (size >> 10 < 1024d)
+            {
+                return $"{(size / (float)1024d).ToString($"F{precision}", culture)} KB";
+            }
 
-        if (!(size >> 40 < 1024d))
-        {
-            return size >> 50 < 1024d
-                ? $"{((size >> 40) / (float)1024d).ToString($"F{precision}", culture)} PB"
-                : $"{((size >> 50) / (float)1024d).ToString($"F{precision}", culture)} EB";
-        }
+            if (size >> 20 < 1024d)
+            {
+                return $"{((size >> 10) / (float)1024d).ToString($"F{precision}", culture)} MB";
+            }
 
-        var workaround = size / 1000 * 1024;
-        return $"{((workaround >> 30) / (float)1024d).ToString($"F{precision}", culture)} TB";
+            if (size >> 30 < 1024d)
+            {
+                return $"{((size >> 20) / (float)1024d).ToString($"F{precision}", culture)} GB";
+            }
+
+            if (!(size >> 40 < 1024d))
+            {
+                return size >> 50 < 1024d
+                    ? $"{((size >> 40) / (float)1024d).ToString($"F{precision}", culture)} PB"
+                    : $"{((size >> 50) / (float)1024d).ToString($"F{precision}", culture)} EB";
+            }
+
+            var workaround = size / 1000 * 1024;
+            return $"{((workaround >> 30) / (float)1024d).ToString($"F{precision}", culture)} TB";
+        }
     }
 }

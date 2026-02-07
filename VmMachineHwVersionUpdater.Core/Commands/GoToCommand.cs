@@ -11,12 +11,14 @@ public class GoToCommand(
     /// <inheritdoc />
     public void Run()
     {
-        if (!File.Exists(_currentMachine.Value.Path))
+        var machinePath = _currentMachine.Value?.Path;
+
+        if (!File.Exists(machinePath))
         {
             return;
         }
 
-        var path = Path.GetDirectoryName(_currentMachine.Value.Path);
+        var path = Path.GetDirectoryName(machinePath);
         if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
         {
             _processByPath.RunFor(path);

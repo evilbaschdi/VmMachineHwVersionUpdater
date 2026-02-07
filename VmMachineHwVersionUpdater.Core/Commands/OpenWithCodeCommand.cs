@@ -11,12 +11,13 @@ public class OpenWithCodeCommand(
     /// <inheritdoc />
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        if (!File.Exists(_currentMachine.Value.Path))
+        var machinePath = _currentMachine.Value?.Path;
+        if (!File.Exists(machinePath))
         {
             await Task.CompletedTask;
         }
 
-        _processByPath.RunFor($"vscode://file/{_currentMachine.Value.Path}");
+        _processByPath.RunFor($"vscode://file/{machinePath}");
         await Task.CompletedTask;
     }
 }

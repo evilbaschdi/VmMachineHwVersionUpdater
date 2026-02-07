@@ -1,0 +1,36 @@
+{
+    "GeneralSettings": {
+        "NetProjectPath": "VmMachineHwVersionUpdater.Avalonia.csproj",
+        "ApplicationName": "VM Toolbox",
+        "Version": {
+            "$type": "msbuild",
+            "property": "Version"
+        },
+        "PackageName": {
+            "$type": "msbuild",
+            "property": "AssemblyName"
+        },
+        "AssemblyName": {
+            "$type": "msbuild",
+            "property": "AssemblyName"
+        }
+    },
+    "LinuxSettings": {
+        "Maintainer": "evilbaschdi (Sebastian Walter)",
+        "CreateBinSymlink": "True"
+    },
+    "Win32Settings": {
+        "InstallerIcon": "../icon.png",
+        "Company": "evilbaschdi (Sebastian Walter)",
+        "IncludeUninstaller": "True"
+    },
+    "MacOsSettings": {
+        "CreateBundle": true,
+        "BundleIdentifier": "com.evilbaschdi-Sebastian-Walter.VmMachineHwVersionUpdater-Avalonia",
+        "SigningCredentialsType": "AdHoc"
+    },
+    "PublishSettings": {
+        "PublishTrimmed": "True",
+        "ExtraBuildProperties": {}
+    }
+}

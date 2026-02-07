@@ -11,11 +11,12 @@ public class StartCommand(
     /// <inheritdoc />
     public void Run()
     {
-        if (!File.Exists(_currentMachine.Value?.Path))
+        var machinePath = _currentMachine.Value?.Path;
+        if (!File.Exists(machinePath))
         {
             return;
         }
 
-        _processByPath.RunFor(_currentMachine.Value?.Path);
+        _processByPath.RunFor(machinePath);
     }
 }
