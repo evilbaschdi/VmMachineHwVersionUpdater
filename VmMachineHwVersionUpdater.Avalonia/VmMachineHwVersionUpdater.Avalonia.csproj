@@ -6,14 +6,8 @@
 		<AssemblyTitle>VM Toolbox</AssemblyTitle>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
+		<TrimMode>copyused</TrimMode>
 		<OutputType>WinExe</OutputType>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<PublishAot>true</PublishAot>
-		<TrimMode>link</TrimMode>
-		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-		<IsTrimmable>true</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>
