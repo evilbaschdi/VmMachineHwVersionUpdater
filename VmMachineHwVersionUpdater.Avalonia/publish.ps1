@@ -1,13 +1,13 @@
 # This script is used to publish the App for different runtimes.
 # It sets the target framework to .NET 10.0 and specifies the runtimes for x64 and ARM64 architectures.
 $targetFramework = "net10.0"
-$arches = @("x64", "arm64")
+$runtimes = @("win-x64", "win-arm64")
 $appsDirectory = "C:\Apps"
 $appName = (Get-Item .).Name
 $outputBase = "$appsDirectory\$appName"
 
-foreach ($arch in $arches) {
-    $runtime = "win-$arch"
+foreach ($runtime in $runtimes) {
+    $arch = $runtime.Replace('win-', '')
     Write-Host "Publishing for $runtime..." -ForegroundColor Cyan
 
     dotnet publish `
@@ -16,11 +16,8 @@ foreach ($arch in $arches) {
         -f $targetFramework `
         --self-contained true `
         -p:PublishAot=true `
-        -p:PublishTrimmed=true `        
-    -o "$outputBase\$arch"
-
-    Get-ChildItem -Path "$outputBase\$arch" -Filter "*.pdb" | Remove-Item -Force
-    Write-Host "PDBs removed for $arch" -ForegroundColor Yellow
+        -p:PublishTrimmed=true `
+        -o "$outputBase\$arch"
 }
 
 # Launcher Logik
