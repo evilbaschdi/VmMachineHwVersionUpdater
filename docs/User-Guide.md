@@ -312,10 +312,10 @@ Please use GitHub Issues to report bugs or request features. Include clear descr
 ### Copyright Notice
 Copyright © 2014 - 2026 evilbaschdi (Sebastian Walter)
 
-### Important Licensing Information
-**Please be aware:** This project does not currently have an explicit open-source license file in the repository. While the project is publicly available on GitHub, the copyright is held by the author under a proprietary/all-rights-reserved model.
+### Licensing Information
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file in the root of the repository for the full license text.
 
-Contributors should be aware that their contributions may be subject to the copyright holder's terms.
+The MIT License is a permissive license that allows for free use, modification, and distribution of the software, provided that the copyright notice and permission notice are preserved.
 
 ---
 
