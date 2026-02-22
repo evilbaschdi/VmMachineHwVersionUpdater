@@ -1,4 +1,5 @@
 ﻿using EvilBaschdi.Core.Avalonia;
+using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.Views;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
@@ -14,7 +15,7 @@ public class AddEditAnnotationReactiveCommand(
     /// <inheritdoc />
     public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        var addEditAnnotationDialog = App.ServiceProvider.GetRequiredService<AddEditAnnotationDialog>();
+        var addEditAnnotationDialog = ApplicationServices.GetRequiredService<AddEditAnnotationDialog>();
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         if (mainWindow is not null)
         {

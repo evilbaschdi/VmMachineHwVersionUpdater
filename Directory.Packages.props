@@ -7,7 +7,7 @@
     <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.12" />
     <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2026.1.13.18" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2026.2.1.9" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2026.2.12.17" />
+    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2026.2.22.15" />
     <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2026.2.10.18" />
     <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2026.2.10.18" />
   </ItemGroup>
@@ -15,7 +15,7 @@
     <PackageVersion Include="Avalonia.Headless" Version="11.3.12" />
     <PackageVersion Include="coverlet.collector" Version="8.0.0" />
     <PackageVersion Include="EvilBaschdi.Testing" Version="2026.2.15.10" />
-    <PackageVersion Include="EvilBaschdi.Testing.Avalonia" Version="2026.2.12.17" />
+    <PackageVersion Include="EvilBaschdi.Testing.Avalonia" Version="2026.2.22.15" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.34.1" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.22" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />

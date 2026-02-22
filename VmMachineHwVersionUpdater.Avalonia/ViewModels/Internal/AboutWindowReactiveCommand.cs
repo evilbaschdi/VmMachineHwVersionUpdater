@@ -1,5 +1,6 @@
 ﻿using EvilBaschdi.About.Avalonia;
 using EvilBaschdi.Core.Avalonia;
+using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -14,7 +15,7 @@ public class AboutWindowReactiveCommand(
     /// <inheritdoc />
     public override async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        var aboutWindow = App.ServiceProvider.GetRequiredService<AboutWindow>();
+        var aboutWindow = ApplicationServices.GetRequiredService<AboutWindow>();
         var mainWindow = _mainWindowByApplicationLifetime.Value;
         if (mainWindow is not null)
         {
