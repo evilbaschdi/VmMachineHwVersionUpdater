@@ -3,7 +3,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using EvilBaschdi.Core.Avalonia;
-using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Avalonia.Views;
 

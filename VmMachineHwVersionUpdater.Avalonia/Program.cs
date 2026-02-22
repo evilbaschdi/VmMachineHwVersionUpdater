@@ -18,15 +18,14 @@ internal class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     // ReSharper disable once MemberCanBePrivate.Global
     public static AppBuilder BuildAvaloniaApp()
-        => new AppBuilderImplementationToUseReactiveUIWithMicrosoftDependencyResolver<App>().ValueFor(
-            serviceCollection =>
-            {
-                serviceCollection.AddCoreServices();
-                serviceCollection.AddAboutServices();
-                serviceCollection.AddCommandServices();
-                serviceCollection.AddAvaloniaServices();
-                serviceCollection.AddReactiveCommandServices();
-                serviceCollection.AddWindowsAndViewModels();
-            },
-            ApplicationServices.Initialize);
+        => new AppBuilderImplementationToUseReactiveUIWithMicrosoftDependencyResolver<App>()
+            .ValueFor(serviceCollection =>
+                      {
+                          serviceCollection.AddCoreServices();
+                          serviceCollection.AddAboutServices();
+                          serviceCollection.AddCommandServices();
+                          serviceCollection.AddAvaloniaServices();
+                          serviceCollection.AddReactiveCommandServices();
+                          serviceCollection.AddWindowsAndViewModels();
+                      });
 }
