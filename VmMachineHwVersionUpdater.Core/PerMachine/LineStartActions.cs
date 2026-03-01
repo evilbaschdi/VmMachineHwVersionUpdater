@@ -78,6 +78,11 @@ public class LineStartActions(
                                                                            "memsize",
                                                                            (machine, line) =>
                                                                                machine.MemSize = Convert.ToInt32(_returnValueFromVmxLine.ValueFor(line, "memsize"))
+                                                                       },
+                                                                       {
+                                                                           "mks.enable3d",
+                                                                           (machine, line) =>
+                                                                               machine.MksEnable3d = _returnValueFromVmxLine.ValueFor(line, "mks.enable3d")
                                                                        }
 
                                                                        // Add other actions here...

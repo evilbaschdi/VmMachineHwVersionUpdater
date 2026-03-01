@@ -24,15 +24,16 @@ public class FilterItemSourceTests
     {
         var toggleToolsSyncTime = Substitute.For<IToggleToolsSyncTime>();
         var toggleToolsUpgradePolicy = Substitute.For<IToggleToolsUpgradePolicy>();
+        var toggleMksEnable3d = Substitute.For<IToggleMksEnable3d>();
         var updateMachineVersion = Substitute.For<IUpdateMachineVersion>();
         var updateMachineMemSize = Substitute.For<IUpdateMachineMemSize>();
 
-        return new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, updateMachineVersion, updateMachineMemSize)
-        {
-            DisplayName = displayName,
-            Annotation = annotation,
-            GuestOs = guestOs
-        };
+        return new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3d, updateMachineVersion, updateMachineMemSize)
+               {
+                   DisplayName = displayName,
+                   Annotation = annotation,
+                   GuestOs = guestOs
+               };
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]

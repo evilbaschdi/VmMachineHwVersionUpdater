@@ -14,38 +14,26 @@ public class HandleMachineFromPath(
     [NotNull] IPathSettings pathSettings,
     [NotNull] IReadLogInformation readLogInformation,
     [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
-    [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy) : IHandleMachineFromPath
+    [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+    [NotNull] IToggleMksEnable3d toggleMksEnable3d) : IHandleMachineFromPath
 {
     private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping = guestOsOutputStringMapping ??
                                                                                throw new ArgumentNullException(
                                                                                    nameof(guestOsOutputStringMapping));
 
-    private readonly IMachineParserStrategy
-        _machineParserStrategy = machineParserStrategy ?? throw new ArgumentNullException(nameof(machineParserStrategy));
-
-    private readonly IPathSettings
-        _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
-
-    private readonly IReadLogInformation _readLogInformation =
-        readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
-
-    private readonly ISetDisplayName _setDisplayName =
-        setDisplayName ?? throw new ArgumentNullException(nameof(setDisplayName));
+    private readonly IMachineParserStrategy _machineParserStrategy = machineParserStrategy ?? throw new ArgumentNullException(nameof(machineParserStrategy));
+    private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
+    private readonly IReadLogInformation _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
+    private readonly ISetDisplayName _setDisplayName = setDisplayName ?? throw new ArgumentNullException(nameof(setDisplayName));
 
     private readonly ISetMachineIsEnabledForEditing _setMachineIsEnabledForEditing =
         setMachineIsEnabledForEditing ?? throw new ArgumentNullException(nameof(setMachineIsEnabledForEditing));
 
-    private readonly IToggleToolsSyncTime _toggleToolsSyncTime =
-        toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
-
-    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy =
-        toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
-
-    private readonly IUpdateMachineVersion _updateMachineVersion =
-        updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
-
-    private readonly IUpdateMachineMemSize _updateMachineMemSize =
-        updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
+    private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
+    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
+    private readonly IToggleMksEnable3d _toggleMksEnable3d = toggleMksEnable3d ?? throw new ArgumentNullException(nameof(toggleMksEnable3d));
+    private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+    private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
     /// <inheritdoc />
     public Machine ValueFor(MachinePath machinePath)
@@ -83,7 +71,7 @@ public class HandleMachineFromPath(
             _ => string.Empty
         };
 
-        var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _updateMachineVersion, _updateMachineMemSize)
+        var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _toggleMksEnable3d, _updateMachineVersion, _updateMachineMemSize)
                       {
                           HwVersion = rawMachine.HwVersion,
 
@@ -96,6 +84,8 @@ public class HandleMachineFromPath(
                                             rawMachine.ToolsUpgradePolicy.Equals("upgradeAtPowerCycle", StringComparison.OrdinalIgnoreCase),
                           SyncTimeWithHost = !string.IsNullOrWhiteSpace(rawMachine.SyncTimeWithHost) &&
                                              bool.TryParse(rawMachine.SyncTimeWithHost, out var parsedSyncTime) && parsedSyncTime,
+                          Accelerate3DGraphics = !string.IsNullOrWhiteSpace(rawMachine.MksEnable3d) &&
+                                                 bool.TryParse(rawMachine.MksEnable3d, out var parsedAccelerate3dGraphics) && parsedAccelerate3dGraphics,
                           EncryptionData = rawMachine.EncryptionData,
                           EncryptionEncryptedKey = rawMachine.EncryptionEncryptedKey,
                           EncryptionKeySafe = rawMachine.EncryptionKeySafe,

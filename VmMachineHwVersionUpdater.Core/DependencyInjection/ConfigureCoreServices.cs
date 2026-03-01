@@ -41,6 +41,7 @@ public static class ConfigureCoreServices
         services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
         services.AddSingleton<ISetDisplayName, SetDisplayName>();
         services.AddSingleton<ISetMachineIsEnabledForEditing, SetMachineIsEnabledForEditing>();
+        services.AddSingleton<IToggleMksEnable3d, ToggleMksEnable3d>();
         services.AddSingleton<IToggleToolsSyncTime, ToggleToolsSyncTime>();
         services.AddSingleton<IToggleToolsUpgradePolicy, ToggleToolsUpgradePolicy>();
         services.AddSingleton<IUpdateAnnotation, UpdateAnnotation>();

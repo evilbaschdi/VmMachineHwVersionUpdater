@@ -26,53 +26,88 @@ public class ConfigureCoreServicesTests
         dummyServiceCollection.AddCoreServices();
 
         // Assert
-        dummyServiceCollection.Should().HaveCount(37);
-        dummyServiceCollection.Should().HaveService<IArchiveMachine>().WithImplementation<ArchiveMachine>()
+        dummyServiceCollection.Should().HaveCount(38);
+        dummyServiceCollection.Should().HaveService<IArchiveMachine>()
+                              .WithImplementation<ArchiveMachine>()
                               .AsSingleton();
         dummyServiceCollection.Should().HaveService<IConvertAnnotationLineBreaks>()
-                              .WithImplementation<ConvertAnnotationLineBreaks>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ICopyMachine>().WithImplementation<CopyMachine>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ICurrentMachine>().WithImplementation<CurrentMachine>()
+                              .WithImplementation<ConvertAnnotationLineBreaks>()
                               .AsSingleton();
-        dummyServiceCollection.Should().HaveService<IDeleteMachine>().WithImplementation<DeleteMachine>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IFileListFromPath>().WithImplementation<FileListFromPath>()
+        dummyServiceCollection.Should().HaveService<ICopyMachine>()
+                              .WithImplementation<CopyMachine>()
                               .AsSingleton();
-        dummyServiceCollection.Should().HaveService<IGuestOsesInUse>().WithImplementation<GuestOsesInUse>()
+        dummyServiceCollection.Should().HaveService<ICurrentMachine>()
+                              .WithImplementation<CurrentMachine>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IDeleteMachine>()
+                              .WithImplementation<DeleteMachine>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IFileListFromPath>()
+                              .WithImplementation<FileListFromPath>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IGuestOsesInUse>()
+                              .WithImplementation<GuestOsesInUse>()
                               .AsSingleton();
         dummyServiceCollection.Should().HaveService<IGuestOsOutputStringMapping>()
-                              .WithImplementation<GuestOsOutputStringMapping>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IGuestOsStringMapping>().WithImplementation<GuestOsStringMapping>()
+                              .WithImplementation<GuestOsOutputStringMapping>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IGuestOsStringMapping>()
+                              .WithImplementation<GuestOsStringMapping>()
                               .AsSingleton();
         dummyServiceCollection.Should().HaveService<IHandleMachineFromPath>()
-                              .WithImplementation<HandleMachineFromPath>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ILoad>().WithImplementation<Load>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IMachinesFromPath>().WithImplementation<MachinesFromPath>()
+                              .WithImplementation<HandleMachineFromPath>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<ILoad>()
+                              .WithImplementation<Load>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IMachinesFromPath>()
+                              .WithImplementation<MachinesFromPath>()
                               .AsSingleton();
         dummyServiceCollection.Should().HaveService<IMachineParserStrategy>()
-                              .WithImplementation<MachineParserStrategy>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IParseVboxFile>().WithImplementation<ParseVboxFile>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IParseVmxFile>().WithImplementation<ParseVmxFile>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IPathSettings>().WithImplementation<PathSettings>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IReadLogInformation>().WithImplementation<ReadLogInformation>()
+                              .WithImplementation<MachineParserStrategy>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IParseVboxFile>()
+                              .WithImplementation<ParseVboxFile>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IParseVmxFile>()
+                              .WithImplementation<ParseVmxFile>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IPathSettings>()
+                              .WithImplementation<PathSettings>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IReadLogInformation>()
+                              .WithImplementation<ReadLogInformation>()
                               .AsSingleton();
         dummyServiceCollection.Should().HaveService<IReturnValueFromVmxLine>()
                               .WithImplementation<ReturnValueFromVmxLine>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<ISetDisplayName>().WithImplementation<SetDisplayName>()
+        dummyServiceCollection.Should().HaveService<ISetDisplayName>()
+                              .WithImplementation<SetDisplayName>()
                               .AsSingleton();
         dummyServiceCollection.Should().HaveService<ISetMachineIsEnabledForEditing>()
-                              .WithImplementation<SetMachineIsEnabledForEditing>().AsSingleton();
+                              .WithImplementation<SetMachineIsEnabledForEditing>()
+                              .AsSingleton();
         dummyServiceCollection.Should().HaveService<IToggleToolsSyncTime>().WithImplementation<ToggleToolsSyncTime>()
                               .AsSingleton();
         dummyServiceCollection.Should().HaveService<IToggleToolsUpgradePolicy>()
-                              .WithImplementation<ToggleToolsUpgradePolicy>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IUpdateAnnotation>().WithImplementation<UpdateAnnotation>()
+                              .WithImplementation<ToggleToolsUpgradePolicy>()
                               .AsSingleton();
-        dummyServiceCollection.Should().HaveService<IUpdateMachineVersion>().WithImplementation<UpdateMachineVersion>()
+        dummyServiceCollection.Should().HaveService<IUpdateAnnotation>()
+                              .WithImplementation<UpdateAnnotation>()
                               .AsSingleton();
-        dummyServiceCollection.Should().HaveService<IUpdateMachineMemSize>().WithImplementation<UpdateMachineMemSize>()
+        dummyServiceCollection.Should().HaveService<IUpdateMachineVersion>()
+                              .WithImplementation<UpdateMachineVersion>()
                               .AsSingleton();
-        dummyServiceCollection.Should().HaveService<IVmPools>().WithImplementation<VmPools>().AsSingleton();
-        dummyServiceCollection.Should().HaveService<IVmxLineStartsWith>().WithImplementation<VmxLineStartsWith>()
+        dummyServiceCollection.Should().HaveService<IUpdateMachineMemSize>()
+                              .WithImplementation<UpdateMachineMemSize>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IVmPools>()
+                              .WithImplementation<VmPools>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IVmxLineStartsWith>()
+                              .WithImplementation<VmxLineStartsWith>()
+                              .AsSingleton();
+        dummyServiceCollection.Should().HaveService<IToggleMksEnable3d>()
+                              .WithImplementation<ToggleMksEnable3d>()
                               .AsSingleton();
     }
 }

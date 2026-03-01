@@ -6,6 +6,7 @@ namespace VmMachineHwVersionUpdater.Core.Models;
 public sealed class Machine(
     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
     [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+    [NotNull] IToggleMksEnable3d toggleMksEnable3d,
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] IUpdateMachineMemSize updateMachineMemSize) : INotifyPropertyChanged
 {
@@ -13,8 +14,10 @@ public sealed class Machine(
     private readonly int _hwVersion;
     private readonly int _memSize;
     private readonly bool _syncTimeWithHost;
+    private readonly bool _accelerate3DGraphics;
     private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
     private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
+    private readonly IToggleMksEnable3d _toggleMksEnable3d = toggleMksEnable3d ?? throw new ArgumentNullException(nameof(toggleMksEnable3d));
     private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
     private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
@@ -86,6 +89,23 @@ public sealed class Machine(
         }
     }
 
+    /// <summary />
+    public bool Accelerate3DGraphics
+    {
+        // ReSharper disable once UnusedMember.Global
+        get => _accelerate3DGraphics;
+        init
+        {
+            if (_accelerate3DGraphics == value)
+            {
+                return;
+            }
+
+            _accelerate3DGraphics = value;
+            NotifyAccelerate3DGraphicsChanged();
+        }
+    }
+
     // This method is called by the Set accessors of each property.
     // The CallerMemberName attribute that is applied to the optional propertyName
     // parameter causes the property name of the caller to be substituted as an argument.
@@ -128,6 +148,17 @@ public sealed class Machine(
         if (IsEnabledForEditing && PropertyChanged is not null)
         {
             _toggleToolsSyncTime.RunFor(Path, _syncTimeWithHost);
+        }
+    }
+
+    // This method is called by the Set accessors of each property.
+    // The CallerMemberName attribute that is applied to the optional propertyName
+    // parameter causes the property name of the caller to be substituted as an argument.
+    private void NotifyAccelerate3DGraphicsChanged()
+    {
+        if (IsEnabledForEditing && PropertyChanged is not null)
+        {
+            _toggleMksEnable3d.RunFor(Path, _accelerate3DGraphics);
         }
     }
 
