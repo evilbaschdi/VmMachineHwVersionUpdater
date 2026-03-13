@@ -6,7 +6,7 @@ namespace VmMachineHwVersionUpdater.Core.Models;
 public sealed class Machine(
     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
     [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-    [NotNull] IToggleMksEnable3d toggleMksEnable3d,
+    [NotNull] IToggleMksEnable3D toggleMksEnable3D,
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] IUpdateMachineMemSize updateMachineMemSize) : INotifyPropertyChanged
 {
@@ -17,7 +17,7 @@ public sealed class Machine(
     private readonly bool _accelerate3DGraphics;
     private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
     private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
-    private readonly IToggleMksEnable3d _toggleMksEnable3d = toggleMksEnable3d ?? throw new ArgumentNullException(nameof(toggleMksEnable3d));
+    private readonly IToggleMksEnable3D _toggleMksEnable3D = toggleMksEnable3D ?? throw new ArgumentNullException(nameof(toggleMksEnable3D));
     private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
     private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
@@ -158,7 +158,7 @@ public sealed class Machine(
     {
         if (IsEnabledForEditing && PropertyChanged is not null)
         {
-            _toggleMksEnable3d.RunFor(Path, _accelerate3DGraphics);
+            _toggleMksEnable3D.RunFor(Path, _accelerate3DGraphics);
         }
     }
 

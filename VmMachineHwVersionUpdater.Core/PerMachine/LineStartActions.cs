@@ -82,7 +82,7 @@ public class LineStartActions(
                                                                        {
                                                                            "mks.enable3d",
                                                                            (machine, line) =>
-                                                                               machine.MksEnable3d = _returnValueFromVmxLine.ValueFor(line, "mks.enable3d")
+                                                                               machine.MksEnable3D = _returnValueFromVmxLine.ValueFor(line, "mks.enable3d")
                                                                        }
 
                                                                        // Add other actions here...

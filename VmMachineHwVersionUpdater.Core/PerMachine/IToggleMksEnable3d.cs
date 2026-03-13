@@ -1,4 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public interface IToggleMksEnable3d : IUpsertVmxLine<bool>;
+public interface IToggleMksEnable3D : IUpsertVmxLine<bool>;

@@ -29,7 +29,7 @@ public class RawMachine
     public int HwVersion { get; set; }
 
     /// <summary />
-    public string MksEnable3d { get; set; } = "";
+    public string MksEnable3D { get; set; } = "";
 
     /// <summary />
     public int MemSize { get; set; }

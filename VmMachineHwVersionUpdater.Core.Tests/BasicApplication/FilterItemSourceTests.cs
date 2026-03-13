@@ -24,11 +24,11 @@ public class FilterItemSourceTests
     {
         var toggleToolsSyncTime = Substitute.For<IToggleToolsSyncTime>();
         var toggleToolsUpgradePolicy = Substitute.For<IToggleToolsUpgradePolicy>();
-        var toggleMksEnable3d = Substitute.For<IToggleMksEnable3d>();
+        var toggleMksEnable3D = Substitute.For<IToggleMksEnable3D>();
         var updateMachineVersion = Substitute.For<IUpdateMachineVersion>();
         var updateMachineMemSize = Substitute.For<IUpdateMachineMemSize>();
 
-        return new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3d, updateMachineVersion, updateMachineMemSize)
+        return new(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
                {
                    DisplayName = displayName,
                    Annotation = annotation,
@@ -74,7 +74,7 @@ public class FilterItemSourceTests
     {
         // Arrange
         var machine = CreateTestMachine(guestOs: guestOs);
-        var value = (machine, guestOs.Substring(0, Math.Min(3, guestOs.Length)), string.Empty);
+        var value = (machine, guestOs[..Math.Min(3, guestOs.Length)], string.Empty);
 
         // Act
         var result = sut.ValueFor(value);
@@ -105,7 +105,7 @@ public class FilterItemSourceTests
     {
         // Arrange
         var machine = CreateTestMachine(displayName: displayName);
-        var searchText = displayName.Substring(0, Math.Min(3, displayName.Length));
+        var searchText = displayName[..Math.Min(3, displayName.Length)];
         var value = (machine, string.Empty, searchText);
 
         // Act
@@ -122,7 +122,7 @@ public class FilterItemSourceTests
     {
         // Arrange
         var machine = CreateTestMachine(annotation: annotation);
-        var searchText = annotation.Substring(0, Math.Min(3, annotation.Length));
+        var searchText = annotation[..Math.Min(3, annotation.Length)];
         var value = (machine, string.Empty, searchText);
 
         // Act

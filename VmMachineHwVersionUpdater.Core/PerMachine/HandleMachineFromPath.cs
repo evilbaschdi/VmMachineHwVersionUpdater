@@ -15,7 +15,7 @@ public class HandleMachineFromPath(
     [NotNull] IReadLogInformation readLogInformation,
     [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
     [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
-    [NotNull] IToggleMksEnable3d toggleMksEnable3d) : IHandleMachineFromPath
+    [NotNull] IToggleMksEnable3D toggleMksEnable3D) : IHandleMachineFromPath
 {
     private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping = guestOsOutputStringMapping ??
                                                                                throw new ArgumentNullException(
@@ -31,7 +31,7 @@ public class HandleMachineFromPath(
 
     private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
     private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
-    private readonly IToggleMksEnable3d _toggleMksEnable3d = toggleMksEnable3d ?? throw new ArgumentNullException(nameof(toggleMksEnable3d));
+    private readonly IToggleMksEnable3D _toggleMksEnable3D = toggleMksEnable3D ?? throw new ArgumentNullException(nameof(toggleMksEnable3D));
     private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
     private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
@@ -71,7 +71,7 @@ public class HandleMachineFromPath(
             _ => string.Empty
         };
 
-        var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _toggleMksEnable3d, _updateMachineVersion, _updateMachineMemSize)
+        var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _toggleMksEnable3D, _updateMachineVersion, _updateMachineMemSize)
                       {
                           HwVersion = rawMachine.HwVersion,
 
@@ -84,8 +84,8 @@ public class HandleMachineFromPath(
                                             rawMachine.ToolsUpgradePolicy.Equals("upgradeAtPowerCycle", StringComparison.OrdinalIgnoreCase),
                           SyncTimeWithHost = !string.IsNullOrWhiteSpace(rawMachine.SyncTimeWithHost) &&
                                              bool.TryParse(rawMachine.SyncTimeWithHost, out var parsedSyncTime) && parsedSyncTime,
-                          Accelerate3DGraphics = !string.IsNullOrWhiteSpace(rawMachine.MksEnable3d) &&
-                                                 bool.TryParse(rawMachine.MksEnable3d, out var parsedAccelerate3dGraphics) && parsedAccelerate3dGraphics,
+                          Accelerate3DGraphics = !string.IsNullOrWhiteSpace(rawMachine.MksEnable3D) &&
+                                                 bool.TryParse(rawMachine.MksEnable3D, out var parsedAccelerate3DGraphics) && parsedAccelerate3DGraphics,
                           EncryptionData = rawMachine.EncryptionData,
                           EncryptionEncryptedKey = rawMachine.EncryptionEncryptedKey,
                           EncryptionKeySafe = rawMachine.EncryptionKeySafe,

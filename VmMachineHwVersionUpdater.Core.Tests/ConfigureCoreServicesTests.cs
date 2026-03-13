@@ -106,8 +106,8 @@ public class ConfigureCoreServicesTests
         dummyServiceCollection.Should().HaveService<IVmxLineStartsWith>()
                               .WithImplementation<VmxLineStartsWith>()
                               .AsSingleton();
-        dummyServiceCollection.Should().HaveService<IToggleMksEnable3d>()
-                              .WithImplementation<ToggleMksEnable3d>()
+        dummyServiceCollection.Should().HaveService<IToggleMksEnable3D>()
+                              .WithImplementation<ToggleMksEnable3D>()
                               .AsSingleton();
     }
 }
