@@ -1,10 +1,10 @@
-VmMachineHwVersionUpdater
+# VmMachineHwVersionUpdater
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge&)](LICENSE)
 
 "Vm Machine Hardware Version Updater" is a small tool to manage VMware and VirtualBox machine properties such as changing the hardware version of multiple machines without editing the configuration files manually.
 
-Features:
+## Features:
 
 - Change hardware version of one or more machines
 - Enable/disable "Synchronize guest time with host"
@@ -20,6 +20,12 @@ Features:
 
 [User & Contributing Guide](/docs/User-Guide.md) | [Solution Architecture](/docs/Solution-Architecture.md)
 
-| main                                                                                                                                                                                                           | develop                                                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![CodeFactor](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/main)](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/main) | [![CodeFactor](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/develop)](https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/develop) |
+| main                                                         | develop                                                            |
+| :----------------------------------------------------------- | :----------------------------------------------------------------- |
+| [![CodeFactor][codeFactorMainBadge]][codeFactorMainOverview] | [![CodeFactor][codeFactorDevelopBadge]][codeFactorDevelopOverview] |
+
+
+[codeFactorMainBadge]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/main?style=for-the-badge
+[codeFactorMainOverview]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/main
+[codeFactorDevelopBadge]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/develop?style=for-the-badge
+[codeFactorDevelopOverview]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/develop

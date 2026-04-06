@@ -24,6 +24,7 @@
         <Panel Name="MainPanel" Margin="0,0,0,0">
             <Panel Name="ContentPanel" Margin="0,0,0,0">
                 <Grid Margin="7" RowDefinitions="*,1,46">
+
                     <DataGrid Grid.Row="0" Name="MachineGrid" ItemsSource="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*"
                               GridLinesVisibility="Horizontal" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMachine}" ScrollViewer.VerticalScrollBarVisibility="Auto"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
@@ -136,6 +137,7 @@
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
+
                     <Separator Grid.Row="1" />
 
                     <controls:CommandBar Grid.Row="2" Margin="7" HorizontalAlignment="Center">
@@ -169,6 +171,15 @@
                                 <Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding ReloadCommand}" ToolTip.Tip="Restart">
                                     <StackPanel Orientation="Horizontal">
                                         <controls:SymbolIcon Symbol="Sync" FontSize="18" />
+                                    </StackPanel>
+                                </Button>
+                            </controls:CommandBarElementContainer>
+                            <!-- About -->
+                            <controls:CommandBarSeparator />
+                            <controls:CommandBarElementContainer>
+                                <Button VerticalAlignment="Top" HorizontalAlignment="Left" Command="{Binding AboutWindowCommand}" ToolTip.Tip="About">
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:SymbolIcon Symbol="More" FontSize="18" />
                                     </StackPanel>
                                 </Button>
                             </controls:CommandBarElementContainer>
