@@ -53,7 +53,7 @@
 		<Using Include="AutoFixture.Xunit3" />
 		<Using Include="EvilBaschdi.Testing" />
 		<Using Include="FluentAssertions" />
-		<Using Include="FluentAssertions.Microsoft.Extensions.DependencyInjection" />
+		<Using Include="EvilBaschdi.Testing.FluentAssertions.Microsoft.Extensions.DependencyInjection" />
 		<Using Include="NSubstitute" />
 		<Using Include="NSubstitute.ReturnsExtensions" />
 		<Using Include="Xunit" />
