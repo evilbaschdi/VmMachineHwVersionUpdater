@@ -1,5 +1,6 @@
-﻿using EvilBaschdi.Core.Avalonia;
-using FluentAvalonia.UI.Controls;
+﻿using EvilBaschdi.Core.Avalonia.Lifetime;
+
+//using FluentAvalonia.UI.Controls;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 

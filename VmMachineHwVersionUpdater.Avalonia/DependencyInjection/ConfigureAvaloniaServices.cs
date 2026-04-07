@@ -1,5 +1,6 @@
 ﻿using System.Collections;
-using EvilBaschdi.Core.Avalonia;
+using EvilBaschdi.Core.Avalonia.Layout;
+using EvilBaschdi.Core.Avalonia.Lifetime;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 

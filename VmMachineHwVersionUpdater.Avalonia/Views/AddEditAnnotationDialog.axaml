@@ -2,8 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:VmMachineHwVersionUpdater.Avalonia.ViewModels"
+        xmlns:models="clr-namespace:VmMachineHwVersionUpdater.Core.Models;assembly=VmMachineHwVersionUpdater.Core"
         x:Class="VmMachineHwVersionUpdater.Avalonia.Views.AddEditAnnotationDialog"
-        mc:Ignorable="d"
+        x:DataType="viewModels:AddEditAnnotationDialogViewModel" mc:Ignorable="d"
         d:DesignWidth="450" d:DesignHeight="450" Width="450" Height="450"
         Icon="/Assets/b.ico"
         Title="Add / Edit Description"
@@ -28,7 +30,7 @@
 
         <Panel Name="MainPanel" Margin="0,0,0,0">
             <Panel Name="ContentPanel" Margin="7">
-                <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding AnnotationText, Mode=TwoWay}" />
+                <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Annotation, Mode=TwoWay}" x:DataType="models:Machine" />
             </Panel>
         </Panel>
     </Panel>

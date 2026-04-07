@@ -48,6 +48,15 @@
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia'))">
+		<Using Include="EvilBaschdi.Core.Avalonia.Controls" />
+		<Using Include="EvilBaschdi.Core.Avalonia.Layout" />
+		<Using Include="EvilBaschdi.Core.Avalonia.Lifetime" />
+		<Using Include="EvilBaschdi.Core.Avalonia.Mvvm" />
+
+	</ItemGroup>
+
+	<!-- ReSharper disable once UnknownProperty -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
 		<Using Include="AutoFixture.Idioms" />
 		<Using Include="AutoFixture.Xunit3" />

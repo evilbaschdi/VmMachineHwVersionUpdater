@@ -1,4 +1,4 @@
-﻿using EvilBaschdi.Core.Avalonia;
+﻿using EvilBaschdi.Core.Avalonia.Lifetime;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 

@@ -2,8 +2,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia" x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow" d:DesignWidth="1600"
-        d:DesignHeight="700" Width="1600" Height="700" mc:Ignorable="d" Icon="/Assets/b.ico" Title="VM Toolbox">
+        xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+        xmlns:viewModels="clr-namespace:VmMachineHwVersionUpdater.Avalonia.ViewModels"
+        xmlns:models="clr-namespace:VmMachineHwVersionUpdater.Core.Models;assembly=VmMachineHwVersionUpdater.Core"
+        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow"
+        x:DataType="viewModels:MainWindowViewModel" mc:Ignorable="d"
+        d:DesignWidth="1600" d:DesignHeight="700" Width="1600" Height="700"
+        Icon="/Assets/b.ico" Title="VM Toolbox">
 
     <Panel Name="RootPanel">
 
@@ -30,9 +35,9 @@
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <!-- Display Name -->
-                            <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                             <!-- ExtendedInformation -->
-                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                             <!-- Start -->
                             <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -42,7 +47,7 @@
                                         <!-- ReSharper disable once Xaml.StyleClassNotFound -->
                                         <Button VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                 Width="60" Classes="accent"
-                                                Command="{Binding DataContext.StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                Command="{Binding $parent[Window].((viewModels:MainWindowViewModel)DataContext).StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
                                             <StackPanel Orientation="Horizontal">
                                                 <controls:SymbolIcon Symbol="PlayFilled" FontSize="18" />
                                             </StackPanel>
@@ -53,29 +58,31 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <!-- Path -->
-                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" Width="*" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" Width="*" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                             <!-- Directory Size (GB) -->
-                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" Width="150" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" Width="150" FontSize="12" IsReadOnly="True"
+                                                x:DataType="models:Machine" />
                             <!-- Guest OS -->
-                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="200" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="200" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                             <!-- Sync Time -->
-                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" Width="100" IsReadOnly="False" />
+                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" Width="100" IsReadOnly="False" x:DataType="models:Machine" />
                             <!-- Auto Update Tools -->
-                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" Width="145" IsReadOnly="False" />
+                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" Width="145" IsReadOnly="False" x:DataType="models:Machine" />
                             <!-- Accelerate 3D Graphics -->
-                            <DataGridCheckBoxColumn Header="Accelerate 3D Graphics" Binding="{Binding Accelerate3DGraphics}" Width="170" IsReadOnly="False" />
+                            <DataGridCheckBoxColumn Header="Accelerate 3D Graphics" Binding="{Binding Accelerate3DGraphics}" Width="170" IsReadOnly="False"
+                                                    x:DataType="models:Machine" />
                             <!-- Memory -->
                             <DataGridTemplateColumn Header="Memory (GB)" Width="120" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <TextBlock Text="{Binding MemSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" />
+                                        <TextBlock Text="{Binding MemSize}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" x:DataType="models:Machine" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <NumericUpDown Value="{Binding MemSize}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" />
+                                        <NumericUpDown Value="{Binding MemSize}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" x:DataType="models:Machine" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
@@ -84,18 +91,18 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <TextBlock Text="{Binding HwVersion}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" />
+                                        <TextBlock Text="{Binding HwVersion}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="110" x:DataType="models:Machine" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                                        <NumericUpDown Value="{Binding HwVersion}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" />
+                                        <NumericUpDown Value="{Binding HwVersion}" HorizontalAlignment="Stretch" Minimum="0" Maximum="120" x:DataType="models:Machine" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
                             <!-- Last Log Entry -->
-                            <DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" Width="150" FontSize="12" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" Width="150" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                         </DataGrid.Columns>
                         <!--<DataGrid.Styles>
                             <Style Selector="DataGridColumnHeader">

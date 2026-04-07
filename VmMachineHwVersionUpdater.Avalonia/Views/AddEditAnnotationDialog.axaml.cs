@@ -1,5 +1,6 @@
 using Avalonia.Controls;
-using EvilBaschdi.Core.Avalonia;
+using EvilBaschdi.Core.Avalonia.DependencyInjection;
+using EvilBaschdi.Core.Avalonia.Layout;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Views;
