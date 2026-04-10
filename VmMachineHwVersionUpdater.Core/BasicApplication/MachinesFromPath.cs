@@ -34,26 +34,27 @@ public class MachinesFromPath(
 
             var existingMachinePoolPaths = machinePoolPaths.GetExistingDirectories();
 
-            foreach (var machinePoolPath in existingMachinePoolPaths)
-            {
-                var fileList = _fileListFromPath.ValueFor(machinePoolPath, fileListFromPathFilter);
-                Parallel.ForEach(fileList,
-                    machineFilePath =>
-                    {
-                        var machinePath = new MachinePath
-                                          {
-                                              MachinePoolPath = machinePoolPath,
-                                              MachineFilePath = machineFilePath,
-                                          };
-                        var machine = _handleMachineFromPath.ValueFor(machinePath);
-                        if (machine is null)
+            Parallel.ForEach(existingMachinePoolPaths,
+                machinePoolPath =>
+                {
+                    var fileList = _fileListFromPath.ValueFor(machinePoolPath, fileListFromPathFilter);
+                    Parallel.ForEach(fileList,
+                        machineFilePath =>
                         {
-                            return;
-                        }
+                            var machinePath = new MachinePath
+                                              {
+                                                  MachinePoolPath = machinePoolPath,
+                                                  MachineFilePath = machineFilePath,
+                                              };
+                            var machine = _handleMachineFromPath.ValueFor(machinePath);
+                            if (machine is null)
+                            {
+                                return;
+                            }
 
-                        machineBag.Add(machine);
-                    });
-            }
+                            machineBag.Add(machine);
+                        });
+                });
 
             return machineBag;
         }
