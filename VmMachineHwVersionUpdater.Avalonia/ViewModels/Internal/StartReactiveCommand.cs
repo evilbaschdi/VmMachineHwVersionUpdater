@@ -1,4 +1,5 @@
 using EvilBaschdi.Core.Avalonia.Lifetime;
+using FluentAvalonia.UI.Controls;
 
 //using FluentAvalonia.UI.Controls;
 
@@ -28,13 +29,13 @@ public class StartReactiveCommand(
 
         if (mainWindow != null && currentMachine == null)
         {
-            var exceptionDialog = new TaskDialog
+            var exceptionDialog = new FATaskDialog
                                   {
                                       Title = "No row selected!",
-                                      IconSource = new SymbolIconSource { Symbol = Symbol.AlertUrgentFilled },
+                                      IconSource = new FASymbolIconSource { Symbol = FASymbol.AlertUrgentFilled },
                                       Buttons =
                                       {
-                                          TaskDialogButton.OKButton,
+                                          FATaskDialogButton.OKButton,
                                       },
                                       XamlRoot = mainWindow,
                                       Content = "Please select a machine to start"

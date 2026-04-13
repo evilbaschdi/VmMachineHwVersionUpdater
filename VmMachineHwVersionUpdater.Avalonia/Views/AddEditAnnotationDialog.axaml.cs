@@ -1,12 +1,11 @@
-using Avalonia.Controls;
 using EvilBaschdi.Core.Avalonia.DependencyInjection;
-using EvilBaschdi.Core.Avalonia.Layout;
+using FluentAvalonia.UI.Windowing;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Views;
 
 /// <inheritdoc />
-public partial class AddEditAnnotationDialog : Window
+public partial class AddEditAnnotationDialog : FAAppWindow
 {
     /// <summary>
     ///     Constructor
@@ -25,6 +24,6 @@ public partial class AddEditAnnotationDialog : Window
         handleOsDependentTitleBar?.RunFor(this);
 
         var applicationLayout = ApplicationServices.GetRequiredService<IApplicationLayout>();
-        applicationLayout?.RunFor((this, true, true));
+        applicationLayout?.RunFor((this, true, false));
     }
 }

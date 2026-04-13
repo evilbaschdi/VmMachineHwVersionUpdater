@@ -1,5 +1,6 @@
 ﻿using EvilBaschdi.Core.Avalonia.Controls;
 using EvilBaschdi.Core.Avalonia.Lifetime;
+using FluentAvalonia.UI.Controls;
 
 //using FluentAvalonia.UI.Controls;
 
@@ -30,15 +31,15 @@ public class RenameReactiveCommand(
 
         if (!machine.IsEnabledForEditing)
         {
-            var readOnlyDialog = new TaskDialog
+            var readOnlyDialog = new FATaskDialog
                                  {
                                      Buttons =
                                      {
-                                         TaskDialogButton.OKButton,
+                                         FATaskDialogButton.OKButton,
                                      },
                                      XamlRoot = mainWindow,
                                      Title = "'Rename machine' was canceled",
-                                     IconSource = new SymbolIconSource { Symbol = Symbol.AlertUrgentFilled },
+                                     IconSource = new FASymbolIconSource { Symbol = FASymbol.AlertUrgentFilled },
                                      Content = "Machine is currently read only"
                                  };
             await readOnlyDialog.ShowAsync();
@@ -48,7 +49,7 @@ public class RenameReactiveCommand(
         var title = "Rename machine...";
         var text = $"Are you sure you want to rename machine '{_currentMachine.Value.DisplayName}'?";
 
-        var confirmationDialog = new ContentDialog
+        var confirmationDialog = new FAContentDialog
                                  {
                                      Title = title,
                                      Content = text,
@@ -57,24 +58,24 @@ public class RenameReactiveCommand(
                                  };
         var result = await confirmationDialog.ShowAsync();
 
-        if (result != ContentDialogResult.Primary)
+        if (result != FAContentDialogResult.Primary)
         {
             return;
         }
 
-        var exceptionDialog = new TaskDialog
+        var exceptionDialog = new FATaskDialog
                               {
                                   Title = "'Rename machine' was canceled",
-                                  IconSource = new SymbolIconSource { Symbol = Symbol.AlertUrgentFilled },
+                                  IconSource = new FASymbolIconSource { Symbol = FASymbol.AlertUrgentFilled },
                                   Buttons =
                                   {
-                                      TaskDialogButton.OKButton,
+                                      FATaskDialogButton.OKButton,
                                   },
                                   XamlRoot = mainWindow
                               };
         try
         {
-            var targetDialog = new ContentDialog
+            var targetDialog = new FAContentDialog
                                {
                                    Title = "Enter the new display name",
                                    PrimaryButtonText = "Ok",
@@ -89,7 +90,7 @@ public class RenameReactiveCommand(
 
             var targetDialogResult = await targetDialog.ShowAsync();
 
-            if (targetDialogResult == ContentDialogResult.Primary && !string.IsNullOrWhiteSpace(input.ResultText))
+            if (targetDialogResult == FAContentDialogResult.Primary && !string.IsNullOrWhiteSpace(input.ResultText))
             {
                 _changeDisplayName.RunFor(machine.Path, input.ResultText);
             }

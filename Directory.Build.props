@@ -53,7 +53,6 @@
 		<Using Include="EvilBaschdi.Core.Avalonia.Layout" />
 		<Using Include="EvilBaschdi.Core.Avalonia.Lifetime" />
 		<Using Include="EvilBaschdi.Core.Avalonia.Mvvm" />
-
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
@@ -78,6 +77,11 @@
 		<PackageReference Include="EvilBaschdi.Core" />
 		<PackageReference Include="EvilBaschdi.Core.DependencyInjection" />
 		<PackageReference Include="EvilBaschdi.Core.Settings" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia'))">
+		<PackageReference Include="Avalonia.AvaloniaEdit" />
+		<PackageReference Include="AvaloniaEdit.TextMate" />
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->

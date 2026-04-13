@@ -1,10 +1,9 @@
-using Avalonia;
-using Avalonia.Controls;
+using FluentAvalonia.UI.Windowing;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Views;
 
 /// <inheritdoc />
-public partial class MainWindow : Window
+public partial class MainWindow : FAAppWindow
 {
     /// <summary>
     ///     Constructor
@@ -15,7 +14,7 @@ public partial class MainWindow : Window
 
 #if DEBUG
 
-        this.AttachDevTools();
+        //this.AttachDeveloperTools();
 #endif
     }
 }
