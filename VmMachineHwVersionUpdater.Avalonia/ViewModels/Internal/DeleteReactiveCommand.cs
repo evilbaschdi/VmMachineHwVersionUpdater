@@ -1,5 +1,7 @@
-﻿using EvilBaschdi.Core.Avalonia;
+﻿using EvilBaschdi.Core.Avalonia.Lifetime;
 using FluentAvalonia.UI.Controls;
+
+//using FluentAvalonia.UI.Controls;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -28,7 +30,7 @@ public class DeleteReactiveCommand(
             var title = "Delete machine...";
             var text = $"Are you sure you want to delete machine '{_currentMachine.Value.DisplayName}'?";
 
-            var confirmationDialog = new ContentDialog
+            var confirmationDialog = new FAContentDialog
                                      {
                                          Title = title,
                                          Content = text,
@@ -37,18 +39,18 @@ public class DeleteReactiveCommand(
                                      };
             var result = await confirmationDialog.ShowAsync();
 
-            var exceptionDialog = new TaskDialog
+            var exceptionDialog = new FATaskDialog
                                   {
                                       Title = "'Delete machine' was canceled",
-                                      IconSource = new SymbolIconSource { Symbol = Symbol.AlertUrgentFilled },
+                                      IconSource = new FASymbolIconSource { Symbol = FASymbol.AlertUrgentFilled },
                                       Buttons =
                                       {
-                                          TaskDialogButton.OKButton,
+                                          FATaskDialogButton.OKButton,
                                       },
                                       XamlRoot = mainWindow
                                   };
 
-            if (result != ContentDialogResult.Primary)
+            if (result != FAContentDialogResult.Primary)
             {
                 return;
             }

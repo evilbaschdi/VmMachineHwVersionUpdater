@@ -1,36 +1,39 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.AddEditAnnotationDialog"
-        mc:Ignorable="d"
-        d:DesignWidth="450" d:DesignHeight="450" Width="450" Height="450"
-        Icon="/Assets/b.ico"
-        Title="Add / Edit Description"
-        WindowStartupLocation="CenterOwner">
+﻿<windowing:FAAppWindow xmlns="https://github.com/avaloniaui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                       xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+                       xmlns:viewModels="clr-namespace:VmMachineHwVersionUpdater.Avalonia.ViewModels"
+                       xmlns:views="clr-namespace:VmMachineHwVersionUpdater.Avalonia.Views"
+                       xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
+                       xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+                       x:Class="VmMachineHwVersionUpdater.Avalonia.Views.AddEditAnnotationDialog"
+                       x:DataType="viewModels:AddEditAnnotationDialogViewModel" mc:Ignorable="d"
+                       d:DesignWidth="450" d:DesignHeight="450" Width="450" Height="450" ShowAsDialog="True"
+                       Icon="/Assets/b.ico"
+                       Title="Add / Edit Description"
+                       WindowStartupLocation="CenterOwner">
 
     <Panel Name="RootPanel">
-        <ExperimentalAcrylicBorder IsHitTestVisible="False" Name="AcrylicBorder">
-            <ExperimentalAcrylicBorder.Material>
-                <ExperimentalAcrylicMaterial TintColor="Black" TintOpacity="1" MaterialOpacity="0.9" />
-            </ExperimentalAcrylicBorder.Material>
-        </ExperimentalAcrylicBorder>
 
-        <Panel Name="HeaderPanel" IsVisible="False" Margin="7">
-            <Panel Margin="7">
-                <StackPanel Orientation="Horizontal">
-                    <!-- ReSharper disable once Xaml.PathError -->
-                    <Image Source="/Assets/b.ico" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
-                    <TextBlock Text="Add / Edit Description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,0,0,0" />
-                </StackPanel>
-            </Panel>
+        <Panel Name="TitleBarPanel" Height="30" VerticalAlignment="Top" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8" Margin="8,0">
+                <!-- App Icon -->
+                <Image Source="{Binding Icon, RelativeSource={RelativeSource AncestorType=windowing:FAAppWindow}}" Width="20" Height="20" VerticalAlignment="Center" />
+                <!-- App Title -->
+                <TextBlock Text="Add / Edit Description" />
+            </StackPanel>
         </Panel>
 
-        <Panel Name="MainPanel" Margin="0,0,0,0">
+        <Panel Name="MainPanel" Margin="0,30,0,0">
             <Panel Name="ContentPanel" Margin="7">
-                <TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding AnnotationText, Mode=TwoWay}" />
+                <!--<TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Annotation, Mode=TwoWay}" />-->
+                <avaloniaEdit:TextEditor Name="Annotation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowLineNumbers="True"
+                                         views:TextEditorBindingHelper.Text="{Binding Annotation, Mode=TwoWay}" />
+
+
             </Panel>
         </Panel>
     </Panel>
 
-</Window>
+</windowing:FAAppWindow>

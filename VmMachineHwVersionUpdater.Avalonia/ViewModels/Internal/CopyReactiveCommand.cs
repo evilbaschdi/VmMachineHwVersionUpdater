@@ -1,8 +1,10 @@
 ﻿using Avalonia.Threading;
-using EvilBaschdi.Core.Avalonia;
 using EvilBaschdi.Core.Avalonia.Controls;
+using EvilBaschdi.Core.Avalonia.Lifetime;
 using EvilBaschdi.Core.Internal.Copy;
 using FluentAvalonia.UI.Controls;
+
+//using FluentAvalonia.UI.Controls;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
@@ -31,15 +33,15 @@ public class CopyReactiveCommand(
 
         if (!machine.IsEnabledForEditing)
         {
-            var readOnlyDialog = new TaskDialog
+            var readOnlyDialog = new FATaskDialog
                                  {
                                      Buttons =
                                      {
-                                         TaskDialogButton.OKButton,
+                                         FATaskDialogButton.OKButton,
                                      },
                                      XamlRoot = mainWindow,
                                      Title = "'Copy machine' was canceled",
-                                     IconSource = new SymbolIconSource { Symbol = Symbol.AlertUrgentFilled },
+                                     IconSource = new FASymbolIconSource { Symbol = FASymbol.AlertUrgentFilled },
                                      Content = "Machine is currently read only"
                                  };
             await readOnlyDialog.ShowAsync();
@@ -49,7 +51,7 @@ public class CopyReactiveCommand(
         var title = "Copy machine...";
         var text = $"Are you sure you want to copy machine '{_currentMachine.Value.DisplayName}'?";
 
-        var confirmationDialog = new ContentDialog
+        var confirmationDialog = new FAContentDialog
                                  {
                                      Title = title,
                                      Content = text,
@@ -58,25 +60,25 @@ public class CopyReactiveCommand(
                                  };
         var confirmationResult = await confirmationDialog.ShowAsync();
 
-        if (confirmationResult != ContentDialogResult.Primary)
+        if (confirmationResult != FAContentDialogResult.Primary)
         {
             return;
         }
 
-        var exceptionDialog = new TaskDialog
+        var exceptionDialog = new FATaskDialog
                               {
                                   Title = "'Copy machine' was canceled",
-                                  IconSource = new SymbolIconSource { Symbol = Symbol.AlertUrgentFilled },
+                                  IconSource = new FASymbolIconSource { Symbol = FASymbol.AlertUrgentFilled },
                                   Buttons =
                                   {
-                                      TaskDialogButton.OKButton,
+                                      FATaskDialogButton.OKButton,
                                   },
                                   XamlRoot = mainWindow
                               };
 
         try
         {
-            var targetDialog = new ContentDialog
+            var targetDialog = new FAContentDialog
                                {
                                    Title = "Enter the new directory name",
                                    PrimaryButtonText = "Ok",
@@ -91,18 +93,18 @@ public class CopyReactiveCommand(
 
             var targetDialogResult = await targetDialog.ShowAsync();
 
-            if (targetDialogResult == ContentDialogResult.Primary && !string.IsNullOrWhiteSpace(input.ResultText))
+            if (targetDialogResult == FAContentDialogResult.Primary && !string.IsNullOrWhiteSpace(input.ResultText))
             {
-                var copyDialog = new TaskDialog
+                var copyDialog = new FATaskDialog
                                  {
                                      Title = title,
                                      ShowProgressBar = true,
-                                     IconSource = new SymbolIconSource { Symbol = Symbol.CopyFilled },
+                                     IconSource = new FASymbolIconSource { Symbol = FASymbol.CopyFilled },
                                      SubHeader = "Copying",
                                      Content = "Please wait while the machine gets copied",
                                      Buttons =
                                      {
-                                         TaskDialogButton.CancelButton
+                                         FATaskDialogButton.CancelButton
                                      }
                                  };
 
@@ -117,13 +119,13 @@ public class CopyReactiveCommand(
                                                             _copyProgress.Progress = new Progress<double>(progress =>
                                                                                                           {
                                                                                                               copyDialog.SetProgressBarState(progress,
-                                                                                                                  TaskDialogProgressState.Normal);
+                                                                                                                  FATaskDialogProgressState.Normal);
                                                                                                           });
 
                                                             await _copyMachine.RunForAsync(machine, input.ResultText, cancellationToken);
 
                                                             // All done, auto close the dialog here
-                                                            Dispatcher.UIThread.Post(() => { copyDialog.Hide(TaskDialogStandardResult.OK); });
+                                                            Dispatcher.UIThread.Post(() => { copyDialog.Hide(FATaskDialogStandardResult.OK); });
                                                         }, cancellationToken);
                                      };
 

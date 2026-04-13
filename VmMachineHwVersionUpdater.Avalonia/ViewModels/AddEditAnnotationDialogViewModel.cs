@@ -20,7 +20,7 @@ public class AddEditAnnotationDialogViewModel(
     }
 
     /// <inheritdoc />
-    public string AnnotationText
+    public string Annotation
     {
         get => _updateAnnotation.Value;
         set => _updateAnnotation.Value = value;

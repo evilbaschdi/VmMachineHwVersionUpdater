@@ -5,7 +5,7 @@ public interface IAddEditAnnotationDialogViewModel
 {
     /// <summary />
     // ReSharper disable once UnusedMember.Global
-    public string AnnotationText { get; set; }
+    public string Annotation { get; set; }
 
     /// <summary>
     ///     Binding

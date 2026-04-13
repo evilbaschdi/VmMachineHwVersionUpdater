@@ -1,6 +1,8 @@
-﻿using System.Collections;
-using EvilBaschdi.Core.Avalonia;
+﻿using EvilBaschdi.Core.Avalonia.Behaviors;
+using EvilBaschdi.Core.Avalonia.Layout;
+using EvilBaschdi.Core.Avalonia.Lifetime;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Collections;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
@@ -21,5 +23,6 @@ public static class ConfigureAvaloniaServices
         services.TryAddSingleton<IHandleOsDependentTitleBar, HandleOsDependentTitleBar>();
         services.TryAddSingleton<IApplicationLayout, ApplicationLayout>();
         services.TryAddSingleton<IMainWindowByApplicationLifetime, MainWindowByApplicationLifetime>();
+        services.TryAddSingleton<IWindowOpenedBehavior, WindowOpenedBehavior>();
     }
 }
