@@ -8,6 +8,7 @@
 		<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
 		<TrimMode>copyused</TrimMode>
 		<OutputType>WinExe</OutputType>
+		<AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
 	</PropertyGroup>
 
 	<ItemGroup>

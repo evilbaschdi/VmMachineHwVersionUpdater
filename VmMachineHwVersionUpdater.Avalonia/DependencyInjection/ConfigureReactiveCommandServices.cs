@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core.Avalonia.Behaviors;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
+﻿using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 

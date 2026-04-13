@@ -1,6 +1,4 @@
 ﻿using Avalonia.Threading;
-using EvilBaschdi.Core.Avalonia.Controls;
-using EvilBaschdi.Core.Avalonia.Lifetime;
 using EvilBaschdi.Core.Internal.Copy;
 using FluentAvalonia.UI.Controls;
 

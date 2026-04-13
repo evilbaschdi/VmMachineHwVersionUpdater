@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core.Avalonia.Lifetime;
-
-namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
+﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IReloadReactiveCommand" />
 /// <inheritdoc cref="ReactiveCommandUnitTask" />

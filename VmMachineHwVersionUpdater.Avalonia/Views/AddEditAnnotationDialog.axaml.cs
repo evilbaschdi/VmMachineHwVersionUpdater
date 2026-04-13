@@ -1,3 +1,4 @@
+using Avalonia.Controls;
 using EvilBaschdi.Core.Avalonia.Behaviors;
 using EvilBaschdi.Core.Avalonia.DependencyInjection;
 using FluentAvalonia.UI.Windowing;
@@ -30,7 +31,12 @@ public partial class AddEditAnnotationDialog : FAAppWindow
 
     private void OnOpened(object sender, EventArgs e)
     {
+        if (sender is not Window window)
+        {
+            return;
+        }
+
         var windowOpenedBehavior = ApplicationServices.ServiceProvider?.GetRequiredService<IWindowOpenedBehavior>();
-        windowOpenedBehavior?.OnWindowOpened(this);
+        windowOpenedBehavior?.OnWindowOpened(window);
     }
 }

@@ -1,6 +1,4 @@
-﻿using EvilBaschdi.Core.Avalonia.Controls;
-using EvilBaschdi.Core.Avalonia.Lifetime;
-using FluentAvalonia.UI.Controls;
+﻿using FluentAvalonia.UI.Controls;
 
 //using FluentAvalonia.UI.Controls;
 
