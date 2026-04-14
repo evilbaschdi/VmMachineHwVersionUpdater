@@ -122,13 +122,15 @@
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
+	<!-- Production projects in src/ reference Core which is also in src/ -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Core')) != 'true' and $(MSBuildProjectName.EndsWith('.Tests')) != 'true'">
 		<ProjectReference Include="..\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->
+	<!-- Test projects in tests/ reference production projects in src/ -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-		<ProjectReference Include="..\$(MSBuildProjectName.Replace('.Tests',''))\$(MSBuildProjectName.Replace('.Tests','')).csproj" />
+		<ProjectReference Include="..\..\src\$(MSBuildProjectName.Replace('.Tests',''))\$(MSBuildProjectName.Replace('.Tests','')).csproj" />
 	</ItemGroup>
 
 </Project>

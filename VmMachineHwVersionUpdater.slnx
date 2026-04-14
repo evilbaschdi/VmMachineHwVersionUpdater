@@ -17,11 +17,14 @@
     <File Path=".github\instructions\code-style.instructions.md" />
   </Folder>
 
-  <Folder Name="/Tests/">
-    <Project Path="VmMachineHwVersionUpdater.Avalonia.Tests\VmMachineHwVersionUpdater.Avalonia.Tests.csproj" />
-    <Project Path="VmMachineHwVersionUpdater.Core.Tests\VmMachineHwVersionUpdater.Core.Tests.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src\VmMachineHwVersionUpdater.Avalonia\VmMachineHwVersionUpdater.Avalonia.csproj" />
+    <Project Path="src\VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
   </Folder>
-  <Project Path="VmMachineHwVersionUpdater.Avalonia\VmMachineHwVersionUpdater.Avalonia.csproj" />
-  <Project Path="VmMachineHwVersionUpdater.Core\VmMachineHwVersionUpdater.Core.csproj" />
+
+  <Folder Name="/tests/">
+    <Project Path="tests\VmMachineHwVersionUpdater.Avalonia.Tests\VmMachineHwVersionUpdater.Avalonia.Tests.csproj" />
+    <Project Path="tests\VmMachineHwVersionUpdater.Core.Tests\VmMachineHwVersionUpdater.Core.Tests.csproj" />
+  </Folder>
 
 </Solution>

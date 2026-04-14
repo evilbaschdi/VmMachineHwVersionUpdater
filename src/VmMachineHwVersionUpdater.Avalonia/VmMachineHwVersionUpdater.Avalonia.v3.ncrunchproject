@@ -1,0 +1,8 @@
+﻿<ProjectConfiguration>
+	<Settings>
+		<!-- https://docs.avaloniaui.net/docs/0.10.x/guides/developer-guides/testing-with-ncrunch -->
+		<AdditionalFilesToIncludeForProject>
+			<Value>Views\*.axaml</Value>
+		</AdditionalFilesToIncludeForProject>
+	</Settings>
+</ProjectConfiguration>

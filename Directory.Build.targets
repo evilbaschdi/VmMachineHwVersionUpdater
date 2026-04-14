@@ -7,7 +7,8 @@
 	</ItemGroup>
 
 	<Choose>
-		<When Condition="$(MSBuildProjectName.Contains('Core'))">
+		<!-- Core production project -->
+		<When Condition="$(MSBuildProjectName) == 'VmMachineHwVersionUpdater.Core'">
 			<ItemGroup>
 				<Compile Update="**\*.cs">
 					<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
@@ -24,7 +25,8 @@
 				</None>
 			</ItemGroup>
 		</When>
-		<Otherwise>
+		<!-- Avalonia production project -->
+		<When Condition="$(MSBuildProjectName) == 'VmMachineHwVersionUpdater.Avalonia'">
 			<ItemGroup>
 				<Compile Update="ViewModels\*.cs">
 					<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
@@ -33,7 +35,7 @@
 					<DependentUpon>$([System.String]::Copy(I%(Filename).cs).Replace('Cached',''))</DependentUpon>
 				</Compile>
 			</ItemGroup>
-		</Otherwise>
+		</When>
 	</Choose>
 
 </Project>

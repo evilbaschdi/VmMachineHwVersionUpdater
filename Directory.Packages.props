@@ -7,17 +7,17 @@
     <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.0" />
     <PackageVersion Include="Avalonia.AvaloniaEdit" Version="12.0.0" />
     <PackageVersion Include="AvaloniaEdit.TextMate" Version="12.0.0" />
-    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2026.4.13.17-develop" />
+    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2026.4.13.18-develop" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2026.3.30.19" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2026.4.13.17-develop" />
+    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2026.4.13.18-develop" />
     <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2026.3.12.17" />
     <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2026.3.12.17" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="Avalonia.Headless" Version="12.0.0" />
+    <PackageVersion Include="Avalonia.Headless" Version="12.0.1" />
     <PackageVersion Include="coverlet.collector" Version="8.0.1" />
     <PackageVersion Include="EvilBaschdi.Testing" Version="2026.4.6.14" />
-    <PackageVersion Include="EvilBaschdi.Testing.Avalonia" Version="2026.4.13.17-develop" />
+    <PackageVersion Include="EvilBaschdi.Testing.Avalonia" Version="2026.4.13.19" />
     <PackageVersion Include="FluentAssertions.Analyzers" Version="0.34.1" />
     <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.22" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.4.0" />
