@@ -43,6 +43,13 @@ $/
 - Alle Testprojekte (`*.Tests`, `*.IntegrationTests`, `*.Benchmarks`) → `tests/`
 - Projektordner behalten ihren Namen (z.B. `src/MyApp.Core/`, `tests/MyApp.Core.Tests/`)
 
+### Skripte verschieben
+
+- `publish.ps1` und andere Utility-Skripte aus dem Root oder aus Projektordnern → `scripts/`
+- **Pfadanpassungen:** Pfade innerhalb der Skripte (z. B. zu `.csproj`-Dateien) müssen zwingend auf die neue Struktur angepasst werden.
+  - Skripte im `scripts/`-Ordner referenzieren Projekte meist via `..\src\ProjectName\ProjectName.csproj`.
+  - Bestehende Skripte in Unterordnern (z. B. `src/ProjectName/`) müssen ebenfalls aktualisiert werden, wenn sie auf verschobene Abhängigkeiten oder Verzeichnisse verweisen.
+
 ### Solution-Datei anpassen (.sln oder .slnx)
 
 - Es kann sich um das klassische `.sln`-Format oder das neue XML-basierte `.slnx`-Format handeln
@@ -50,6 +57,12 @@ $/
   Solution-Ordner über `<Folder Name="/src/">` und `<Folder Name="/tests/">` anlegen
 - `.sln`: Projektpfade in `Project(...)`-Einträgen und `SolutionFolder`-GUIDs aktualisieren
 - Solution-Items (`Directory.Build.props`, `global.json`, `NuGet.Config`) bleiben im Root
+
+### IDE- und Tool-Konfigurationen anpassen
+
+- **.vscode/**: Pfade in `launch.json` (z. B. `program`, `cwd`) und `tasks.json` (z. B. `args` beim `dotnet build`) auf die neuen Projektstandorte in `src/` oder `tests/` anpassen.
+- **.idea/**: Falls vorhanden, Projektzuordnungen in `.idea`-Ordnern (z. B. Rider/Resharper-Settings) prüfen.
+- **Andere Tools**: Pfade in `.runsettings`, `benchmarkdotnet`-Konfigurationen oder ähnlichen Tool-Dateien aktualisieren.
 
 ### ProjectReference-Pfade in .csproj
 

@@ -41,9 +41,9 @@
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <!-- Display Name -->
-                            <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" SortMemberPath="DisplayName" Width="*" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                             <!-- ExtendedInformation -->
-                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" Width="60" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" SortMemberPath="ExtendedInformation" Width="60" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                             <!-- Start -->
                             <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -64,21 +64,21 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <!-- Path -->
-                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" Width="*" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" SortMemberPath="ShortPath" Width="*" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                             <!-- Directory Size (GB) -->
-                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" Width="150" FontSize="12" IsReadOnly="True"
+                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" SortMemberPath="DirectorySizeGb" Width="150" FontSize="12" IsReadOnly="True"
                                                 x:DataType="models:Machine" />
                             <!-- Guest OS -->
-                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" Width="200" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" SortMemberPath="GuestOs" Width="200" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                             <!-- Sync Time -->
-                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" Width="100" IsReadOnly="False" x:DataType="models:Machine" />
+                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" SortMemberPath="SyncTimeWithHost" Width="100" IsReadOnly="False" x:DataType="models:Machine" />
                             <!-- Auto Update Tools -->
-                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" Width="145" IsReadOnly="False" x:DataType="models:Machine" />
+                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" SortMemberPath="AutoUpdateTools" Width="145" IsReadOnly="False" x:DataType="models:Machine" />
                             <!-- Accelerate 3D Graphics -->
-                            <DataGridCheckBoxColumn Header="Accelerate 3D Graphics" Binding="{Binding Accelerate3DGraphics}" Width="170" IsReadOnly="False"
+                            <DataGridCheckBoxColumn Header="Accelerate 3D Graphics" Binding="{Binding Accelerate3DGraphics}" SortMemberPath="Accelerate3DGraphics" Width="170" IsReadOnly="False"
                                                     x:DataType="models:Machine" />
                             <!-- Memory -->
-                            <DataGridTemplateColumn Header="Memory (GB)" Width="120" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Memory (GB)" SortMemberPath="MemSize" Width="120" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
@@ -93,7 +93,7 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
                             <!-- Version -->
-                            <DataGridTemplateColumn Header="Version" Width="120" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Version" SortMemberPath="HwVersion" Width="120" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
@@ -108,16 +108,8 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
                             <!-- Last Log Entry -->
-                            <DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" Width="150" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" SortMemberPath="LogLastDate" Width="150" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
                         </DataGrid.Columns>
-                        <!--<DataGrid.Styles>
-                            <Style Selector="DataGridColumnHeader">
-                                <Setter Property="Background" Value="Transparent" />
-                            </Style>
-                            <Style Selector="DataGridRowGroupHeader">
-                                <Setter Property="Background" Value="Transparent" />
-                            </Style>
-                        </DataGrid.Styles>-->
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <!-- ReSharper disable Xaml.RedundantResource -->

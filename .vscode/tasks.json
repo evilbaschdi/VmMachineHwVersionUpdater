@@ -7,9 +7,33 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
+                "${workspaceFolder}/src/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-release",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "-c",
+                "Release",
+                "${workspaceFolder}/src/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "clean",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "clean",
+                "${workspaceFolder}/VmMachineHwVersionUpdater.slnx"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -19,7 +43,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
+                "${workspaceFolder}/src/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +56,8 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
+                "--project",
+                "${workspaceFolder}/src/VmMachineHwVersionUpdater.Avalonia/VmMachineHwVersionUpdater.Avalonia.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
