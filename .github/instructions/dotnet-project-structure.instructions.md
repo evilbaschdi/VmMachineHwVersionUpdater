@@ -2,93 +2,109 @@
 applyTo: "**/*.{sln,slnx,csproj,props,targets}"
 ---
 
-# .NET-Projektstruktur (Fowl/dotnet-template-Konvention)
+# .NET Project Structure (Fowl/dotnet-template Convention)
 
-Beim Erstellen, Umstrukturieren oder Überprüfen von .NET-Projekten folge dieser Verzeichniskonvention
-(basierend auf https://gist.github.com/davidfowl/ed7564297c61fe9ab814
-und https://github.com/dotnet-template/project-layout):
+When creating, restructuring, or reviewing .NET projects, follow this directory convention 
+(based on https://gist.github.com/davidfowl/ed7564297c61fe9ab814 
+and https://github.com/dotnet-template/project-layout):
 
-## Zielstruktur
+## Target Structure
 
 ```
 $/
-  artifacts/        # Build-Outputs (nupkgs, dlls, pdbs) — nur in .gitignore, nicht committen
-  build/            # Build-Customizations (custom MSBuild-Targets, CI-Skripte)
-  deployments/      # IaaS, PaaS, Container-Orchestrierung (docker-compose, k8s, terraform)
-  docs/             # Dokumentation (Markdown, Hilfe-Dateien)
-  lib/              # Abhängigkeiten die NICHT als NuGet-Paket existieren können
-  packages/         # NuGet-Pakete — nur in .gitignore, nicht committen
-  samples/          # Beispielprojekte (optional)
-  scripts/          # Utility-Skripte (Publish, Install, Analyse, Migrations)
-  src/              # Produktcode — alle Hauptprojekte
-  tests/            # Testprojekte (Unit, Integration)
-  .editorconfig     # Cross-Platform IDE-Einstellungen
-  .gitattributes    # Git-Attribute
-  .gitignore        # Git-Ignore-Regeln
-  build.cmd         # Build-Bootstrapper (Windows)
-  build.sh          # Build-Bootstrapper (*nix)
-  global.json       # .NET SDK-Version
-  LICENSE           # Lizenz (bei OSS-Projekten)
-  NuGet.Config      # NuGet-Paketquellen
-  README.md         # Projekt-Beschreibung
-  {solution}.sln    # Solution-Datei im Root (klassisches Format)
-  {solution}.slnx   # Solution-Datei im Root (neues XML-Format, ab .NET 9)
+  artifacts/        # Build outputs (nupkgs, dlls, pdbs) — in .gitignore only, do not commit
+  build/            # Build customizations (custom MSBuild targets, CI scripts)
+  deployments/      # IaaS, PaaS, container orchestration (docker-compose, k8s, terraform)
+  docs/             # Documentation (Markdown, help files)
+  lib/              # Dependencies that CANNOT exist as a NuGet package
+  packages/         # NuGet packages — in .gitignore only, do not commit
+  samples/          # Sample projects (optional)
+  scripts/          # Utility scripts (publish, install, analysis, migrations)
+  src/              # Product code — all main projects
+  tests/            # Test projects (Unit, Integration)
+  .editorconfig     # Cross-platform IDE settings
+  .gitattributes    # Git attributes
+  .gitignore        # Git ignore rules
+  build.cmd         # Build bootstrapper (Windows)
+  build.sh          # Build bootstrapper (*nix)
+  global.json       # .NET SDK version
+  LICENSE           # License (for OSS projects)
+  NuGet.Config      # NuGet package sources
+  README.md         # Project description
+  {solution}.sln    # Solution file in root (classic format)
+  {solution}.slnx   # Solution file in root (new XML format, from .NET 9)
 ```
 
-## Regeln zur Umstrukturierung
+## Restructuring Rules
 
-### Projekte verschieben
+### Moving Projects
 
-- Alle Produktcode-Projekte (Libraries, Apps, APIs, Worker) → `src/`
-- Alle Testprojekte (`*.Tests`, `*.IntegrationTests`, `*.Benchmarks`) → `tests/`
-- Projektordner behalten ihren Namen (z.B. `src/MyApp.Core/`, `tests/MyApp.Core.Tests/`)
+- All product code projects (Libraries, Apps, APIs, Workers) → `src/`
+- All test projects (`*.Tests`, `*.IntegrationTests`, `*.Benchmarks`) → `tests/`
+- Project folders keep their name (e.g., `src/MyApp.Core/`, `tests/MyApp.Core.Tests/`)
 
-### Skripte verschieben
+### Moving Scripts
 
-- `publish.ps1` und andere Utility-Skripte aus dem Root oder aus Projektordnern → `scripts/`
-- **Pfadanpassungen:** Pfade innerhalb der Skripte (z. B. zu `.csproj`-Dateien) müssen zwingend auf die neue Struktur angepasst werden.
-  - Skripte im `scripts/`-Ordner referenzieren Projekte meist via `..\src\ProjectName\ProjectName.csproj`.
-  - Bestehende Skripte in Unterordnern (z. B. `src/ProjectName/`) müssen ebenfalls aktualisiert werden, wenn sie auf verschobene Abhängigkeiten oder Verzeichnisse verweisen.
+- `publish.ps1` and other utility scripts from root or project folders → `scripts/`
+- **Path Adjustments:** Paths within scripts (e.g., to `.csproj` files) MUST be adjusted to the new structure.
+  - Scripts in the `scripts/` folder usually reference projects via `..\src\ProjectName\ProjectName.csproj`.
+  - Existing scripts in subfolders (e.g., `src/ProjectName/`) must also be updated if they reference moved dependencies or directories.
 
-### Solution-Datei anpassen (.sln oder .slnx)
+### Publishing Configuration (`scripts/`)
 
-- Es kann sich um das klassische `.sln`-Format oder das neue XML-basierte `.slnx`-Format handeln
-- `.slnx`: Projektpfade in `<Project Path="..." />`-Elementen aktualisieren,
-  Solution-Ordner über `<Folder Name="/src/">` und `<Folder Name="/tests/">` anlegen
-- `.sln`: Projektpfade in `Project(...)`-Einträgen und `SolutionFolder`-GUIDs aktualisieren
-- Solution-Items (`Directory.Build.props`, `global.json`, `NuGet.Config`) bleiben im Root
+When using central publishing scripts, the following files must be maintained:
 
-### IDE- und Tool-Konfigurationen anpassen
+- **`scripts/publish.json`**: Configuration file for the publishing process.
+  - Every new executable project must be entered here.
+  - Fields:
+    - `project`: Name of the project (matches folder name in `src/`).
+    - `runtimes`: List of target runtimes (e.g., `["win-x64", "win-arm64"]`).
+    - `targetFramework`: .NET version (e.g., `net10.0`).
+    - `selfContained`: `true` or `false`.
+    - `withAppLauncher`: Whether the `AppLauncher` should be used.
+- **`scripts/publish.ps1`**: PowerShell script to execute build and publish.
+  - The script references projects relative to its location via `..\src\{ProjectName}\{ProjectName}.csproj`.
+  - It ensures that binaries are copied to `C:\Apps\{ProjectName}\{Runtime}`.
 
-- **.vscode/**: Pfade in `launch.json` (z. B. `program`, `cwd`) und `tasks.json` (z. B. `args` beim `dotnet build`) auf die neuen Projektstandorte in `src/` oder `tests/` anpassen.
-- **.idea/**: Falls vorhanden, Projektzuordnungen in `.idea`-Ordnern (z. B. Rider/Resharper-Settings) prüfen.
-- **Andere Tools**: Pfade in `.runsettings`, `benchmarkdotnet`-Konfigurationen oder ähnlichen Tool-Dateien aktualisieren.
+### Adjusting Solution Files (.sln or .slnx)
 
-### ProjectReference-Pfade in .csproj
+- This can be the classic `.sln` format or the new XML-based `.slnx` format.
+- `.slnx`: Update project paths in `<Project Path="..." />` elements, 
+  create solution folders via `<Folder Name="/src/">` and `<Folder Name="/tests/">`.
+- `.sln`: Update project paths in `Project(...)` entries and `SolutionFolder` GUIDs.
+- Solution items (`Directory.Build.props`, `global.json`, `NuGet.Config`) stay in the root.
 
-- Projekte innerhalb von `src/` referenzieren sich gegenseitig über `..\..\`-relative Pfade
-  (z.B. `..\MyApp.Core\MyApp.Core.csproj`)
-- Testprojekte in `tests/` referenzieren `src/`-Projekte über
-  `..\..\src\{Projekt}\{Projekt}.csproj`
+### Adjusting IDE and Tool Configurations
 
-### Abgrenzung `build/` vs. `scripts/`
+- **.vscode/**: Adjust paths in `launch.json` (e.g., `program`, `cwd`) and `tasks.json` (e.g., `args` for `dotnet build`) to the new project locations in `src/` or `tests/`.
+- **.idea/**: If present, check project mappings in `.idea` folders (e.g., Rider/ReSharper settings).
+- **Other Tools**: Update paths in `.runsettings`, `benchmarkdotnet` configurations, or similar tool files.
 
-- **`build/`** → Dateien die den Build-Prozess selbst anpassen: custom MSBuild-Targets,
-  `.props`/`.targets`-Dateien, CI-Pipeline-Definitionen (YAML), Cake/FAKE-Skripte
-- **`scripts/`** → Ausführbare Skripte für konkrete Operationen:
-  `publish.ps1`, `migrate.ps1`, `setup.sh`, Analyse-Skripte etc.
+### ProjectReference Paths in .csproj
 
-### Verzeichnisse anlegen
+- Projects within `src/` reference each other via `..\..\` relative paths 
+  (e.g., `..\MyApp.Core\MyApp.Core.csproj`).
+- Test projects in `tests/` reference `src/` projects via 
+  `..\..\src\{Project}\{Project}.csproj`.
 
-- `src/` und `tests/` — immer
-- `docs/`, `build/`, `samples/`, `scripts/`, `deployments/`, `lib/` — nur bei Bedarf
-- `artifacts/` und `packages/` — NICHT anlegen, nur in `.gitignore` eintragen
+### Separation of `build/` vs. `scripts/`
 
-### Root-Dateien
+- **`build/`** → Files that customize the build process itself: custom MSBuild targets, 
+  `.props`/`.targets` files, CI pipeline definitions (YAML), Cake/FAKE scripts.
+- **`scripts/`** → Executable scripts for concrete operations: 
+  `publish.ps1`, `migrate.ps1`, `setup.sh`, analysis scripts, etc.
+
+### Creating Directories
+
+- `src/` and `tests/` — always
+- `docs/`, `build/`, `samples/`, `scripts/`, `deployments/`, `lib/` — only as needed
+- `artifacts/` and `packages/` — DO NOT create, only add to `.gitignore`
+
+### Root Files
 
 - `Directory.Build.props`, `Directory.Packages.props`, `global.json`, `NuGet.Config` → Root
-- `.editorconfig` → Root (sicherstellen, dass vorhanden)
-- `.gitignore` → Root, muss mindestens enthalten:
+- `.editorconfig` → Root (ensure it exists)
+- `.gitignore` → Root, must at least contain:
   ```
   [Oo]bj/
   [Bb]in/
@@ -104,14 +120,14 @@ $/
   .vs/
   ```
 
-### Validierung
+### Validation
 
-- Nach Umstrukturierung: `dotnet build` → 0 Fehler
-- Nach Umstrukturierung: `dotnet test` → keine neuen Fehler
-- CI/CD-Pipelines auf geänderte Pfade prüfen
+- After restructuring: `dotnet build` → 0 errors
+- After restructuring: `dotnet test` → no new errors
+- Check CI/CD pipelines for changed paths
 
-### Was NICHT geändert wird
+### What is NOT changed
 
-- Projektinhalte (*.cs, *.axaml etc.) — nur verschieben, nicht modifizieren
-- PackageReference-Einträge — nur ProjectReference-Pfade anpassen
-- Namespaces — bleiben unverändert (sofern nicht explizit gewünscht)
+- Project contents (*.cs, *.axaml etc.) — only move, do not modify
+- PackageReference entries — only adjust ProjectReference paths
+- Namespaces — remain unchanged (unless explicitly requested)

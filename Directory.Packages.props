@@ -4,14 +4,14 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.0" />
+    <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.1" />
     <PackageVersion Include="Avalonia.AvaloniaEdit" Version="12.0.0" />
     <PackageVersion Include="AvaloniaEdit.TextMate" Version="12.0.0" />
     <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2026.4.13.18-develop" />
     <PackageVersion Include="EvilBaschdi.Core" Version="2026.3.30.19" />
     <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2026.4.13.18-develop" />
-    <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2026.3.12.17" />
-    <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2026.3.12.17" />
+    <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2026.4.15.17" />
+    <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2026.4.15.17" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="Avalonia.Headless" Version="12.0.1" />
