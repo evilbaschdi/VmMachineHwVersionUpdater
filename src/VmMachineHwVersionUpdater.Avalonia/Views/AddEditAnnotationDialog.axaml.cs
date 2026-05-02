@@ -1,6 +1,5 @@
-using Avalonia.Controls;
-using EvilBaschdi.Core.Avalonia.Behaviors;
 using EvilBaschdi.Core.Avalonia.DependencyInjection;
+using EvilBaschdi.Core.Avalonia.Themes;
 using FluentAvalonia.UI.Windowing;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
@@ -15,28 +14,7 @@ public partial class AddEditAnnotationDialog : FAAppWindow
     public AddEditAnnotationDialog()
     {
         InitializeComponent();
-        ApplyLayout();
-        Opened += OnOpened;
+        ThemeEngine.ApplyThemeToWindow(this, false);
         DataContext = ApplicationServices.GetRequiredService<AddEditAnnotationDialogViewModel>();
-    }
-
-    private void ApplyLayout()
-    {
-        var handleOsDependentTitleBar = ApplicationServices.GetRequiredService<IHandleOsDependentTitleBar>();
-        handleOsDependentTitleBar?.RunFor(this);
-
-        var applicationLayout = ApplicationServices.GetRequiredService<IApplicationLayout>();
-        applicationLayout?.RunFor((this, true, false));
-    }
-
-    private void OnOpened(object sender, EventArgs e)
-    {
-        if (sender is not Window window)
-        {
-            return;
-        }
-
-        var windowOpenedBehavior = ApplicationServices.ServiceProvider?.GetRequiredService<IWindowOpenedBehavior>();
-        windowOpenedBehavior?.OnWindowOpened(window);
     }
 }

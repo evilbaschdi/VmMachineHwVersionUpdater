@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using EvilBaschdi.Core.Avalonia.Behaviors;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
@@ -18,9 +17,6 @@ public static class ConfigureAvaloniaServices
         services.AddSingleton<IConfigureDataGridCollectionView, ConfigureDataGridCollectionView>();
         services.AddSingleton<IFilterDataGridCollectionView, FilterDataGridCollectionView>();
 
-        services.TryAddSingleton<IHandleOsDependentTitleBar, HandleOsDependentTitleBar>();
-        services.TryAddSingleton<IApplicationLayout, ApplicationLayout>();
         services.TryAddSingleton<IMainWindowByApplicationLifetime, MainWindowByApplicationLifetime>();
-        services.TryAddSingleton<IWindowOpenedBehavior, WindowOpenedBehavior>();
     }
 }

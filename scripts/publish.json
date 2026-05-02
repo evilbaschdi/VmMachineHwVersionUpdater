@@ -1,5 +1,6 @@
 {
-    "publish": [
+    "pipelineName": "VM Toolbox",
+    "profiles": [
         {
             "project": "VmMachineHwVersionUpdater.Avalonia",
             "runtimes": [

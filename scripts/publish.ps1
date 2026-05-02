@@ -21,7 +21,7 @@ dotnet clean
 dotnet restore
 dotnet build
 
-foreach ($publishItem in $config.publish) {
+foreach ($publishItem in $config.profiles) {
     $project = $publishItem.project
     $runtimes = $publishItem.runtimes
     $targetFramework = $publishItem.targetFramework

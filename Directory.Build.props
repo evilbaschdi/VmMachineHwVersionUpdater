@@ -50,7 +50,6 @@
 	<!-- ReSharper disable once UnknownProperty -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia'))">
 		<Using Include="EvilBaschdi.Core.Avalonia.Controls" />
-		<Using Include="EvilBaschdi.Core.Avalonia.Layout" />
 		<Using Include="EvilBaschdi.Core.Avalonia.Lifetime" />
 		<Using Include="EvilBaschdi.Core.Avalonia.Mvvm" />
 	</ItemGroup>
@@ -118,7 +117,7 @@
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia.Tests'))">
 		<PackageReference Include="EvilBaschdi.Testing.Avalonia" />
-		<PackageReference Include="Avalonia.Headless" />
+		<PackageReference Include="Avalonia.Headless.XUnit" />
 	</ItemGroup>
 
 	<!-- ReSharper disable once UnknownProperty -->

@@ -55,16 +55,18 @@ $/
 When using central publishing scripts, the following files must be maintained:
 
 - **`scripts/publish.json`**: Configuration file for the publishing process.
-  - Every new executable project must be entered here.
-  - Fields:
+  - `pipelineName`: Name of the overall publishing pipeline.
+  - `profiles`: An array of publishing profiles.
     - `project`: Name of the project (matches folder name in `src/`).
     - `runtimes`: List of target runtimes (e.g., `["win-x64", "win-arm64"]`).
     - `targetFramework`: .NET version (e.g., `net10.0`).
     - `selfContained`: `true` or `false`.
     - `withAppLauncher`: Whether the `AppLauncher` should be used.
 - **`scripts/publish.ps1`**: PowerShell script to execute build and publish.
-  - The script references projects relative to its location via `..\src\{ProjectName}\{ProjectName}.csproj`.
-  - It ensures that binaries are copied to `C:\Apps\{ProjectName}\{Runtime}`.
+  - The script executes from the repository root.
+  - It references projects via `src\{ProjectName}\{ProjectName}.csproj`.
+  - It ensures that binaries are copied to `C:\Apps\{ProjectName}\{RuntimeSuffix}` (where `RuntimeSuffix` is the runtime without the `win-` prefix, e.g., `x64`).
+  - If `withAppLauncher` is true, it copies a central `AppLauncher.exe` to the project's root folder in `C:\Apps`.
 
 ### Adjusting Solution Files (.sln or .slnx)
 
