@@ -202,6 +202,9 @@ public sealed class Machine(
     public string GuestOs { get; set; }
 
     /// <summary />
+    public string GuestOsRaw { get; set; }
+
+    /// <summary />
     public string GuestOsDetailedData { get; set; }
 
     /// <summary />

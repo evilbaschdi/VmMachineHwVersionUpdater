@@ -7,30 +7,16 @@
                        xmlns:viewModels="clr-namespace:VmMachineHwVersionUpdater.Avalonia.ViewModels"
                        xmlns:models="clr-namespace:VmMachineHwVersionUpdater.Core.Models;assembly=VmMachineHwVersionUpdater.Core"
                        xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
+                       xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
                        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow"
                        x:DataType="viewModels:MainWindowViewModel" mc:Ignorable="d"
                        d:DesignWidth="1600" d:DesignHeight="700" Width="1600" Height="700"
-                       Icon="/Assets/b.ico" Title="VM Toolbox">
+                       Title="VM Toolbox">
 
     <Panel Name="RootPanel">
 
-        <Panel Name="TitleBarPanel" Height="30" VerticalAlignment="Top" Margin="0,0,0,0">
-            <!--<Button VerticalAlignment="Top" HorizontalAlignment="Center" Background="Transparent" Command="{Binding AboutWindowCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <ContentControl>
-                        --><!-- ReSharper disable once Xaml.PathError --><!--
-                        <Image Source="/Assets/b.ico" Width="20" Height="20" />
-                    </ContentControl>
-                    <TextBlock Text="VM Toolbox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,0,0,0" />
-                </StackPanel>
-            </Button>-->
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8" Margin="8,0">
-                <!-- App Icon -->
-                <Image Source="{Binding Icon, RelativeSource={RelativeSource AncestorType=windowing:FAAppWindow}}" Width="20" Height="20" VerticalAlignment="Center" />
-                <!-- App Title -->
-                <TextBlock Text="VM Toolbox" />
-            </StackPanel>
-        </Panel>
+        <!-- ReSharper disable once Xaml.PathError -->
+        <evilBaschdi:TitleBarControl Icon="/Assets/b.ico" Name="TitleBarControl" />
 
         <Panel Name="MainPanel" Margin="0,30,0,0">
             <Panel Name="ContentPanel" Margin="0,0,0,0">
@@ -39,11 +25,33 @@
                     <DataGrid Grid.Row="0" Name="MachineGrid" ItemsSource="{Binding DataGridCollectionViewMachines}" AutoGenerateColumns="False" ColumnWidth="*"
                               GridLinesVisibility="Horizontal" SelectionMode="Single" SelectedItem="{Binding Path=SelectedMachine}" ScrollViewer.VerticalScrollBarVisibility="Auto"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Styles>
+                            <Style Selector="DataGridCell.TipDisplayName" x:DataType="models:Machine">
+                                <Setter Property="ToolTip.Tip" Value="{Binding DisplayName}" x:DataType="models:Machine" />
+                            </Style>
+                            <Style Selector="DataGridCell.TipExtendedInformation" x:DataType="models:Machine">
+                                <Setter Property="ToolTip.Tip" Value="{Binding Annotation}" x:DataType="models:Machine" />
+                            </Style>
+                            <Style Selector="DataGridCell.TipPath" x:DataType="models:Machine">
+                                <Setter Property="ToolTip.Tip" Value="{Binding Path}" x:DataType="models:Machine" />
+                            </Style>
+                            <Style Selector="DataGridCell.TipDirectorySize" x:DataType="models:Machine">
+                                <Setter Property="ToolTip.Tip" Value="{Binding DirectorySize}" x:DataType="models:Machine" />
+                            </Style>
+                            <Style Selector="DataGridCell.TipGuestOs" x:DataType="models:Machine">
+                                <Setter Property="ToolTip.Tip" Value="{Binding GuestOsRaw}" x:DataType="models:Machine" />
+                            </Style>
+                            <Style Selector="DataGridCell.TipLogLastDate" x:DataType="models:Machine">
+                                <Setter Property="ToolTip.Tip" Value="{Binding LogLastDateDiff}" x:DataType="models:Machine" />
+                            </Style>
+                        </DataGrid.Styles>
                         <DataGrid.Columns>
                             <!-- Display Name -->
-                            <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" SortMemberPath="DisplayName" Width="*" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" SortMemberPath="DisplayName" Width="*" FontSize="12" IsReadOnly="True"
+                                                CellStyleClasses="TipDisplayName" x:DataType="models:Machine" />
                             <!-- ExtendedInformation -->
-                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" SortMemberPath="ExtendedInformation" Width="60" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" SortMemberPath="ExtendedInformation" Width="60" FontSize="12" IsReadOnly="True"
+                                                CellStyleClasses="TipExtendedInformation" x:DataType="models:Machine" />
                             <!-- Start -->
                             <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -64,18 +72,24 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <!-- Path -->
-                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" SortMemberPath="ShortPath" Width="*" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Path" Binding="{Binding ShortPath}" SortMemberPath="ShortPath" Width="*" FontSize="12" IsReadOnly="True"
+                                                CellStyleClasses="TipPath" x:DataType="models:Machine" />
                             <!-- Directory Size (GB) -->
-                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" SortMemberPath="DirectorySizeGb" Width="150" FontSize="12" IsReadOnly="True"
-                                                x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Directory Size (GB)" Binding="{Binding DirectorySizeGb}" SortMemberPath="DirectorySizeGb" Width="150" FontSize="12"
+                                                IsReadOnly="True"
+                                                CellStyleClasses="TipDirectorySize" x:DataType="models:Machine" />
                             <!-- Guest OS -->
-                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" SortMemberPath="GuestOs" Width="200" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Guest OS" Binding="{Binding GuestOs}" SortMemberPath="GuestOs" Width="200" FontSize="12" IsReadOnly="True"
+                                                CellStyleClasses="TipGuestOs" x:DataType="models:Machine" />
                             <!-- Sync Time -->
-                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" SortMemberPath="SyncTimeWithHost" Width="100" IsReadOnly="False" x:DataType="models:Machine" />
+                            <DataGridCheckBoxColumn Header="Sync Time" Binding="{Binding SyncTimeWithHost}" SortMemberPath="SyncTimeWithHost" Width="100" IsReadOnly="False"
+                                                    x:DataType="models:Machine" />
                             <!-- Auto Update Tools -->
-                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" SortMemberPath="AutoUpdateTools" Width="145" IsReadOnly="False" x:DataType="models:Machine" />
+                            <DataGridCheckBoxColumn Header="Auto Update Tools" Binding="{Binding AutoUpdateTools}" SortMemberPath="AutoUpdateTools" Width="145" IsReadOnly="False"
+                                                    x:DataType="models:Machine" />
                             <!-- Accelerate 3D Graphics -->
-                            <DataGridCheckBoxColumn Header="Accelerate 3D Graphics" Binding="{Binding Accelerate3DGraphics}" SortMemberPath="Accelerate3DGraphics" Width="170" IsReadOnly="False"
+                            <DataGridCheckBoxColumn Header="Accelerate 3D Graphics" Binding="{Binding Accelerate3DGraphics}" SortMemberPath="Accelerate3DGraphics" Width="170"
+                                                    IsReadOnly="False"
                                                     x:DataType="models:Machine" />
                             <!-- Memory -->
                             <DataGridTemplateColumn Header="Memory (GB)" SortMemberPath="MemSize" Width="120" IsReadOnly="False">
@@ -108,7 +122,8 @@
                                 </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
                             <!-- Last Log Entry -->
-                            <DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" SortMemberPath="LogLastDate" Width="150" FontSize="12" IsReadOnly="True" x:DataType="models:Machine" />
+                            <DataGridTextColumn Header="Last Log Entry" Binding="{Binding LogLastDate}" SortMemberPath="LogLastDate" Width="150" FontSize="12" IsReadOnly="True"
+                                                CellStyleClasses="TipLogLastDate" x:DataType="models:Machine" />
                         </DataGrid.Columns>
                         <DataGrid.ContextMenu>
                             <ContextMenu>

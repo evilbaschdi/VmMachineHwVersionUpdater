@@ -7,23 +7,17 @@
                        xmlns:viewModels="clr-namespace:VmMachineHwVersionUpdater.Avalonia.ViewModels"
                        xmlns:views="clr-namespace:VmMachineHwVersionUpdater.Avalonia.Views"
                        xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
+                       xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
                        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.AddEditAnnotationDialog"
                        x:DataType="viewModels:AddEditAnnotationDialogViewModel" mc:Ignorable="d"
                        d:DesignWidth="450" d:DesignHeight="450" Width="450" Height="450" ShowAsDialog="True"
-                       Icon="/Assets/b.ico"
                        Title="Add / Edit Description"
                        WindowStartupLocation="CenterOwner">
 
     <Panel Name="RootPanel">
 
-        <Panel Name="TitleBarPanel" Height="30" VerticalAlignment="Top" Margin="0,0,0,0">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8" Margin="8,0">
-                <!-- App Icon -->
-                <Image Source="{Binding Icon, RelativeSource={RelativeSource AncestorType=windowing:FAAppWindow}}" Width="20" Height="20" VerticalAlignment="Center" />
-                <!-- App Title -->
-                <TextBlock Text="Add / Edit Description" />
-            </StackPanel>
-        </Panel>
+        <!-- ReSharper disable once Xaml.PathError -->
+        <evilBaschdi:TitleBarControl Icon="/Assets/b.ico" Name="TitleBarControl" />
 
         <Panel Name="MainPanel" Margin="0,30,0,0">
             <Panel Name="ContentPanel" Margin="7">
