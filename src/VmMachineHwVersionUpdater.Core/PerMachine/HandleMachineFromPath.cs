@@ -64,12 +64,14 @@ public class HandleMachineFromPath(
         var paused = directoryInfo?.GetFiles("*.vmss").Any();
         var properFilePathCapitalization = fileInfo.GetProperFilePathCapitalization();
 
-        var guestOs = rawMachine.MachineType switch
+        var rawMachineGuestOs = rawMachine.MachineType switch
         {
             MachineType.Vmx => rawMachine.GuestOs,
             MachineType.Vbox => rawMachine.OSType,
             _ => string.Empty
         };
+
+        var guestOs = rawMachineGuestOs?.Trim() ?? string.Empty;
 
         var machine = new Machine(_toggleToolsSyncTime, _toggleToolsUpgradePolicy, _toggleMksEnable3D, _updateMachineVersion, _updateMachineMemSize)
                       {
@@ -91,9 +93,9 @@ public class HandleMachineFromPath(
                           EncryptionKeySafe = rawMachine.EncryptionKeySafe,
                           ManagedVmAutoAddVTpm = rawMachine.ManagedVmAutoAddVTpm,
                           DisplayName = rawMachine.DisplayName,
-                          GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs?.Trim() ?? string.Empty),
-                          GuestOsRaw = guestOs?.Trim() ?? string.Empty,
-                           GuestOsDetailedData = rawMachine.DetailedData,
+                          GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs),
+                          GuestOsRaw = guestOs,
+                          GuestOsDetailedData = rawMachine.DetailedData,
                           Path = properFilePathCapitalization,
                           Directory = machinePoolPath,
                           DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),

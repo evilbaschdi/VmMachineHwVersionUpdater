@@ -5,9 +5,9 @@
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
                        xmlns:viewModels="clr-namespace:VmMachineHwVersionUpdater.Avalonia.ViewModels"
-                       xmlns:views="clr-namespace:VmMachineHwVersionUpdater.Avalonia.Views"
                        xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
                        xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
+                       xmlns:mvvm="clr-namespace:EvilBaschdi.Core.Avalonia.Mvvm;assembly=EvilBaschdi.Core.Avalonia"
                        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.AddEditAnnotationDialog"
                        x:DataType="viewModels:AddEditAnnotationDialogViewModel" mc:Ignorable="d"
                        d:DesignWidth="450" d:DesignHeight="450" Width="450" Height="450" ShowAsDialog="True"
@@ -23,7 +23,7 @@
             <Panel Name="ContentPanel" Margin="7">
                 <!--<TextBox Name="Annotation" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Annotation, Mode=TwoWay}" />-->
                 <avaloniaEdit:TextEditor Name="Annotation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowLineNumbers="True"
-                                         views:TextEditorBindingHelper.Text="{Binding Annotation, Mode=TwoWay}" />
+                                         mvvm:TextEditorBindingHelper.Text="{Binding Annotation, Mode=TwoWay}" />
 
 
             </Panel>

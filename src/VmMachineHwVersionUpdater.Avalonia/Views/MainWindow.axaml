@@ -8,10 +8,15 @@
                        xmlns:models="clr-namespace:VmMachineHwVersionUpdater.Core.Models;assembly=VmMachineHwVersionUpdater.Core"
                        xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
                        xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
+                       xmlns:converters="clr-namespace:VmMachineHwVersionUpdater.Avalonia.Converters"
                        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow"
                        x:DataType="viewModels:MainWindowViewModel" mc:Ignorable="d"
                        d:DesignWidth="1600" d:DesignHeight="700" Width="1600" Height="700"
                        Title="VM Toolbox">
+
+    <Window.Resources>
+        <converters:MachineStateConverter x:Key="MachineStateConverter" />
+    </Window.Resources>
 
     <Panel Name="RootPanel">
 
@@ -31,6 +36,9 @@
                             </Style>
                             <Style Selector="DataGridCell.TipExtendedInformation" x:DataType="models:Machine">
                                 <Setter Property="ToolTip.Tip" Value="{Binding Annotation}" x:DataType="models:Machine" />
+                            </Style>
+                            <Style Selector="DataGridCell.TipMachineState" x:DataType="models:Machine">
+                                <Setter Property="ToolTip.Tip" Value="{Binding MachineState}" x:DataType="models:Machine" />
                             </Style>
                             <Style Selector="DataGridCell.TipPath" x:DataType="models:Machine">
                                 <Setter Property="ToolTip.Tip" Value="{Binding Path}" x:DataType="models:Machine" />
@@ -53,7 +61,7 @@
                             <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" SortMemberPath="ExtendedInformation" Width="60" FontSize="12" IsReadOnly="True"
                                                 CellStyleClasses="TipExtendedInformation" x:DataType="models:Machine" />
                             <!-- Start -->
-                            <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False">
+                            <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False" CellStyleClasses="TipMachineState">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable Xaml.PossibleNullReferenceException -->
@@ -63,7 +71,7 @@
                                                 Width="60" Classes="accent"
                                                 Command="{Binding $parent[Window].((viewModels:MainWindowViewModel)DataContext).StartCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
                                             <StackPanel Orientation="Horizontal">
-                                                <controls:FASymbolIcon Symbol="PlayFilled" FontSize="18" />
+                                                <controls:FASymbolIcon Symbol="{Binding MachineState, Converter={StaticResource MachineStateConverter}}" FontSize="18" />
                                             </StackPanel>
                                         </Button>
                                         <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->

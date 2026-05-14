@@ -53,6 +53,6 @@ public class GuestOsOutputStringMappingTests
 
         // Assert
 
-        result.Should().Be("Windows 10 and later x64");
+        result.Should().Be("Windows 10 x64");
     }
 }
