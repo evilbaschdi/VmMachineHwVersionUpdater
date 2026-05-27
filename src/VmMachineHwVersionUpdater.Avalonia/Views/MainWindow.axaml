@@ -61,7 +61,7 @@
                             <DataGridTextColumn Header="🚩" Binding="{Binding ExtendedInformation}" SortMemberPath="ExtendedInformation" Width="60" FontSize="12" IsReadOnly="True"
                                                 CellStyleClasses="TipExtendedInformation" x:DataType="models:Machine" />
                             <!-- Start -->
-                            <DataGridTemplateColumn Header="Start" Width="70" IsReadOnly="False" CellStyleClasses="TipMachineState">
+                            <DataGridTemplateColumn Header="State" Width="70" IsReadOnly="False" CellStyleClasses="TipMachineState">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!-- ReSharper disable Xaml.PossibleNullReferenceException -->
