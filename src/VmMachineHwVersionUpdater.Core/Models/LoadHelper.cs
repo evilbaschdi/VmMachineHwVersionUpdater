@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 
 namespace VmMachineHwVersionUpdater.Core.Models;
 
@@ -15,5 +16,5 @@ public class LoadHelper
     public string UpdateAllTextBlocks { get; set; }
 
     /// <summary />
-    public ConcurrentBag<Machine> VmDataGridItemsSource { get; set; }
+    public ObservableCollection<Machine> VmDataGridItemsSource { get; set; }
 }

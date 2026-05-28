@@ -19,4 +19,14 @@ public class HandleMachineFromPathTests
     {
         assertion.Verify(typeof(HandleMachineFromPath).GetMethods().Where(method => !method.IsAbstract));
     }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ValueFor_WithNullMachinePath_ThrowsArgumentNullException(
+        HandleMachineFromPath sut)
+    {
+        // Act & Assert
+        var act = () => sut.ValueFor(null!);
+        act.Should().Throw<ArgumentNullException>()
+           .WithParameterName("machinePath");
+    }
 }

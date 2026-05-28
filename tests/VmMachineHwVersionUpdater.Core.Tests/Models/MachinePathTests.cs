@@ -20,7 +20,7 @@ public class MachinePathTests
     {
         // Filter out property setters for init-only properties as they don't need null guards
         var methods = typeof(MachinePath).GetMethods()
-            .Where(method => !method.IsAbstract && !method.Name.StartsWith("set_"));
+                                         .Where(method => !method.IsAbstract && !method.Name.StartsWith("set_"));
         assertion.Verify(methods);
     }
 
@@ -49,10 +49,10 @@ public class MachinePathTests
     {
         // Act
         var sut = new MachinePath
-        {
-            MachinePoolPath = expectedPoolPath,
-            MachineFilePath = expectedFilePath
-        };
+                  {
+                      MachinePoolPath = expectedPoolPath,
+                      MachineFilePath = expectedFilePath
+                  };
 
         // Assert
         sut.MachinePoolPath.Should().Be(expectedPoolPath);

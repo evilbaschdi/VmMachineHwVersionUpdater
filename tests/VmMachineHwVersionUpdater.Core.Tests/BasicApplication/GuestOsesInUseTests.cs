@@ -38,30 +38,30 @@ public class GuestOsesInUseTests
         dummyDictionary.TryAdd("Ubuntu x64", true);
 
         load.Value.Returns(new LoadHelper
-            {
-                SearchOsItems = dummyDictionary
-            }
+                           {
+                               SearchOsItems = dummyDictionary
+                           }
         );
 
         var configurationSections = new IConfigurationSection[]
-        {
-            new ConfigurationSection(dummConfigurationRoot, "1")
-            {
-                Value = "Windows 7"
-            },
-            new ConfigurationSection(dummConfigurationRoot, "2")
-            {
-                Value = "Windows 10 x64"
-            },
-            new ConfigurationSection(dummConfigurationRoot, "3")
-            {
-                Value = "Windows Server 2022 x64"
-            },
-            new ConfigurationSection(dummConfigurationRoot, "4")
-            {
-                Value = "Ubuntu x64"
-            }
-        };
+                                    {
+                                        new ConfigurationSection(dummConfigurationRoot, "1")
+                                        {
+                                            Value = "Windows 7"
+                                        },
+                                        new ConfigurationSection(dummConfigurationRoot, "2")
+                                        {
+                                            Value = "Windows 10 x64"
+                                        },
+                                        new ConfigurationSection(dummConfigurationRoot, "3")
+                                        {
+                                            Value = "Windows Server 2022 x64"
+                                        },
+                                        new ConfigurationSection(dummConfigurationRoot, "4")
+                                        {
+                                            Value = "Ubuntu x64"
+                                        }
+                                    };
 
         dummyConfiguration.GetChildren().Returns(configurationSections);
         guestOsStringMapping.Value.Returns(dummyConfiguration);

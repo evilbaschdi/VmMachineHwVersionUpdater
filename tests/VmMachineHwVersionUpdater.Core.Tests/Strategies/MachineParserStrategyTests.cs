@@ -68,7 +68,7 @@ public class MachineParserStrategyTests
 
         // Act & Assert
         sut.Invoking(x => x.Parse(filePath))
-            .Should().Throw<NotSupportedException>()
-            .WithMessage("File extension '.unsupported' is not supported.");
+           .Should().Throw<NotSupportedException>()
+           .WithMessage("File extension '.unsupported' is not supported.");
     }
 }

@@ -32,20 +32,20 @@ public class LoadSearchOsItemsTests
         // Arrange
         var separatorValue = new object();
         var searchOsItems = new ConcurrentDictionary<string, bool>
-        {
-            ["Windows 11"] = true,
-            ["Ubuntu 22.04"] = true
-        };
+                            {
+                                ["Windows 11"] = true,
+                                ["Ubuntu 22.04"] = true
+                            };
         var guestOsItems = new ConcurrentDictionary<string, bool>
-        {
-            ["CentOS 7"] = true,
-            ["Debian 11"] = true
-        };
+                           {
+                               ["CentOS 7"] = true,
+                               ["Debian 11"] = true
+                           };
 
         var loadHelper = new LoadHelper
-        {
-            SearchOsItems = searchOsItems
-        };
+                         {
+                             SearchOsItems = searchOsItems
+                         };
         load.Value.Returns(loadHelper);
         guestOsesInUse.Value.Returns(guestOsItems);
         separator.Value.Returns(separatorValue);
@@ -75,14 +75,14 @@ public class LoadSearchOsItemsTests
         var separatorValue = new object();
         var searchOsItems = new ConcurrentDictionary<string, bool>();
         var guestOsItems = new ConcurrentDictionary<string, bool>
-        {
-            ["CentOS 7"] = true
-        };
+                           {
+                               ["CentOS 7"] = true
+                           };
 
         var loadHelper = new LoadHelper
-        {
-            SearchOsItems = searchOsItems
-        };
+                         {
+                             SearchOsItems = searchOsItems
+                         };
         load.Value.Returns(loadHelper);
         guestOsesInUse.Value.Returns(guestOsItems);
         separator.Value.Returns(separatorValue);

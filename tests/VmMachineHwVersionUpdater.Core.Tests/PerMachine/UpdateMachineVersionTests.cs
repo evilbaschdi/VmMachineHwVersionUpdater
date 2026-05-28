@@ -61,11 +61,11 @@ public class UpdateMachineVersionTests
             dummyMachine2.Path = tempPath2;
 
             var machines = new[]
-            {
-                dummyMachine0,
-                dummyMachine1,
-                dummyMachine2
-            }.AsParallel();
+                           {
+                               dummyMachine0,
+                               dummyMachine1,
+                               dummyMachine2
+                           }.AsParallel();
 
             // Act
             sut.RunFor(machines, dummyNewVersion);

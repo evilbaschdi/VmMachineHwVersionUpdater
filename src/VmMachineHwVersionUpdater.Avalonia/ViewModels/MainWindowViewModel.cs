@@ -18,6 +18,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     private readonly IInitReactiveCommands _initReactiveCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
+    private readonly IVmFileChangeHandler _vmFileChangeHandler;
 
     #region Constructor
 
@@ -30,13 +31,15 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <param name="configureDataGridCollectionView"></param>
     /// <param name="filterDataGridCollectionView"></param>
     /// <param name="initReactiveCommands"></param>
+    /// <param name="vmFileChangeHandler"></param>
     /// <exception cref="ArgumentNullException"></exception>
     public MainWindowViewModel([NotNull] ILoad load,
                                [NotNull] ICurrentMachine currentMachine,
                                [NotNull] ILoadSearchOsItems loadSearchOsItems,
                                [NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
                                [NotNull] IFilterDataGridCollectionView filterDataGridCollectionView,
-                               [NotNull] IInitReactiveCommands initReactiveCommands)
+                               [NotNull] IInitReactiveCommands initReactiveCommands,
+                               [NotNull] IVmFileChangeHandler vmFileChangeHandler)
     {
         _load = load ?? throw new ArgumentNullException(nameof(load));
         _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
@@ -44,6 +47,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
         _filterDataGridCollectionView = filterDataGridCollectionView ?? throw new ArgumentNullException(nameof(filterDataGridCollectionView));
         _initReactiveCommands = initReactiveCommands ?? throw new ArgumentNullException(nameof(initReactiveCommands));
+        _vmFileChangeHandler = vmFileChangeHandler ?? throw new ArgumentNullException(nameof(vmFileChangeHandler));
 
         Run();
     }
@@ -62,6 +66,8 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         ReloadCommand = _initReactiveCommands.ReloadReactiveCommand.Command;
         StartCommand = _initReactiveCommands.StartReactiveCommand.Command;
         UpdateAllCommand = _initReactiveCommands.UpdateAllReactiveCommand.Command;
+
+        _vmFileChangeHandler.Start();
     }
 
     #endregion Constructor

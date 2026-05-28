@@ -1,4 +1,6 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Tests.Commands;
+﻿using System.Reflection;
+
+namespace VmMachineHwVersionUpdater.Core.Tests.Commands;
 
 public class OpenWithCodeCommandTests
 {
@@ -17,6 +19,41 @@ public class OpenWithCodeCommandTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(OpenWithCodeCommand).GetMethods().Where(method => !method.IsAbstract));
+        assertion.Verify(typeof(OpenWithCodeCommand).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                                                    .Where(method => !method.IsAbstract & !method.ReturnType.IsAssignableTo(typeof(Task))));
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task RunAsync_WhenCurrentMachineValueIsNull_CallsProcessByPathWithNullPath(
+        [Frozen] IProcessByPath processByPath,
+        [Frozen] ICurrentMachine currentMachine,
+        OpenWithCodeCommand sut)
+    {
+        // Arrange
+        currentMachine.Value.Returns((Machine)null);
+
+        // Act
+        await sut.RunAsync(TestContext.Current.CancellationToken);
+
+        // Assert
+        processByPath.Received(1).RunFor("vscode://file/");
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task RunAsync_WhenMachinePathDoesNotExist_CallsProcessByPathWithFormattedPath(
+        [Frozen] IProcessByPath processByPath,
+        [Frozen] ICurrentMachine currentMachine,
+        OpenWithCodeCommand sut,
+        Machine machine)
+    {
+        // Arrange
+        machine.Path = @"C:\NonExistent\fake.vmx";
+        currentMachine.Value.Returns(machine);
+
+        // Act
+        await sut.RunAsync(TestContext.Current.CancellationToken);
+
+        // Assert
+        processByPath.Received(1).RunFor(@"vscode://file/C:\NonExistent\fake.vmx");
     }
 }

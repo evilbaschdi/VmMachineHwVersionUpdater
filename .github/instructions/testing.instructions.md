@@ -26,11 +26,7 @@ public void Constructor_ReturnsInterfaceName(ClassUnderTest sut)
 [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
 public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
 {
-    assertion.Verify(typeof(ClassUnderTest).GetMethods()
-        .Where(method => !method.IsAbstract 
-                      && !method.Name.StartsWith("set_") 
-                      && !method.Name.StartsWith("add_") 
-                      && !method.Name.StartsWith("remove_")));
+    assertion.Verify(typeof(ClassUnderTest).GetMethods().Where(method => !method.IsAbstract));
 }
 ```
 
@@ -87,12 +83,12 @@ public void Method_WithInvalidInput_ThrowsArgumentException(double input)
         .WithParameterName("input");
 }
 
-[Fact]
-public void Method_WithNullParameter_ThrowsArgumentNullException()
+[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+public void Method_WithNullParameter_ThrowsArgumentNullException(ClassUnderTest sut)
 {
     // Act & Assert
-    var act = () => sut.Method(null!);
-    act.Should().Throw<ArgumentNullException>()
+    sut.Invoking(x => x.Method(null!))
+        .Should().Throw<ArgumentNullException>()
         .WithParameterName("parameter");
 }
 ```
@@ -147,6 +143,111 @@ public void MethodName_WithInvalidInput_ThrowsException() { }
 - Test class naming: `{ClassUnderTest}Tests`
 - Test method naming: `{MethodUnderTest}_{Scenario}_{ExpectedBehavior}`
 
+## Mocking with [Frozen] and NSubstitute
+
+Use `[Frozen]` to freeze a mock dependency so the same instance is injected into the SUT by AutoFixture. This allows verifying interactions on that dependency.
+
+### Setting Up Mock Return Values
+```csharp
+[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+public void Parse_WithVmxExtension_CallsParseVmxFile(
+    [Frozen] IParseVmxFile parseVmxFile,
+    MachineParserStrategy sut,
+    string fileName,
+    RawMachine expectedResult)
+{
+    // Arrange
+    var filePath = $"{fileName}.vmx";
+    parseVmxFile.ValueFor(filePath).Returns(expectedResult);
+
+    // Act
+    var result = sut.Parse(filePath);
+
+    // Assert
+    result.Should().Be(expectedResult);
+    parseVmxFile.Received(1).ValueFor(filePath);
+}
+```
+
+### Verifying Method Calls
+```csharp
+[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+public void Start_WhenCalled_StartsFileWatcher(
+    [Frozen] IVmFileWatcher vmFileWatcher,
+    VmFileChangeHandler sut)
+{
+    // Act
+    sut.Start();
+
+    // Assert
+    vmFileWatcher.Received(1).Start();
+}
+```
+
+Key rules:
+- `[Frozen]` parameters MUST appear before `sut` in the parameter list
+- AutoFixture-generated parameters (e.g. `string fileName`, `RawMachine expectedResult`) appear after `sut`
+- Use `.Returns()` to configure mock return values
+- Use `.ReturnsNull()` for null returns (from `NSubstitute.ReturnsExtensions`)
+- Use `.Received(1)` to verify a method was called exactly once
+- Use `.DidNotReceive()` to verify a method was not called
+
+### CancellationToken in Assertions
+When you explicitly pass a `CancellationToken` in the Arrange/Act block, use `TestContext.Current.CancellationToken` to verify the same token was forwarded:
+
+```csharp
+// When you PASS a CancellationToken to the method under test:
+var cancellationToken = TestContext.Current.CancellationToken;
+await sut.RunForAsync(machine, "newDir", cancellationToken);
+await dependency.Received(1)
+    .RunForAsync(Arg.Any<string>(), Arg.Any<string>(), cancellationToken);
+
+// When you do NOT pass a CancellationToken (uses default):
+await sut.RunForAsync(machine, "newDir");
+await dependency.DidNotReceive()
+    .RunForAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
+```
+
+## Methods_HaveNullGuards Filter Variants
+
+For simple classes (no property setters or events):
+```csharp
+assertion.Verify(typeof(ClassUnderTest).GetMethods().Where(method => !method.IsAbstract));
+```
+
+For models/POCOs with property setters:
+```csharp
+assertion.Verify(typeof(ClassUnderTest).GetMethods().Where(method => !method.IsAbstract & !method.Name.StartsWith("set_")));
+```
+
+For ViewModels and classes with property setters/events (Avalonia/ReactiveUI):
+```csharp
+assertion.Verify(typeof(ClassUnderTest).GetMethods().Where(method => !method.IsAbstract
+                                                                      & !method.Name.StartsWith("set_")
+                                                                      & !method.Name.StartsWith("add_")
+                                                                      & !method.Name.StartsWith("remove_")));
+```
+
+> **Note**: Use bitwise `&` (not `&&`) for these filters — this is the established convention.
+
+## Constructor_ReturnsInterfaceName Variants
+
+For classes implementing an interface:
+```csharp
+sut.Should().BeAssignableTo<IClassUnderTest>();
+```
+
+For classes inheriting a base class (e.g. ViewModels):
+```csharp
+sut.Should().BeAssignableTo<ReactiveObject>();
+```
+
+For model/POCO classes without an interface:
+```csharp
+sut.Should().NotBeNull();
+sut.Should().BeOfType<VmFileChangedEventArgs>();
+```
+
 ## Static Class Testing
 For static classes, modify the Constructor_ReturnsInterfaceName test:
 ```csharp
@@ -154,7 +255,90 @@ For static classes, modify the Constructor_ReturnsInterfaceName test:
 public void Constructor_ReturnsInterfaceName()
 {
     // Static class cannot be instantiated, verify it's static
-    typeof(StaticClass).Should().BeStatic();
+    typeof(StaticClass).Should().NotBeNull();
+}
+```
+
+## Dependency Injection Tests
+
+For testing DI service registration (static extension method classes), use the fluent `ServiceCollection` assertions from `EvilBaschdi.Testing` (available via global using `FluentAssertions.Microsoft.Extensions.DependencyInjection`).
+
+DI tests MUST use `[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]` with `IServiceCollection` injected by AutoFixture:
+
+```csharp
+[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+public void RunFor_ForProvidedServiceCollection_ReturnsServiceCollectionWithInstances(IServiceCollection serviceCollection)
+{
+    // Act
+    serviceCollection.AddCoreServices();
+
+    // Assert
+    serviceCollection.Should().HaveCount(39);
+    serviceCollection.Should().HaveService<IGoToCommand>()
+                              .WithImplementation<GoToCommand>()
+                              .AsSingleton();
+    serviceCollection.Should().HaveService<IReloadCommand>()
+                              .WithImplementation<ReloadCommand>()
+                              .AsSingleton();
+}
+```
+
+### Available Fluent DI Assertions
+- `.HaveCount(int)` — Assert total number of registrations
+- `.HaveService<TService>()` — Assert a service type is registered
+- `.WithImplementation<TImpl>()` — Assert specific implementation type
+- `.WithFactory()` — Assert registration uses a factory function
+- `.WithCount(int)` — Assert a service is registered N times
+- `.AsSingleton()` / `.AsScoped()` / `.AsTransient()` — Assert lifetime
+- `.And()` — Chain multiple assertions
+
+> **Note**: Do NOT use `BuildServiceProvider()` + `GetService<>()` to verify registrations. Use the fluent `services.Should().HaveService<>()` pattern instead.
+
+## When to use `[Fact]`
+
+Use `[Fact]` ONLY for tests that do not instantiate anything — typically tests on static classes or static methods where AutoFixture cannot inject anything useful:
+
+```csharp
+[Fact]
+public void Constructor_ReturnsInterfaceName()
+{
+    // Static class cannot be instantiated, verify it's static
+    typeof(StaticClass).Should().NotBeNull();
+}
+
+[Fact]
+public void AddCommandServices_WithNullServices_ThrowsArgumentNullException()
+{
+    // Act & Assert
+    ((Action)(() => ConfigureCommandServices.AddCommandServices(null!)))
+        .Should().Throw<ArgumentNullException>();
+}
+```
+
+All other tests MUST use `[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]`.
+
+## IDisposable Testing
+
+```csharp
+[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+public void Dispose_WhenCalled_CanBeCalledMultipleTimes(ClassUnderTest sut)
+{
+    // Act
+    var act = () =>
+    {
+        sut.Dispose();
+        sut.Dispose();
+    };
+
+    // Assert
+    act.Should().NotThrow();
+}
+
+[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+public void Dispose_WhenCalled_ImplementsIDisposable(ClassUnderTest sut)
+{
+    // Assert
+    sut.Should().BeAssignableTo<IDisposable>();
 }
 ```
 

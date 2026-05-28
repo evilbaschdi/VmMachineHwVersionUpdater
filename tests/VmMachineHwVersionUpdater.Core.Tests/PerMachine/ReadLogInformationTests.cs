@@ -19,4 +19,26 @@ public class ReadLogInformationTests
     {
         assertion.Verify(typeof(ReadLogInformation).GetMethods().Where(method => !method.IsAbstract));
     }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ValueFor_WithNonExistentDirectory_ReturnsEmptyStrings(
+        ReadLogInformation sut)
+    {
+        // Act
+        var (logLastDate, logLastDateDiff) = sut.ValueFor(@"C:\NonExistent\Directory");
+
+        // Assert
+        logLastDate.Should().BeEmpty();
+        logLastDateDiff.Should().BeEmpty();
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ValueFor_WithNullLogDirectory_ThrowsArgumentNullException(
+        ReadLogInformation sut)
+    {
+        // Act & Assert
+        var act = () => sut.ValueFor(null!);
+        act.Should().Throw<ArgumentNullException>()
+           .WithParameterName("logDirectory");
+    }
 }

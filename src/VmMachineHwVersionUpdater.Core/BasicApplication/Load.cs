@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
@@ -35,7 +36,7 @@ public class Load(
                 });
 
             loadHelper.UpdateAllTextBlocks = $"Update all {currentItemSource.Count} machines to version";
-            loadHelper.VmDataGridItemsSource = currentItemSource;
+            loadHelper.VmDataGridItemsSource = new ObservableCollection<Machine>(currentItemSource);
             loadHelper.UpdateAllHwVersion = currentItemSource.Select(machine => machine.HwVersion).Max();
             loadHelper.SearchOsItems = searchOsItems;
 

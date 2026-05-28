@@ -22,8 +22,8 @@ public class DoubleExtensionsTests
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         var methods = typeof(DoubleExtensions)
-            .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
-            .Where(m => !m.IsSpecialName);
+                      .GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                      .Where(m => !m.IsSpecialName);
 
         assertion.Verify(methods);
     }
@@ -55,7 +55,7 @@ public class DoubleExtensionsTests
         // Act & Assert
         var act = () => input.GiBiBytesToKiBiBytes();
         act.Should().Throw<ArgumentOutOfRangeException>()
-            .WithParameterName("input");
+           .WithParameterName("input");
     }
 
     [Theory]
@@ -106,7 +106,7 @@ public class DoubleExtensionsTests
         // Act & Assert
         var act = () => input.KiBiBytesToGiBiBytes();
         act.Should().Throw<ArgumentOutOfRangeException>()
-            .WithParameterName("input");
+           .WithParameterName("input");
     }
 
     [Theory]
@@ -142,7 +142,7 @@ public class DoubleExtensionsTests
         // Act & Assert
         var act = () => input.ToFileSize(precision, null!);
         act.Should().Throw<ArgumentNullException>()
-            .WithParameterName("culture");
+           .WithParameterName("culture");
     }
 
     [Theory]

@@ -25,6 +25,14 @@
 				</None>
 			</ItemGroup>
 		</When>
+		<!-- Core test project -->
+		<When Condition="$(MSBuildProjectName) == 'VmMachineHwVersionUpdater.Core.Tests'">
+			<ItemGroup>
+				<Content Include="Settings\**\*.json">
+					<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+				</Content>
+			</ItemGroup>
+		</When>
 		<!-- Avalonia production project -->
 		<When Condition="$(MSBuildProjectName) == 'VmMachineHwVersionUpdater.Avalonia'">
 			<ItemGroup>

@@ -25,14 +25,13 @@ public class ParseVboxFileTests
     {
         // Act & Assert
         sut.Invoking(x => x.ValueFor(null!))
-            .Should().Throw<ArgumentNullException>();
+           .Should().Throw<ArgumentNullException>();
     }
 
-    [Fact]
-    public void ValueFor_WithValidVboxFile_ParsesCorrectly()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ValueFor_WithValidVboxFile_ParsesCorrectly(ParseVboxFile sut)
     {
         // Arrange
-        var sut = new ParseVboxFile();
         var tempFile = Path.GetTempFileName();
         var vboxContent = """
                           <?xml version="1.0"?>
@@ -72,11 +71,10 @@ public class ParseVboxFileTests
         }
     }
 
-    [Fact]
-    public void ValueFor_WithMinimalVboxFile_ReturnsBasicRawMachine()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ValueFor_WithMinimalVboxFile_ReturnsBasicRawMachine(ParseVboxFile sut)
     {
         // Arrange
-        var sut = new ParseVboxFile();
         var tempFile = Path.GetTempFileName();
         var vboxContent = """
                           <?xml version="1.0"?>

@@ -20,12 +20,9 @@ public class UpdateMachineMemSizeTests
         assertion.Verify(typeof(UpdateMachineMemSize).GetMethods().Where(method => !method.IsAbstract));
     }
 
-    [Fact]
-    public void Constructor_InitializesWithCorrectKey()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Constructor_InitializesWithCorrectKey(UpdateMachineMemSize sut)
     {
-        // Act
-        var sut = new UpdateMachineMemSize();
-
         // Assert
         sut.Should().NotBeNull();
         sut.Should().BeAssignableTo<UpsertVmxLine<int>>();
@@ -38,7 +35,7 @@ public class UpdateMachineMemSizeTests
     {
         // Act & Assert
         sut.Invoking(x => x.RunFor(null!, memSize))
-            .Should().Throw<ArgumentNullException>();
+           .Should().Throw<ArgumentNullException>();
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
