@@ -1,4 +1,5 @@
 using Avalonia.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
@@ -7,7 +8,9 @@ public class VmFileChangeHandler(
     [NotNull] IVmFileWatcher vmFileWatcher,
     [NotNull] ILoad load,
     [NotNull] IHandleMachineFromPath handleMachineFromPath,
-    [NotNull] IPathSettings pathSettings) : IVmFileChangeHandler
+    [NotNull] IPathSettings pathSettings,
+    [NotNull] ILogger<VmFileChangeHandler> logger,
+    [NotNull] IFileAccessRetryPolicy fileAccessRetryPolicy) : IVmFileChangeHandler
 {
     private readonly IVmFileWatcher _vmFileWatcher =
         vmFileWatcher ?? throw new ArgumentNullException(nameof(vmFileWatcher));
@@ -20,20 +23,30 @@ public class VmFileChangeHandler(
     private readonly IPathSettings
         _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
 
+    private readonly ILogger<VmFileChangeHandler> _logger =
+        logger ?? throw new ArgumentNullException(nameof(logger));
+
+    private readonly IFileAccessRetryPolicy _fileAccessRetryPolicy =
+        fileAccessRetryPolicy ?? throw new ArgumentNullException(nameof(fileAccessRetryPolicy));
+
     private bool _disposed;
 
     /// <inheritdoc />
     public void Start()
     {
+        _logger.LogDebug("Starting VmFileChangeHandler");
         _vmFileWatcher.FileChanged += OnFileChanged;
         _vmFileWatcher.Start();
+        _logger.LogInformation("VmFileChangeHandler started successfully");
     }
 
     /// <inheritdoc />
     public void Stop()
     {
+        _logger.LogDebug("Stopping VmFileChangeHandler");
         _vmFileWatcher.FileChanged -= OnFileChanged;
         _vmFileWatcher.Stop();
+        _logger.LogInformation("VmFileChangeHandler stopped");
     }
 
     /// <inheritdoc />
@@ -53,112 +66,309 @@ public class VmFileChangeHandler(
     {
         ArgumentNullException.ThrowIfNull(args);
 
-        var loadValue = _load.Value;
-        if (loadValue?.VmDataGridItemsSource is null)
+        try
         {
-            return;
+            _logger.LogDebug("File changed event received: {FilePath} ({ChangeType})", args.FilePath, args.ChangeType);
+
+            var loadValue = _load.Value;
+            if (loadValue?.VmDataGridItemsSource is null)
+            {
+                _logger.LogWarning("Load value or VmDataGridItemsSource is null for file {FilePath}", args.FilePath);
+                return;
+            }
+
+            switch (args.ChangeType)
+            {
+                case VmFileChangeType.Changed:
+                case VmFileChangeType.Created:
+                    HandleChangedOrCreated(args.FilePath, loadValue);
+                    break;
+
+                case VmFileChangeType.Deleted:
+                    HandleDeleted(args.FilePath, loadValue);
+                    break;
+
+                case VmFileChangeType.Renamed:
+                    HandleRenamed(args.OldFilePath, args.FilePath, loadValue);
+                    break;
+            }
         }
-
-        switch (args.ChangeType)
+        catch (Exception ex)
         {
-            case VmFileChangeType.Changed:
-            case VmFileChangeType.Created:
-                HandleChangedOrCreated(args.FilePath, loadValue);
-                break;
-
-            case VmFileChangeType.Deleted:
-                HandleDeleted(args.FilePath, loadValue);
-                break;
-
-            case VmFileChangeType.Renamed:
-                HandleRenamed(args.OldFilePath, args.FilePath, loadValue);
-                break;
+            _logger.LogError(ex, "Exception in OnFileChanged handler for {FilePath}", args.FilePath);
         }
     }
 
     private void HandleChangedOrCreated(string filePath, LoadHelper loadValue)
     {
-        var machinePoolPath = ResolveMachinePoolPath(filePath);
-        if (machinePoolPath is null)
+        try
         {
-            return;
-        }
+            // Skip .log files - they're just activity indicators, not machine configs
+            if (Path.GetExtension(filePath).Equals(".log", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogDebug("Ignoring log file change for {FilePath}", filePath);
+                return;
+            }
 
-        var machinePath = new MachinePath
-                          {
-                              MachinePoolPath = machinePoolPath,
-                              MachineFilePath = filePath
-                          };
+            var machinePoolPath = ResolveMachinePoolPath(filePath);
+            if (machinePoolPath is null)
+            {
+                _logger.LogDebug("No machine pool path found for {FilePath}", filePath);
+                return;
+            }
 
-        var machine = _handleMachineFromPath.ValueFor(machinePath);
-        if (machine is null)
-        {
-            return;
-        }
+            var machinePath = new MachinePath
+                              {
+                                  MachinePoolPath = machinePoolPath,
+                                  MachineFilePath = filePath
+                              };
 
-        Dispatcher.UIThread.Post(() =>
-                                 {
-                                     var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                                                       string.Equals(m.Path, filePath, StringComparison.OrdinalIgnoreCase));
+            Machine machine = null;
+            try
+            {
+                machine = _handleMachineFromPath.ValueFor(machinePath);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                _logger.LogWarning(ex, "File access error for {FilePath}, will retry", filePath);
+                // Attempt retry asynchronously
+                _ = RetryMachineLoadAsync(machinePath, filePath, loadValue);
+                return;
+            }
 
-                                     if (existing is not null)
+            if (machine is null)
+            {
+                _logger.LogDebug("Failed to parse machine from {FilePath}", filePath);
+                return;
+            }
+
+            Dispatcher.UIThread.Post(() =>
                                      {
-                                         loadValue.VmDataGridItemsSource.Remove(existing);
-                                     }
+                                         try
+                                         {
+                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
+                                                                                                               string.Equals(m.Path, filePath, StringComparison.OrdinalIgnoreCase));
 
-                                     loadValue.VmDataGridItemsSource.Add(machine);
-                                 });
+                                             if (existing is not null)
+                                             {
+                                                 loadValue.VmDataGridItemsSource.Remove(existing);
+                                             }
+
+                                             loadValue.VmDataGridItemsSource.Add(machine);
+                                             _logger.LogDebug("Machine updated in UI for {FilePath}", filePath);
+                                         }
+                                         catch (Exception ex)
+                                         {
+                                             _logger.LogError(ex, "Error updating UI for {FilePath}", filePath);
+                                         }
+                                     });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception in HandleChangedOrCreated for {FilePath}", filePath);
+        }
+    }
+
+    private async Task RetryMachineLoadAsync(MachinePath machinePath, string filePath, LoadHelper loadValue)
+    {
+        try
+        {
+            var (success, machine) = await _fileAccessRetryPolicy.TryExecuteAsync(
+                async () =>
+                {
+                    await Task.Yield();
+                    return _handleMachineFromPath.ValueFor(machinePath);
+                },
+                filePath,
+                async (attempt, ex) =>
+                {
+                    _logger.LogDebug(ex, "Retry attempt {Attempt} for {FilePath}", attempt, filePath);
+                    await Task.CompletedTask;
+                });
+
+            if (!success || machine is null)
+            {
+                _logger.LogWarning("Failed to load machine after retries for {FilePath}", filePath);
+                return;
+            }
+
+            Dispatcher.UIThread.Post(() =>
+                                     {
+                                         try
+                                         {
+                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
+                                                                                                               string.Equals(m.Path, filePath, StringComparison.OrdinalIgnoreCase));
+
+                                             if (existing is not null)
+                                             {
+                                                 loadValue.VmDataGridItemsSource.Remove(existing);
+                                             }
+
+                                             loadValue.VmDataGridItemsSource.Add(machine);
+                                             _logger.LogInformation("Machine successfully updated after retry for {FilePath}", filePath);
+                                         }
+                                         catch (Exception ex)
+                                         {
+                                             _logger.LogError(ex, "Error updating UI after retry for {FilePath}", filePath);
+                                         }
+                                     });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception in RetryMachineLoadAsync for {FilePath}", filePath);
+        }
     }
 
     private void HandleDeleted(string filePath, LoadHelper loadValue)
     {
-        Dispatcher.UIThread.Post(() =>
-                                 {
-                                     var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                                                       string.Equals(m.Path, filePath, StringComparison.OrdinalIgnoreCase));
+        try
+        {
+            // Skip .log files - they're just activity indicators, not machine configs
+            if (Path.GetExtension(filePath).Equals(".log", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogDebug("Ignoring log file deletion for {FilePath}", filePath);
+                return;
+            }
 
-                                     if (existing is not null)
+            Dispatcher.UIThread.Post(() =>
                                      {
-                                         loadValue.VmDataGridItemsSource.Remove(existing);
-                                     }
-                                 });
+                                         try
+                                         {
+                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
+                                                                                                               string.Equals(m.Path, filePath, StringComparison.OrdinalIgnoreCase));
+
+                                             if (existing is not null)
+                                             {
+                                                 loadValue.VmDataGridItemsSource.Remove(existing);
+                                                 _logger.LogDebug("Machine removed from UI for {FilePath}", filePath);
+                                             }
+                                         }
+                                         catch (Exception ex)
+                                         {
+                                             _logger.LogError(ex, "Error removing machine from UI for {FilePath}", filePath);
+                                         }
+                                     });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception in HandleDeleted for {FilePath}", filePath);
+        }
     }
 
     private void HandleRenamed(string oldFilePath, string newFilePath, LoadHelper loadValue)
     {
-        var machinePoolPath = ResolveMachinePoolPath(newFilePath);
-        if (machinePoolPath is null)
+        try
         {
-            return;
-        }
+            // Skip .log files - they're just activity indicators, not machine configs
+            if (Path.GetExtension(newFilePath).Equals(".log", StringComparison.OrdinalIgnoreCase))
+            {
+                _logger.LogDebug("Ignoring log file rename for {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                return;
+            }
 
-        var machinePath = new MachinePath
-                          {
-                              MachinePoolPath = machinePoolPath,
-                              MachineFilePath = newFilePath
-                          };
+            var machinePoolPath = ResolveMachinePoolPath(newFilePath);
+            if (machinePoolPath is null)
+            {
+                _logger.LogDebug("No machine pool path found for renamed file {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                return;
+            }
 
-        var machine = _handleMachineFromPath.ValueFor(machinePath);
+            var machinePath = new MachinePath
+                              {
+                                  MachinePoolPath = machinePoolPath,
+                                  MachineFilePath = newFilePath
+                              };
 
-        Dispatcher.UIThread.Post(() =>
-                                 {
-                                     var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                                                       string.Equals(m.Path, oldFilePath, StringComparison.OrdinalIgnoreCase));
+            Machine machine = null;
+            try
+            {
+                machine = _handleMachineFromPath.ValueFor(machinePath);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                _logger.LogWarning(ex, "File access error for renamed file {NewPath}, will retry", newFilePath);
+                _ = RetryMachineRenameAsync(oldFilePath, machinePath, newFilePath, loadValue);
+                return;
+            }
 
-                                     if (existing is not null)
+            Dispatcher.UIThread.Post(() =>
                                      {
-                                         loadValue.VmDataGridItemsSource.Remove(existing);
-
-                                         if (machine is not null)
+                                         try
                                          {
-                                             loadValue.VmDataGridItemsSource.Add(machine);
+                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
+                                                                                                               string.Equals(m.Path, oldFilePath, StringComparison.OrdinalIgnoreCase));
+
+                                             if (existing is not null)
+                                             {
+                                                 loadValue.VmDataGridItemsSource.Remove(existing);
+                                             }
+
+                                             if (machine is not null)
+                                             {
+                                                 loadValue.VmDataGridItemsSource.Add(machine);
+                                                 _logger.LogDebug("Machine renamed in UI: {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                                             }
                                          }
-                                     }
-                                     else if (machine is not null)
+                                         catch (Exception ex)
+                                         {
+                                             _logger.LogError(ex, "Error updating UI for renamed file {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                                         }
+                                     });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception in HandleRenamed for {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+        }
+    }
+
+    private async Task RetryMachineRenameAsync(string oldFilePath, MachinePath machinePath, string newFilePath, LoadHelper loadValue)
+    {
+        try
+        {
+            var (success, machine) = await _fileAccessRetryPolicy.TryExecuteAsync(
+                async () =>
+                {
+                    await Task.Yield();
+                    return _handleMachineFromPath.ValueFor(machinePath);
+                },
+                newFilePath,
+                async (attempt, ex) =>
+                {
+                    _logger.LogDebug(ex, "Retry attempt {Attempt} for renamed file {NewPath}", attempt, newFilePath);
+                    await Task.CompletedTask;
+                });
+
+            if (!success || machine is null)
+            {
+                _logger.LogWarning("Failed to load renamed machine after retries: {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                return;
+            }
+
+            Dispatcher.UIThread.Post(() =>
                                      {
-                                         loadValue.VmDataGridItemsSource.Add(machine);
-                                     }
-                                 });
+                                         try
+                                         {
+                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
+                                                                                                               string.Equals(m.Path, oldFilePath, StringComparison.OrdinalIgnoreCase));
+
+                                             if (existing is not null)
+                                             {
+                                                 loadValue.VmDataGridItemsSource.Remove(existing);
+                                             }
+
+                                             loadValue.VmDataGridItemsSource.Add(machine);
+                                             _logger.LogInformation("Machine successfully updated after retry for rename: {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                                         }
+                                         catch (Exception ex)
+                                         {
+                                             _logger.LogError(ex, "Error updating UI after retry for renamed file {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                                         }
+                                     });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception in RetryMachineRenameAsync for {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+        }
     }
 
     private string ResolveMachinePoolPath(string filePath)

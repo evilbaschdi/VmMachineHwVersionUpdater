@@ -1,5 +1,6 @@
 ﻿using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Internal.Copy;
+using Microsoft.Extensions.Logging;
 
 namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 
@@ -11,6 +12,9 @@ public static class ConfigureCoreServices
     {
         ArgumentNullException.ThrowIfNull(services);
 
+        // Configure logging for watcher diagnostics
+        services.AddLogging(builder => builder.ConfigureWatcherLogging());
+
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
         services.AddSingleton<IArchiveMachine, ArchiveMachine>();
         services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
@@ -21,6 +25,7 @@ public static class ConfigureCoreServices
         services.AddSingleton<ICopyProgress, CopyProgress>();
         services.AddSingleton<ICurrentMachine, CurrentMachine>();
         services.AddSingleton<IDeleteMachine, DeleteMachine>();
+        services.AddSingleton<IFileAccessRetryPolicy, FileAccessRetryPolicy>();
         services.AddSingleton<IFileListFromPath, FileListFromPath>();
         services.AddSingleton<IFilterItemSource, FilterItemSource>();
         services.AddSingleton<IGuestOsesInUse, GuestOsesInUse>();

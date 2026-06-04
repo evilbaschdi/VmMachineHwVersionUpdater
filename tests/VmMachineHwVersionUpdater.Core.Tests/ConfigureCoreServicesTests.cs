@@ -30,7 +30,7 @@ public class ConfigureCoreServicesTests
         serviceCollection.AddCoreServices();
 
         // Assert
-        serviceCollection.Should().HaveCount(39);
+        serviceCollection.Should().HaveCount(50);
         serviceCollection.Should().HaveService<IArchiveMachine>()
                          .WithImplementation<ArchiveMachine>()
                          .AsSingleton();
@@ -45,6 +45,9 @@ public class ConfigureCoreServicesTests
                          .AsSingleton();
         serviceCollection.Should().HaveService<IDeleteMachine>()
                          .WithImplementation<DeleteMachine>()
+                         .AsSingleton();
+        serviceCollection.Should().HaveService<IFileAccessRetryPolicy>()
+                         .WithImplementation<FileAccessRetryPolicy>()
                          .AsSingleton();
         serviceCollection.Should().HaveService<IFileListFromPath>()
                          .WithImplementation<FileListFromPath>()
