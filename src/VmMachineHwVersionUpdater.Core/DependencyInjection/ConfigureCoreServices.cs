@@ -1,5 +1,7 @@
 ﻿using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Internal.Copy;
+using EvilBaschdi.Core.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 
@@ -12,7 +14,14 @@ public static class ConfigureCoreServices
         ArgumentNullException.ThrowIfNull(services);
 
         // Configure logging for watcher diagnostics
-        services.AddLogging(builder => builder.ConfigureWatcherLogging());
+        services.AddLogging(builder => builder.AddFileLoggerConfiguration(
+                                new()
+                                {
+                                    LogDirectory = Path.Combine(AppContext.BaseDirectory, "logs"),
+                                    LogFileNamePattern = "vmfilewatcher-{date}.log",
+                                    LogRetentionDays = 7,
+                                    MinimumLogLevel = LogLevel.Debug,
+                                }));
 
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
         services.AddSingleton<IArchiveMachine, ArchiveMachine>();

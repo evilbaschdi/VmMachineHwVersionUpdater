@@ -49,7 +49,7 @@ Avalonia.Controls, Avalonia.Headless, EvilBaschdi.Testing.Avalonia
 ```
 
 **Shared package references** (all projects):
-- `EvilBaschdi.Core`, `EvilBaschdi.Core.DependencyInjection`, `EvilBaschdi.Core.Settings`
+- `EvilBaschdi.Core`, `EvilBaschdi.Core.DependencyInjection`,`EvilBaschdi.Core.Logging`, `EvilBaschdi.Core.Settings`
 
 **Test-only packages** (auto-added for `.Tests` projects):
 - `EvilBaschdi.Testing`, `xunit.v3`, `xunit.v3.runner.utility`, `Microsoft.NET.Test.Sdk`

@@ -75,6 +75,7 @@
 	<ItemGroup>
 		<PackageReference Include="EvilBaschdi.Core" />
 		<PackageReference Include="EvilBaschdi.Core.DependencyInjection" />
+		<PackageReference Include="EvilBaschdi.Core.Logging" />
 		<PackageReference Include="EvilBaschdi.Core.Settings" />
 	</ItemGroup>
 
