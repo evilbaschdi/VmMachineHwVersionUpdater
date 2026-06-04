@@ -1,4 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public interface ISetDisplayName : IRunFor2<RawMachine, Machine>;
+public interface ISetExtendedInformation : IRunFor2<RawMachine, Machine>;

@@ -165,11 +165,31 @@ public sealed class Machine(
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
+    private MachineState _machineState;
+    private string _logLastDate;
+    private string _logLastDateDiff;
+    private bool _isEnabledForEditing;
+    private string _extendedInformation;
+    private string _extendedInformationToolTip;
+
     /// <summary />
     public double DirectorySizeGb { get; set; }
 
     /// <summary />
-    public MachineState MachineState { get; set; }
+    public MachineState MachineState
+    {
+        get => _machineState;
+        set
+        {
+            if (_machineState == value)
+            {
+                return;
+            }
+
+            _machineState = value;
+            OnPropertyChanged(nameof(MachineState));
+        }
+    }
 
     /// <summary />
     public string Annotation { get; set; }
@@ -193,10 +213,36 @@ public sealed class Machine(
     public string EncryptionKeySafe { get; init; }
 
     /// <summary />
-    public string ExtendedInformation { get; set; }
+    public string ExtendedInformation
+    {
+        get => _extendedInformation;
+        set
+        {
+            if (_extendedInformation == value)
+            {
+                return;
+            }
+
+            _extendedInformation = value;
+            OnPropertyChanged(nameof(ExtendedInformation));
+        }
+    }
 
     /// <summary />
-    public string ExtendedInformationToolTip { get; set; }
+    public string ExtendedInformationToolTip
+    {
+        get => _extendedInformationToolTip;
+        set
+        {
+            if (_extendedInformationToolTip == value)
+            {
+                return;
+            }
+
+            _extendedInformationToolTip = value;
+            OnPropertyChanged(nameof(ExtendedInformationToolTip));
+        }
+    }
 
     /// <summary />
     public string GuestOs { get; set; }
@@ -208,10 +254,36 @@ public sealed class Machine(
     public string GuestOsDetailedData { get; set; }
 
     /// <summary />
-    public string LogLastDate { get; init; }
+    public string LogLastDate
+    {
+        get => _logLastDate;
+        set
+        {
+            if (_logLastDate == value)
+            {
+                return;
+            }
+
+            _logLastDate = value;
+            OnPropertyChanged(nameof(LogLastDate));
+        }
+    }
 
     /// <summary />
-    public string LogLastDateDiff { get; init; }
+    public string LogLastDateDiff
+    {
+        get => _logLastDateDiff;
+        set
+        {
+            if (_logLastDateDiff == value)
+            {
+                return;
+            }
+
+            _logLastDateDiff = value;
+            OnPropertyChanged(nameof(LogLastDateDiff));
+        }
+    }
 
     /// <summary />
     public string ManagedVmAutoAddVTpm { get; init; }
@@ -223,7 +295,20 @@ public sealed class Machine(
     public string ShortPath { get; init; }
 
     /// <summary />
-    public bool IsEnabledForEditing { get; set; }
+    public bool IsEnabledForEditing
+    {
+        get => _isEnabledForEditing;
+        set
+        {
+            if (_isEnabledForEditing == value)
+            {
+                return;
+            }
+
+            _isEnabledForEditing = value;
+            OnPropertyChanged(nameof(IsEnabledForEditing));
+        }
+    }
 
     /// <summary />
     public MachineType MachineType { get; set; }
@@ -234,4 +319,9 @@ public sealed class Machine(
     /// <inheritdoc />
     /// <summary />
     public event PropertyChangedEventHandler PropertyChanged;
+
+    private void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }

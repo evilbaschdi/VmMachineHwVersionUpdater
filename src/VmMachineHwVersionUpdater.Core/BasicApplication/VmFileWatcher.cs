@@ -54,6 +54,7 @@ public class VmFileWatcher(
                 CreateWatcher(path, "*.vmx");
                 CreateWatcher(path, "*.vbox");
                 CreateWatcher(path, "*.log");
+                CreateWatcher(path, "*.vmss");
             }
 
             _logger.LogInformation("VmFileWatcher started successfully");
@@ -280,6 +281,6 @@ public class VmFileWatcher(
     private static bool IsValidFileExtension(string filePath)
     {
         var extension = Path.GetExtension(filePath).ToLowerInvariant();
-        return extension is ".vmx" or ".vbox" or ".log";
+        return extension is ".vmx" or ".vbox" or ".log" or ".vmss";
     }
 }

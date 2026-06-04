@@ -6,7 +6,7 @@ namespace VmMachineHwVersionUpdater.Core.PerMachine;
 /// <inheritdoc />
 public class HandleMachineFromPath(
     [NotNull] IMachineParserStrategy machineParserStrategy,
-    [NotNull] ISetDisplayName setDisplayName,
+    [NotNull] ISetExtendedInformation setExtendedInformation,
     [NotNull] IToggleToolsSyncTime toggleToolsSyncTime,
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] IUpdateMachineMemSize updateMachineMemSize,
@@ -24,7 +24,7 @@ public class HandleMachineFromPath(
     private readonly IMachineParserStrategy _machineParserStrategy = machineParserStrategy ?? throw new ArgumentNullException(nameof(machineParserStrategy));
     private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
     private readonly IReadLogInformation _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
-    private readonly ISetDisplayName _setDisplayName = setDisplayName ?? throw new ArgumentNullException(nameof(setDisplayName));
+    private readonly ISetExtendedInformation _setExtendedInformation = setExtendedInformation ?? throw new ArgumentNullException(nameof(setExtendedInformation));
 
     private readonly ISetMachineIsEnabledForEditing _setMachineIsEnabledForEditing =
         setMachineIsEnabledForEditing ?? throw new ArgumentNullException(nameof(setMachineIsEnabledForEditing));
@@ -108,7 +108,7 @@ public class HandleMachineFromPath(
                       };
 
         _setMachineIsEnabledForEditing.RunFor(machine);
-        _setDisplayName.RunFor(rawMachine, machine);
+        _setExtendedInformation.RunFor(rawMachine, machine);
         return machine;
     }
 }

@@ -1,28 +1,28 @@
 ﻿namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;
 
-public class SetDisplayNameTests
+public class SetExtendedInformationTests
 {
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Constructor_HasNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(SetDisplayName).GetConstructors());
+        assertion.Verify(typeof(SetExtendedInformation).GetConstructors());
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void Constructor_ReturnsInterfaceName(SetDisplayName sut)
+    public void Constructor_ReturnsInterfaceName(SetExtendedInformation sut)
     {
-        sut.Should().BeAssignableTo<ISetDisplayName>();
+        sut.Should().BeAssignableTo<ISetExtendedInformation>();
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(SetDisplayName).GetMethods().Where(method => !method.IsAbstract));
+        assertion.Verify(typeof(SetExtendedInformation).GetMethods().Where(method => !method.IsAbstract));
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_WithAnnotation_SetsAnnotationEmoji(
-        SetDisplayName sut,
+        SetExtendedInformation sut,
         Machine machine)
     {
         // Arrange
@@ -39,7 +39,7 @@ public class SetDisplayNameTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_WithManagedVmAutoAddVTpm_SetsLockEmoji(
-        SetDisplayName sut,
+        SetExtendedInformation sut,
         Machine machine)
     {
         // Arrange
@@ -56,7 +56,7 @@ public class SetDisplayNameTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_WhenNotEnabledForEditing_SetsSunglassesEmoji(
-        SetDisplayName sut,
+        SetExtendedInformation sut,
         Machine machine)
     {
         // Arrange
@@ -73,7 +73,7 @@ public class SetDisplayNameTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_WithNoSpecialConditions_SetsEmptyExtendedInformation(
-        SetDisplayName sut,
+        SetExtendedInformation sut,
         Machine machine)
     {
         // Arrange
@@ -90,7 +90,7 @@ public class SetDisplayNameTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_WithNullRawMachine_ThrowsArgumentNullException(
-        SetDisplayName sut,
+        SetExtendedInformation sut,
         Machine machine)
     {
         // Act & Assert
@@ -101,7 +101,7 @@ public class SetDisplayNameTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_WithNullMachine_ThrowsArgumentNullException(
-        SetDisplayName sut)
+        SetExtendedInformation sut)
     {
         // Arrange
         var rawMachine = new RawMachine();

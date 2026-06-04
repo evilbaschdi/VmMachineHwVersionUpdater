@@ -1,6 +1,5 @@
 ﻿using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Internal.Copy;
-using Microsoft.Extensions.Logging;
 
 namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 
@@ -44,7 +43,7 @@ public static class ConfigureCoreServices
         services.AddSingleton<IReadLogInformation, ReadLogInformation>();
         services.AddSingleton<IReplaceUserProfilePlaceholder, ReplaceUserProfilePlaceholder>();
         services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
-        services.AddSingleton<ISetDisplayName, SetDisplayName>();
+        services.AddSingleton<ISetExtendedInformation, SetExtendedInformation>();
         services.AddSingleton<ISetMachineIsEnabledForEditing, SetMachineIsEnabledForEditing>();
         services.AddSingleton<IToggleMksEnable3D, ToggleMksEnable3D>();
         services.AddSingleton<IToggleToolsSyncTime, ToggleToolsSyncTime>();

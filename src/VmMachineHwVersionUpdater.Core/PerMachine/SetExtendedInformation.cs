@@ -3,7 +3,7 @@
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc />
-public class SetDisplayName : ISetDisplayName
+public class SetExtendedInformation : ISetExtendedInformation
 {
     /// <inheritdoc />
     public void RunFor([NotNull] RawMachine rawMachine, [NotNull] Machine machine)

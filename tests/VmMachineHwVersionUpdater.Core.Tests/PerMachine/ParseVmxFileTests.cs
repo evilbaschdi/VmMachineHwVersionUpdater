@@ -21,8 +21,10 @@ public class ParseVmxFileTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void ValueFor_WithFullVmxFile_ParsesAllProperties(VmxLineStartsWith vmxLineStartsWith, ReturnValueFromVmxLine returnValueFromVmxLine,
-                                                             ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+    public void ValueFor_WithFullVmxFile_ParsesAllProperties(
+        VmxLineStartsWith vmxLineStartsWith,
+        ReturnValueFromVmxLine returnValueFromVmxLine,
+        ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
     {
         // Arrange
         var sut = new ParseVmxFile(vmxLineStartsWith, new LineStartActions(returnValueFromVmxLine, convertAnnotationLineBreaks));
@@ -76,8 +78,10 @@ public class ParseVmxFileTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void ValueFor_WithMinimalVmxFile_ReturnsDefaults(VmxLineStartsWith vmxLineStartsWith, ReturnValueFromVmxLine returnValueFromVmxLine,
-                                                            ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+    public void ValueFor_WithMinimalVmxFile_ReturnsDefaults(
+        VmxLineStartsWith vmxLineStartsWith,
+        ReturnValueFromVmxLine returnValueFromVmxLine,
+        ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
     {
         // Arrange
         var sut = new ParseVmxFile(vmxLineStartsWith, new LineStartActions(returnValueFromVmxLine, convertAnnotationLineBreaks));
@@ -109,15 +113,17 @@ public class ParseVmxFileTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void ValueFor_WithGuestInfoDetailedData_PrefersGuestOsDetailedData(VmxLineStartsWith vmxLineStartsWith, ReturnValueFromVmxLine returnValueFromVmxLine,
-                                                                              ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+    public void ValueFor_WithGuestOsDetailedData_PrefersGuestInfoDetailedData(
+        VmxLineStartsWith vmxLineStartsWith,
+        ReturnValueFromVmxLine returnValueFromVmxLine,
+        ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
     {
         // Arrange
         var sut = new ParseVmxFile(vmxLineStartsWith, new LineStartActions(returnValueFromVmxLine, convertAnnotationLineBreaks));
         var tempFile = Path.GetTempFileName();
         var vmxContent = """
-                         guestOS.detailed.data = "bitness=64 distroName=Windows 11"
-                         guestInfo.detailed.data = "bitness=64 distroName=Windows 10"
+                         guestOS.detailed.data = "bitness=64 distroName=Windows 10"
+                         guestInfo.detailed.data = "bitness=64 distroName=Windows 11"
                          """;
 
         try
@@ -137,8 +143,10 @@ public class ParseVmxFileTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void ValueFor_WithOnlyGuestInfoDetailedData_UsesGuestInfoData(VmxLineStartsWith vmxLineStartsWith, ReturnValueFromVmxLine returnValueFromVmxLine,
-                                                                         ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+    public void ValueFor_WithOnlyGuestInfoDetailedData_UsesGuestInfoData(
+        VmxLineStartsWith vmxLineStartsWith,
+        ReturnValueFromVmxLine returnValueFromVmxLine,
+        ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
     {
         // Arrange
         var sut = new ParseVmxFile(vmxLineStartsWith, new LineStartActions(returnValueFromVmxLine, convertAnnotationLineBreaks));
@@ -164,8 +172,10 @@ public class ParseVmxFileTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void ValueFor_WithNullFile_ThrowsArgumentNullException(VmxLineStartsWith vmxLineStartsWith, ReturnValueFromVmxLine returnValueFromVmxLine,
-                                                                  ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+    public void ValueFor_WithNullFile_ThrowsArgumentNullException(
+        VmxLineStartsWith vmxLineStartsWith,
+        ReturnValueFromVmxLine returnValueFromVmxLine,
+        ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
     {
         // Arrange
         var sut = new ParseVmxFile(vmxLineStartsWith, new LineStartActions(returnValueFromVmxLine, convertAnnotationLineBreaks));

@@ -55,4 +55,33 @@ public class MachineTests
         machine.MachineType.Should().Be(MachineType.Vmx);
         machine.Annotation.Should().Be("Test annotation");
     }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Properties_WhenChanged_TriggerPropertyChanged(
+        IToggleToolsSyncTime toggleToolsSyncTime,
+        IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        IToggleMksEnable3D toggleMksEnable3D,
+        IUpdateMachineVersion updateMachineVersion,
+        IUpdateMachineMemSize updateMachineMemSize)
+    {
+        // Arrange
+        var machine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize);
+        using var monitoredMachine = machine.Monitor();
+
+        // Act
+        machine.MachineState = MachineState.Paused;
+        machine.LogLastDate = "2024-01-01";
+        machine.LogLastDateDiff = "1 day ago";
+        machine.IsEnabledForEditing = true;
+        machine.ExtendedInformation = "icon";
+        machine.ExtendedInformationToolTip = "tooltip";
+
+        // Assert
+        monitoredMachine.Should().RaisePropertyChangeFor(m => m.MachineState);
+        monitoredMachine.Should().RaisePropertyChangeFor(m => m.LogLastDate);
+        monitoredMachine.Should().RaisePropertyChangeFor(m => m.LogLastDateDiff);
+        monitoredMachine.Should().RaisePropertyChangeFor(m => m.IsEnabledForEditing);
+        monitoredMachine.Should().RaisePropertyChangeFor(m => m.ExtendedInformation);
+        monitoredMachine.Should().RaisePropertyChangeFor(m => m.ExtendedInformationToolTip);
+    }
 }

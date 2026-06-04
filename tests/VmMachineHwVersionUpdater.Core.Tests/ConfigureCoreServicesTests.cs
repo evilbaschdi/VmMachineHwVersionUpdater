@@ -87,8 +87,8 @@ public class ConfigureCoreServicesTests
                          .AsSingleton();
         serviceCollection.Should().HaveService<IReturnValueFromVmxLine>()
                          .WithImplementation<ReturnValueFromVmxLine>().AsSingleton();
-        serviceCollection.Should().HaveService<ISetDisplayName>()
-                         .WithImplementation<SetDisplayName>()
+        serviceCollection.Should().HaveService<ISetExtendedInformation>()
+                         .WithImplementation<SetExtendedInformation>()
                          .AsSingleton();
         serviceCollection.Should().HaveService<ISetMachineIsEnabledForEditing>()
                          .WithImplementation<SetMachineIsEnabledForEditing>()

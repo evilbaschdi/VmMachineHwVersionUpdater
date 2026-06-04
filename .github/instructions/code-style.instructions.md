@@ -37,7 +37,7 @@ public class ParseVmxFile(
 
 ## Interface Implementation Pattern
 
-All implementations MUST inherit from corresponding interfaces:
+All implementations MUST inherit from corresponding interfaces. Interfaces and their implementations MUST NOT be stored in the same file. Each interface and class must be stored in its own, separate file.
 
 ```csharp
 public class ParseVmxFile : IParseVmxFile
@@ -65,9 +65,10 @@ These usings are available globally across all projects:
 - VmMachineHwVersionUpdater.Core.PerMachine
 - VmMachineHwVersionUpdater.Core.Settings
 
-## Naming Conventions
+## Naming Conventions & File Organization
 
 - Private fields: `_fieldName` (underscore prefix, camelCase)
 - Public properties: `PropertyName` (PascalCase)
 - Local variables: `variableName` (camelCase)
 - Classes follow their interface: `IParseVmxFile` → `ParseVmxFile`
+- **File naming**: One file per type. `IParseVmxFile.cs` for the interface, `ParseVmxFile.cs` for the implementation.
