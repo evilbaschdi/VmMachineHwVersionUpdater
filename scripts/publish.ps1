@@ -33,7 +33,7 @@ foreach ($publishItem in $config.profiles) {
     $outputBase = "$appsDirectory\$project"
 
     foreach ($runtime in $runtimes) {
-        $outputPath = "$outputBase\$($runtime.Replace('win-', '').Replace('linux-', ''))"
+        $outputPath = "$outputBase\$runtime"
         Write-Output "Publishing $project for $runtime..."
         dotnet publish $projectPath -c Release -o $outputPath -r $runtime -f $targetFramework $selfContained -p:DebugType=none
         Get-ChildItem $outputPath -Filter *.pdb | Remove-Item -Force
@@ -41,7 +41,7 @@ foreach ($publishItem in $config.profiles) {
 
     if ($publishItem.withAppLauncher) {
         # Copy AppLauncher and rename it to the app name
-        $appLauncherSource = "$appsDirectory\AppLauncher\x64\AppLauncher.exe"
+        $appLauncherSource = "$appsDirectory\AppLauncher\win-x64\AppLauncher.exe"
         $appLauncherTarget = "$appsDirectory\$project\$project.exe"
 
         if (Test-Path $appLauncherSource) {

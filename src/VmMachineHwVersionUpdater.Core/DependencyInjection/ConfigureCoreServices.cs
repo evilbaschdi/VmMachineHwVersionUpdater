@@ -21,6 +21,7 @@ public static class ConfigureCoreServices
                                     LogFileNamePattern = "vmfilewatcher-{date}.log",
                                     LogRetentionDays = 7,
                                     MinimumLogLevel = LogLevel.Debug,
+                                    Headline = string.Empty
                                 }));
 
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
