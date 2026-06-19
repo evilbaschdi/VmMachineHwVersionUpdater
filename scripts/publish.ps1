@@ -4,6 +4,14 @@
 # Get the repository root (parent of the 'scripts' directory)
 $repoRoot = Split-Path -Parent $PSScriptRoot
 
+# Load the certificate for signing (if available)
+$cert = Get-ChildItem Cert:\CurrentUser\My -ErrorAction SilentlyContinue | Where-Object {
+    # Matcht auf den Namen (egal ob mit oder ohne Leerzeichen beim "CN =")
+    $_.Subject -match "CN\s*=\s*EvilBaschdi" -and
+    # Stellt sicher, dass das Zertifikat überhaupt zum Signieren verwendet werden KANN (Private Key vorhanden)
+    $_.HasPrivateKey -eq $true
+} | Select-Object -First 1
+
 # Load configuration from publish.json
 $configPath = Join-Path $PSScriptRoot "publish.json"
 if (!(Test-Path $configPath)) {
@@ -37,6 +45,13 @@ foreach ($publishItem in $config.profiles) {
         Write-Output "Publishing $project for $runtime..."
         dotnet publish $projectPath -c Release -o $outputPath -r $runtime -f $targetFramework $selfContained -p:DebugType=none
         Get-ChildItem $outputPath -Filter *.pdb | Remove-Item -Force
+
+        if ($cert) {
+            Write-Output "Signing binaries in $outputPath..."
+            Get-ChildItem $outputPath -Include *.exe, *.dll -Recurse | ForEach-Object {
+                Set-AuthenticodeSignature -FilePath $_.FullName -Certificate $cert -HashAlgorithm SHA256 | Out-Null
+            }
+        }
     }
 
     if ($publishItem.withAppLauncher) {

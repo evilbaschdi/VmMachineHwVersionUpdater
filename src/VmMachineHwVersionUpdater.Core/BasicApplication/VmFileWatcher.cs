@@ -1,4 +1,3 @@
-using System.Collections.Concurrent;
 using EvilBaschdi.Core.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -7,20 +6,19 @@ namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 /// <inheritdoc cref="IVmFileWatcher" />
 public class VmFileWatcher(
     [NotNull] IPathSettings pathSettings,
+    [NotNull] IFileChangeDebouncer fileChangeDebouncer,
     [NotNull] ILogger<VmFileWatcher> logger) : IVmFileWatcher
 {
     private readonly IPathSettings
         _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
 
+    private readonly IFileChangeDebouncer _fileChangeDebouncer =
+        fileChangeDebouncer ?? throw new ArgumentNullException(nameof(fileChangeDebouncer));
+
     private readonly ILogger<VmFileWatcher> _logger =
         logger ?? throw new ArgumentNullException(nameof(logger));
 
     private readonly List<FileSystemWatcher> _watchers = [];
-
-    private readonly ConcurrentDictionary<string, CancellationTokenSource> _debounceTokens =
-        new(StringComparer.OrdinalIgnoreCase);
-
-    private readonly TimeSpan _debounceInterval = TimeSpan.FromMilliseconds(1000);
     private readonly ReaderWriterLockSlim _disposeLock = new();
     private bool _disposed;
 
@@ -84,21 +82,7 @@ public class VmFileWatcher(
         }
 
         _watchers.Clear();
-
-        foreach (var cts in _debounceTokens.Values)
-        {
-            try
-            {
-                cts.Cancel();
-                cts.Dispose();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error disposing CancellationTokenSource");
-            }
-        }
-
-        _debounceTokens.Clear();
+        _fileChangeDebouncer.CancelAll();
         _logger.LogInformation("VmFileWatcher stopped");
     }
 
@@ -164,7 +148,9 @@ public class VmFileWatcher(
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to create FileSystemWatcher for {Path} with filter {Filter}. The path may be inaccessible.", path, filter);
+            _logger.LogError(ex,
+                "Failed to create FileSystemWatcher for {Path} with filter {Filter}. The path may be inaccessible.",
+                path, filter);
         }
     }
 
@@ -198,75 +184,31 @@ public class VmFileWatcher(
                 return;
             }
 
-            // Filter by file extension to only process relevant files
             if (!IsValidFileExtension(filePath))
             {
                 _logger.LogDebug("Ignoring file change for {FilePath} - extension not in allowed list", filePath);
                 return;
             }
 
-            var key = filePath;
-
-            if (_debounceTokens.TryRemove(key, out var existingCts))
-            {
-                _logger.LogDebug("Cancelling previous debounce for {FilePath}", filePath);
-                try
-                {
-                    existingCts.Cancel();
-                    existingCts.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error cancelling previous debounce token for {FilePath}", filePath);
-                }
-            }
-
-            var cts = new CancellationTokenSource();
-            var token = cts.Token;
-            _debounceTokens[key] = cts;
-
             _logger.LogDebug("Debouncing file change: {FilePath} ({ChangeType})", filePath, changeType);
 
-            _ = Task.Delay(_debounceInterval, token).ContinueWith(
-                _ =>
-                {
-                    try
-                    {
-                        if (_debounceTokens.TryRemove(key, out var removedCts))
-                        {
-                            try
-                            {
-                                removedCts.Dispose();
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogError(ex, "Error disposing debounce token for {FilePath}", filePath);
-                            }
-                        }
-
-                        try
-                        {
-                            _logger.LogDebug("Raising FileChanged event for {FilePath} ({ChangeType})", filePath, changeType);
-                            FileChanged?.Invoke(new VmFileChangedEventArgs
-                                                {
-                                                    FilePath = filePath,
-                                                    OldFilePath = oldFilePath,
-                                                    ChangeType = changeType
-                                                });
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "Exception in FileChanged event subscribers for {FilePath}", filePath);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Unexpected error in debounce continuation for {FilePath}", filePath);
-                    }
-                },
-                CancellationToken.None,
-                TaskContinuationOptions.OnlyOnRanToCompletion,
-                TaskScheduler.Default);
+            _fileChangeDebouncer.Debounce(filePath, () =>
+                                                    {
+                                                        try
+                                                        {
+                                                            _logger.LogDebug("Raising FileChanged event for {FilePath} ({ChangeType})", filePath, changeType);
+                                                            FileChanged?.Invoke(new VmFileChangedEventArgs
+                                                                                {
+                                                                                    FilePath = filePath,
+                                                                                    OldFilePath = oldFilePath,
+                                                                                    ChangeType = changeType
+                                                                                });
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            _logger.LogError(ex, "Exception in FileChanged event subscribers for {FilePath}", filePath);
+                                                        }
+                                                    });
         }
         finally
         {
@@ -274,10 +216,6 @@ public class VmFileWatcher(
         }
     }
 
-    /// <summary>
-    /// Determines if a file extension should be processed by the watcher.
-    /// Only .vmx, .vbox, and .log files are processed.
-    /// </summary>
     private static bool IsValidFileExtension(string filePath)
     {
         var extension = Path.GetExtension(filePath).ToLowerInvariant();

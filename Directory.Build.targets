@@ -28,9 +28,17 @@
 		<!-- Core test project -->
 		<When Condition="$(MSBuildProjectName) == 'VmMachineHwVersionUpdater.Core.Tests'">
 			<ItemGroup>
-				<Content Include="Settings\**\*.json">
+				<None Include="..\..\src\VmMachineHwVersionUpdater.Core\Settings\GuestOsStringMapping.json">
+					<Link>Settings\GuestOsStringMapping.json</Link>
 					<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-				</Content>
+					<DependentUpon>GuestOsStringMappingTests.cs</DependentUpon>
+				</None>
+
+				<None Include="..\..\src\VmMachineHwVersionUpdater.Core\Settings\VmPools.json">
+					<Link>Settings\VmPools.json</Link>
+					<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+					<DependentUpon>VmPoolsTests.cs</DependentUpon>
+				</None>
 			</ItemGroup>
 		</When>
 		<!-- Avalonia production project -->

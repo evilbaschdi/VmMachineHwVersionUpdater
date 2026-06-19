@@ -1,4 +1,3 @@
-using Avalonia.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
@@ -8,25 +7,33 @@ public class VmFileChangeHandler(
     [NotNull] IVmFileWatcher vmFileWatcher,
     [NotNull] ILoad load,
     [NotNull] IHandleMachineFromPath handleMachineFromPath,
-    [NotNull] IPathSettings pathSettings,
+    [NotNull] IResolveMachinePoolPath resolveMachinePoolPath,
     [NotNull] ILogger<VmFileChangeHandler> logger,
     [NotNull] IFileAccessRetryPolicy fileAccessRetryPolicy,
-    [NotNull] IReadLogInformation readLogInformation,
-    [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
-    [NotNull] ISetExtendedInformation setExtendedInformation) : IVmFileChangeHandler
+    [NotNull] IUpdateMachineCollection updateMachineCollection,
+    [NotNull] IUpdateMachineStateFromFile updateMachineStateFromFile) : IVmFileChangeHandler
 {
-    private readonly IVmFileWatcher _vmFileWatcher = vmFileWatcher ?? throw new ArgumentNullException(nameof(vmFileWatcher));
+    private readonly IVmFileWatcher _vmFileWatcher =
+        vmFileWatcher ?? throw new ArgumentNullException(nameof(vmFileWatcher));
+
     private readonly ILoad _load = load ?? throw new ArgumentNullException(nameof(load));
-    private readonly IHandleMachineFromPath _handleMachineFromPath = handleMachineFromPath ?? throw new ArgumentNullException(nameof(handleMachineFromPath));
-    private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
+
+    private readonly IHandleMachineFromPath _handleMachineFromPath =
+        handleMachineFromPath ?? throw new ArgumentNullException(nameof(handleMachineFromPath));
+
+    private readonly IResolveMachinePoolPath _resolveMachinePoolPath =
+        resolveMachinePoolPath ?? throw new ArgumentNullException(nameof(resolveMachinePoolPath));
+
     private readonly ILogger<VmFileChangeHandler> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    private readonly IFileAccessRetryPolicy _fileAccessRetryPolicy = fileAccessRetryPolicy ?? throw new ArgumentNullException(nameof(fileAccessRetryPolicy));
-    private readonly IReadLogInformation _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
 
-    private readonly ISetMachineIsEnabledForEditing _setMachineIsEnabledForEditing =
-        setMachineIsEnabledForEditing ?? throw new ArgumentNullException(nameof(setMachineIsEnabledForEditing));
+    private readonly IFileAccessRetryPolicy _fileAccessRetryPolicy =
+        fileAccessRetryPolicy ?? throw new ArgumentNullException(nameof(fileAccessRetryPolicy));
 
-    private readonly ISetExtendedInformation _setExtendedInformation = setExtendedInformation ?? throw new ArgumentNullException(nameof(setExtendedInformation));
+    private readonly IUpdateMachineCollection _updateMachineCollection =
+        updateMachineCollection ?? throw new ArgumentNullException(nameof(updateMachineCollection));
+
+    private readonly IUpdateMachineStateFromFile _updateMachineStateFromFile =
+        updateMachineStateFromFile ?? throw new ArgumentNullException(nameof(updateMachineStateFromFile));
 
     private bool _disposed;
 
@@ -104,15 +111,14 @@ public class VmFileChangeHandler(
         {
             var extension = Path.GetExtension(filePath).ToLowerInvariant();
 
-            // Handle .log and .vmss files - update state and log info in UI
             if (extension is ".log" or ".vmss")
             {
                 _logger.LogDebug("Handling state/log update for {FilePath}", filePath);
-                UpdateMachineStateAndLogInfo(filePath, loadValue);
+                _updateMachineStateFromFile.UpdateFor(filePath, loadValue);
                 return;
             }
 
-            var machinePoolPath = ResolveMachinePoolPath(filePath);
+            var machinePoolPath = _resolveMachinePoolPath.ValueFor(filePath);
             if (machinePoolPath is null)
             {
                 _logger.LogDebug("No machine pool path found for {FilePath}", filePath);
@@ -130,10 +136,15 @@ public class VmFileChangeHandler(
             {
                 machine = _handleMachineFromPath.ValueFor(machinePath);
             }
+            catch (DirectoryNotFoundException ex)
+            {
+                _logger.LogDebug(ex, "Transient directory not found for {FilePath}, will retry", filePath);
+                _ = RetryMachineLoadAsync(machinePath, filePath, loadValue);
+                return;
+            }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
                 _logger.LogWarning(ex, "File access error for {FilePath}, will retry", filePath);
-                // Attempt retry asynchronously
                 _ = RetryMachineLoadAsync(machinePath, filePath, loadValue);
                 return;
             }
@@ -144,26 +155,7 @@ public class VmFileChangeHandler(
                 return;
             }
 
-            Dispatcher.UIThread.Post(() =>
-                                     {
-                                         try
-                                         {
-                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                                                               string.Equals(m.Path, filePath, StringComparison.OrdinalIgnoreCase));
-
-                                             if (existing is not null)
-                                             {
-                                                 loadValue.VmDataGridItemsSource.Remove(existing);
-                                             }
-
-                                             loadValue.VmDataGridItemsSource.Add(machine);
-                                             _logger.LogDebug("Machine updated in UI for {FilePath}", filePath);
-                                         }
-                                         catch (Exception ex)
-                                         {
-                                             _logger.LogError(ex, "Error updating UI for {FilePath}", filePath);
-                                         }
-                                     });
+            _updateMachineCollection.ReplaceByPath(loadValue, filePath, machine);
         }
         catch (Exception ex)
         {
@@ -194,26 +186,8 @@ public class VmFileChangeHandler(
                 return;
             }
 
-            Dispatcher.UIThread.Post(() =>
-                                     {
-                                         try
-                                         {
-                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                                                               string.Equals(m.Path, filePath, StringComparison.OrdinalIgnoreCase));
-
-                                             if (existing is not null)
-                                             {
-                                                 loadValue.VmDataGridItemsSource.Remove(existing);
-                                             }
-
-                                             loadValue.VmDataGridItemsSource.Add(machine);
-                                             _logger.LogInformation("Machine successfully updated after retry for {FilePath}", filePath);
-                                         }
-                                         catch (Exception ex)
-                                         {
-                                             _logger.LogError(ex, "Error updating UI after retry for {FilePath}", filePath);
-                                         }
-                                     });
+            _updateMachineCollection.ReplaceByPath(loadValue, filePath, machine);
+            _logger.LogInformation("Machine successfully updated after retry for {FilePath}", filePath);
         }
         catch (Exception ex)
         {
@@ -227,32 +201,14 @@ public class VmFileChangeHandler(
         {
             var extension = Path.GetExtension(filePath).ToLowerInvariant();
 
-            // Handle .log and .vmss file deletions - refresh state/log info
             if (extension is ".log" or ".vmss")
             {
                 _logger.LogDebug("Handling state/log update for deleted file {FilePath}", filePath);
-                UpdateMachineStateAndLogInfo(filePath, loadValue);
+                _updateMachineStateFromFile.UpdateFor(filePath, loadValue);
                 return;
             }
 
-            Dispatcher.UIThread.Post(() =>
-                                     {
-                                         try
-                                         {
-                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                                                               string.Equals(m.Path, filePath, StringComparison.OrdinalIgnoreCase));
-
-                                             if (existing is not null)
-                                             {
-                                                 loadValue.VmDataGridItemsSource.Remove(existing);
-                                                 _logger.LogDebug("Machine removed from UI for {FilePath}", filePath);
-                                             }
-                                         }
-                                         catch (Exception ex)
-                                         {
-                                             _logger.LogError(ex, "Error removing machine from UI for {FilePath}", filePath);
-                                         }
-                                     });
+            _updateMachineCollection.RemoveByPath(loadValue, filePath);
         }
         catch (Exception ex)
         {
@@ -266,18 +222,19 @@ public class VmFileChangeHandler(
         {
             var extension = Path.GetExtension(newFilePath).ToLowerInvariant();
 
-            // Handle .log and .vmss file renames - update state/log info
             if (extension is ".log" or ".vmss")
             {
-                _logger.LogDebug("Handling state/log update for renamed file {OldPath} -> {NewPath}", oldFilePath, newFilePath);
-                UpdateMachineStateAndLogInfo(newFilePath, loadValue);
+                _logger.LogDebug("Handling state/log update for renamed file {OldPath} -> {NewPath}", oldFilePath,
+                    newFilePath);
+                _updateMachineStateFromFile.UpdateFor(newFilePath, loadValue);
                 return;
             }
 
-            var machinePoolPath = ResolveMachinePoolPath(newFilePath);
+            var machinePoolPath = _resolveMachinePoolPath.ValueFor(newFilePath);
             if (machinePoolPath is null)
             {
-                _logger.LogDebug("No machine pool path found for renamed file {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                _logger.LogDebug("No machine pool path found for renamed file {OldPath} -> {NewPath}", oldFilePath,
+                    newFilePath);
                 return;
             }
 
@@ -292,6 +249,13 @@ public class VmFileChangeHandler(
             {
                 machine = _handleMachineFromPath.ValueFor(machinePath);
             }
+            catch (DirectoryNotFoundException ex)
+            {
+                _logger.LogDebug(ex, "Transient directory not found for renamed file {NewPath}, will retry",
+                    newFilePath);
+                _ = RetryMachineRenameAsync(oldFilePath, machinePath, newFilePath, loadValue);
+                return;
+            }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
                 _logger.LogWarning(ex, "File access error for renamed file {NewPath}, will retry", newFilePath);
@@ -299,32 +263,13 @@ public class VmFileChangeHandler(
                 return;
             }
 
-            Dispatcher.UIThread.Post(() =>
-                                     {
-                                         try
-                                         {
-                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                                                               string.Equals(m.Path, oldFilePath,
-                                                                                                                   StringComparison.OrdinalIgnoreCase));
+            _updateMachineCollection.RemoveByPath(loadValue, oldFilePath);
 
-                                             if (existing is not null)
-                                             {
-                                                 loadValue.VmDataGridItemsSource.Remove(existing);
-                                             }
-
-                                             if (machine is null)
-                                             {
-                                                 return;
-                                             }
-
-                                             loadValue.VmDataGridItemsSource.Add(machine);
-                                             _logger.LogDebug("Machine renamed in UI: {OldPath} -> {NewPath}", oldFilePath, newFilePath);
-                                         }
-                                         catch (Exception ex)
-                                         {
-                                             _logger.LogError(ex, "Error updating UI for renamed file {OldPath} -> {NewPath}", oldFilePath, newFilePath);
-                                         }
-                                     });
+            if (machine is not null)
+            {
+                _updateMachineCollection.ReplaceByPath(loadValue, newFilePath, machine);
+                _logger.LogDebug("Machine renamed in UI: {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+            }
         }
         catch (Exception ex)
         {
@@ -332,7 +277,8 @@ public class VmFileChangeHandler(
         }
     }
 
-    private async Task RetryMachineRenameAsync(string oldFilePath, MachinePath machinePath, string newFilePath, LoadHelper loadValue)
+    private async Task RetryMachineRenameAsync(string oldFilePath, MachinePath machinePath, string newFilePath,
+                                               LoadHelper loadValue)
     {
         try
         {
@@ -351,116 +297,20 @@ public class VmFileChangeHandler(
 
             if (!success || machine is null)
             {
-                _logger.LogWarning("Failed to load renamed machine after retries: {OldPath} -> {NewPath}", oldFilePath, newFilePath);
+                _logger.LogWarning("Failed to load renamed machine after retries: {OldPath} -> {NewPath}", oldFilePath,
+                    newFilePath);
                 return;
             }
 
-            Dispatcher.UIThread.Post(() =>
-                                     {
-                                         try
-                                         {
-                                             var existing = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                                                               string.Equals(m.Path, oldFilePath,
-                                                                                                                   StringComparison.OrdinalIgnoreCase));
-
-                                             if (existing is not null)
-                                             {
-                                                 loadValue.VmDataGridItemsSource.Remove(existing);
-                                             }
-
-                                             loadValue.VmDataGridItemsSource.Add(machine);
-                                             _logger.LogInformation("Machine successfully updated after retry for rename: {OldPath} -> {NewPath}", oldFilePath, newFilePath);
-                                         }
-                                         catch (Exception ex)
-                                         {
-                                             _logger.LogError(ex, "Error updating UI after retry for renamed file {OldPath} -> {NewPath}", oldFilePath, newFilePath);
-                                         }
-                                     });
+            _updateMachineCollection.RemoveByPath(loadValue, oldFilePath);
+            _updateMachineCollection.ReplaceByPath(loadValue, newFilePath, machine);
+            _logger.LogInformation("Machine successfully updated after retry for rename: {OldPath} -> {NewPath}",
+                oldFilePath, newFilePath);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Exception in RetryMachineRenameAsync for {OldPath} -> {NewPath}", oldFilePath, newFilePath);
-        }
-    }
-
-    private string ResolveMachinePoolPath(string filePath)
-    {
-        var allPaths = _pathSettings.VmPool.Concat(_pathSettings.ArchivePath);
-
-        return allPaths
-               .Where(pool => filePath.StartsWith(pool, StringComparison.OrdinalIgnoreCase))
-               .OrderByDescending(pool => pool.Length)
-               .FirstOrDefault();
-    }
-
-    private void UpdateMachineStateAndLogInfo(string filePath, LoadHelper loadValue)
-    {
-        try
-        {
-            // Determine if this is a .log or .vmss file change
-            var extension = Path.GetExtension(filePath).ToLowerInvariant();
-            var machineDir = Path.GetDirectoryName(filePath);
-
-            if (string.IsNullOrEmpty(machineDir))
-            {
-                _logger.LogDebug("Cannot determine machine directory for {FilePath}", filePath);
-                return;
-            }
-
-            // Find the machine by directory path
-            var machine = loadValue.VmDataGridItemsSource.FirstOrDefault(m =>
-                                                                             string.Equals(Path.GetDirectoryName(m.Path), machineDir, StringComparison.OrdinalIgnoreCase));
-
-            if (machine is null)
-            {
-                _logger.LogDebug("Machine not found for directory {Directory}", machineDir);
-                return;
-            }
-
-            // Update on UI thread
-            Dispatcher.UIThread.Post(() =>
-                                     {
-                                         try
-                                         {
-                                             switch (extension)
-                                             {
-                                                 case ".vmss":
-                                                 {
-                                                     // Update machine state based on .vmss file presence
-                                                     var vmssFiles = Directory.GetFiles(machineDir, "*.vmss");
-                                                     var newState = vmssFiles.Length > 0 ? MachineState.Paused : MachineState.Off;
-                                                     machine.MachineState = newState;
-
-                                                     // Update editability and icons
-                                                     _setMachineIsEnabledForEditing.RunFor(machine);
-                                                     var rawMachine = new RawMachine
-                                                                      {
-                                                                          Annotation = machine.Annotation,
-                                                                          ManagedVmAutoAddVTpm = machine.ManagedVmAutoAddVTpm
-                                                                      };
-                                                     _setExtendedInformation.RunFor(rawMachine, machine);
-
-                                                     _logger.LogDebug("Updated MachineState to {State} for {Directory}", newState, machineDir);
-                                                     break;
-                                                 }
-                                                 case ".log":
-                                                     // Update log info from vmware.log
-                                                     var (logDate, logDiff) = _readLogInformation.ValueFor(machineDir);
-                                                     machine.LogLastDate = logDate;
-                                                     machine.LogLastDateDiff = logDiff;
-                                                     _logger.LogDebug("Updated LogLastDate={LogDate} for {Directory}", logDate, machineDir);
-                                                     break;
-                                             }
-                                         }
-                                         catch (Exception ex)
-                                         {
-                                             _logger.LogError(ex, "Error updating machine state/log for {Directory}", machineDir);
-                                         }
-                                     });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Exception in UpdateMachineStateAndLogInfo for {FilePath}", filePath);
+            _logger.LogError(ex, "Exception in RetryMachineRenameAsync for {OldPath} -> {NewPath}", oldFilePath,
+                newFilePath);
         }
     }
 }

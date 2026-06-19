@@ -1,6 +1,6 @@
 using EvilBaschdi.Core.Internal;
 
-namespace VmMachineHwVersionUpdater.Core.Tests;
+namespace VmMachineHwVersionUpdater.Core.Tests.DependencyInjection;
 
 public class ConfigureCoreServicesTests
 {
@@ -30,7 +30,7 @@ public class ConfigureCoreServicesTests
         serviceCollection.AddCoreServices();
 
         // Assert
-        serviceCollection.Should().HaveCount(50);
+        serviceCollection.Should().HaveCount(52);
         serviceCollection.Should().HaveService<IArchiveMachine>()
                          .WithImplementation<ArchiveMachine>()
                          .AsSingleton();
@@ -48,6 +48,9 @@ public class ConfigureCoreServicesTests
                          .AsSingleton();
         serviceCollection.Should().HaveService<IFileAccessRetryPolicy>()
                          .WithImplementation<FileAccessRetryPolicy>()
+                         .AsSingleton();
+        serviceCollection.Should().HaveService<IFileChangeDebouncer>()
+                         .WithImplementation<FileChangeDebouncer>()
                          .AsSingleton();
         serviceCollection.Should().HaveService<IFileListFromPath>()
                          .WithImplementation<FileListFromPath>()
@@ -84,6 +87,9 @@ public class ConfigureCoreServicesTests
                          .AsSingleton();
         serviceCollection.Should().HaveService<IReadLogInformation>()
                          .WithImplementation<ReadLogInformation>()
+                         .AsSingleton();
+        serviceCollection.Should().HaveService<IResolveMachinePoolPath>()
+                         .WithImplementation<ResolveMachinePoolPath>()
                          .AsSingleton();
         serviceCollection.Should().HaveService<IReturnValueFromVmxLine>()
                          .WithImplementation<ReturnValueFromVmxLine>().AsSingleton();

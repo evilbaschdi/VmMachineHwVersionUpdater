@@ -35,6 +35,7 @@ public static class ConfigureCoreServices
         services.AddSingleton<ICurrentMachine, CurrentMachine>();
         services.AddSingleton<IDeleteMachine, DeleteMachine>();
         services.AddSingleton<IFileAccessRetryPolicy, FileAccessRetryPolicy>();
+        services.AddSingleton<IFileChangeDebouncer, FileChangeDebouncer>();
         services.AddSingleton<IFileListFromPath, FileListFromPath>();
         services.AddSingleton<IFilterItemSource, FilterItemSource>();
         services.AddSingleton<IGuestOsesInUse, GuestOsesInUse>();
@@ -52,6 +53,7 @@ public static class ConfigureCoreServices
         services.AddSingleton<IProcessByPath, ProcessByPath>();
         services.AddSingleton<IReadLogInformation, ReadLogInformation>();
         services.AddSingleton<IReplaceUserProfilePlaceholder, ReplaceUserProfilePlaceholder>();
+        services.AddSingleton<IResolveMachinePoolPath, ResolveMachinePoolPath>();
         services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
         services.AddSingleton<ISetExtendedInformation, SetExtendedInformation>();
         services.AddSingleton<ISetMachineIsEnabledForEditing, SetMachineIsEnabledForEditing>();
