@@ -1,3 +1,4 @@
+using Avalonia.Collections;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
@@ -110,7 +111,6 @@ public class UpdateMachineCollectionTests
 
     [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task RemoveByPath_WithExistingMachine_RemovesIt(
-        [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
         IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
@@ -134,7 +134,6 @@ public class UpdateMachineCollectionTests
 
     [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task RemoveByPath_WithNoMatchingMachine_DoesNothing(
-        [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
         IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
@@ -157,7 +156,6 @@ public class UpdateMachineCollectionTests
 
     [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task RemoveByPath_WithCaseInsensitivePath_RemovesMachine(
-        [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
         IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
@@ -176,6 +174,50 @@ public class UpdateMachineCollectionTests
 
         // Assert
         loadHelper.VmDataGridItemsSource.Should().BeEmpty();
+    }
+
+    #endregion
+
+    #region Active Filter Tests
+
+    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task ReplaceByPath_WithActiveFilter_KeepsRenamedMachineVisible(
+        [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
+        UpdateMachineCollection sut,
+        IToggleToolsSyncTime toggleToolsSyncTime,
+        IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        IToggleMksEnable3D toggleMksEnable3D,
+        IUpdateMachineVersion updateMachineVersion,
+        IUpdateMachineMemSize updateMachineMemSize)
+    {
+        // Arrange
+        var serverPath = @"C:\VMs\Server1\Server1.vmx";
+
+        // A machine that is filtered OUT so the view's filtered indices diverge from the source indices.
+        var hiddenMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
+                            { Path = @"C:\VMs\Linux\Linux.vmx", DisplayName = "Linux" };
+        var serverMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
+                            { Path = serverPath, DisplayName = "Server1-old" };
+
+        var loadHelper = new LoadHelper { VmDataGridItemsSource = [hiddenMachine, serverMachine] };
+
+        var view = new DataGridCollectionView(loadHelper.VmDataGridItemsSource)
+                   {
+                       Filter = item => ((Machine)item).DisplayName.Contains("Server", StringComparison.OrdinalIgnoreCase)
+                   };
+        configureDataGridCollectionView.Value.Returns(view);
+
+        var renamedMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
+                             { Path = serverPath, DisplayName = "Server1-new" };
+
+        // Act
+        sut.ReplaceByPath(loadHelper, serverPath, renamedMachine);
+        await Dispatcher.UIThread.InvokeAsync(() => { });
+
+        // Assert
+        loadHelper.VmDataGridItemsSource.Should().Contain(renamedMachine);
+        view.Cast<Machine>().Select(machine => machine.DisplayName).Should().ContainSingle().Which.Should().Be("Server1-new");
+        view.Filter.Should().NotBeNull();
     }
 
     #endregion

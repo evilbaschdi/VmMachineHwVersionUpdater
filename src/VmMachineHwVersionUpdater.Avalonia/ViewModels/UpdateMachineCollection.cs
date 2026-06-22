@@ -1,3 +1,4 @@
+using Avalonia.Collections;
 using Avalonia.Threading;
 using Microsoft.Extensions.Logging;
 
@@ -25,9 +26,11 @@ public class UpdateMachineCollection(
                                  {
                                      try
                                      {
-                                         RemoveAllByPath(loadValue, filePath);
-                                         loadValue.VmDataGridItemsSource.Add(machine);
-                                         RefreshView();
+                                         MutateAndRefresh(() =>
+                                                          {
+                                                              RemoveAllByPath(loadValue, filePath);
+                                                              loadValue.VmDataGridItemsSource.Add(machine);
+                                                          });
                                          _logger.LogDebug("Machine updated in UI for {FilePath}", filePath);
                                      }
                                      catch (Exception ex)
@@ -47,11 +50,11 @@ public class UpdateMachineCollection(
                                  {
                                      try
                                      {
-                                         var removed = RemoveAllByPath(loadValue, filePath);
+                                         var removed = 0;
+                                         MutateAndRefresh(() => removed = RemoveAllByPath(loadValue, filePath));
 
                                          if (removed > 0)
                                          {
-                                             RefreshView();
                                              _logger.LogDebug("Machine removed from UI for {FilePath}", filePath);
                                          }
                                      }
@@ -77,8 +80,36 @@ public class UpdateMachineCollection(
         return removed;
     }
 
-    private void RefreshView()
+    /// <summary>
+    ///     Mutates the underlying source collection while the active filter is suspended.
+    ///     When a <see cref="DataGridCollectionView" /> has a filter applied, its internal
+    ///     (filtered) indices diverge from the source collection indices. Mutating the source
+    ///     then raises incremental change notifications that the view maps against the wrong
+    ///     indices, which can make items vanish from the filtered view. Removing the filter
+    ///     before mutating keeps the indices in sync, and re-applying it afterwards performs
+    ///     a clean full refresh (sorting, grouping and filtering).
+    /// </summary>
+    private void MutateAndRefresh(Action mutate)
     {
-        _configureDataGridCollectionView.Value.Refresh();
+        var view = _configureDataGridCollectionView.Value;
+        var filter = view?.Filter;
+
+        if (filter is not null)
+        {
+            view.Filter = null!;
+        }
+
+        mutate();
+
+        if (filter is not null)
+        {
+            view.Filter = filter;
+        }
+        else
+        {
+            // ReSharper disable once ExpressionIsAlwaysNull
+            // ReSharper disable once ConstantConditionalAccessQualifier
+            view?.Refresh();
+        }
     }
 }

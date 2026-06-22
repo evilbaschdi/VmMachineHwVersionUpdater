@@ -55,7 +55,7 @@ public class FileChangeDebouncerTests
 
         // Act
         sut.Debounce("key1", () => executed = true);
-        await Task.Delay(1500);
+        await Task.Delay(1500, TestContext.Current.CancellationToken);
 
         // Assert
         executed.Should().BeTrue();
@@ -74,19 +74,19 @@ public class FileChangeDebouncerTests
                                  callCount++;
                                  lastValue = "first";
                              });
-        await Task.Delay(100);
+        await Task.Delay(100, TestContext.Current.CancellationToken);
         sut.Debounce("key1", () =>
                              {
                                  callCount++;
                                  lastValue = "second";
                              });
-        await Task.Delay(100);
+        await Task.Delay(100, TestContext.Current.CancellationToken);
         sut.Debounce("key1", () =>
                              {
                                  callCount++;
                                  lastValue = "third";
                              });
-        await Task.Delay(1500);
+        await Task.Delay(1500, TestContext.Current.CancellationToken);
 
         // Assert
         callCount.Should().Be(1);
@@ -103,7 +103,7 @@ public class FileChangeDebouncerTests
         // Act
         sut.Debounce("key1", () => executed1 = true);
         sut.Debounce("key2", () => executed2 = true);
-        await Task.Delay(1500);
+        await Task.Delay(1500, TestContext.Current.CancellationToken);
 
         // Assert
         executed1.Should().BeTrue();
@@ -137,7 +137,7 @@ public class FileChangeDebouncerTests
 
         // Act
         sut.CancelAll();
-        await Task.Delay(1500);
+        await Task.Delay(1500, TestContext.Current.CancellationToken);
 
         // Assert
         executed.Should().BeFalse();
