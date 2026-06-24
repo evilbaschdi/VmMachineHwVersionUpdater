@@ -19,13 +19,17 @@ internal class Program
     // ReSharper disable once MemberCanBePrivate.Global
     public static AppBuilder BuildAvaloniaApp()
         => new AppBuilderImplementationToUseReactiveUIWithMicrosoftDependencyResolver<App>()
-            .ValueFor(serviceCollection =>
-                      {
-                          serviceCollection.AddCoreServices();
-                          serviceCollection.AddAboutServices();
-                          serviceCollection.AddCommandServices();
-                          serviceCollection.AddAvaloniaServices();
-                          serviceCollection.AddReactiveCommandServices();
-                          serviceCollection.AddWindowsAndViewModels();
-                      });
+           .ValueFor(serviceCollection =>
+                     {
+                         serviceCollection.AddCoreServices();
+                         serviceCollection.AddAboutServices();
+                         serviceCollection.AddCommandServices();
+                         serviceCollection.AddAvaloniaServices();
+                         serviceCollection.AddReactiveCommandServices();
+                         serviceCollection.AddWindowsAndViewModels();
+                     })
+#if DEBUG
+           .WithDeveloperTools()
+#endif
+    ;
 }

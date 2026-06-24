@@ -1,0 +1,11 @@
+{
+    "servers": {
+        "avalonia_devtools": {
+            "type": "stdio",
+            "command": "avdt",
+            "args": [
+                "mcp"
+            ]
+        }
+    }
+}
