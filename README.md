@@ -4,15 +4,6 @@
 
 "Vm Machine Hardware Version Updater" is a small tool to manage VMware and VirtualBox machine properties such as changing the hardware version of multiple machines without editing the configuration files manually.
 
-## ⚖️ Disclaimer
-
-This project is a community-maintained open-source tool and is **not** affiliated with, endorsed by, sponsored by, or associated with Broadcom Inc., VMware Inc., Oracle Corporation, or any of their affiliates.
-
-* **VMware**, **vSphere**, **ESXi**, and related terms are registered trademarks of Broadcom Inc.
-* **VirtualBox** and related terms are registered trademarks of Oracle Corporation and/or its affiliates.
-
-All product names, logos, and brands mentioned within this repository (including the description and documentation) are the property of their respective owners. They are used here solely for descriptive and informational purposes to indicate compatibility and interoperability.
-
 ## Features:
 
 - Change hardware version of one or more machines
@@ -42,6 +33,16 @@ Default by NuGet.config is myget.org
 | :----------------------------------------------------------- | :----------------------------------------------------------------- |
 | [![CodeFactor][codeFactorMainBadge]][codeFactorMainOverview] | [![CodeFactor][codeFactorDevelopBadge]][codeFactorDevelopOverview] |
 
+---
+
+## ⚖️ Disclaimer
+
+This project is a community-maintained open-source tool and is **not** affiliated with, endorsed by, sponsored by, or associated with Broadcom Inc., VMware Inc., Oracle Corporation, or any of their affiliates.
+
+* **VMware**, **vSphere**, **ESXi**, and related terms are registered trademarks of Broadcom Inc.
+* **VirtualBox** and related terms are registered trademarks of Oracle Corporation and/or its affiliates.
+
+All product names, logos, and brands mentioned within this repository are the property of their respective owners. They are used here solely for descriptive and informational purposes to indicate compatibility and interoperability.
 
 [codeFactorMainBadge]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/main?style=for-the-badge
 [codeFactorMainOverview]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/main
