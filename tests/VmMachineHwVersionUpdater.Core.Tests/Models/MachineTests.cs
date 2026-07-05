@@ -84,4 +84,46 @@ public class MachineTests
         monitoredMachine.Should().RaisePropertyChangeFor(m => m.ExtendedInformation);
         monitoredMachine.Should().RaisePropertyChangeFor(m => m.ExtendedInformationToolTip);
     }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void SyncTimeWithHost_WhenChanged_RaisesPropertyChanged(
+        IToggleToolsSyncTime toggleToolsSyncTime,
+        IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        IToggleMksEnable3D toggleMksEnable3D,
+        IUpdateMachineVersion updateMachineVersion,
+        IUpdateMachineMemSize updateMachineMemSize)
+    {
+        // Arrange
+        var machine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize);
+        using var monitoredMachine = machine.Monitor();
+
+        // Act
+        machine.SyncTimeWithHost = true;
+
+        // Assert
+        monitoredMachine.Should().RaisePropertyChangeFor(m => m.SyncTimeWithHost);
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void SyncTimeWithHost_WhenChanged_AfterInitialization_WritesToVmx(
+        IToggleToolsSyncTime toggleToolsSyncTime,
+        IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        IToggleMksEnable3D toggleMksEnable3D,
+        IUpdateMachineVersion updateMachineVersion,
+        IUpdateMachineMemSize updateMachineMemSize)
+    {
+        // Arrange
+        var machine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
+                      {
+                          Path = @"C:\VMs\test.vmx"
+                      };
+
+        machine.IsEnabledForEditing = true;
+
+        // Act
+        machine.SyncTimeWithHost = true;
+
+        // Assert
+        toggleToolsSyncTime.Received(1).RunFor(@"C:\VMs\test.vmx", true);
+    }
 }

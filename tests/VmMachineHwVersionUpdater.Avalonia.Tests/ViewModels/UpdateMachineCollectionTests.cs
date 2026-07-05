@@ -38,10 +38,12 @@ public class UpdateMachineCollectionTests
     {
         // Arrange
         var filePath = @"C:\VMs\Server1\Server1.vmx";
-        var existingMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                              { Path = filePath, DisplayName = "Old" };
-        var newMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                         { Path = filePath, DisplayName = "New" };
+        var existingMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "Old" };
+        var newMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "New" };
         var loadHelper = new LoadHelper { VmDataGridItemsSource = [existingMachine] };
 
         // Act
@@ -64,12 +66,15 @@ public class UpdateMachineCollectionTests
     {
         // Arrange
         var filePath = @"C:\VMs\Server1\Server1.vmx";
-        var dup1 = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                   { Path = filePath, DisplayName = "Dup1" };
-        var dup2 = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                   { Path = filePath, DisplayName = "Dup2" };
-        var newMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                         { Path = filePath, DisplayName = "New" };
+        var dup1 = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion,
+                updateMachineMemSize)
+            { Path = filePath, DisplayName = "Dup1" };
+        var dup2 = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion,
+                updateMachineMemSize)
+            { Path = filePath, DisplayName = "Dup2" };
+        var newMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "New" };
         var loadHelper = new LoadHelper { VmDataGridItemsSource = [dup1, dup2] };
 
         // Act
@@ -92,8 +97,9 @@ public class UpdateMachineCollectionTests
     {
         // Arrange
         var filePath = @"C:\VMs\Server1\Server1.vmx";
-        var newMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                         { Path = filePath, DisplayName = "New" };
+        var newMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "New" };
         var loadHelper = new LoadHelper { VmDataGridItemsSource = [] };
 
         // Act
@@ -120,8 +126,9 @@ public class UpdateMachineCollectionTests
     {
         // Arrange
         var filePath = @"C:\VMs\Server1\Server1.vmx";
-        var machine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                      { Path = filePath, DisplayName = "Server1" };
+        var machine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "Server1" };
         var loadHelper = new LoadHelper { VmDataGridItemsSource = [machine] };
 
         // Act
@@ -142,8 +149,9 @@ public class UpdateMachineCollectionTests
         IUpdateMachineMemSize updateMachineMemSize)
     {
         // Arrange
-        var existingMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                              { Path = @"C:\VMs\Other\Other.vmx", DisplayName = "Other" };
+        var existingMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = @"C:\VMs\Other\Other.vmx", DisplayName = "Other" };
         var loadHelper = new LoadHelper { VmDataGridItemsSource = [existingMachine] };
 
         // Act
@@ -164,8 +172,9 @@ public class UpdateMachineCollectionTests
         IUpdateMachineMemSize updateMachineMemSize)
     {
         // Arrange
-        var machine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                      { Path = @"C:\VMs\Server1\Server1.vmx", DisplayName = "Server1" };
+        var machine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = @"C:\VMs\Server1\Server1.vmx", DisplayName = "Server1" };
         var loadHelper = new LoadHelper { VmDataGridItemsSource = [machine] };
 
         // Act
@@ -174,6 +183,40 @@ public class UpdateMachineCollectionTests
 
         // Assert
         loadHelper.VmDataGridItemsSource.Should().BeEmpty();
+    }
+
+    #endregion
+
+    #region In-Place Update Tests
+
+    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task ReplaceByPath_WithExistingMachine_PreservesExistingRowInstance(
+        UpdateMachineCollection sut,
+        IToggleToolsSyncTime toggleToolsSyncTime,
+        IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        IToggleMksEnable3D toggleMksEnable3D,
+        IUpdateMachineVersion updateMachineVersion,
+        IUpdateMachineMemSize updateMachineMemSize)
+    {
+        // Arrange
+        var filePath = @"C:\VMs\Server1\Server1.vmx";
+        var existingMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "Old", SyncTimeWithHost = false };
+        var updatedMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "Updated", SyncTimeWithHost = true };
+        var loadHelper = new LoadHelper { VmDataGridItemsSource = [existingMachine] };
+
+        // Act
+        sut.ReplaceByPath(loadHelper, filePath, updatedMachine);
+        await Dispatcher.UIThread.InvokeAsync(() => { });
+
+        // Assert
+        loadHelper.VmDataGridItemsSource.Should().ContainSingle();
+        loadHelper.VmDataGridItemsSource[0].Should().BeSameAs(existingMachine);
+        loadHelper.VmDataGridItemsSource[0].DisplayName.Should().Be("Updated");
+        loadHelper.VmDataGridItemsSource[0].SyncTimeWithHost.Should().BeTrue();
     }
 
     #endregion
@@ -194,30 +237,115 @@ public class UpdateMachineCollectionTests
         var serverPath = @"C:\VMs\Server1\Server1.vmx";
 
         // A machine that is filtered OUT so the view's filtered indices diverge from the source indices.
-        var hiddenMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                            { Path = @"C:\VMs\Linux\Linux.vmx", DisplayName = "Linux" };
-        var serverMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                            { Path = serverPath, DisplayName = "Server1-old" };
+        var hiddenMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = @"C:\VMs\Linux\Linux.vmx", DisplayName = "Linux" };
+        var serverMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = serverPath, DisplayName = "Server1-old" };
 
         var loadHelper = new LoadHelper { VmDataGridItemsSource = [hiddenMachine, serverMachine] };
 
         var view = new DataGridCollectionView(loadHelper.VmDataGridItemsSource)
-                   {
-                       Filter = item => ((Machine)item).DisplayName.Contains("Server", StringComparison.OrdinalIgnoreCase)
-                   };
+        {
+            Filter = item => ((Machine)item).DisplayName.Contains("Server", StringComparison.OrdinalIgnoreCase)
+        };
         configureDataGridCollectionView.Value.Returns(view);
 
-        var renamedMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-                             { Path = serverPath, DisplayName = "Server1-new" };
+        var renamedMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = serverPath, DisplayName = "Server1-new" };
 
         // Act
         sut.ReplaceByPath(loadHelper, serverPath, renamedMachine);
         await Dispatcher.UIThread.InvokeAsync(() => { });
+        await Dispatcher.UIThread.InvokeAsync(() => { });
 
         // Assert
         loadHelper.VmDataGridItemsSource.Should().Contain(renamedMachine);
-        view.Cast<Machine>().Select(machine => machine.DisplayName).Should().ContainSingle().Which.Should().Be("Server1-new");
+        view.Cast<Machine>().Select(machine => machine.DisplayName).Should().ContainSingle().Which.Should()
+            .Be("Server1-new");
         view.Filter.Should().NotBeNull();
+    }
+
+    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task ReplaceByPath_WithActiveFilter_ReplacesCollectionViewToAvoidFilterMutation(
+        [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
+        UpdateMachineCollection sut,
+        IToggleToolsSyncTime toggleToolsSyncTime,
+        IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        IToggleMksEnable3D toggleMksEnable3D,
+        IUpdateMachineVersion updateMachineVersion,
+        IUpdateMachineMemSize updateMachineMemSize)
+    {
+        // Arrange
+        var filePath = @"C:\VMs\Server1\Server1.vmx";
+        var existingMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "Old" };
+        var newMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "New" };
+        var loadHelper = new LoadHelper { VmDataGridItemsSource = [existingMachine] };
+
+        var view = new DataGridCollectionView(loadHelper.VmDataGridItemsSource)
+        {
+            Filter = _ => true
+        };
+        configureDataGridCollectionView.Value.Returns(view);
+        configureDataGridCollectionView.When(x => x.Value = Arg.Any<DataGridCollectionView>())
+            .Do(call => configureDataGridCollectionView.Value.Returns(call.Arg<DataGridCollectionView>()));
+
+        // Act
+        sut.ReplaceByPath(loadHelper, filePath, newMachine);
+        await Dispatcher.UIThread.InvokeAsync(() => { });
+        await Dispatcher.UIThread.InvokeAsync(() => { });
+
+        // Assert
+        configureDataGridCollectionView.Value.Should().NotBeSameAs(view);
+    }
+
+    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task ReplaceByPath_WithNoFilterAndRefreshFailure_RetriesAndUpdatesCollection(
+        [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
+        UpdateMachineCollection sut,
+        IToggleToolsSyncTime toggleToolsSyncTime,
+        IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        IToggleMksEnable3D toggleMksEnable3D,
+        IUpdateMachineVersion updateMachineVersion,
+        IUpdateMachineMemSize updateMachineMemSize)
+    {
+        // Arrange
+        var filePath = @"C:\VMs\Server1\Server1.vmx";
+        var existingMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "Old" };
+        var newMachine = new Machine(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D,
+                updateMachineVersion, updateMachineMemSize)
+            { Path = filePath, DisplayName = "New" };
+        var loadHelper = new LoadHelper { VmDataGridItemsSource = [existingMachine] };
+
+        var view = new DataGridCollectionView(loadHelper.VmDataGridItemsSource);
+
+        try
+        {
+            view.Filter = _ =>
+                throw new InvalidOperationException("Filter is not allowed during an AddNew or EditItem transaction.");
+        }
+        catch (InvalidOperationException)
+        {
+            // Intentionally ignored; the collection view will surface the same failure during the refresh path.
+        }
+
+        configureDataGridCollectionView.Value.Returns(view);
+
+        // Act
+        sut.ReplaceByPath(loadHelper, filePath, newMachine);
+        await Dispatcher.UIThread.InvokeAsync(() => { });
+        await Dispatcher.UIThread.InvokeAsync(() => { });
+
+        // Assert
+        loadHelper.VmDataGridItemsSource.Should().ContainSingle().Which.Should().Be(newMachine);
     }
 
     #endregion

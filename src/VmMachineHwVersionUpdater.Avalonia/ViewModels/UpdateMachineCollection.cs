@@ -23,21 +23,17 @@ public class UpdateMachineCollection(
         ArgumentNullException.ThrowIfNull(machine);
 
         Dispatcher.UIThread.Post(() =>
-                                 {
-                                     try
-                                     {
-                                         MutateAndRefresh(() =>
-                                                          {
-                                                              RemoveAllByPath(loadValue, filePath);
-                                                              loadValue.VmDataGridItemsSource.Add(machine);
-                                                          });
-                                         _logger.LogDebug("Machine updated in UI for {FilePath}", filePath);
-                                     }
-                                     catch (Exception ex)
-                                     {
-                                         _logger.LogError(ex, "Error updating UI for {FilePath}", filePath);
-                                     }
-                                 });
+        {
+            try
+            {
+                MutateAndRefresh(loadValue, () => ReplaceByPathInSource(loadValue, filePath, machine));
+                _logger.LogDebug("Machine updated in UI for {FilePath}", filePath);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating UI for {FilePath}", filePath);
+            }
+        });
     }
 
     /// <inheritdoc />
@@ -47,22 +43,22 @@ public class UpdateMachineCollection(
         ArgumentNullException.ThrowIfNull(filePath);
 
         Dispatcher.UIThread.Post(() =>
-                                 {
-                                     try
-                                     {
-                                         var removed = 0;
-                                         MutateAndRefresh(() => removed = RemoveAllByPath(loadValue, filePath));
+        {
+            try
+            {
+                var removed = 0;
+                MutateAndRefresh(loadValue, () => removed = RemoveAllByPath(loadValue, filePath));
 
-                                         if (removed > 0)
-                                         {
-                                             _logger.LogDebug("Machine removed from UI for {FilePath}", filePath);
-                                         }
-                                     }
-                                     catch (Exception ex)
-                                     {
-                                         _logger.LogError(ex, "Error removing machine from UI for {FilePath}", filePath);
-                                     }
-                                 });
+                if (removed > 0)
+                {
+                    _logger.LogDebug("Machine removed from UI for {FilePath}", filePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error removing machine from UI for {FilePath}", filePath);
+            }
+        });
     }
 
     private static int RemoveAllByPath(LoadHelper loadValue, string filePath)
@@ -80,6 +76,37 @@ public class UpdateMachineCollection(
         return removed;
     }
 
+    private static void ReplaceByPathInSource(LoadHelper loadValue, string filePath, Machine machine)
+    {
+        var matchingIndices = new List<int>();
+
+        for (var i = 0; i < loadValue.VmDataGridItemsSource.Count; i++)
+        {
+            if (string.Equals(loadValue.VmDataGridItemsSource[i].Path, filePath, StringComparison.OrdinalIgnoreCase))
+            {
+                matchingIndices.Add(i);
+            }
+        }
+
+        switch (matchingIndices.Count)
+        {
+            case 0:
+                loadValue.VmDataGridItemsSource.Add(machine);
+                return;
+            case 1:
+                loadValue.VmDataGridItemsSource[matchingIndices[0]].ApplyFrom(machine);
+                return;
+            default:
+                for (var i = matchingIndices.Count - 1; i >= 0; i--)
+                {
+                    loadValue.VmDataGridItemsSource.RemoveAt(matchingIndices[i]);
+                }
+
+                loadValue.VmDataGridItemsSource.Add(machine);
+                break;
+        }
+    }
+
     /// <summary>
     ///     Mutates the underlying source collection while the active filter is suspended.
     ///     When a <see cref="DataGridCollectionView" /> has a filter applied, its internal
@@ -89,27 +116,82 @@ public class UpdateMachineCollection(
     ///     before mutating keeps the indices in sync, and re-applying it afterwards performs
     ///     a clean full refresh (sorting, grouping and filtering).
     /// </summary>
-    private void MutateAndRefresh(Action mutate)
+    private void MutateAndRefresh(LoadHelper loadValue, Action mutate)
     {
         var view = _configureDataGridCollectionView.Value;
-        var filter = view?.Filter;
 
-        if (filter is not null)
+        if (view is null)
         {
-            view.Filter = null!;
+            mutate();
+            return;
         }
 
-        mutate();
+        Dispatcher.UIThread.Post(() =>
+        {
+            try
+            {
+                mutate();
+                RefreshView(loadValue, view);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Collection refresh failed for file watcher update");
+            }
+        });
+    }
 
-        if (filter is not null)
+    private void RefreshView(LoadHelper loadValue, DataGridCollectionView view)
+    {
+        try
         {
-            view.Filter = filter;
+            var currentFilter = TryGetFilter(view);
+
+            if (currentFilter is null)
+            {
+                view.Refresh();
+                return;
+            }
+
+            var replacementView = CreateReplacementView(loadValue.VmDataGridItemsSource, currentFilter);
+            _configureDataGridCollectionView.Value = replacementView;
         }
-        else
+        catch (Exception ex) when (IsFilterMutationException(ex))
         {
-            // ReSharper disable once ExpressionIsAlwaysNull
-            // ReSharper disable once ConstantConditionalAccessQualifier
-            view?.Refresh();
+            _logger.LogDebug(ex,
+                "Filtered collection view could not be refreshed in place; replacing it on the next tick");
+            Dispatcher.UIThread.Post(() => RefreshView(loadValue, view));
         }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Collection refresh failed for file watcher update");
+        }
+    }
+
+    private static DataGridCollectionView CreateReplacementView(System.Collections.IEnumerable source,
+        Func<object, bool> filter)
+    {
+        var replacementView = new DataGridCollectionView(source)
+        {
+            Filter = filter
+        };
+
+        return replacementView;
+    }
+
+    private static Func<object, bool> TryGetFilter(DataGridCollectionView view)
+    {
+        try
+        {
+            return view.Filter;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    private static bool IsFilterMutationException(Exception ex)
+    {
+        return ex.Message.Contains("Filter", StringComparison.OrdinalIgnoreCase);
     }
 }

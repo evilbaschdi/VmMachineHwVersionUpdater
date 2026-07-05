@@ -10,23 +10,33 @@ public sealed class Machine(
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] IUpdateMachineMemSize updateMachineMemSize) : INotifyPropertyChanged
 {
-    private readonly bool _autoUpdateTools;
-    private readonly int _hwVersion;
-    private readonly int _memSize;
-    private readonly bool _syncTimeWithHost;
-    private readonly bool _accelerate3DGraphics;
-    private readonly IToggleToolsSyncTime _toggleToolsSyncTime = toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
-    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy = toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
-    private readonly IToggleMksEnable3D _toggleMksEnable3D = toggleMksEnable3D ?? throw new ArgumentNullException(nameof(toggleMksEnable3D));
-    private readonly IUpdateMachineVersion _updateMachineVersion = updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
-    private readonly IUpdateMachineMemSize _updateMachineMemSize = updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
+    private bool _autoUpdateTools;
+    private int _hwVersion;
+    private int _memSize;
+    private bool _syncTimeWithHost;
+    private bool _accelerate3DGraphics;
+
+    private readonly IToggleToolsSyncTime _toggleToolsSyncTime =
+        toggleToolsSyncTime ?? throw new ArgumentNullException(nameof(toggleToolsSyncTime));
+
+    private readonly IToggleToolsUpgradePolicy _toggleToolsUpgradePolicy =
+        toggleToolsUpgradePolicy ?? throw new ArgumentNullException(nameof(toggleToolsUpgradePolicy));
+
+    private readonly IToggleMksEnable3D _toggleMksEnable3D =
+        toggleMksEnable3D ?? throw new ArgumentNullException(nameof(toggleMksEnable3D));
+
+    private readonly IUpdateMachineVersion _updateMachineVersion =
+        updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));
+
+    private readonly IUpdateMachineMemSize _updateMachineMemSize =
+        updateMachineMemSize ?? throw new ArgumentNullException(nameof(updateMachineMemSize));
 
     /// <summary />
     public bool AutoUpdateTools
     {
         // ReSharper disable once UnusedMember.Global
         get => _autoUpdateTools;
-        init
+        set
         {
             if (_autoUpdateTools == value)
             {
@@ -43,7 +53,7 @@ public sealed class Machine(
     {
         // ReSharper disable once UnusedMember.Global
         get => _hwVersion;
-        init
+        set
         {
             if (_hwVersion == value)
             {
@@ -60,7 +70,7 @@ public sealed class Machine(
     {
         // ReSharper disable once UnusedMember.Global
         get => _memSize;
-        init
+        set
         {
             if (_memSize == value)
             {
@@ -77,7 +87,7 @@ public sealed class Machine(
     {
         // ReSharper disable once UnusedMember.Global
         get => _syncTimeWithHost;
-        init
+        set
         {
             if (_syncTimeWithHost == value)
             {
@@ -94,7 +104,7 @@ public sealed class Machine(
     {
         // ReSharper disable once UnusedMember.Global
         get => _accelerate3DGraphics;
-        init
+        set
         {
             if (_accelerate3DGraphics == value)
             {
@@ -111,7 +121,9 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifyHwVersionChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged is not null)
+        OnPropertyChanged(nameof(HwVersion));
+
+        if (IsEnabledForEditing)
         {
             _updateMachineVersion.RunFor(Path, _hwVersion);
         }
@@ -122,7 +134,9 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifyMemSizeChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged is not null)
+        OnPropertyChanged(nameof(MemSize));
+
+        if (IsEnabledForEditing)
         {
             var memSizeMb = _memSize * 1024;
             _updateMachineMemSize.RunFor(Path, memSizeMb);
@@ -134,7 +148,9 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifyAutoUpdateToolsChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged is not null)
+        OnPropertyChanged(nameof(AutoUpdateTools));
+
+        if (IsEnabledForEditing)
         {
             _toggleToolsUpgradePolicy.RunFor(Path, _autoUpdateTools);
         }
@@ -145,7 +161,9 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifySyncTimeWithHostChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged is not null)
+        OnPropertyChanged(nameof(SyncTimeWithHost));
+
+        if (IsEnabledForEditing)
         {
             _toggleToolsSyncTime.RunFor(Path, _syncTimeWithHost);
         }
@@ -156,7 +174,9 @@ public sealed class Machine(
     // parameter causes the property name of the caller to be substituted as an argument.
     private void NotifyAccelerate3DGraphicsChanged()
     {
-        if (IsEnabledForEditing && PropertyChanged is not null)
+        OnPropertyChanged(nameof(Accelerate3DGraphics));
+
+        if (IsEnabledForEditing)
         {
             _toggleMksEnable3D.RunFor(Path, _accelerate3DGraphics);
         }
@@ -204,13 +224,13 @@ public sealed class Machine(
     public string DisplayName { get; set; }
 
     /// <summary />
-    public string EncryptionData { get; init; }
+    public string EncryptionData { get; set; }
 
     /// <summary />
-    public string EncryptionEncryptedKey { get; init; }
+    public string EncryptionEncryptedKey { get; set; }
 
     /// <summary />
-    public string EncryptionKeySafe { get; init; }
+    public string EncryptionKeySafe { get; set; }
 
     /// <summary />
     public string ExtendedInformation
@@ -286,13 +306,13 @@ public sealed class Machine(
     }
 
     /// <summary />
-    public string ManagedVmAutoAddVTpm { get; init; }
+    public string ManagedVmAutoAddVTpm { get; set; }
 
     /// <summary />
     public string Path { get; set; }
 
     /// <summary />
-    public string ShortPath { get; init; }
+    public string ShortPath { get; set; }
 
     /// <summary />
     public bool IsEnabledForEditing
@@ -315,6 +335,67 @@ public sealed class Machine(
 
     // ReSharper restore PropertyCanBeMadeInitOnly.Global
     // ReSharper restore UnusedAutoPropertyAccessor.Global
+
+    /// <summary>
+    /// </summary>
+    /// <param name="other"></param>
+    public void ApplyFrom(Machine other)
+    {
+        ArgumentNullException.ThrowIfNull(other);
+
+        if (ReferenceEquals(this, other))
+        {
+            return;
+        }
+
+        _autoUpdateTools = other._autoUpdateTools;
+        _hwVersion = other._hwVersion;
+        _memSize = other._memSize;
+        _syncTimeWithHost = other._syncTimeWithHost;
+        _accelerate3DGraphics = other._accelerate3DGraphics;
+        _machineState = other._machineState;
+        _logLastDate = other._logLastDate;
+        _logLastDateDiff = other._logLastDateDiff;
+        _isEnabledForEditing = other._isEnabledForEditing;
+        _extendedInformation = other._extendedInformation;
+        _extendedInformationToolTip = other._extendedInformationToolTip;
+
+        DirectorySizeGb = other.DirectorySizeGb;
+        Annotation = other.Annotation;
+        Directory = other.Directory;
+        DirectorySize = other.DirectorySize;
+        DisplayName = other.DisplayName;
+        EncryptionData = other.EncryptionData;
+        EncryptionEncryptedKey = other.EncryptionEncryptedKey;
+        EncryptionKeySafe = other.EncryptionKeySafe;
+        GuestOs = other.GuestOs;
+        GuestOsRaw = other.GuestOsRaw;
+        GuestOsDetailedData = other.GuestOsDetailedData;
+        ManagedVmAutoAddVTpm = other.ManagedVmAutoAddVTpm;
+        Path = other.Path;
+        ShortPath = other.ShortPath;
+        MachineType = other.MachineType;
+
+        OnPropertyChanged(nameof(AutoUpdateTools));
+        OnPropertyChanged(nameof(HwVersion));
+        OnPropertyChanged(nameof(MemSize));
+        OnPropertyChanged(nameof(SyncTimeWithHost));
+        OnPropertyChanged(nameof(Accelerate3DGraphics));
+        OnPropertyChanged(nameof(MachineState));
+        OnPropertyChanged(nameof(Annotation));
+        OnPropertyChanged(nameof(Directory));
+        OnPropertyChanged(nameof(DirectorySize));
+        OnPropertyChanged(nameof(DisplayName));
+        OnPropertyChanged(nameof(ExtendedInformation));
+        OnPropertyChanged(nameof(ExtendedInformationToolTip));
+        OnPropertyChanged(nameof(GuestOs));
+        OnPropertyChanged(nameof(GuestOsRaw));
+        OnPropertyChanged(nameof(GuestOsDetailedData));
+        OnPropertyChanged(nameof(LogLastDate));
+        OnPropertyChanged(nameof(LogLastDateDiff));
+        OnPropertyChanged(nameof(IsEnabledForEditing));
+        OnPropertyChanged(nameof(MachineType));
+    }
 
     /// <inheritdoc />
     /// <summary />
