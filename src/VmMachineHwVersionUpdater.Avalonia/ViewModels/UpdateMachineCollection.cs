@@ -23,17 +23,17 @@ public class UpdateMachineCollection(
         ArgumentNullException.ThrowIfNull(machine);
 
         Dispatcher.UIThread.Post(() =>
-        {
-            try
-            {
-                MutateAndRefresh(loadValue, () => ReplaceByPathInSource(loadValue, filePath, machine));
-                _logger.LogDebug("Machine updated in UI for {FilePath}", filePath);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error updating UI for {FilePath}", filePath);
-            }
-        });
+                                 {
+                                     try
+                                     {
+                                         MutateAndRefresh(loadValue, () => ReplaceByPathInSource(loadValue, filePath, machine));
+                                         _logger.LogDebug("Machine updated in UI for {FilePath}", filePath);
+                                     }
+                                     catch (Exception ex)
+                                     {
+                                         _logger.LogError(ex, "Error updating UI for {FilePath}", filePath);
+                                     }
+                                 });
     }
 
     /// <inheritdoc />
@@ -43,22 +43,22 @@ public class UpdateMachineCollection(
         ArgumentNullException.ThrowIfNull(filePath);
 
         Dispatcher.UIThread.Post(() =>
-        {
-            try
-            {
-                var removed = 0;
-                MutateAndRefresh(loadValue, () => removed = RemoveAllByPath(loadValue, filePath));
+                                 {
+                                     try
+                                     {
+                                         var removed = 0;
+                                         MutateAndRefresh(loadValue, () => removed = RemoveAllByPath(loadValue, filePath));
 
-                if (removed > 0)
-                {
-                    _logger.LogDebug("Machine removed from UI for {FilePath}", filePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error removing machine from UI for {FilePath}", filePath);
-            }
-        });
+                                         if (removed > 0)
+                                         {
+                                             _logger.LogDebug("Machine removed from UI for {FilePath}", filePath);
+                                         }
+                                     }
+                                     catch (Exception ex)
+                                     {
+                                         _logger.LogError(ex, "Error removing machine from UI for {FilePath}", filePath);
+                                     }
+                                 });
     }
 
     private static int RemoveAllByPath(LoadHelper loadValue, string filePath)
@@ -127,17 +127,17 @@ public class UpdateMachineCollection(
         }
 
         Dispatcher.UIThread.Post(() =>
-        {
-            try
-            {
-                mutate();
-                RefreshView(loadValue, view);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Collection refresh failed for file watcher update");
-            }
-        });
+                                 {
+                                     try
+                                     {
+                                         mutate();
+                                         RefreshView(loadValue, view);
+                                     }
+                                     catch (Exception ex)
+                                     {
+                                         _logger.LogWarning(ex, "Collection refresh failed for file watcher update");
+                                     }
+                                 });
     }
 
     private void RefreshView(LoadHelper loadValue, DataGridCollectionView view)
@@ -168,12 +168,12 @@ public class UpdateMachineCollection(
     }
 
     private static DataGridCollectionView CreateReplacementView(System.Collections.IEnumerable source,
-        Func<object, bool> filter)
+                                                                Func<object, bool> filter)
     {
         var replacementView = new DataGridCollectionView(source)
-        {
-            Filter = filter
-        };
+                              {
+                                  Filter = filter
+                              };
 
         return replacementView;
     }
@@ -190,8 +190,5 @@ public class UpdateMachineCollection(
         }
     }
 
-    private static bool IsFilterMutationException(Exception ex)
-    {
-        return ex.Message.Contains("Filter", StringComparison.OrdinalIgnoreCase);
-    }
+    private static bool IsFilterMutationException(Exception ex) => ex.Message.Contains("Filter", StringComparison.OrdinalIgnoreCase);
 }
