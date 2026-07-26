@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 

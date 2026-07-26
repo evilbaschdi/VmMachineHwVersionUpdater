@@ -1,4 +1,4 @@
-﻿using System.Collections.Concurrent;
+using System.Collections.Concurrent;
 using EvilBaschdi.Core.Extensions;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;

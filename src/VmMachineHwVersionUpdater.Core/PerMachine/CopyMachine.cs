@@ -1,4 +1,4 @@
-﻿using EvilBaschdi.Core.Internal.Copy;
+using EvilBaschdi.Core.Internal.Copy;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 

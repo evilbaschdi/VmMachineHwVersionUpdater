@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using EvilBaschdi.Core.Internal.Copy;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;

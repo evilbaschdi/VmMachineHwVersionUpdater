@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Tests.Models;
+namespace VmMachineHwVersionUpdater.Core.Tests.Models;
 
 public class RawMachineTests
 {

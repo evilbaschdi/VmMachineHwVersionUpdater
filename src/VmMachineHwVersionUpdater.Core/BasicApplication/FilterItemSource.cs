@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.BasicApplication;
+namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
 /// <inheritdoc />
 public class FilterItemSource : IFilterItemSource

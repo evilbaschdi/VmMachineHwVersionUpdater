@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Enums;
+namespace VmMachineHwVersionUpdater.Core.Enums;
 
 /// <summary>
 ///     MachineState

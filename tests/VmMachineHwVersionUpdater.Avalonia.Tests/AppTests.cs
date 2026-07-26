@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Avalonia;
 using Avalonia.Headless.XUnit;
 using EvilBaschdi.About.Avalonia.DependencyInjection;

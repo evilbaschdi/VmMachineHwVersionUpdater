@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Tests;
+namespace VmMachineHwVersionUpdater.Core.Tests;
 
 /// <summary>
 ///     Do not delete this class.

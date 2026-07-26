@@ -1,4 +1,4 @@
-﻿// ReSharper disable CommentTypo
+// ReSharper disable CommentTypo
 // ReSharper disable StringLiteralTypo
 // ReSharper disable once IdentifierTypo
 // ReSharper disable IdentifierTypo

@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc cref="IUpdateMachineMemSize" />
 public class UpdateMachineMemSize() : UpsertVmxLine<int>("memsize"), IUpdateMachineMemSize;

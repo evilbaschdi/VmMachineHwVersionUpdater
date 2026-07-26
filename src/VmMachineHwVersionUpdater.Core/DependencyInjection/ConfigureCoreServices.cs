@@ -1,4 +1,4 @@
-﻿using EvilBaschdi.Core.Internal;
+using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Internal.Copy;
 using EvilBaschdi.Core.Logging;
 using Microsoft.Extensions.Logging;

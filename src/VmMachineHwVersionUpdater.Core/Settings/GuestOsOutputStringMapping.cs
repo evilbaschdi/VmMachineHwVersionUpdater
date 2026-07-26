@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Settings;
+namespace VmMachineHwVersionUpdater.Core.Settings;
 
 /// <inheritdoc cref="IGuestOsOutputStringMapping" />
 public class GuestOsOutputStringMapping(

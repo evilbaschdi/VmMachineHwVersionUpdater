@@ -1,4 +1,4 @@
-﻿using Avalonia.Threading;
+using Avalonia.Threading;
 using EvilBaschdi.Core.Internal.Copy;
 using FluentAvalonia.UI.Controls;
 

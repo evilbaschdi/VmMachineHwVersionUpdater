@@ -1,4 +1,4 @@
-﻿using Avalonia;
+using Avalonia;
 using Avalonia.Themes.Fluent;
 using VmMachineHwVersionUpdater.Avalonia.Tests;
 

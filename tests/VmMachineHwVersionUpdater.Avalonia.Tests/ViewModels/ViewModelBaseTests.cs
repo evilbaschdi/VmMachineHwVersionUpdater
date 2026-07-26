@@ -1,4 +1,4 @@
-﻿using ReactiveUI;
+using ReactiveUI;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Tests.ViewModels;

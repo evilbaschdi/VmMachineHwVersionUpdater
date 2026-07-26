@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
+namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <summary />
 public interface IAddEditAnnotationDialogViewModel

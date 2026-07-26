@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Avalonia.Tests;
+namespace VmMachineHwVersionUpdater.Avalonia.Tests;
 
 /// <summary>
 ///     Do not delete this class.

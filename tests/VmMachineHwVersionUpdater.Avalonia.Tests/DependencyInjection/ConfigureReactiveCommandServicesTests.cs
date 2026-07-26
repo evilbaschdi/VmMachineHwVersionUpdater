@@ -1,4 +1,4 @@
-﻿using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
+using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Tests.DependencyInjection;

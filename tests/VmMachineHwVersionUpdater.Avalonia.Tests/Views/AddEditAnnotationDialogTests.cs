@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using VmMachineHwVersionUpdater.Avalonia.Views;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Tests.Views;

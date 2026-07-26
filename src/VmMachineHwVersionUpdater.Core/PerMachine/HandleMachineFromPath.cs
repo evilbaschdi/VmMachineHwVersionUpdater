@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using EvilBaschdi.Core.Extensions;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;

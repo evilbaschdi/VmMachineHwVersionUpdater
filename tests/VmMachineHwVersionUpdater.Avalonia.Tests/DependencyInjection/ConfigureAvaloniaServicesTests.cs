@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using EvilBaschdi.Core.Avalonia.Lifetime;
 using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;

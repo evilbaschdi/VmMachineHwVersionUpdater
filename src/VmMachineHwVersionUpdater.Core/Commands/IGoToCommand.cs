@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Commands;
+namespace VmMachineHwVersionUpdater.Core.Commands;
 
 /// <inheritdoc />
 public interface IGoToCommand : IRun;

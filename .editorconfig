@@ -1,3 +1,5 @@
+[*]
+charset = utf-8
 [*.cs]
 
 # XFA001: Use FluentAssertions equivalent

@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;
+namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;
 
 public class SetExtendedInformationTests
 {

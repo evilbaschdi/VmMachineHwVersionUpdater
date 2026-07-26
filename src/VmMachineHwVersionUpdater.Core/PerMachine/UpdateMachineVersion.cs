@@ -1,4 +1,4 @@
-﻿namespace VmMachineHwVersionUpdater.Core.PerMachine;
+namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
 /// <inheritdoc cref="IUpdateMachineVersion" />
 public class UpdateMachineVersion() : UpsertVmxLine<int>("virtualhw.version"), IUpdateMachineVersion

@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls.Templates;
+using Avalonia.Controls.Templates;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Tests;
