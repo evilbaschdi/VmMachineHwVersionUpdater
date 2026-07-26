@@ -32,7 +32,7 @@ public class CopyMachine(
 
         if (path.Equals(copyPath))
         {
-            //todo: Message
+            // TODO: Message
             return;
         }
 

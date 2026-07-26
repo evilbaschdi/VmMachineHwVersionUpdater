@@ -5,13 +5,13 @@
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IRenameReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitTask" />
+/// <inheritdoc cref="ReactiveCommandRxVoidTask" />
 public class RenameReactiveCommand(
     [NotNull] IChangeDisplayName changeDisplayName,
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime
-) : ReactiveCommandUnitTask, IRenameReactiveCommand
+) : ReactiveCommandRxVoidTask, IRenameReactiveCommand
 {
     private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
     private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));

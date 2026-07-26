@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
-using System.Reactive;
 using Avalonia.Collections;
 using ReactiveUI;
+using ReactiveUI.Primitives;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 // ReSharper disable UnusedMember.Global
@@ -86,47 +86,47 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <summary>
     /// </summary>
     // ReSharper disable UnusedAutoPropertyAccessor.Global
-    public ReactiveCommand<Unit, Unit> AboutWindowCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> AboutWindowCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> AddEditAnnotationCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> AddEditAnnotationCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> ArchiveCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> ArchiveCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> CopyCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> CopyCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> DeleteCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> DeleteCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> GoToCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> GoToCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> OpenWithCodeCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> OpenWithCodeCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> ReloadCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> ReloadCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> RenameCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> RenameCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> StartCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> StartCommand { get; set; }
 
     /// <summary>
     /// </summary>
-    public ReactiveCommand<Unit, Unit> UpdateAllCommand { get; set; }
+    public ReactiveCommand<RxVoid, RxVoid> UpdateAllCommand { get; set; }
     // ReSharper restore UnusedAutoPropertyAccessor.Global
 
     /// <summary>

@@ -7,13 +7,13 @@ using FluentAvalonia.UI.Controls;
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="ICopyReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitTask" />
+/// <inheritdoc cref="ReactiveCommandRxVoidTask" />
 public class CopyReactiveCommand(
     [NotNull] ICopyMachine copyMachine,
     [NotNull] ICopyProgress copyProgress,
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
-    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitTask, ICopyReactiveCommand
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandRxVoidTask, ICopyReactiveCommand
 {
     private readonly ICopyMachine _copyMachine = copyMachine ?? throw new ArgumentNullException(nameof(copyMachine));
     private readonly ICopyProgress _copyProgress = copyProgress ?? throw new ArgumentNullException(nameof(copyProgress));

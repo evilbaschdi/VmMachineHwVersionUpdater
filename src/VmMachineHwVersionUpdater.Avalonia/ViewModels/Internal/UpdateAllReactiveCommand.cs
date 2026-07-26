@@ -1,11 +1,11 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IUpdateAllReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitTask" />
+/// <inheritdoc cref="ReactiveCommandRxVoidTask" />
 public class UpdateAllReactiveCommand(
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] ILoad load,
-    [NotNull] IReloadReactiveCommand reloadReactiveCommand) : ReactiveCommandUnitTask, IUpdateAllReactiveCommand
+    [NotNull] IReloadReactiveCommand reloadReactiveCommand) : ReactiveCommandRxVoidTask, IUpdateAllReactiveCommand
 {
     private readonly IUpdateMachineVersion _updateMachineVersion =
         updateMachineVersion ?? throw new ArgumentNullException(nameof(updateMachineVersion));

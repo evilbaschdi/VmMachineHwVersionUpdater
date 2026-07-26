@@ -1,9 +1,9 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IGoToReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitTask" />
+/// <inheritdoc cref="ReactiveCommandRxVoidTask" />
 public class GoToReactiveCommand(
-    [NotNull] IGoToCommand goToCommand) : ReactiveCommandUnitTask, IGoToReactiveCommand
+    [NotNull] IGoToCommand goToCommand) : ReactiveCommandRxVoidTask, IGoToReactiveCommand
 {
     private readonly IGoToCommand _goToCommand = goToCommand ?? throw new ArgumentNullException(nameof(goToCommand));
 

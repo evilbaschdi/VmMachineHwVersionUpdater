@@ -5,12 +5,12 @@
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IDeleteReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitTask" />
+/// <inheritdoc cref="ReactiveCommandRxVoidTask" />
 public class DeleteReactiveCommand(
     [NotNull] IDeleteMachine deleteMachine,
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
-    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitTask, IDeleteReactiveCommand
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandRxVoidTask, IDeleteReactiveCommand
 {
     private readonly IDeleteMachine _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
     private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));

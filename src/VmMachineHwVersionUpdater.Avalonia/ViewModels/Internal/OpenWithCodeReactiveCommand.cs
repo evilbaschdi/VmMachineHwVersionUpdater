@@ -1,9 +1,9 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IOpenWithCodeReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitTask" />
+/// <inheritdoc cref="ReactiveCommandRxVoidTask" />
 public class OpenWithCodeReactiveCommand(
-    [NotNull] IOpenWithCodeCommand openWithCodeCommand) : ReactiveCommandUnitTask, IOpenWithCodeReactiveCommand
+    [NotNull] IOpenWithCodeCommand openWithCodeCommand) : ReactiveCommandRxVoidTask, IOpenWithCodeReactiveCommand
 {
     private readonly IOpenWithCodeCommand _openWithCodeCommand = openWithCodeCommand ?? throw new ArgumentNullException(nameof(openWithCodeCommand));
 

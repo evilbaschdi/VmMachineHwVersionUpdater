@@ -6,6 +6,10 @@
             "args": [
                 "mcp"
             ]
+        },
+        "dotnet-mtp-coverage-mcp": {
+            "command": "dotnet-mtp-coverage-mcp",
+            "args": []
         }
     }
 }

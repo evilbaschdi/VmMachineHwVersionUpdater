@@ -5,12 +5,12 @@ using FluentAvalonia.UI.Controls;
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IStartReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitTask" />
+/// <inheritdoc cref="ReactiveCommandRxVoidTask" />
 public class StartReactiveCommand(
     [NotNull] IStartCommand startCommand,
     [NotNull] ICurrentMachine currentMachine,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime)
-    : ReactiveCommandUnitTask, IStartReactiveCommand
+    : ReactiveCommandRxVoidTask, IStartReactiveCommand
 {
     private readonly IStartCommand _startCommand = startCommand ?? throw new ArgumentNullException(nameof(startCommand));
     private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));

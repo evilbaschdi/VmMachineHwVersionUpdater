@@ -1,4 +1,4 @@
 ﻿namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc />
-public interface IAboutWindowReactiveCommand : IReactiveCommandUnitTask;
+public interface IAboutWindowReactiveCommand : IReactiveCommandRxVoidTask;

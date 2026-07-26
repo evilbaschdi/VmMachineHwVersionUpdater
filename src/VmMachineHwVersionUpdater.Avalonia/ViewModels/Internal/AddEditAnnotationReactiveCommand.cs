@@ -4,9 +4,9 @@ using VmMachineHwVersionUpdater.Avalonia.Views;
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 
 /// <inheritdoc cref="IAddEditAnnotationReactiveCommand" />
-/// <inheritdoc cref="ReactiveCommandUnitTask" />
+/// <inheritdoc cref="ReactiveCommandRxVoidTask" />
 public class AddEditAnnotationReactiveCommand(
-    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandUnitTask, IAddEditAnnotationReactiveCommand
+    [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandRxVoidTask, IAddEditAnnotationReactiveCommand
 {
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
