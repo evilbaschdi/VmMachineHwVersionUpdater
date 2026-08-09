@@ -1,6 +1,8 @@
 # VmMachineHwVersionUpdater
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+![Commit Activity](https://img.shields.io/github/commit-activity/m/evilbaschdi/VmMachineHwVersionUpdater?style=for-the-badge&)
+![Last Commit](https://img.shields.io/github/last-commit/evilbaschdi/VmMachineHwVersionUpdater?style=for-the-badge&)
 
 "Vm Machine Hardware Version Updater" is a small tool to manage VMware and VirtualBox machine properties such as changing the hardware version of multiple machines without editing the configuration files manually.
 

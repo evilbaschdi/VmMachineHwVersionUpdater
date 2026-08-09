@@ -1,4 +1,3 @@
-using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
@@ -62,7 +61,7 @@ public class UpdateMachineStateFromFileTests
         act.Should().NotThrow();
     }
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task UpdateFor_WithLogFile_UpdatesLogInformation(
         [Frozen] IReadLogInformation readLogInformation,
         UpdateMachineStateFromFile sut,

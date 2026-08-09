@@ -1,5 +1,4 @@
 using Avalonia.Collections;
-using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
@@ -27,7 +26,7 @@ public class UpdateMachineCollectionTests
 
     #region ReplaceByPath Tests
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task ReplaceByPath_WithExistingMachine_RemovesOldAndAddsNew(
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
@@ -55,7 +54,7 @@ public class UpdateMachineCollectionTests
         loadHelper.VmDataGridItemsSource[0].DisplayName.Should().Be("New");
     }
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task ReplaceByPath_WithMultipleDuplicates_RemovesAllAndAddsOne(
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
@@ -86,7 +85,7 @@ public class UpdateMachineCollectionTests
         loadHelper.VmDataGridItemsSource[0].DisplayName.Should().Be("New");
     }
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task ReplaceByPath_WithNoExistingMachine_AddsNewMachine(
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
@@ -115,7 +114,7 @@ public class UpdateMachineCollectionTests
 
     #region RemoveByPath Tests
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task RemoveByPath_WithExistingMachine_RemovesIt(
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
@@ -139,7 +138,7 @@ public class UpdateMachineCollectionTests
         loadHelper.VmDataGridItemsSource.Should().BeEmpty();
     }
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task RemoveByPath_WithNoMatchingMachine_DoesNothing(
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
@@ -162,7 +161,7 @@ public class UpdateMachineCollectionTests
         loadHelper.VmDataGridItemsSource.Should().HaveCount(1);
     }
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task RemoveByPath_WithCaseInsensitivePath_RemovesMachine(
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
@@ -189,7 +188,7 @@ public class UpdateMachineCollectionTests
 
     #region In-Place Update Tests
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task ReplaceByPath_WithExistingMachine_PreservesExistingRowInstance(
         UpdateMachineCollection sut,
         IToggleToolsSyncTime toggleToolsSyncTime,
@@ -223,7 +222,7 @@ public class UpdateMachineCollectionTests
 
     #region Active Filter Tests
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task ReplaceByPath_WithActiveFilter_KeepsRenamedMachineVisible(
         [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
         UpdateMachineCollection sut,
@@ -268,7 +267,7 @@ public class UpdateMachineCollectionTests
         view.Filter.Should().NotBeNull();
     }
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task ReplaceByPath_WithActiveFilter_ReplacesCollectionViewToAvoidFilterMutation(
         [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
         UpdateMachineCollection sut,
@@ -305,7 +304,7 @@ public class UpdateMachineCollectionTests
         configureDataGridCollectionView.Value.Should().NotBeSameAs(view);
     }
 
-    [AvaloniaTheory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public async Task ReplaceByPath_WithNoFilterAndRefreshFailure_RetriesAndUpdatesCollection(
         [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
         UpdateMachineCollection sut,
