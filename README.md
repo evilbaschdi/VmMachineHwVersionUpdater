@@ -1,8 +1,6 @@
 # VmMachineHwVersionUpdater
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-![Commit Activity](https://img.shields.io/github/commit-activity/m/evilbaschdi/VmMachineHwVersionUpdater?style=for-the-badge&)
-![Last Commit](https://img.shields.io/github/last-commit/evilbaschdi/VmMachineHwVersionUpdater?style=for-the-badge&)
 
 "Vm Machine Hardware Version Updater" is a small tool to manage VMware and VirtualBox machine properties such as changing the hardware version of multiple machines without editing the configuration files manually.
 
@@ -24,16 +22,19 @@
 
 ## Package Feeds
 
-Default by NuGet.config is myget.org
+Default by `NuGet.config` is myget.org
 
-|                                | Feed Url                                                         |
+| Feed                           | Feed Url                                                         |
 | :----------------------------- | :--------------------------------------------------------------- |
 | ![myget.org][myGetBadge]       | <https://www.myget.org/F/evilbaschdi/api/v3/index.json>          |
 | ![codeberg.org][codebergBadge] | <https://codeberg.org/api/packages/evilbaschdi/nuget/index.json> |
 
-| main                                                         | develop                                                            |
-| :----------------------------------------------------------- | :----------------------------------------------------------------- |
-| [![CodeFactor][codeFactorMainBadge]][codeFactorMainOverview] | [![CodeFactor][codeFactorDevelopBadge]][codeFactorDevelopOverview] |
+## Quality & Activity
+
+| Branch                                | Status & Activity                                                                                                                                                        |
+| :------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Main Branch][mainBranchBadge]       | [![CodeFactor][codeFactorMainBadge]][codeFactorMainOverview] ![Commit Activity Main][commitActivityMainBadge] ![Last Commit Main][lastCommitMainBadge]                   |
+| ![Develop Branch][developBranchBadge] | [![CodeFactor][codeFactorDevelopBadge]][codeFactorDevelopOverview] ![Commit Activity Develop][commitActivityDevelopBadge] ![Last Commit Develop][lastCommitDevelopBadge] |
 
 ---
 
@@ -46,9 +47,18 @@ This project is a community-maintained open-source tool and is **not** affiliate
 
 All product names, logos, and brands mentioned within this repository are the property of their respective owners. They are used here solely for descriptive and informational purposes to indicate compatibility and interoperability.
 
-[codeFactorMainBadge]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/main?style=for-the-badge
-[codeFactorMainOverview]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/main
-[codeFactorDevelopBadge]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/develop?style=for-the-badge
-[codeFactorDevelopOverview]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/develop
 [myGetBadge]: https://img.shields.io/badge/MyGet.org-gray?style=for-the-badge&logo=myget
 [codebergBadge]: https://img.shields.io/badge/Codeberg-gray?style=for-the-badge&logo=codeberg
+
+[mainBranchBadge]: https://img.shields.io/badge/branch-main-brightgreen?style=for-the-badge&logo=git&logoColor=white&color=c9ff00
+[developBranchBadge]: https://img.shields.io/badge/branch-develop-blue?style=for-the-badge&logo=git&logoColor=white&color=0080ff
+
+[codeFactorMainBadge]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/main?style=for-the-badge
+[codeFactorMainOverview]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/main
+[commitActivityMainBadge]: https://img.shields.io/github/commit-activity/m/evilbaschdi/VmMachineHwVersionUpdater/main?style=for-the-badge
+[lastCommitMainBadge]: https://img.shields.io/github/last-commit/evilbaschdi/VmMachineHwVersionUpdater/main?style=for-the-badge
+
+[codeFactorDevelopBadge]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/badge/develop?style=for-the-badge
+[codeFactorDevelopOverview]: https://www.codefactor.io/repository/github/evilbaschdi/VmMachineHwVersionUpdater/overview/develop
+[commitActivityDevelopBadge]: https://img.shields.io/github/commit-activity/m/evilbaschdi/VmMachineHwVersionUpdater/develop?style=for-the-badge
+[lastCommitDevelopBadge]: https://img.shields.io/github/last-commit/evilbaschdi/VmMachineHwVersionUpdater/develop?style=for-the-badge
