@@ -1,0 +1,48 @@
+name: "CodeQL Advanced"
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+  schedule:
+    - cron: '17 18 * * 6'
+
+jobs:
+  analyze:
+    name: Analyze (csharp)
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      packages: read
+      actions: read
+      contents: read
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # .NET SDK installieren, um das Projekt bauen zu können
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x' # Falls du bereits .NET 9 nutzt, hier auf '9.0.x' ändern
+
+    # CodeQL mit der Zielsprache C# initialisieren
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: 'csharp'
+        build-mode: 'manual'
+
+    # Projektabhängigkeiten wiederherstellen und sauber kompilieren
+    - name: Run manual build steps
+      run: |
+        dotnet restore VmMachineHwVersionUpdater.slnx
+        dotnet build VmMachineHwVersionUpdater.slnx --no-restore --configuration Release
+
+    # Analyse ausführen
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:csharp"
