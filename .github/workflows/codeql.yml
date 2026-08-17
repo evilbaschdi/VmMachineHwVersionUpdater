@@ -31,12 +31,12 @@ jobs:
         uses: github/codeql-action/init@v4
         with:
           languages: "csharp"
-          build-mode: "manual"
+          build-mode: "autobuild"
 
-      - name: Run manual build steps
-        run: |
-          dotnet restore
-          dotnet build --no-restore --configuration Release
+      #- name: Run manual build steps
+      #  run: |
+      #    dotnet restore
+      #    dotnet build --no-restore --configuration Release
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
