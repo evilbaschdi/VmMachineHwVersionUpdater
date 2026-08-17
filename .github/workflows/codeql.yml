@@ -1,3 +1,9 @@
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
 name: "CodeQL Advanced"
 
 on:
@@ -13,8 +19,13 @@ jobs:
     name: Analyze (csharp)
     runs-on: ubuntu-latest
     permissions:
+      # Erforderlich für alle Workflows zur Code-Sicherheit
       security-events: write
+
+      # Erforderlich, um interne oder private CodeQL-Pakete abzurufen
       packages: read
+
+      # Nur erforderlich für Workflows in privaten Repositories
       actions: read
       contents: read
 
@@ -22,26 +33,26 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # .NET SDK installieren, um das Projekt bauen zu können
-    - name: Setup .NET
+    # Liest die global.json automatisch aus und installiert das exakte .NET SDK
+    - name: Setup .NET SDK from global.json
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x' # Falls du bereits .NET 9 nutzt, hier auf '9.0.x' ändern
+        global-json-file: './global.json'
 
-    # CodeQL mit der Zielsprache C# initialisieren
+    # Initialisiert die CodeQL-Tools für C# im manuellen Build-Modus
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: 'csharp'
         build-mode: 'manual'
 
-    # Projektabhängigkeiten wiederherstellen und sauber kompilieren
+    # Kompiliert das Projekt sauber über die .slnx-Datei, damit CodeQL den Code scannen kann
     - name: Run manual build steps
       run: |
         dotnet restore VmMachineHwVersionUpdater.slnx
         dotnet build VmMachineHwVersionUpdater.slnx --no-restore --configuration Release
 
-    # Analyse ausführen
+    # Führt die eigentliche CodeQL-Analyse aus
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
