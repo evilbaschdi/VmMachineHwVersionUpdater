@@ -1,4 +1,5 @@
 using System.Text;
+using EvilBaschdi.Core.Extensions;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
@@ -9,31 +10,51 @@ public class SetExtendedInformation : ISetExtendedInformation
     public void RunFor([NotNull] RawMachine rawMachine, [NotNull] Machine machine)
     {
         ArgumentNullException.ThrowIfNull(rawMachine);
-
         ArgumentNullException.ThrowIfNull(machine);
 
-        var extendedInformationBuilder = new StringBuilder();
-        var extendedInformationToolTipBuilder = new StringBuilder();
+        var badges = new List<string>(3);
+        var toolTipLines = new List<string>(3);
 
         if (!string.IsNullOrWhiteSpace(rawMachine.Annotation))
         {
-            extendedInformationBuilder.Append(" 📄");
-            extendedInformationToolTipBuilder.Append(" has Annotation,");
+            badges.Add("📄");
+            toolTipLines.Add("📄 has Notes");
         }
 
         if (!string.IsNullOrWhiteSpace(rawMachine.ManagedVmAutoAddVTpm))
         {
-            extendedInformationBuilder.Append(" 🔐");
-            extendedInformationToolTipBuilder.Append(" has ManagedVmAutoAddVTpm,");
+            badges.Add("🔐");
+            toolTipLines.Add("🔐 has ManagedVm.AutoAddVTpm");
         }
 
         if (!machine.IsEnabledForEditing)
         {
-            extendedInformationBuilder.Append(" 🕶");
-            extendedInformationToolTipBuilder.Append(" is currently not enabled for editing");
+            badges.Add("🕶");
+            toolTipLines.Add("🕶 is currently not enabled for editing");
         }
 
-        machine.ExtendedInformation = extendedInformationBuilder.ToString().Trim();
-        machine.ExtendedInformationToolTip = extendedInformationToolTipBuilder.ToString().Trim().Trim(',');
+        var toolTipBuilder = new StringBuilder();
+
+        if (toolTipLines.Count > 0)
+        {
+            toolTipBuilder.AppendLine(string.Join(Environment.NewLine, toolTipLines));
+        }
+
+        var hasGuestData = machine.ParsedGuestInfoDetailedData.Count > 0;
+
+        if (toolTipLines.Count > 0 && hasGuestData)
+        {
+            toolTipBuilder.AppendLine();
+            toolTipBuilder.AppendLine("---");
+            toolTipBuilder.AppendLine();
+        }
+
+        if (hasGuestData)
+        {
+            toolTipBuilder.Append(machine.ParsedGuestInfoDetailedData.ToJoinedString(Environment.NewLine, ": "));
+        }
+
+        machine.ExtendedInformation = string.Join(" ", badges);
+        machine.ExtendedInformationToolTip = toolTipBuilder.ToString().Trim();
     }
 }

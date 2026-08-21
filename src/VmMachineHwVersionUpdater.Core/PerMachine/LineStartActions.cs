@@ -8,8 +8,9 @@ public class LineStartActions : ILineStartActions
     /// </summary>
     /// <param name="returnValueFromVmxLine"></param>
     /// <param name="convertAnnotationLineBreaks"></param>
-    public LineStartActions([NotNull] IReturnValueFromVmxLine returnValueFromVmxLine,
-                            [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+    public LineStartActions(
+        [NotNull] IReturnValueFromVmxLine returnValueFromVmxLine,
+        [NotNull] IConvertAnnotationLineBreaks convertAnnotationLineBreaks)
     {
         ArgumentNullException.ThrowIfNull(returnValueFromVmxLine);
         ArgumentNullException.ThrowIfNull(convertAnnotationLineBreaks);
@@ -27,8 +28,6 @@ public class LineStartActions : ILineStartActions
                         = (machine, line) => machine.ToolsUpgradePolicy = returnValueFromVmxLine.ValueFor(line, "tools.upgrade.policy"),
                     ["guestos"]
                         = (machine, line) => machine.GuestOs = returnValueFromVmxLine.ValueFor(line, "guestos"),
-                    ["guestOS.detailed.data"]
-                        = (machine, line) => machine.DetailedData = returnValueFromVmxLine.ValueFor(line, "guestOS.detailed.data"),
                     ["guestInfo.detailed.data"]
                         = (machine, line) => machine.DetailedData = returnValueFromVmxLine.ValueFor(line, "guestInfo.detailed.data"),
                     ["annotation"]

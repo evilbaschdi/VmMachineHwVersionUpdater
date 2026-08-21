@@ -37,7 +37,7 @@ public class ParseVmxFileTests
                          tools.syncTime = "TRUE"
                          tools.upgrade.policy = "upgradeAtPowerCycle"
                          guestos = "windows9-64"
-                         guestOS.detailed.data = "bitness=64 distroName=Windows 11"
+                         guestInfo.detailed.data = "bitness='64' distroName='Windows 11'"
                          annotation = "Test VM|0D|0ASecond line"
                          encryption.encryptedKey = "abc123"
                          encryption.keySafe = "keySafeValue"
@@ -62,7 +62,7 @@ public class ParseVmxFileTests
             result.SyncTimeWithHost.Should().Be("TRUE");
             result.ToolsUpgradePolicy.Should().Be("upgradeAtPowerCycle");
             result.GuestOs.Should().Be("windows9-64");
-            result.DetailedData.Should().Be("bitness=64 distroName=Windows 11");
+            result.DetailedData.Should().Be("bitness='64' distroName='Windows 11'");
             result.Annotation.Should().Be("Test VM\r\nSecond line");
             result.EncryptionEncryptedKey.Should().Be("abc123");
             result.EncryptionKeySafe.Should().Be("keySafeValue");
@@ -113,36 +113,6 @@ public class ParseVmxFileTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void ValueFor_WithGuestOsDetailedData_PrefersGuestInfoDetailedData(
-        VmxLineStartsWith vmxLineStartsWith,
-        ReturnValueFromVmxLine returnValueFromVmxLine,
-        ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
-    {
-        // Arrange
-        var sut = new ParseVmxFile(vmxLineStartsWith, new LineStartActions(returnValueFromVmxLine, convertAnnotationLineBreaks));
-        var tempFile = Path.GetTempFileName();
-        var vmxContent = """
-                         guestOS.detailed.data = "bitness=64 distroName=Windows 10"
-                         guestInfo.detailed.data = "bitness=64 distroName=Windows 11"
-                         """;
-
-        try
-        {
-            File.WriteAllText(tempFile, vmxContent);
-
-            // Act
-            var result = sut.ValueFor(tempFile);
-
-            // Assert
-            result.DetailedData.Should().Be("bitness=64 distroName=Windows 11");
-        }
-        finally
-        {
-            File.Delete(tempFile);
-        }
-    }
-
-    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithOnlyGuestInfoDetailedData_UsesGuestInfoData(
         VmxLineStartsWith vmxLineStartsWith,
         ReturnValueFromVmxLine returnValueFromVmxLine,
@@ -152,7 +122,7 @@ public class ParseVmxFileTests
         var sut = new ParseVmxFile(vmxLineStartsWith, new LineStartActions(returnValueFromVmxLine, convertAnnotationLineBreaks));
         var tempFile = Path.GetTempFileName();
         var vmxContent = """
-                         guestInfo.detailed.data = "bitness=64 distroName=Ubuntu 22.04"
+                         guestInfo.detailed.data = "bitness='64' distroName='Ubuntu 22.04'"
                          """;
 
         try
@@ -163,7 +133,7 @@ public class ParseVmxFileTests
             var result = sut.ValueFor(tempFile);
 
             // Assert
-            result.DetailedData.Should().Be("bitness=64 distroName=Ubuntu 22.04");
+            result.DetailedData.Should().Be("bitness='64' distroName='Ubuntu 22.04'");
         }
         finally
         {

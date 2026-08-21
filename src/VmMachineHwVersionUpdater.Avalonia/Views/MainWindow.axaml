@@ -35,7 +35,7 @@
                                 <Setter Property="ToolTip.Tip" Value="{Binding DisplayName}" x:DataType="models:Machine" />
                             </Style>
                             <Style Selector="DataGridCell.TipExtendedInformation" x:DataType="models:Machine">
-                                <Setter Property="ToolTip.Tip" Value="{Binding Annotation}" x:DataType="models:Machine" />
+                                <Setter Property="ToolTip.Tip" Value="{Binding ExtendedInformationToolTip}" x:DataType="models:Machine" />
                             </Style>
                             <Style Selector="DataGridCell.TipMachineState" x:DataType="models:Machine">
                                 <Setter Property="ToolTip.Tip" Value="{Binding MachineState}" x:DataType="models:Machine" />

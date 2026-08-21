@@ -1,5 +1,6 @@
 using System.Globalization;
 using EvilBaschdi.Core.Extensions;
+using VmMachineHwVersionUpdater.Core.Extensions;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;
 
@@ -11,16 +12,15 @@ public class HandleMachineFromPath(
     [NotNull] IUpdateMachineVersion updateMachineVersion,
     [NotNull] IUpdateMachineMemSize updateMachineMemSize,
     [NotNull] IGuestOsOutputStringMapping guestOsOutputStringMapping,
+    [NotNull] IParseGuestInfoDetailedData parseGuestInfoDetailedData,
     [NotNull] IPathSettings pathSettings,
     [NotNull] IReadLogInformation readLogInformation,
     [NotNull] ISetMachineIsEnabledForEditing setMachineIsEnabledForEditing,
     [NotNull] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
     [NotNull] IToggleMksEnable3D toggleMksEnable3D) : IHandleMachineFromPath
 {
-    private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping = guestOsOutputStringMapping ??
-                                                                               throw new ArgumentNullException(
-                                                                                   nameof(guestOsOutputStringMapping));
-
+    private readonly IGuestOsOutputStringMapping _guestOsOutputStringMapping = guestOsOutputStringMapping ?? throw new ArgumentNullException(nameof(guestOsOutputStringMapping));
+    private readonly IParseGuestInfoDetailedData _parseGuestInfoDetailedData = parseGuestInfoDetailedData ?? throw new ArgumentNullException(nameof(parseGuestInfoDetailedData));
     private readonly IMachineParserStrategy _machineParserStrategy = machineParserStrategy ?? throw new ArgumentNullException(nameof(machineParserStrategy));
     private readonly IPathSettings _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
     private readonly IReadLogInformation _readLogInformation = readLogInformation ?? throw new ArgumentNullException(nameof(readLogInformation));
@@ -95,7 +95,8 @@ public class HandleMachineFromPath(
                           DisplayName = rawMachine.DisplayName,
                           GuestOs = _guestOsOutputStringMapping.ValueFor(guestOs),
                           GuestOsRaw = guestOs,
-                          GuestOsDetailedData = rawMachine.DetailedData,
+                          GuestInfoDetailedData = rawMachine.DetailedData,
+                          ParsedGuestInfoDetailedData = _parseGuestInfoDetailedData.ValueFor(rawMachine.DetailedData),
                           Path = properFilePathCapitalization,
                           Directory = machinePoolPath,
                           DirectorySizeGb = Math.Round(size.KiBiBytesToGiBiBytes(), 2),

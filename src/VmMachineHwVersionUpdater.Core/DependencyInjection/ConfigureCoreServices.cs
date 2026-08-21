@@ -47,6 +47,7 @@ public static class ConfigureCoreServices
         services.AddSingleton<ILoadSearchOsItems, LoadSearchOsItems>();
         services.AddSingleton<IMachinesFromPath, MachinesFromPath>();
         services.AddSingleton<IMachineParserStrategy, MachineParserStrategy>();
+        services.AddSingleton<IParseGuestInfoDetailedData, ParseGuestInfoDetailedData>();
         services.AddSingleton<IParseVboxFile, ParseVboxFile>();
         services.AddSingleton<IParseVmxFile, ParseVmxFile>();
         services.AddSingleton<IPathSettings, PathSettings>();

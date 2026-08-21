@@ -34,7 +34,6 @@ public class LineStartActionsTests
             "tools.syncTime",
             "tools.upgrade.policy",
             "guestos",
-            "guestOS.detailed.data",
             "guestInfo.detailed.data",
             "annotation",
             "encryption.encryptedKey",

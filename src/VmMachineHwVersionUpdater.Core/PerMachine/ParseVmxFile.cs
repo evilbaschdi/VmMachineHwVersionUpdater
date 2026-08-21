@@ -27,11 +27,6 @@ public class ParseVmxFile(
                                            var lineActions = lineStartActions.Where(action => _vmxLineStartsWith.ValueFor(line, action.Key));
                                            foreach (var action in lineActions)
                                            {
-                                               if (action.Key == "guestOS.detailed.data" && !string.IsNullOrWhiteSpace(rawMachine.DetailedData))
-                                               {
-                                                   continue;
-                                               }
-
                                                action.Value(rawMachine, line);
                                                break;
                                            }

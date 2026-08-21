@@ -48,7 +48,7 @@ Welcome to the comprehensive guide for **VmMachineHwVersionUpdater**! This docum
     - [Reporting Issues and Requesting Features](#reporting-issues-and-requesting-features)
   - [License and Copyright](#license-and-copyright)
     - [Copyright Notice](#copyright-notice)
-    - [Important Licensing Information](#important-licensing-information)
+    - [Licensing Information](#licensing-information)
 
 ---
 

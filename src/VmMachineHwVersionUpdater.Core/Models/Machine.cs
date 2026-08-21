@@ -271,7 +271,10 @@ public sealed class Machine(
     public string GuestOsRaw { get; set; }
 
     /// <summary />
-    public string GuestOsDetailedData { get; set; }
+    public string GuestInfoDetailedData { get; set; }
+
+    /// <summary />
+    public Dictionary<string, string> ParsedGuestInfoDetailedData { get; set; }
 
     /// <summary />
     public string LogLastDate
@@ -370,7 +373,7 @@ public sealed class Machine(
         EncryptionKeySafe = other.EncryptionKeySafe;
         GuestOs = other.GuestOs;
         GuestOsRaw = other.GuestOsRaw;
-        GuestOsDetailedData = other.GuestOsDetailedData;
+        GuestInfoDetailedData = other.GuestInfoDetailedData;
         ManagedVmAutoAddVTpm = other.ManagedVmAutoAddVTpm;
         Path = other.Path;
         ShortPath = other.ShortPath;
@@ -390,7 +393,7 @@ public sealed class Machine(
         OnPropertyChanged(nameof(ExtendedInformationToolTip));
         OnPropertyChanged(nameof(GuestOs));
         OnPropertyChanged(nameof(GuestOsRaw));
-        OnPropertyChanged(nameof(GuestOsDetailedData));
+        OnPropertyChanged(nameof(GuestInfoDetailedData));
         OnPropertyChanged(nameof(LogLastDate));
         OnPropertyChanged(nameof(LogLastDateDiff));
         OnPropertyChanged(nameof(IsEnabledForEditing));
