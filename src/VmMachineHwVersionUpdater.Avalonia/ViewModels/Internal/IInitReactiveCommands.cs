@@ -27,6 +27,9 @@ public interface IInitReactiveCommands
     /// <inheritdoc cref="IOpenWithCodeReactiveCommand" />
     public IOpenWithCodeReactiveCommand OpenWithCodeReactiveCommand { get; set; }
 
+    /// <inheritdoc cref="IOpenFolderWithCodeReactiveCommand" />
+    public IOpenFolderWithCodeReactiveCommand OpenFolderWithCodeReactiveCommand { get; set; }
+
     /// <inheritdoc cref="IReloadReactiveCommand" />
     public IReloadReactiveCommand ReloadReactiveCommand { get; set; }
 

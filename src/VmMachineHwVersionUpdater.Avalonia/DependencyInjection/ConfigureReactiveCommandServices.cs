@@ -19,6 +19,7 @@ public static class ConfigureReactiveCommandServices
         services.AddSingleton<IDeleteReactiveCommand, DeleteReactiveCommand>();
         services.AddSingleton<IGoToReactiveCommand, GoToReactiveCommand>();
         services.AddSingleton<IOpenWithCodeReactiveCommand, OpenWithCodeReactiveCommand>();
+        services.AddSingleton<IOpenFolderWithCodeReactiveCommand, OpenFolderWithCodeReactiveCommand>();
         services.AddSingleton<IReloadReactiveCommand, ReloadReactiveCommand>();
         services.AddSingleton<IRenameReactiveCommand, RenameReactiveCommand>();
         services.AddSingleton<IStartReactiveCommand, StartReactiveCommand>();

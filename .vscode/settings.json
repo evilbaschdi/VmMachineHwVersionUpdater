@@ -1,6 +1,8 @@
 {
     "dotnet.defaultSolution": "VmMachineHwVersionUpdater.slnx",
     "cSpell.words": [
-        "Avalonia"
+        "avalonia",
+        "Avalonia",
+        "avdt"
     ]
 }

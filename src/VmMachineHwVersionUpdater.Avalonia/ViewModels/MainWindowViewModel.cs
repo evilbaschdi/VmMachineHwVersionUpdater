@@ -62,6 +62,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         DeleteCommand = _initReactiveCommands.DeleteReactiveCommand.Command;
         GoToCommand = _initReactiveCommands.GoToReactiveCommand.Command;
         OpenWithCodeCommand = _initReactiveCommands.OpenWithCodeReactiveCommand.Command;
+        OpenFolderWithCodeCommand = _initReactiveCommands.OpenFolderWithCodeReactiveCommand.Command;
         RenameCommand = _initReactiveCommands.RenameReactiveCommand.Command;
         ReloadCommand = _initReactiveCommands.ReloadReactiveCommand.Command;
         StartCommand = _initReactiveCommands.StartReactiveCommand.Command;
@@ -111,6 +112,10 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <summary>
     /// </summary>
     public ReactiveCommand<RxVoid, RxVoid> OpenWithCodeCommand { get; set; }
+
+    /// <summary>
+    /// </summary>
+    public ReactiveCommand<RxVoid, RxVoid> OpenFolderWithCodeCommand { get; set; }
 
     /// <summary>
     /// </summary>

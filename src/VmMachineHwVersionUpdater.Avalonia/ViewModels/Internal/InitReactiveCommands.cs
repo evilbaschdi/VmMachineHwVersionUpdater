@@ -9,6 +9,7 @@ public class InitReactiveCommands(
     [NotNull] IDeleteReactiveCommand deleteReactiveCommand,
     [NotNull] IGoToReactiveCommand goToReactiveCommand,
     [NotNull] IOpenWithCodeReactiveCommand openWithCodeReactiveCommand,
+    [NotNull] IOpenFolderWithCodeReactiveCommand openFolderWithCodeReactiveCommand,
     [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IRenameReactiveCommand renameReactiveCommand,
     [NotNull] IStartReactiveCommand startReactiveCommand,
@@ -37,6 +38,10 @@ public class InitReactiveCommands(
     /// <inheritdoc />
     public IOpenWithCodeReactiveCommand OpenWithCodeReactiveCommand { get; set; } =
         openWithCodeReactiveCommand ?? throw new ArgumentNullException(nameof(openWithCodeReactiveCommand));
+
+    /// <inheritdoc />
+    public IOpenFolderWithCodeReactiveCommand OpenFolderWithCodeReactiveCommand { get; set; } =
+        openFolderWithCodeReactiveCommand ?? throw new ArgumentNullException(nameof(openFolderWithCodeReactiveCommand));
 
     /// <inheritdoc />
     public IReloadReactiveCommand ReloadReactiveCommand { get; set; } = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));

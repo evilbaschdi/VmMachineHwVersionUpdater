@@ -10,6 +10,7 @@ public static class ConfigureCommandServices
 
         services.AddSingleton<IGoToCommand, GoToCommand>();
         services.AddSingleton<IOpenWithCodeCommand, OpenWithCodeCommand>();
+        services.AddSingleton<IOpenFolderWithCodeCommand, OpenFolderWithCodeCommand>();
         services.AddSingleton<IReloadCommand, ReloadCommand>();
         services.AddSingleton<IStartCommand, StartCommand>();
     }

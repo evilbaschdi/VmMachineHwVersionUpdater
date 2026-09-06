@@ -148,6 +148,9 @@
                                 <!-- Open with Code -->
                                 <MenuItem Header="Open with Code..." Command="{Binding OpenWithCodeCommand}" />
 
+                                <!-- Open folder with Code -->
+                                <MenuItem Header="Open folder with Code..." Command="{Binding OpenFolderWithCodeCommand}" />
+
                                 <!-- Go to -->
                                 <MenuItem Header="Go to path..." Command="{Binding GoToCommand}" />
 
