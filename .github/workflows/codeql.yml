@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           global-json-file: "./global.json"
-          cache: true
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
@@ -32,8 +31,8 @@ jobs:
           languages: "csharp"
           build-mode: "autobuild"
 
-      - name: Run manual build steps
-        run: dotnet build --configuration Release
+      # - name: Run manual build steps
+      #   run: dotnet build --configuration Release
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
