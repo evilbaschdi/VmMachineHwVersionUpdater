@@ -30,7 +30,7 @@ jobs:
         uses: github/codeql-action/init@v4
         with:
           languages: "csharp"
-          build-mode: "manual"
+          build-mode: "autobuild"
 
       - name: Run manual build steps
         run: dotnet build --configuration Release
