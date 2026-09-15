@@ -2,5 +2,8 @@ using System.Collections.ObjectModel;
 
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 
-/// <inheritdoc />
-public interface ILoadSearchOsItems : IWritableValue<ObservableCollection<object>>;
+/// <summary>
+///     Provides the cached operating-system filter items.
+/// </summary>
+public interface ILoadSearchOsItems : IWritableValue<ObservableCollection<object>>,
+    ICachedValue<ObservableCollection<object>>;

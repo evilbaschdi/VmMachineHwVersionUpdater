@@ -21,4 +21,9 @@ public interface IPathSettings
     /// </summary>
     // ReSharper disable once ReturnTypeCanBeEnumerable.Global
     List<string> VmPool { get; }
+
+    /// <summary>
+    ///     Interval in minutes for automatically refreshing the machine data. A value of zero disables automatic refresh.
+    /// </summary>
+    int AutoRefreshMinutes { get; }
 }

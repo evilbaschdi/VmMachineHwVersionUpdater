@@ -1,7 +1,5 @@
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Internal.Copy;
-using EvilBaschdi.Core.Logging;
-using Microsoft.Extensions.Logging;
 
 namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 
@@ -13,17 +11,6 @@ public static class ConfigureCoreServices
     {
         ArgumentNullException.ThrowIfNull(services);
 
-        // Configure logging for watcher diagnostics
-        services.AddLogging(builder => builder.AddFileLoggerConfiguration(
-                                new()
-                                {
-                                    LogDirectory = Path.Combine(AppContext.BaseDirectory, "logs"),
-                                    LogFileNamePattern = "vmfilewatcher-{date}.log",
-                                    LogRetentionDays = 7,
-                                    MinimumLogLevel = LogLevel.Debug,
-                                    Headline = string.Empty
-                                }));
-
         services.AddSingleton<IAddEditAnnotation, AddEditAnnotation>();
         services.AddSingleton<IArchiveMachine, ArchiveMachine>();
         services.AddSingleton<IChangeDisplayName, ChangeDisplayName>();
@@ -34,8 +21,6 @@ public static class ConfigureCoreServices
         services.AddSingleton<ICopyProgress, CopyProgress>();
         services.AddSingleton<ICurrentMachine, CurrentMachine>();
         services.AddSingleton<IDeleteMachine, DeleteMachine>();
-        services.AddSingleton<IFileAccessRetryPolicy, FileAccessRetryPolicy>();
-        services.AddSingleton<IFileChangeDebouncer, FileChangeDebouncer>();
         services.AddSingleton<IFileListFromPath, FileListFromPath>();
         services.AddSingleton<IFilterItemSource, FilterItemSource>();
         services.AddSingleton<IGuestOsesInUse, GuestOsesInUse>();
@@ -54,7 +39,6 @@ public static class ConfigureCoreServices
         services.AddSingleton<IProcessByPath, ProcessByPath>();
         services.AddSingleton<IReadLogInformation, ReadLogInformation>();
         services.AddSingleton<IReplaceUserProfilePlaceholder, ReplaceUserProfilePlaceholder>();
-        services.AddSingleton<IResolveMachinePoolPath, ResolveMachinePoolPath>();
         services.AddSingleton<IReturnValueFromVmxLine, ReturnValueFromVmxLine>();
         services.AddSingleton<ISetExtendedInformation, SetExtendedInformation>();
         services.AddSingleton<ISetMachineIsEnabledForEditing, SetMachineIsEnabledForEditing>();
@@ -64,7 +48,6 @@ public static class ConfigureCoreServices
         services.AddSingleton<IUpdateAnnotation, UpdateAnnotation>();
         services.AddSingleton<IUpdateMachineVersion, UpdateMachineVersion>();
         services.AddSingleton<IUpdateMachineMemSize, UpdateMachineMemSize>();
-        services.AddSingleton<IVmFileWatcher, VmFileWatcher>();
         services.AddSingleton<IVmPools, VmPools>();
         services.AddSingleton<IVmxLineStartsWith, VmxLineStartsWith>();
     }

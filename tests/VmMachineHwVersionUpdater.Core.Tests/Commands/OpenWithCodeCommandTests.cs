@@ -20,11 +20,11 @@ public class OpenWithCodeCommandTests
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         assertion.Verify(typeof(OpenWithCodeCommand).GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                                                    .Where(method => !method.IsAbstract & !method.ReturnType.IsAssignableTo(typeof(Task))));
+            .Where(method => !method.IsAbstract & !method.ReturnType.IsAssignableTo(typeof(Task))));
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public async Task RunAsync_WhenCurrentMachineValueIsNull_CallsProcessByPathWithNullPath(
+    public async Task RunAsync_WhenCurrentMachineValueIsNull_DoesNotCallProcessByPath(
         [Frozen] IProcessByPath processByPath,
         [Frozen] ICurrentMachine currentMachine,
         OpenWithCodeCommand sut)
@@ -36,7 +36,7 @@ public class OpenWithCodeCommandTests
         await sut.RunAsync(TestContext.Current.CancellationToken);
 
         // Assert
-        processByPath.Received(1).RunFor("vscode://file/");
+        processByPath.DidNotReceive().RunFor(Arg.Any<string>());
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]

@@ -16,9 +16,6 @@ public static class ConfigureAvaloniaServices
         services.AddSingleton<IComparer, MachineComparer>();
         services.AddSingleton<IConfigureDataGridCollectionView, ConfigureDataGridCollectionView>();
         services.AddSingleton<IFilterDataGridCollectionView, FilterDataGridCollectionView>();
-        services.AddSingleton<IUpdateMachineCollection, UpdateMachineCollection>();
-        services.AddSingleton<IUpdateMachineStateFromFile, UpdateMachineStateFromFile>();
-        services.AddSingleton<IVmFileChangeHandler, VmFileChangeHandler>();
 
         services.TryAddSingleton<IMainWindowByApplicationLifetime, MainWindowByApplicationLifetime>();
     }

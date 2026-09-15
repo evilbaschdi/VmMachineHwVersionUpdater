@@ -1,18 +1,19 @@
-{
+  {
+    "AutoRefreshMinutes": 5,
     "VmPool": [
-        "C:\\vm\\VMware",
-        "M:\\vm\\VMware",
-        "V:\\vm\\VMware",
-        "C:\\vm\\VirtualBox",
-        "M:\\vm\\VirtualBox",
-        "V:\\vm\\VirtualBox",
-        "{UserProfile}/vm/vmware",
-        "{UserProfile}/vm/VirtualBox"
-      ],
+      "C:\\vm\\VMware",
+      "M:\\vm\\VMware",
+      "V:\\vm\\VMware",
+      "C:\\vm\\VirtualBox",
+      "M:\\vm\\VirtualBox",
+      "V:\\vm\\VirtualBox",
+      "{UserProfile}/vm/vmware",
+      "{UserProfile}/vm/VirtualBox"
+    ],
     "ArchivePath": [
-        "C:\\vm\\VMware\\_archive",
-        "M:\\vm\\VMware\\_archive",
-        "V:\\vm\\VMware\\_archive",
-        "{UserProfile}/vm/vmware/_archive"
-      ]
+      "C:\\vm\\VMware\\_archive",
+      "M:\\vm\\VMware\\_archive",
+      "V:\\vm\\VMware\\_archive",
+      "{UserProfile}/vm/vmware/_archive"
+    ]
   }

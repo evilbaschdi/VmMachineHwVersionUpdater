@@ -8,14 +8,17 @@ public class FilterDataGridCollectionView(
     private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView =
         configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
 
-    private readonly IFilterItemSource _filterItemSource = filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
+    private readonly IFilterItemSource _filterItemSource =
+        filterItemSource ?? throw new ArgumentNullException(nameof(filterItemSource));
 
     /// <inheritdoc />
     public void RunFor((string SearchOsText, string SearchFilterText) value)
     {
         var (searchOsText, searchFilterText) = value;
 
-        _configureDataGridCollectionView.Value.Filter = ValueFilter;
+        var dataGridCollectionView = _configureDataGridCollectionView.Value;
+        dataGridCollectionView.Filter = ValueFilter;
+        dataGridCollectionView.Refresh();
         return;
 
         bool ValueFilter(object vm)

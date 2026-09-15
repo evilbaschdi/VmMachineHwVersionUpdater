@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using Avalonia.Collections;
+using Avalonia.Threading;
 using ReactiveUI;
 using ReactiveUI.Primitives;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
@@ -18,7 +19,8 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     private readonly IInitReactiveCommands _initReactiveCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
-    private readonly IVmFileChangeHandler _vmFileChangeHandler;
+    private readonly IPathSettings _pathSettings;
+    private DispatcherTimer _autoRefreshTimer;
 
     #region Constructor
 
@@ -31,7 +33,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <param name="configureDataGridCollectionView"></param>
     /// <param name="filterDataGridCollectionView"></param>
     /// <param name="initReactiveCommands"></param>
-    /// <param name="vmFileChangeHandler"></param>
+    /// <param name="pathSettings"></param>
     /// <exception cref="ArgumentNullException"></exception>
     public MainWindowViewModel([NotNull] ILoad load,
                                [NotNull] ICurrentMachine currentMachine,
@@ -39,15 +41,17 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
                                [NotNull] IConfigureDataGridCollectionView configureDataGridCollectionView,
                                [NotNull] IFilterDataGridCollectionView filterDataGridCollectionView,
                                [NotNull] IInitReactiveCommands initReactiveCommands,
-                               [NotNull] IVmFileChangeHandler vmFileChangeHandler)
+                               [NotNull] IPathSettings pathSettings)
     {
         _load = load ?? throw new ArgumentNullException(nameof(load));
         _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
         _loadSearchOsItems = loadSearchOsItems ?? throw new ArgumentNullException(nameof(loadSearchOsItems));
-        _configureDataGridCollectionView = configureDataGridCollectionView ?? throw new ArgumentNullException(nameof(configureDataGridCollectionView));
-        _filterDataGridCollectionView = filterDataGridCollectionView ?? throw new ArgumentNullException(nameof(filterDataGridCollectionView));
+        _configureDataGridCollectionView = configureDataGridCollectionView ??
+                                           throw new ArgumentNullException(nameof(configureDataGridCollectionView));
+        _filterDataGridCollectionView = filterDataGridCollectionView ??
+                                        throw new ArgumentNullException(nameof(filterDataGridCollectionView));
         _initReactiveCommands = initReactiveCommands ?? throw new ArgumentNullException(nameof(initReactiveCommands));
-        _vmFileChangeHandler = vmFileChangeHandler ?? throw new ArgumentNullException(nameof(vmFileChangeHandler));
+        _pathSettings = pathSettings ?? throw new ArgumentNullException(nameof(pathSettings));
 
         Run();
     }
@@ -68,7 +72,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         StartCommand = _initReactiveCommands.StartReactiveCommand.Command;
         UpdateAllCommand = _initReactiveCommands.UpdateAllReactiveCommand.Command;
 
-        _vmFileChangeHandler.Start();
+        StartAutoRefresh();
     }
 
     #endregion Constructor
@@ -79,7 +83,11 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     public DataGridCollectionView DataGridCollectionViewMachines
     {
         get => _configureDataGridCollectionView.Value;
-        set => _configureDataGridCollectionView.Value = value;
+        set
+        {
+            _configureDataGridCollectionView.Value = value;
+            this.RaisePropertyChanged();
+        }
     }
 
     #region Commands
@@ -144,17 +152,53 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
     #endregion Commands
 
+    private void StartAutoRefresh()
+    {
+        if (_pathSettings.AutoRefreshMinutes <= 0)
+        {
+            return;
+        }
+
+        _autoRefreshTimer = new DispatcherTimer
+                            {
+                                Interval = TimeSpan.FromMinutes(_pathSettings.AutoRefreshMinutes)
+                            };
+        _autoRefreshTimer.Tick += (_, _) => RefreshMachineData();
+        _autoRefreshTimer.Start();
+    }
+
+    private void RefreshMachineData()
+    {
+        var currentView = _configureDataGridCollectionView.Value;
+        currentView.Filter = null!;
+        currentView.Refresh();
+
+        _load.ResetCache();
+        _loadSearchOsItems.ResetCache();
+        _configureDataGridCollectionView.ResetCache();
+        DataGridCollectionViewMachines = _configureDataGridCollectionView.Value;
+        _filterDataGridCollectionView.RunFor((SearchOsText, SearchFilterText));
+        this.RaisePropertyChanged(nameof(SearchOsItemCollection));
+        this.RaisePropertyChanged(nameof(SearchOsIsEnabled));
+        this.RaisePropertyChanged(nameof(SearchFilterIsReadOnly));
+        this.RaisePropertyChanged(nameof(UpdateAllIsEnabled));
+        this.RaisePropertyChanged(nameof(UpdateAllTextBlockText));
+        this.RaisePropertyChanged(nameof(UpdateAllHwVersionValue));
+    }
+
     #region Properties
 
     /// <summary>
     ///     Binding
     /// </summary>
-    public bool SearchOsIsEnabled => _load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
+    public bool SearchOsIsEnabled =>
+        _load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
 
     /// <summary>
     ///     Binding
     /// </summary>
-    public bool SearchFilterIsReadOnly => _load.Value?.VmDataGridItemsSource == null || !_load.Value.VmDataGridItemsSource.Any();
+    public bool SearchFilterIsReadOnly =>
+        _load.Value?.VmDataGridItemsSource == null || !_load.Value.VmDataGridItemsSource.Any();
 
     /// <summary>
     ///     Binding
@@ -164,14 +208,12 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <summary>
     ///     Binding
     /// </summary>
-    private string SearchFilterText
+    public string SearchFilterText
     {
-        get;
-        // ReSharper disable once PropertyCanBeMadeInitOnly.Local
-        // ReSharper disable once UnusedMember.Local
+        get => field;
         set
         {
-            field = value;
+            this.RaiseAndSetIfChanged(ref field, value);
             _filterDataGridCollectionView.RunFor((SearchOsText, value));
         }
     } = string.Empty;
@@ -179,14 +221,12 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <summary>
     ///     Binding
     /// </summary>
-    private string SearchOsText
+    public string SearchOsText
     {
-        get;
-        // ReSharper disable once PropertyCanBeMadeInitOnly.Local
-        // ReSharper disable once UnusedMember.Local
+        get => field;
         set
         {
-            field = value;
+            this.RaiseAndSetIfChanged(ref field, value);
             _filterDataGridCollectionView.RunFor((value, SearchFilterText));
         }
     } = string.Empty;
@@ -195,7 +235,8 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     /// <summary>
     ///     Binding
     /// </summary>
-    public bool UpdateAllIsEnabled => _load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
+    public bool UpdateAllIsEnabled =>
+        _load.Value?.VmDataGridItemsSource != null && _load.Value.VmDataGridItemsSource.Any();
 
     /// <summary>
     ///     Binding for UpdateAllTextBlock

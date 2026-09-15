@@ -28,13 +28,14 @@ public class SetExtendedInformationTests
         // Arrange
         var rawMachine = new RawMachine { Annotation = "some note" };
         machine.IsEnabledForEditing = true;
+        machine.ParsedGuestInfoDetailedData = [];
 
         // Act
         sut.RunFor(rawMachine, machine);
 
         // Assert
         machine.ExtendedInformation.Should().Contain("📄");
-        machine.ExtendedInformationToolTip.Should().Contain("has Annotation");
+        machine.ExtendedInformationToolTip.Should().Contain("has Notes");
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
@@ -45,13 +46,14 @@ public class SetExtendedInformationTests
         // Arrange
         var rawMachine = new RawMachine { ManagedVmAutoAddVTpm = "TRUE" };
         machine.IsEnabledForEditing = true;
+        machine.ParsedGuestInfoDetailedData = [];
 
         // Act
         sut.RunFor(rawMachine, machine);
 
         // Assert
         machine.ExtendedInformation.Should().Contain("🔐");
-        machine.ExtendedInformationToolTip.Should().Contain("has ManagedVmAutoAddVTpm");
+        machine.ExtendedInformationToolTip.Should().Contain("has ManagedVm.AutoAddVTpm");
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
@@ -62,6 +64,7 @@ public class SetExtendedInformationTests
         // Arrange
         var rawMachine = new RawMachine();
         machine.IsEnabledForEditing = false;
+        machine.ParsedGuestInfoDetailedData = [];
 
         // Act
         sut.RunFor(rawMachine, machine);
@@ -79,6 +82,7 @@ public class SetExtendedInformationTests
         // Arrange
         var rawMachine = new RawMachine();
         machine.IsEnabledForEditing = true;
+        machine.ParsedGuestInfoDetailedData = [];
 
         // Act
         sut.RunFor(rawMachine, machine);
@@ -96,7 +100,7 @@ public class SetExtendedInformationTests
         // Act & Assert
         var act = () => sut.RunFor(null!, machine);
         act.Should().Throw<ArgumentNullException>()
-           .WithParameterName("rawMachine");
+            .WithParameterName("rawMachine");
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
@@ -109,6 +113,6 @@ public class SetExtendedInformationTests
         // Act & Assert
         var act = () => sut.RunFor(rawMachine, null!);
         act.Should().Throw<ArgumentNullException>()
-           .WithParameterName("machine");
+            .WithParameterName("machine");
     }
 }

@@ -52,15 +52,6 @@ public class ConfigureAvaloniaServicesTests
         serviceCollection.Should().HaveService<IFilterDataGridCollectionView>()
                          .WithImplementation<FilterDataGridCollectionView>()
                          .AsSingleton();
-        serviceCollection.Should().HaveService<IUpdateMachineCollection>()
-                         .WithImplementation<UpdateMachineCollection>()
-                         .AsSingleton();
-        serviceCollection.Should().HaveService<IUpdateMachineStateFromFile>()
-                         .WithImplementation<UpdateMachineStateFromFile>()
-                         .AsSingleton();
-        serviceCollection.Should().HaveService<IVmFileChangeHandler>()
-                         .WithImplementation<VmFileChangeHandler>()
-                         .AsSingleton();
         serviceCollection.Should().HaveService<IMainWindowByApplicationLifetime>()
                          .WithImplementation<MainWindowByApplicationLifetime>()
                          .AsSingleton();

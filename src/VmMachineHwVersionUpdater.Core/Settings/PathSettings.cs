@@ -30,6 +30,9 @@ public class PathSettings(
     }
 
     /// <inheritdoc />
+    public int AutoRefreshMinutes => _vmPools.Value.GetValue<int>("AutoRefreshMinutes");
+
+    /// <inheritdoc />
     /// <summary>
     ///     Path of VMware machine archive
     /// </summary>
