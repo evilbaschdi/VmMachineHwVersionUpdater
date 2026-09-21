@@ -1,6 +1,5 @@
 using System.Reflection;
 using Avalonia;
-using Avalonia.Headless.XUnit;
 using EvilBaschdi.About.Avalonia.DependencyInjection;
 using EvilBaschdi.Core.Avalonia.DependencyInjection;
 using EvilBaschdi.Core.Avalonia.Lifetime;
@@ -32,22 +31,25 @@ public class AppTests
                                     .Where(method => !method.IsAbstract));
     }
 
-    [AvaloniaFact]
-    public void CreateMainWindow_ReturnsMainWindowWithViewModelDataContext()
+    [Fact]
+    public async Task CreateMainWindow_ReturnsMainWindowWithViewModelDataContext()
     {
-        // Arrange
-        InitializeServices();
-        var sut = new TestableApp();
+        await RunOnHeadlessDispatcher(() =>
+                                      {
+                                          // Arrange
+                                          InitializeServices();
+                                          var sut = new TestableApp();
 
-        // Act
-        var result = sut.InvokeCreateMainWindow();
+                                          // Act
+                                          var result = sut.InvokeCreateMainWindow();
 
-        // Assert
-        result.Should().BeOfType<MainWindow>();
-        result.DataContext.Should().BeOfType<MainWindowViewModel>();
+                                          // Assert
+                                          result.Should().BeOfType<MainWindow>();
+                                          result.DataContext.Should().BeOfType<MainWindowViewModel>();
+                                      });
     }
 
-    [AvaloniaFact]
+    [Fact]
     public void PreMainWindowCreation_SetsAppNameFromCurrent()
     {
         // Arrange
@@ -58,6 +60,21 @@ public class AppTests
 
         // Assert
         ApplicationServices.AppName.Should().Be(Application.Current?.Name);
+    }
+
+    /// <summary>
+    ///     Runs <paramref name="action" /> on Avalonia's headless dispatcher thread.
+    ///     Replaces <c>[AvaloniaFact]</c>, which cannot be used while Avalonia.Headless.XUnit 12.1.2 is incompatible
+    ///     with xunit.v3 4.0.0 (its discoverer throws during test discovery, before the test itself is ever reached).
+    ///     See https://github.com/AvaloniaUI/Avalonia/issues/22072.
+    /// </summary>
+    /// <param name="action"></param>
+    private static Task RunOnHeadlessDispatcher(Action action)
+    {
+        ArgumentNullException.ThrowIfNull(action);
+
+        var session = HeadlessUnitTestSession.GetOrStartForAssembly(typeof(AppTests).Assembly);
+        return session.Dispatch(action, TestContext.Current.CancellationToken);
     }
 
     [Fact]

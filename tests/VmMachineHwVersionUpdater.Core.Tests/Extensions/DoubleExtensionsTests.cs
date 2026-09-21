@@ -56,7 +56,7 @@ public class DoubleExtensionsTests
         // Act & Assert
         var act = () => input.GiBiBytesToKiBiBytes();
         act.Should().Throw<ArgumentOutOfRangeException>()
-           .WithParameterName("input");
+           .WithParameterName(nameof(input));
     }
 
     [Theory]
@@ -107,7 +107,7 @@ public class DoubleExtensionsTests
         // Act & Assert
         var act = () => input.KiBiBytesToGiBiBytes();
         act.Should().Throw<ArgumentOutOfRangeException>()
-           .WithParameterName("input");
+           .WithParameterName(nameof(input));
     }
 
     [Theory]

@@ -60,7 +60,7 @@ Every test class requires these three tests:
 2. `Constructor_ReturnsInterfaceName` - Verifies interface implementation  
 3. `Methods_HaveNullGuards` - Tests method null safety
 
-Use `[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]` and FluentAssertions for all tests.
+Use `[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]` and AwesomeAssertions for all tests.
 
 ### Dependency Injection Pattern
 All classes follow constructor injection with null guards:

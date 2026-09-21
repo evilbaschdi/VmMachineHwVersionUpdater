@@ -100,7 +100,7 @@ public class SetExtendedInformationTests
         // Act & Assert
         var act = () => sut.RunFor(null!, machine);
         act.Should().Throw<ArgumentNullException>()
-            .WithParameterName("rawMachine");
+           .WithParameterName("rawMachine");
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
@@ -113,6 +113,6 @@ public class SetExtendedInformationTests
         // Act & Assert
         var act = () => sut.RunFor(rawMachine, null!);
         act.Should().Throw<ArgumentNullException>()
-            .WithParameterName("machine");
+           .WithParameterName("machine");
     }
 }

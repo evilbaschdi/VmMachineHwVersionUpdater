@@ -6,4 +6,4 @@ namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 ///     Provides the cached operating-system filter items.
 /// </summary>
 public interface ILoadSearchOsItems : IWritableValue<ObservableCollection<object>>,
-    ICachedValue<ObservableCollection<object>>;
+                                      ICachedValue<ObservableCollection<object>>;

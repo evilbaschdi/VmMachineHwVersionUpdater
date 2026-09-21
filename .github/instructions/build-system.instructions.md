@@ -39,7 +39,7 @@ System.Linq, and all VmMachineHwVersionUpdater.Core.* namespaces
 **Test-only global usings:**
 ```
 AutoFixture.Idioms, AutoFixture.Xunit3, EvilBaschdi.Testing,
-FluentAssertions, FluentAssertions.Microsoft.Extensions.DependencyInjection,
+AwesomeAssertions, EvilBaschdi.Testing.Assertions.Microsoft.Extensions.DependencyInjection,
 NSubstitute, NSubstitute.ReturnsExtensions, Xunit
 ```
 
@@ -53,7 +53,7 @@ Avalonia.Controls, Avalonia.Headless, EvilBaschdi.Testing.Avalonia
 
 **Test-only packages** (auto-added for `.Tests` projects):
 - `EvilBaschdi.Testing`, `xunit.v3`, `xunit.v3.runner.utility`, `Microsoft.NET.Test.Sdk`
-- `coverlet.collector`, `FluentAssertions.Analyzers`, `Meziantou.FluentAssertionsAnalyzers`
+- `coverlet.collector`, `AwesomeAssertions.Analyzers`
 - `NSubstitute.Analyzers.CSharp`, `xunit.analyzers`, `xunit.runner.visualstudio`
 
 ### Directory.Build.targets (Root)

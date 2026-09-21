@@ -3,7 +3,7 @@ using VmMachineHwVersionUpdater.Avalonia.Views;
 
 namespace VmMachineHwVersionUpdater.Avalonia.Tests.Views;
 
-public class MainWindowTests : AvaloniaTestBase<TestApp>
+public partial class MainWindowTests : AvaloniaTestBase<TestApp>
 {
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Constructor_HasNullGuards(GuardClauseAssertion assertion)

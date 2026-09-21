@@ -17,10 +17,9 @@
   <ItemGroup>
     <PackageVersion Include="Avalonia.Headless.XUnit" Version="12.1.2" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
-    <PackageVersion Include="EvilBaschdi.Testing" Version="2026.9.12.19" />
+    <PackageVersion Include="EvilBaschdi.Testing" Version="2026.9.16.16" />
     <PackageVersion Include="EvilBaschdi.Testing.Avalonia" Version="2026.9.8.17" />
-    <PackageVersion Include="FluentAssertions.Analyzers" Version="0.34.1" />
-    <PackageVersion Include="Meziantou.FluentAssertionsAnalyzers" Version="1.0.22" />
+    <PackageVersion Include="AwesomeAssertions.Analyzers" Version="9.0.8" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="xunit.analyzers" Version="2.1.0" />

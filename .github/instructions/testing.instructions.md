@@ -138,7 +138,7 @@ public void MethodName_WithInvalidInput_ThrowsException() { }
 ## Testing Framework Requirements
 
 - Use xUnit v3 with `[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]` for all tests
-- Use FluentAssertions for all assertions: `result.Should().BeOfType<ExpectedType>()`
+- Use AwesomeAssertions for all assertions: `result.Should().BeOfType<ExpectedType>()`
 - Use AutoFixture for parameter injection with `sut` (System Under Test) as the class parameter name
 - Test class naming: `{ClassUnderTest}Tests`
 - Test method naming: `{MethodUnderTest}_{Scenario}_{ExpectedBehavior}`
@@ -261,7 +261,7 @@ public void Constructor_ReturnsInterfaceName()
 
 ## Dependency Injection Tests
 
-For testing DI service registration (static extension method classes), use the fluent `ServiceCollection` assertions from `EvilBaschdi.Testing` (available via global using `FluentAssertions.Microsoft.Extensions.DependencyInjection`).
+For testing DI service registration (static extension method classes), use the fluent `ServiceCollection` assertions from `EvilBaschdi.Testing` (available via global using `EvilBaschdi.Testing.Assertions.Microsoft.Extensions.DependencyInjection`).
 
 DI tests MUST use `[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]` with `IServiceCollection` injected by AutoFixture:
 
@@ -348,8 +348,8 @@ All test files have access to these global usings from Directory.Build.props:
 - AutoFixture.Idioms
 - AutoFixture.Xunit3
 - EvilBaschdi.Testing
-- FluentAssertions
-- FluentAssertions.Microsoft.Extensions.DependencyInjection
+- AwesomeAssertions
+- EvilBaschdi.Testing.Assertions.Microsoft.Extensions.DependencyInjection
 - NSubstitute
 - NSubstitute.ReturnsExtensions
 - Xunit

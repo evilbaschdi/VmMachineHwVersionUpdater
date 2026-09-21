@@ -11,7 +11,7 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc cref="IMainWindowViewModel" />
 /// <inheritdoc cref="ViewModelBase" />
-public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
+public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 {
     private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView;
     private readonly ICurrentMachine _currentMachine;

@@ -20,7 +20,7 @@ public class OpenWithCodeCommandTests
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         assertion.Verify(typeof(OpenWithCodeCommand).GetMethods(BindingFlags.Public | BindingFlags.Instance)
-            .Where(method => !method.IsAbstract & !method.ReturnType.IsAssignableTo(typeof(Task))));
+                                                    .Where(method => !method.IsAbstract & !method.ReturnType.IsAssignableTo(typeof(Task))));
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
