@@ -20,28 +20,12 @@ public class FilterItemSourceTests
         assertion.Verify(typeof(FilterItemSource).GetMethods().Where(method => !method.IsAbstract));
     }
 
-    private Machine CreateTestMachine(string displayName = "", string annotation = "", string guestOs = "")
-    {
-        var toggleToolsSyncTime = Substitute.For<IToggleToolsSyncTime>();
-        var toggleToolsUpgradePolicy = Substitute.For<IToggleToolsUpgradePolicy>();
-        var toggleMksEnable3D = Substitute.For<IToggleMksEnable3D>();
-        var updateMachineVersion = Substitute.For<IUpdateMachineVersion>();
-        var updateMachineMemSize = Substitute.For<IUpdateMachineMemSize>();
-
-        return new(toggleToolsSyncTime, toggleToolsUpgradePolicy, toggleMksEnable3D, updateMachineVersion, updateMachineMemSize)
-               {
-                   DisplayName = displayName,
-                   Annotation = annotation,
-                   GuestOs = guestOs
-               };
-    }
-
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithEmptySearchTexts_ReturnsTrue(
-        FilterItemSource sut)
+        FilterItemSource sut,
+        Machine machine)
     {
         // Arrange
-        var machine = CreateTestMachine();
         var value = (machine, string.Empty, string.Empty);
 
         // Act
@@ -54,10 +38,11 @@ public class FilterItemSourceTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithNoFilterSearchOs_ReturnsTrue(
         FilterItemSource sut,
+        Machine machine,
         string searchFilterText)
     {
         // Arrange
-        var machine = CreateTestMachine(displayName: searchFilterText);
+        machine.DisplayName = searchFilterText;
         var value = (machine, "(no filter)", searchFilterText);
 
         // Act
@@ -70,10 +55,11 @@ public class FilterItemSourceTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithMatchingGuestOs_ReturnsTrue(
         FilterItemSource sut,
+        Machine machine,
         string guestOs)
     {
         // Arrange
-        var machine = CreateTestMachine(guestOs: guestOs);
+        machine.GuestOs = guestOs;
         var value = (machine, guestOs[..Math.Min(3, guestOs.Length)], string.Empty);
 
         // Act
@@ -85,10 +71,11 @@ public class FilterItemSourceTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithNonMatchingGuestOs_ReturnsFalse(
-        FilterItemSource sut)
+        FilterItemSource sut,
+        Machine machine)
     {
         // Arrange
-        var machine = CreateTestMachine(guestOs: "windows11-64");
+        machine.GuestOs = "windows11-64";
         var value = (machine, "ubuntu", string.Empty);
 
         // Act
@@ -101,10 +88,11 @@ public class FilterItemSourceTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithMatchingDisplayName_ReturnsTrue(
         FilterItemSource sut,
+        Machine machine,
         string displayName)
     {
         // Arrange
-        var machine = CreateTestMachine(displayName: displayName);
+        machine.DisplayName = displayName;
         var searchText = displayName[..Math.Min(3, displayName.Length)];
         var value = (machine, string.Empty, searchText);
 
@@ -118,10 +106,12 @@ public class FilterItemSourceTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithMatchingAnnotation_ReturnsTrue(
         FilterItemSource sut,
+        Machine machine,
         string annotation)
     {
         // Arrange
-        var machine = CreateTestMachine(annotation: annotation);
+        machine.DisplayName = string.Empty;
+        machine.Annotation = annotation;
         var searchText = annotation[..Math.Min(3, annotation.Length)];
         var value = (machine, string.Empty, searchText);
 
@@ -134,10 +124,11 @@ public class FilterItemSourceTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithWildcardSearch_ReturnsTrue(
-        FilterItemSource sut)
+        FilterItemSource sut,
+        Machine machine)
     {
         // Arrange
-        var machine = CreateTestMachine(displayName: "Test Virtual Machine");
+        machine.DisplayName = "Test Virtual Machine";
         var value = (machine, string.Empty, "*TVM*");
 
         // Act
@@ -149,10 +140,12 @@ public class FilterItemSourceTests
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithNonMatchingSearch_ReturnsFalse(
-        FilterItemSource sut)
+        FilterItemSource sut,
+        Machine machine)
     {
         // Arrange
-        var machine = CreateTestMachine(displayName: "Windows VM", annotation: "Test machine");
+        machine.DisplayName = "Windows VM";
+        machine.Annotation = "Test machine";
         var value = (machine, string.Empty, "NonExistent");
 
         // Act

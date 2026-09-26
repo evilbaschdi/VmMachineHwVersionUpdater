@@ -23,13 +23,9 @@ public class ViewLocatorTests
         assertion.Verify(typeof(ViewLocator).GetMethods().Where(method => !method.IsAbstract));
     }
 
-    [Fact]
-    public void Match_WithViewModelBase_ReturnsTrue()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Match_WithViewModelBase_ReturnsTrue(ViewLocator sut, ViewModelBase dummyData)
     {
-        // Arrange
-        var sut = new ViewLocator();
-        var dummyData = Substitute.For<ViewModelBase>();
-
         // Act
         var result = sut.Match(dummyData);
 
@@ -37,13 +33,9 @@ public class ViewLocatorTests
         result.Should().Be(true);
     }
 
-    [Fact]
-    public void Match_WithNonViewModelBase_ReturnsFalse()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Match_WithNonViewModelBase_ReturnsFalse(ViewLocator sut, object dummyData)
     {
-        // Arrange
-        var sut = new ViewLocator();
-        var dummyData = new object();
-
         // Act
         var result = sut.Match(dummyData);
 
@@ -51,13 +43,9 @@ public class ViewLocatorTests
         result.Should().Be(false);
     }
 
-    [Fact]
-    public void Build_WithUnresolvableType_ReturnsTextBlock()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Build_WithUnresolvableType_ReturnsTextBlock(ViewLocator sut, ViewModelBase dummyData)
     {
-        // Arrange
-        var sut = new ViewLocator();
-        var dummyData = Substitute.For<ViewModelBase>();
-
         // Act
         var result = sut.Build(dummyData);
 

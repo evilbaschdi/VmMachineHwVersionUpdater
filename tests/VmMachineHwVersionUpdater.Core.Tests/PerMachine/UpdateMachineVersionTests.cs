@@ -15,30 +15,32 @@ public class UpdateMachineVersionTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
-    public void RunFor_MachinesNull_ThrowsException(
+    public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
+    {
+        assertion.Verify(typeof(UpdateMachineVersion).GetMethods().Where(method => !method.IsAbstract
+                                                                                  & method.Name != nameof(UpdateMachineVersion.RunFor)));
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void RunFor_MachinesNull_ThrowsArgumentNullException(
         UpdateMachineVersion sut,
         int dummyNewVersion)
     {
-        // Arrange
+        var act = () => sut.RunFor(null!, dummyNewVersion);
 
-        // Act
-        var result = Record.Exception(() => sut.RunFor(null, dummyNewVersion));
-
-        // Assert
-        result.Should().BeOfType<ArgumentNullException>();
+        act.Should().Throw<ArgumentNullException>()
+           .WithParameterName("machines");
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void RunFor_MachinesNotNull_CallsUpsertVmxLineRunFor(
+        UpdateMachineVersion sut,
         int dummyNewVersion,
         Machine dummyMachine0,
         Machine dummyMachine1,
         Machine dummyMachine2
     )
     {
-        // Arrange
-        var sut = new UpdateMachineVersion();
-
         // Create temporary files for testing
         var tempPath0 = Path.GetTempFileName();
         var tempPath1 = Path.GetTempFileName();

@@ -52,7 +52,7 @@ public class CopyMachineTests
         Machine machine)
     {
         // Arrange
-        machine.Path = @"C:\NonExistent\fake.vmx";
+        machine.Path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"), "fake.vmx");
 
         // Act
         await sut.RunForAsync(machine, "newDir", TestContext.Current.CancellationToken);
@@ -60,5 +60,59 @@ public class CopyMachineTests
         // Assert
         await copyDirectory.DidNotReceive()
                            .RunForAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task RunForAsync_WithExistingFile_CopiesToDirectoryUnderPool(
+        [Frozen] ICopyDirectoryWithProgress copyDirectory,
+        [Frozen] IToggleToolsSyncTime toggleToolsSyncTime,
+        [Frozen] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        [Frozen] IToggleMksEnable3D toggleMksEnable3D,
+        [Frozen] IUpdateMachineVersion updateMachineVersion,
+        [Frozen] IUpdateMachineMemSize updateMachineMemSize,
+        CopyMachine sut)
+    {
+        var testRoot = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        var poolPath = Path.Combine(testRoot, "Pool");
+        var sourcePath = Path.Combine(poolPath, "Nested", "Existing Machine");
+        Directory.CreateDirectory(sourcePath);
+        var machineFilePath = Path.Combine(sourcePath, "machine.vmx");
+        await File.WriteAllTextAsync(machineFilePath, string.Empty, TestContext.Current.CancellationToken);
+
+        var machine = new Machine(
+            toggleToolsSyncTime,
+            toggleToolsUpgradePolicy,
+            toggleMksEnable3D,
+            updateMachineVersion,
+            updateMachineMemSize)
+        {
+            Directory = poolPath,
+            Path = machineFilePath
+        };
+        copyDirectory.RunForAsync(sourcePath, Path.Combine(poolPath, "Copied Machine"), Arg.Any<CancellationToken>())
+                     .Returns(Task.CompletedTask);
+
+        try
+        {
+            await sut.RunForAsync(machine, "Copied Machine", TestContext.Current.CancellationToken);
+
+            await copyDirectory.Received(1)
+                               .RunForAsync(sourcePath,
+                                   Path.Combine(poolPath, "Copied Machine"),
+                                   TestContext.Current.CancellationToken);
+        }
+        finally
+        {
+            Directory.Delete(testRoot, true);
+        }
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task RunForAsync_WithDirectoryTraversalName_ThrowsArgumentException(CopyMachine sut, Machine machine)
+    {
+        var act = () => sut.RunForAsync(machine, "..\\Outside");
+
+        await act.Should().ThrowAsync<ArgumentException>()
+                 .WithParameterName("newDirectoryName");
     }
 }

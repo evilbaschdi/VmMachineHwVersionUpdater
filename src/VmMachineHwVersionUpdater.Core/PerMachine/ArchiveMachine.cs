@@ -23,12 +23,25 @@ public class ArchiveMachine(
             return;
         }
 
-        var machineDirectoryWithoutPath = path.ToLower().Replace($@"{machine.Directory}\", "", StringComparison.OrdinalIgnoreCase);
+        var relativeMachinePath = Path.GetRelativePath(machine.Directory, path);
+        if (relativeMachinePath == "." || !PathContainment.IsSameOrDescendantOf(machine.Directory, path))
+        {
+            return;
+        }
 
-        var archivePath = _pathSettings.ArchivePath?.FirstOrDefault(p => p.StartsWith(machine.Directory, StringComparison.OrdinalIgnoreCase));
-        archivePath = string.IsNullOrWhiteSpace(archivePath) ? Path.Combine(machine.Directory.ToLower(), "_archive") : archivePath;
+        var archivePath = _pathSettings.ArchivePath?.FirstOrDefault(
+            candidateArchivePath => PathContainment.IsSameOrDescendantOf(machine.Directory, candidateArchivePath));
+        archivePath = string.IsNullOrWhiteSpace(archivePath) ? Path.Combine(machine.Directory, "_archive") : archivePath;
 
-        var destination = Path.Combine(archivePath, machineDirectoryWithoutPath.ToLower());
-        Directory.Move(path.ToLower(), destination.ToLower());
+        var destination = Path.Combine(archivePath, relativeMachinePath);
+        var fullSourcePath = Path.GetFullPath(path);
+        var fullDestinationPath = Path.GetFullPath(destination);
+        if (PathContainment.IsSameOrDescendantOf(fullSourcePath, fullDestinationPath))
+        {
+            return;
+        }
+
+        Directory.CreateDirectory(Path.GetDirectoryName(fullDestinationPath)!);
+        Directory.Move(fullSourcePath, fullDestinationPath);
     }
 }

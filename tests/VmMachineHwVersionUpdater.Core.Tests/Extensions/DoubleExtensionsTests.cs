@@ -32,11 +32,11 @@ public class DoubleExtensionsTests
     #region GiBiBytesToKiBiBytes Tests
 
     [Theory]
-    [InlineData(1.0, 1073741824.0)]
-    [InlineData(0.0, 0.0)]
-    [InlineData(0.5, 536870912.0)]
-    [InlineData(2.0, 2147483648.0)]
-    [InlineData(0.001, 1073741.824)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1.0, 1073741824.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(0.0, 0.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(0.5, 536870912.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(2.0, 2147483648.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(0.001, 1073741.824)]
     public void GiBiBytesToKiBiBytes_WithValidInput_ReturnsCorrectValue(double input, double expected)
     {
         // Act
@@ -47,10 +47,10 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(-1.0)]
-    [InlineData(-0.1)]
-    [InlineData(-100.0)]
-    [InlineData(double.MinValue)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(-1.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(-0.1)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(-100.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(double.MinValue)]
     public void GiBiBytesToKiBiBytes_WithNegativeInput_ThrowsArgumentOutOfRangeException(double input)
     {
         // Act & Assert
@@ -60,8 +60,8 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(double.MaxValue)]
-    [InlineData(double.PositiveInfinity)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(double.MaxValue)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(double.PositiveInfinity)]
     public void GiBiBytesToKiBiBytes_WithLargeInput_ReturnsExpectedResult(double input)
     {
         // Act
@@ -83,11 +83,11 @@ public class DoubleExtensionsTests
     #region KiBiBytesToGiBiBytes Tests
 
     [Theory]
-    [InlineData(1073741824.0, 1.0)]
-    [InlineData(0.0, 0.0)]
-    [InlineData(536870912.0, 0.5)]
-    [InlineData(2147483648.0, 2.0)]
-    [InlineData(1073741.824, 0.001)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1073741824.0, 1.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(0.0, 0.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(536870912.0, 0.5)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(2147483648.0, 2.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1073741.824, 0.001)]
     public void KiBiBytesToGiBiBytes_WithValidInput_ReturnsCorrectValue(double input, double expected)
     {
         // Act
@@ -98,10 +98,10 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(-1.0)]
-    [InlineData(-0.1)]
-    [InlineData(-100.0)]
-    [InlineData(double.MinValue)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(-1.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(-0.1)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(-100.0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(double.MinValue)]
     public void KiBiBytesToGiBiBytes_WithNegativeInput_ThrowsArgumentOutOfRangeException(double input)
     {
         // Act & Assert
@@ -111,8 +111,8 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(double.MaxValue)]
-    [InlineData(double.PositiveInfinity)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(double.MaxValue)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(double.PositiveInfinity)]
     public void KiBiBytesToGiBiBytes_WithLargeInput_ReturnsExpectedResult(double input)
     {
         // Act
@@ -133,13 +133,9 @@ public class DoubleExtensionsTests
 
     #region ToFileSize Tests
 
-    [Fact]
-    public void ToFileSize_WithNullCulture_ThrowsArgumentNullException()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ToFileSize_WithNullCulture_ThrowsArgumentNullException(double input, int precision)
     {
-        // Arrange
-        var input = 1024.0;
-        var precision = 2;
-
         // Act & Assert
         var act = () => input.ToFileSize(precision, null!);
         act.Should().Throw<ArgumentNullException>()
@@ -147,9 +143,9 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(0.0, 2, "0 bytes")]
-    [InlineData(512.0, 2, "512 bytes")]
-    [InlineData(1023.0, 2, "1023 bytes")]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(0.0, 2, "0 bytes")]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(512.0, 2, "512 bytes")]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1023.0, 2, "1023 bytes")]
     public void ToFileSize_WithBytesRange_ReturnsCorrectFormat(double input, int precision, string expected)
     {
         // Act
@@ -160,10 +156,10 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(1024.0, 2, "1.00 KB")]
-    [InlineData(2048.0, 1, "2.0 KB")]
-    [InlineData(1536.0, 2, "1.50 KB")]
-    [InlineData(1048575.0, 0, "1024 KB")] // Just under 1MB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1024.0, 2, "1.00 KB")]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(2048.0, 1, "2.0 KB")]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1536.0, 2, "1.50 KB")]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1048575.0, 0, "1024 KB")] // Just under 1MB
     public void ToFileSize_WithKilobytesRange_ReturnsCorrectFormat(double input, int precision, string expected)
     {
         // Act
@@ -174,10 +170,10 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(1048576.0, 2, "1.00 MB")] // 1MB
-    [InlineData(2097152.0, 1, "2.0 MB")] // 2MB
-    [InlineData(1572864.0, 2, "1.50 MB")] // 1.5MB
-    [InlineData(1073741823.0, 0, "1024 MB")] // Just under 1GB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1048576.0, 2, "1.00 MB")] // 1MB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(2097152.0, 1, "2.0 MB")] // 2MB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1572864.0, 2, "1.50 MB")] // 1.5MB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1073741823.0, 0, "1024 MB")] // Just under 1GB
     public void ToFileSize_WithMegabytesRange_ReturnsCorrectFormat(double input, int precision, string expected)
     {
         // Act
@@ -188,10 +184,10 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(1073741824.0, 2, "1.00 GB")] // 1GB
-    [InlineData(2147483648.0, 1, "2.0 GB")] // 2GB
-    [InlineData(1610612736.0, 2, "1.50 GB")] // 1.5GB
-    [InlineData(1099511627775.0, 0, "1024 GB")] // Just under 1TB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1073741824.0, 2, "1.00 GB")] // 1GB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(2147483648.0, 1, "2.0 GB")] // 2GB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1610612736.0, 2, "1.50 GB")] // 1.5GB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1099511627775.0, 0, "1024 GB")] // Just under 1TB
     public void ToFileSize_WithGigabytesRange_ReturnsCorrectFormat(double input, int precision, string expected)
     {
         // Act
@@ -202,8 +198,8 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(1099511627776.0, 2)] // 1TB
-    [InlineData(2199023255552.0, 1)] // 2TB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1099511627776.0, 2)] // 1TB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(2199023255552.0, 1)] // 2TB
     public void ToFileSize_WithTerabytesRange_ReturnsTerabyteFormat(double input, int precision)
     {
         // Act
@@ -217,8 +213,8 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(1125899906842624.0, 2)] // 1PB
-    [InlineData(2251799813685248.0, 1)] // 2PB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1125899906842624.0, 2)] // 1PB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(2251799813685248.0, 1)] // 2PB
     public void ToFileSize_WithPetabytesRange_ReturnsPetabyteFormat(double input, int precision)
     {
         // Act
@@ -229,7 +225,7 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(1152921504606846976.0, 2)] // 1EB
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1152921504606846976.0, 2)] // 1EB
     public void ToFileSize_WithExabytesRange_ReturnsExabyteFormat(double input, int precision)
     {
         // Act
@@ -239,13 +235,13 @@ public class DoubleExtensionsTests
         result.Should().EndWith(" EB");
     }
 
-    [Fact]
-    public void ToFileSize_WithGermanCulture_UsesCorrectDecimalSeparator()
+    [Theory]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData("de-DE")]
+    public void ToFileSize_WithGermanCulture_UsesCorrectDecimalSeparator(string cultureName)
     {
-        // Arrange
         var input = 1536.0; // 1.5 KB
         var precision = 2;
-        var germanCulture = new CultureInfo("de-DE");
+        var germanCulture = CultureInfo.GetCultureInfo(cultureName);
 
         // Act
         var result = input.ToFileSize(precision, germanCulture);
@@ -255,10 +251,10 @@ public class DoubleExtensionsTests
     }
 
     [Theory]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(5)]
-    [InlineData(10)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(0)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(1)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(5)]
+    [NSubstituteOmitAutoPropertiesTrueInlineAutoData(10)]
     public void ToFileSize_WithDifferentPrecisionValues_FormatsCorrectly(int precision)
     {
         // Arrange

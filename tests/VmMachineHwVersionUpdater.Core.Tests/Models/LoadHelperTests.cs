@@ -25,11 +25,10 @@ public class LoadHelperTests
                                            .Where(method => !method.IsAbstract & !method.Name.StartsWith("set_")));
     }
 
-    [Fact]
-    public void SearchOsItems_CanBeSetAndRetrieved()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void SearchOsItems_CanBeSetAndRetrieved(LoadHelper sut)
     {
         // Arrange
-        var sut = new LoadHelper();
         var items = new ConcurrentDictionary<string, bool>();
         items.TryAdd("windows9-64", true);
 
@@ -41,12 +40,10 @@ public class LoadHelperTests
         sut.SearchOsItems.Should().ContainKey("windows9-64");
     }
 
-    [Fact]
-    public void UpdateAllHwVersion_CanBeSetAndRetrieved()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void UpdateAllHwVersion_CanBeSetAndRetrieved(LoadHelper sut)
     {
         // Arrange
-        var sut = new LoadHelper();
-
         // Act
         sut.UpdateAllHwVersion = 21.0;
 
@@ -54,12 +51,10 @@ public class LoadHelperTests
         sut.UpdateAllHwVersion.Should().Be(21.0);
     }
 
-    [Fact]
-    public void UpdateAllTextBlocks_CanBeSetAndRetrieved()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void UpdateAllTextBlocks_CanBeSetAndRetrieved(LoadHelper sut)
     {
         // Arrange
-        var sut = new LoadHelper();
-
         // Act
         sut.UpdateAllTextBlocks = "3 machines listed";
 

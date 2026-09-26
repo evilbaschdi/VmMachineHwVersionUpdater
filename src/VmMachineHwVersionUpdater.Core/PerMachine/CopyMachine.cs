@@ -15,27 +15,41 @@ public class CopyMachine(
 
         ArgumentNullException.ThrowIfNull(newDirectoryName);
 
+        if (string.IsNullOrWhiteSpace(newDirectoryName) ||
+            newDirectoryName is "." or ".." ||
+            Path.IsPathRooted(newDirectoryName) ||
+            newDirectoryName.IndexOfAny(['/', '\\']) >= 0)
+        {
+            throw new ArgumentException("The new directory name must be a single directory name.", nameof(newDirectoryName));
+        }
+
         if (!File.Exists(machine.Path))
         {
             return;
         }
 
-        var path = Path.GetDirectoryName(machine.Path);
+        var sourcePath = Path.GetDirectoryName(machine.Path);
 
-        if (string.IsNullOrWhiteSpace(path))
+        if (string.IsNullOrWhiteSpace(sourcePath))
         {
             return;
         }
 
-        var machineDirectoryWithoutPath = path.ToLower().Replace($@"{machine.Directory}\", "", StringComparison.InvariantCultureIgnoreCase);
-        var copyPath = path.ToLower().Replace(machineDirectoryWithoutPath, newDirectoryName, StringComparison.InvariantCultureIgnoreCase);
-
-        if (path.Equals(copyPath))
+        var relativeMachinePath = Path.GetRelativePath(machine.Directory, sourcePath);
+        if (relativeMachinePath == "." || !PathContainment.IsSameOrDescendantOf(machine.Directory, sourcePath))
         {
-            // TODO: Message
             return;
         }
 
-        await _copyDirectory.RunForAsync(path, copyPath, cancellationToken);
+        var copyPath = Path.Combine(machine.Directory, newDirectoryName);
+        var pathComparison = OperatingSystem.IsWindows()
+                                 ? StringComparison.OrdinalIgnoreCase
+                                 : StringComparison.Ordinal;
+        if (string.Equals(Path.GetFullPath(sourcePath), Path.GetFullPath(copyPath), pathComparison))
+        {
+            return;
+        }
+
+        await _copyDirectory.RunForAsync(sourcePath, copyPath, cancellationToken);
     }
 }

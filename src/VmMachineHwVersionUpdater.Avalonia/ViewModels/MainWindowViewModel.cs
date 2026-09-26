@@ -11,7 +11,7 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 /// <inheritdoc cref="IMainWindowViewModel" />
 /// <inheritdoc cref="ViewModelBase" />
-public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
+public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 {
     private readonly IConfigureDataGridCollectionView _configureDataGridCollectionView;
     private readonly ICurrentMachine _currentMachine;
@@ -169,7 +169,9 @@ public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
     private void RefreshMachineData()
     {
+        var selectedMachinePath = SelectedMachine?.Path;
         var currentView = _configureDataGridCollectionView.Value;
+        var sortDescriptions = currentView.SortDescriptions.ToArray();
         currentView.Filter = null!;
         currentView.Refresh();
 
@@ -177,7 +179,27 @@ public partial class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
         _loadSearchOsItems.ResetCache();
         _configureDataGridCollectionView.ResetCache();
         DataGridCollectionViewMachines = _configureDataGridCollectionView.Value;
+        DataGridCollectionViewMachines.SortDescriptions.Clear();
+        foreach (var sortDescription in sortDescriptions)
+        {
+            DataGridCollectionViewMachines.SortDescriptions.Add(sortDescription);
+        }
+
         _filterDataGridCollectionView.RunFor((SearchOsText, SearchFilterText));
+        if (selectedMachinePath != null)
+        {
+            var pathComparison = OperatingSystem.IsWindows()
+                                     ? StringComparison.OrdinalIgnoreCase
+                                     : StringComparison.Ordinal;
+            SelectedMachine = DataGridCollectionViewMachines
+                             .Cast<Machine>()
+                             .FirstOrDefault(machine => string.Equals(machine.Path, selectedMachinePath, pathComparison));
+            if (SelectedMachine != null)
+            {
+                DataGridCollectionViewMachines.MoveCurrentTo(SelectedMachine);
+            }
+        }
+
         this.RaisePropertyChanged(nameof(SearchOsItemCollection));
         this.RaisePropertyChanged(nameof(SearchOsIsEnabled));
         this.RaisePropertyChanged(nameof(SearchFilterIsReadOnly));

@@ -31,14 +31,13 @@ public class AppTests
                                     .Where(method => !method.IsAbstract));
     }
 
-    [Fact]
-    public async Task CreateMainWindow_ReturnsMainWindowWithViewModelDataContext()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public async Task CreateMainWindow_ReturnsMainWindowWithViewModelDataContext(TestableApp sut)
     {
         await RunOnHeadlessDispatcher(() =>
                                       {
                                           // Arrange
                                           InitializeServices();
-                                          var sut = new TestableApp();
 
                                           // Act
                                           var result = sut.InvokeCreateMainWindow();
@@ -49,12 +48,9 @@ public class AppTests
                                       });
     }
 
-    [Fact]
-    public void PreMainWindowCreation_SetsAppNameFromCurrent()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void PreMainWindowCreation_SetsAppNameFromCurrent(TestableApp sut)
     {
-        // Arrange
-        var sut = new TestableApp();
-
         // Act
         sut.InvokePreMainWindowCreation();
 
@@ -77,10 +73,9 @@ public class AppTests
         return session.Dispatch(action, TestContext.Current.CancellationToken);
     }
 
-    [Fact]
-    public void ResizeWithBorder400_IsFalse()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ResizeWithBorder400_IsTrue(TestableApp sut)
     {
-        var sut = new TestableApp();
         sut.ExposedResizeWithBorder400.Should().BeTrue();
     }
 
@@ -98,7 +93,7 @@ public class AppTests
         ApplicationServices.Initialize(serviceCollection.BuildServiceProvider());
     }
 
-    private class TestableApp : App
+    public class TestableApp : App
     {
         public bool ExposedResizeWithBorder400 => ResizeWithBorder400;
         public Window InvokeCreateMainWindow() => CreateMainWindow();

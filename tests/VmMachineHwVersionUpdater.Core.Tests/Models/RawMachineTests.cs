@@ -22,12 +22,9 @@ public class RawMachineTests
                                            .Where(method => !method.IsAbstract & !method.Name.StartsWith("set_")));
     }
 
-    [Fact]
-    public void DefaultValues_AreEmptyStrings()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void DefaultValues_AreEmptyStrings(RawMachine sut)
     {
-        // Act
-        var sut = new RawMachine();
-
         // Assert
         sut.Annotation.Should().BeEmpty();
         sut.DetailedData.Should().BeEmpty();
@@ -43,12 +40,9 @@ public class RawMachineTests
         sut.OSType.Should().BeEmpty();
     }
 
-    [Fact]
-    public void NumericProperties_DefaultToZero()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void NumericProperties_DefaultToZero(RawMachine sut)
     {
-        // Act
-        var sut = new RawMachine();
-
         // Assert
         sut.HwVersion.Should().Be(0);
         sut.MemSize.Should().Be(0);
@@ -56,19 +50,15 @@ public class RawMachineTests
         sut.VirtualBoxHwVersion.Should().Be(0);
     }
 
-    [Fact]
-    public void Properties_CanBeSetAndRetrieved()
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void Properties_CanBeSetAndRetrieved(RawMachine sut)
     {
-        // Act
-        var sut = new RawMachine
-                  {
-                      Annotation = "test annotation",
-                      DisplayName = "My VM",
-                      GuestOs = "windows9-64",
-                      HwVersion = 21,
-                      MemSize = 4096,
-                      MachineType = MachineType.Vmx
-                  };
+        sut.Annotation = "test annotation";
+        sut.DisplayName = "My VM";
+        sut.GuestOs = "windows9-64";
+        sut.HwVersion = 21;
+        sut.MemSize = 4096;
+        sut.MachineType = MachineType.Vmx;
 
         // Assert
         sut.Annotation.Should().Be("test annotation");
