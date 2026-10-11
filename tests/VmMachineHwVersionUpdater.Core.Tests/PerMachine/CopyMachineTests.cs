@@ -1,5 +1,5 @@
-using System.Reflection;
 using EvilBaschdi.Core.Internal.Copy;
+using EvilBaschdi.Testing.Extensions;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;
 
@@ -20,8 +20,7 @@ public class CopyMachineTests
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
-        assertion.Verify(typeof(CopyMachine).GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                                            .Where(method => !method.IsAbstract & !method.ReturnType.IsAssignableTo(typeof(Task))));
+        assertion.VerifyTask<CopyMachine>(typeof(CopyMachine).GetMethods().Where(method => !method.IsAbstract));
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
@@ -29,7 +28,7 @@ public class CopyMachineTests
         CopyMachine sut)
     {
         // Act & Assert
-        var act = () => sut.RunForAsync(null!, "newDir");
+        var act = () => sut.RunForAsync(null!, "newDir", TestContext.Current.CancellationToken);
         await act.Should().ThrowAsync<ArgumentNullException>()
                  .WithParameterName("machine");
     }
@@ -40,7 +39,7 @@ public class CopyMachineTests
         Machine machine)
     {
         // Act & Assert
-        var act = () => sut.RunForAsync(machine, null!);
+        var act = () => sut.RunForAsync(machine, null!, TestContext.Current.CancellationToken);
         await act.Should().ThrowAsync<ArgumentNullException>()
                  .WithParameterName("newDirectoryName");
     }
@@ -80,15 +79,15 @@ public class CopyMachineTests
         await File.WriteAllTextAsync(machineFilePath, string.Empty, TestContext.Current.CancellationToken);
 
         var machine = new Machine(
-            toggleToolsSyncTime,
-            toggleToolsUpgradePolicy,
-            toggleMksEnable3D,
-            updateMachineVersion,
-            updateMachineMemSize)
-        {
-            Directory = poolPath,
-            Path = machineFilePath
-        };
+                          toggleToolsSyncTime,
+                          toggleToolsUpgradePolicy,
+                          toggleMksEnable3D,
+                          updateMachineVersion,
+                          updateMachineMemSize)
+                      {
+                          Directory = poolPath,
+                          Path = machineFilePath
+                      };
         copyDirectory.RunForAsync(sourcePath, Path.Combine(poolPath, "Copied Machine"), Arg.Any<CancellationToken>())
                      .Returns(Task.CompletedTask);
 
