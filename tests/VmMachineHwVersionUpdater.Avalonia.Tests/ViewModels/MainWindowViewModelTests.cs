@@ -83,4 +83,39 @@ public class MainWindowViewModelTests
         currentMachine.Received(1).Value = refreshedSelectedMachine;
         refreshedView.CurrentItem.Should().BeSameAs(refreshedSelectedMachine);
     }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void RefreshMachineData_ReappliesFiltersAfterSearchOsItemsRefresh(
+        [Frozen] IFilterDataGridCollectionView filterDataGridCollectionView,
+        [Frozen] IConfigureDataGridCollectionView configureDataGridCollectionView,
+        MainWindowViewModel sut)
+    {
+        const string searchOsText = "Windows 11";
+        const string searchFilterText = "development";
+        sut.SearchOsText = searchOsText;
+        sut.SearchFilterText = searchFilterText;
+        filterDataGridCollectionView.ClearReceivedCalls();
+
+        var currentView = new DataGridCollectionView(new List<Machine>());
+        var refreshedView = new DataGridCollectionView(new List<Machine>());
+        configureDataGridCollectionView.Value.Returns(_ => currentView, _ => refreshedView);
+        sut.PropertyChanged += (_, args) =>
+        {
+            if (args.PropertyName != nameof(MainWindowViewModel.SearchOsItemCollection))
+            {
+                return;
+            }
+
+            sut.SearchOsText = string.Empty;
+            sut.SearchFilterText = string.Empty;
+        };
+
+        typeof(MainWindowViewModel)
+           .GetMethod("RefreshMachineData", BindingFlags.Instance | BindingFlags.NonPublic)!
+           .Invoke(sut, null);
+
+        sut.SearchOsText.Should().Be(searchOsText);
+        sut.SearchFilterText.Should().Be(searchFilterText);
+        filterDataGridCollectionView.Received().RunFor((searchOsText, searchFilterText));
+    }
 }

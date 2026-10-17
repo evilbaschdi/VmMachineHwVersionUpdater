@@ -170,6 +170,8 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     private void RefreshMachineData()
     {
         var selectedMachinePath = SelectedMachine?.Path;
+        var searchOsText = SearchOsText;
+        var searchFilterText = SearchFilterText;
         var currentView = _configureDataGridCollectionView.Value;
         var sortDescriptions = currentView.SortDescriptions.ToArray();
         currentView.Filter = null!;
@@ -185,7 +187,11 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
             DataGridCollectionViewMachines.SortDescriptions.Add(sortDescription);
         }
 
-        _filterDataGridCollectionView.RunFor((SearchOsText, SearchFilterText));
+        this.RaisePropertyChanged(nameof(SearchOsItemCollection));
+        SearchOsText = searchOsText;
+        SearchFilterText = searchFilterText;
+        _filterDataGridCollectionView.RunFor((searchOsText, searchFilterText));
+
         if (selectedMachinePath != null)
         {
             var pathComparison = OperatingSystem.IsWindows()
@@ -200,7 +206,6 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
             }
         }
 
-        this.RaisePropertyChanged(nameof(SearchOsItemCollection));
         this.RaisePropertyChanged(nameof(SearchOsIsEnabled));
         this.RaisePropertyChanged(nameof(SearchFilterIsReadOnly));
         this.RaisePropertyChanged(nameof(UpdateAllIsEnabled));
