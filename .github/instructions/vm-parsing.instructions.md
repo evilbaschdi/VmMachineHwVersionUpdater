@@ -31,7 +31,7 @@ VMX files are key-value text files: `key = "value"`
 2. Each line is checked against `IVmxLineStartsWith` (case-insensitive `StartsWith`)
 3. Matching lines trigger actions from `ILineStartActions` dictionary
 4. Actions extract values via `IReturnValueFromVmxLine` and populate `RawMachine`
-5. Processing is parallelized with `Parallel.ForEach`
+5. Lines are processed in file order so duplicate keys consistently use the last value and do not race while mutating `RawMachine`
 
 ### Adding a New VMX Key
 1. Add a new entry in `LineStartActions` constructor's dictionary:

@@ -351,53 +351,65 @@ public sealed class Machine(
             return;
         }
 
-        _autoUpdateTools = other._autoUpdateTools;
-        _hwVersion = other._hwVersion;
-        _memSize = other._memSize;
-        _syncTimeWithHost = other._syncTimeWithHost;
-        _accelerate3DGraphics = other._accelerate3DGraphics;
-        _machineState = other._machineState;
-        _logLastDate = other._logLastDate;
-        _logLastDateDiff = other._logLastDateDiff;
-        _isEnabledForEditing = other._isEnabledForEditing;
-        _extendedInformation = other._extendedInformation;
-        _extendedInformationToolTip = other._extendedInformationToolTip;
+        ApplyIfChanged(_autoUpdateTools, other._autoUpdateTools, value => _autoUpdateTools = value, nameof(AutoUpdateTools));
+        ApplyIfChanged(_hwVersion, other._hwVersion, value => _hwVersion = value, nameof(HwVersion));
+        ApplyIfChanged(_memSize, other._memSize, value => _memSize = value, nameof(MemSize));
+        ApplyIfChanged(_syncTimeWithHost, other._syncTimeWithHost, value => _syncTimeWithHost = value, nameof(SyncTimeWithHost));
+        ApplyIfChanged(_accelerate3DGraphics, other._accelerate3DGraphics, value => _accelerate3DGraphics = value, nameof(Accelerate3DGraphics));
+        ApplyIfChanged(DirectorySizeGb, other.DirectorySizeGb, value => DirectorySizeGb = value, nameof(DirectorySizeGb));
+        ApplyIfChanged(_machineState, other._machineState, value => _machineState = value, nameof(MachineState));
+        ApplyIfChanged(Annotation, other.Annotation, value => Annotation = value, nameof(Annotation));
+        ApplyIfChanged(Directory, other.Directory, value => Directory = value, nameof(Directory));
+        ApplyIfChanged(DirectorySize, other.DirectorySize, value => DirectorySize = value, nameof(DirectorySize));
+        ApplyIfChanged(DisplayName, other.DisplayName, value => DisplayName = value, nameof(DisplayName));
+        ApplyIfChanged(EncryptionData, other.EncryptionData, value => EncryptionData = value, nameof(EncryptionData));
+        ApplyIfChanged(EncryptionEncryptedKey, other.EncryptionEncryptedKey, value => EncryptionEncryptedKey = value, nameof(EncryptionEncryptedKey));
+        ApplyIfChanged(EncryptionKeySafe, other.EncryptionKeySafe, value => EncryptionKeySafe = value, nameof(EncryptionKeySafe));
+        ApplyIfChanged(_extendedInformation, other._extendedInformation, value => _extendedInformation = value, nameof(ExtendedInformation));
+        ApplyIfChanged(_extendedInformationToolTip, other._extendedInformationToolTip, value => _extendedInformationToolTip = value, nameof(ExtendedInformationToolTip));
+        ApplyIfChanged(GuestOs, other.GuestOs, value => GuestOs = value, nameof(GuestOs));
+        ApplyIfChanged(GuestOsRaw, other.GuestOsRaw, value => GuestOsRaw = value, nameof(GuestOsRaw));
+        ApplyIfChanged(GuestInfoDetailedData, other.GuestInfoDetailedData, value => GuestInfoDetailedData = value, nameof(GuestInfoDetailedData));
+        if (!DictionaryValuesEqual(ParsedGuestInfoDetailedData, other.ParsedGuestInfoDetailedData))
+        {
+            ParsedGuestInfoDetailedData = other.ParsedGuestInfoDetailedData;
+            OnPropertyChanged(nameof(ParsedGuestInfoDetailedData));
+        }
 
-        DirectorySizeGb = other.DirectorySizeGb;
-        Annotation = other.Annotation;
-        Directory = other.Directory;
-        DirectorySize = other.DirectorySize;
-        DisplayName = other.DisplayName;
-        EncryptionData = other.EncryptionData;
-        EncryptionEncryptedKey = other.EncryptionEncryptedKey;
-        EncryptionKeySafe = other.EncryptionKeySafe;
-        GuestOs = other.GuestOs;
-        GuestOsRaw = other.GuestOsRaw;
-        GuestInfoDetailedData = other.GuestInfoDetailedData;
-        ManagedVmAutoAddVTpm = other.ManagedVmAutoAddVTpm;
-        Path = other.Path;
-        ShortPath = other.ShortPath;
-        MachineType = other.MachineType;
+        ApplyIfChanged(_logLastDate, other._logLastDate, value => _logLastDate = value, nameof(LogLastDate));
+        ApplyIfChanged(_logLastDateDiff, other._logLastDateDiff, value => _logLastDateDiff = value, nameof(LogLastDateDiff));
+        ApplyIfChanged(ManagedVmAutoAddVTpm, other.ManagedVmAutoAddVTpm, value => ManagedVmAutoAddVTpm = value, nameof(ManagedVmAutoAddVTpm));
+        ApplyIfChanged(Path, other.Path, value => Path = value, nameof(Path));
+        ApplyIfChanged(ShortPath, other.ShortPath, value => ShortPath = value, nameof(ShortPath));
+        ApplyIfChanged(_isEnabledForEditing, other._isEnabledForEditing, value => _isEnabledForEditing = value, nameof(IsEnabledForEditing));
+        ApplyIfChanged(MachineType, other.MachineType, value => MachineType = value, nameof(MachineType));
+    }
 
-        OnPropertyChanged(nameof(AutoUpdateTools));
-        OnPropertyChanged(nameof(HwVersion));
-        OnPropertyChanged(nameof(MemSize));
-        OnPropertyChanged(nameof(SyncTimeWithHost));
-        OnPropertyChanged(nameof(Accelerate3DGraphics));
-        OnPropertyChanged(nameof(MachineState));
-        OnPropertyChanged(nameof(Annotation));
-        OnPropertyChanged(nameof(Directory));
-        OnPropertyChanged(nameof(DirectorySize));
-        OnPropertyChanged(nameof(DisplayName));
-        OnPropertyChanged(nameof(ExtendedInformation));
-        OnPropertyChanged(nameof(ExtendedInformationToolTip));
-        OnPropertyChanged(nameof(GuestOs));
-        OnPropertyChanged(nameof(GuestOsRaw));
-        OnPropertyChanged(nameof(GuestInfoDetailedData));
-        OnPropertyChanged(nameof(LogLastDate));
-        OnPropertyChanged(nameof(LogLastDateDiff));
-        OnPropertyChanged(nameof(IsEnabledForEditing));
-        OnPropertyChanged(nameof(MachineType));
+    private void ApplyIfChanged<T>(T currentValue, T newValue, Action<T> update, string propertyName)
+    {
+        if (EqualityComparer<T>.Default.Equals(currentValue, newValue))
+        {
+            return;
+        }
+
+        update(newValue);
+        OnPropertyChanged(propertyName);
+    }
+
+    private static bool DictionaryValuesEqual(Dictionary<string, string> left, Dictionary<string, string> right)
+    {
+        if (ReferenceEquals(left, right))
+        {
+            return true;
+        }
+
+        if (left is null || right is null || left.Count != right.Count)
+        {
+            return false;
+        }
+
+        return left.All(pair => right.TryGetValue(pair.Key, out var value) &&
+                                EqualityComparer<string>.Default.Equals(pair.Value, value));
     }
 
     /// <inheritdoc />

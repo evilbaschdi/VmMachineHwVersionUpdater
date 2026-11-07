@@ -22,15 +22,16 @@ public class ParseVmxFile(
 
         var readAllLines = File.ReadAllLines(file);
 
-        Parallel.ForEach(readAllLines, line =>
-                                       {
-                                           var lineActions = lineStartActions.Where(action => _vmxLineStartsWith.ValueFor(line, action.Key));
-                                           foreach (var action in lineActions)
-                                           {
-                                               action.Value(rawMachine, line);
-                                               break;
-                                           }
-                                       });
+        foreach (var line in readAllLines)
+        {
+            var lineActions = lineStartActions.Where(action => _vmxLineStartsWith.ValueFor(line, action.Key));
+            foreach (var action in lineActions)
+            {
+                action.Value(rawMachine, line);
+                break;
+            }
+        }
+
         return rawMachine;
     }
 }

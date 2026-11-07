@@ -1,4 +1,5 @@
 using FluentAvalonia.UI.Controls;
+using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 //using FluentAvalonia.UI.Controls;
 
@@ -9,12 +10,10 @@ namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 public class DeleteReactiveCommand(
     [NotNull] IDeleteMachine deleteMachine,
     [NotNull] ICurrentMachine currentMachine,
-    [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandRxVoidTask, IDeleteReactiveCommand
 {
     private readonly IDeleteMachine _deleteMachine = deleteMachine ?? throw new ArgumentNullException(nameof(deleteMachine));
     private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
-    private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
@@ -58,7 +57,12 @@ public class DeleteReactiveCommand(
             {
                 _deleteMachine.RunFor(_currentMachine.Value.Path);
 
-                await _reloadReactiveCommand.RunAsync(cancellationToken);
+                if (mainWindow.DataContext is not IMainWindowViewModel mainWindowViewModel)
+                {
+                    throw new InvalidOperationException("The main window view model is not available.");
+                }
+
+                await mainWindowViewModel.RefreshMachineDataAsync();
             }
             catch (IOException ioException)
             {

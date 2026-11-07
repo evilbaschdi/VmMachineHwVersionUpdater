@@ -1,4 +1,6 @@
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Avalonia.Collections;
 using Avalonia.Threading;
 using ReactiveUI;
@@ -19,7 +21,11 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
     private readonly IInitReactiveCommands _initReactiveCommands;
     private readonly ILoad _load;
     private readonly ILoadSearchOsItems _loadSearchOsItems;
+    private readonly SemaphoreSlim _refreshSemaphore = new(1, 1);
     private readonly IPathSettings _pathSettings;
+    private readonly StringComparer _pathComparer = OperatingSystem.IsWindows()
+                                                        ? StringComparer.OrdinalIgnoreCase
+                                                        : StringComparer.Ordinal;
     private DispatcherTimer _autoRefreshTimer;
 
     #region Constructor
@@ -154,7 +160,7 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
     private void StartAutoRefresh()
     {
-        if (_pathSettings.AutoRefreshMinutes <= 0)
+        if (_pathSettings.AutoRefreshMinutes <= 0 || _autoRefreshTimer != null)
         {
             return;
         }
@@ -163,30 +169,72 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
                             {
                                 Interval = TimeSpan.FromMinutes(_pathSettings.AutoRefreshMinutes)
                             };
-        _autoRefreshTimer.Tick += (_, _) => RefreshMachineData();
+        _autoRefreshTimer.Tick += OnAutoRefreshTimerTick;
         _autoRefreshTimer.Start();
     }
 
-    private void RefreshMachineData()
+    private async void OnAutoRefreshTimerTick(object sender, EventArgs e)
     {
+        await RefreshMachineDataAsync();
+    }
+
+    /// <inheritdoc />
+    public async Task RefreshMachineDataAsync()
+    {
+        if (!await _refreshSemaphore.WaitAsync(0))
+        {
+            return;
+        }
+
+        try
+        {
+            var refreshedLoad = await Task.Run(_load.Refresh);
+            ApplyRefreshedLoad(refreshedLoad);
+        }
+        catch (Exception exception)
+        {
+            Trace.TraceError("Automatic VM refresh failed. The current UI data was kept. {0}", exception);
+        }
+        finally
+        {
+            _refreshSemaphore.Release();
+        }
+    }
+
+    private void ApplyRefreshedLoad(LoadHelper refreshedLoad)
+    {
+        ArgumentNullException.ThrowIfNull(refreshedLoad);
+
         var selectedMachinePath = SelectedMachine?.Path;
         var searchOsText = SearchOsText;
         var searchFilterText = SearchFilterText;
+        var currentLoad = _load.Value;
         var currentView = _configureDataGridCollectionView.Value;
         var sortDescriptions = currentView.SortDescriptions.ToArray();
-        currentView.Filter = null!;
-        currentView.Refresh();
+        var currentItems = currentLoad?.VmDataGridItemsSource;
 
-        _load.ResetCache();
-        _loadSearchOsItems.ResetCache();
-        _configureDataGridCollectionView.ResetCache();
-        DataGridCollectionViewMachines = _configureDataGridCollectionView.Value;
-        DataGridCollectionViewMachines.SortDescriptions.Clear();
-        foreach (var sortDescription in sortDescriptions)
+        if (currentItems is null)
         {
-            DataGridCollectionViewMachines.SortDescriptions.Add(sortDescription);
+            _load.Value = refreshedLoad;
+            _configureDataGridCollectionView.ResetCache();
+            DataGridCollectionViewMachines = _configureDataGridCollectionView.Value;
+            DataGridCollectionViewMachines.SortDescriptions.Clear();
+            foreach (var sortDescription in sortDescriptions)
+            {
+                DataGridCollectionViewMachines.SortDescriptions.Add(sortDescription);
+            }
+        }
+        else
+        {
+            ReconcileMachines(currentItems, refreshedLoad.VmDataGridItemsSource ?? []);
+            UpdateLoadSummary(refreshedLoad, currentItems);
+            refreshedLoad.VmDataGridItemsSource = currentItems;
+            _load.Value = refreshedLoad;
+            currentView.Refresh();
         }
 
+        _loadSearchOsItems.ResetCache();
+        this.RaisePropertyChanged(nameof(SearchOsIsEnabled));
         this.RaisePropertyChanged(nameof(SearchOsItemCollection));
         SearchOsText = searchOsText;
         SearchFilterText = searchFilterText;
@@ -194,23 +242,108 @@ public class MainWindowViewModel : ViewModelBase, IMainWindowViewModel
 
         if (selectedMachinePath != null)
         {
-            var pathComparison = OperatingSystem.IsWindows()
-                                     ? StringComparison.OrdinalIgnoreCase
-                                     : StringComparison.Ordinal;
             SelectedMachine = DataGridCollectionViewMachines
                              .Cast<Machine>()
-                             .FirstOrDefault(machine => string.Equals(machine.Path, selectedMachinePath, pathComparison));
+                             .FirstOrDefault(machine => _pathComparer.Equals(machine.Path, selectedMachinePath));
             if (SelectedMachine != null)
             {
                 DataGridCollectionViewMachines.MoveCurrentTo(SelectedMachine);
             }
         }
 
-        this.RaisePropertyChanged(nameof(SearchOsIsEnabled));
         this.RaisePropertyChanged(nameof(SearchFilterIsReadOnly));
         this.RaisePropertyChanged(nameof(UpdateAllIsEnabled));
         this.RaisePropertyChanged(nameof(UpdateAllTextBlockText));
         this.RaisePropertyChanged(nameof(UpdateAllHwVersionValue));
+    }
+
+    private void ReconcileMachines(ObservableCollection<Machine> currentItems, ObservableCollection<Machine> refreshedItems)
+    {
+        var refreshedByPath = refreshedItems
+                             .Where(machine => !string.IsNullOrWhiteSpace(machine.Path))
+                             .GroupBy(machine => machine.Path, _pathComparer)
+                             .ToDictionary(group => group.Key, group => group.Last(), _pathComparer);
+        var existingPaths = new HashSet<string>(_pathComparer);
+
+        for (var index = currentItems.Count - 1; index >= 0; index--)
+        {
+            var currentMachine = currentItems[index];
+            var machinePath = currentMachine.Path;
+            if (string.IsNullOrWhiteSpace(machinePath))
+            {
+                continue;
+            }
+
+            if (!existingPaths.Add(machinePath))
+            {
+                currentItems.RemoveAt(index);
+                continue;
+            }
+
+            if (refreshedByPath.Remove(machinePath, out var refreshedMachine))
+            {
+                currentMachine.ApplyFrom(refreshedMachine);
+                continue;
+            }
+
+            if (IsMachineFileDeleted(currentMachine))
+            {
+                currentItems.RemoveAt(index);
+            }
+        }
+
+        foreach (var machine in refreshedByPath.Values)
+        {
+            currentItems.Add(machine);
+        }
+    }
+
+    private static void UpdateLoadSummary(LoadHelper load, IEnumerable<Machine> machines)
+    {
+        var machinesSnapshot = machines.ToArray();
+        var searchOsItems = new ConcurrentDictionary<string, bool>();
+
+        foreach (var machine in machinesSnapshot)
+        {
+            if (!string.IsNullOrWhiteSpace(machine.GuestOs))
+            {
+                searchOsItems.TryAdd(machine.GuestOs, true);
+            }
+        }
+
+        load.SearchOsItems = searchOsItems;
+        load.UpdateAllTextBlocks = machinesSnapshot.Length == 0
+                                       ? string.Empty
+                                       : $"Update all {machinesSnapshot.Length} machines to version";
+        load.UpdateAllHwVersion = machinesSnapshot.Length == 0
+                                      ? null
+                                      : machinesSnapshot.Max(machine => machine.HwVersion);
+    }
+
+    private static bool IsMachineFileDeleted(Machine machine)
+    {
+        if (!Directory.Exists(machine.Directory))
+        {
+            return false;
+        }
+
+        try
+        {
+            File.GetAttributes(machine.Path);
+            return false;
+        }
+        catch (FileNotFoundException)
+        {
+            return true;
+        }
+        catch (DirectoryNotFoundException)
+        {
+            return true;
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or System.Security.SecurityException)
+        {
+            return false;
+        }
     }
 
     #region Properties

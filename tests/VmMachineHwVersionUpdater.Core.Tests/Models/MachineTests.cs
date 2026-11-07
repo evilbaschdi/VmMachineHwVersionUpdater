@@ -126,4 +126,58 @@ public class MachineTests
         // Assert
         toggleToolsSyncTime.Received(1).RunFor(@"C:\VMs\test.vmx", true);
     }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ApplyFrom_UpdatesChangedPropertiesWithoutWritingToVmx(
+        [Frozen] IUpdateMachineVersion updateMachineVersion,
+        [Frozen] IUpdateMachineMemSize updateMachineMemSize,
+        [Frozen] IToggleToolsSyncTime toggleToolsSyncTime,
+        [Frozen] IToggleToolsUpgradePolicy toggleToolsUpgradePolicy,
+        [Frozen] IToggleMksEnable3D toggleMksEnable3D,
+        Machine sut,
+        Machine other)
+    {
+        sut.Path = @"C:\VMs\test.vmx";
+        sut.HwVersion = 17;
+        sut.MemSize = 4;
+        sut.IsEnabledForEditing = true;
+
+        other.Path = @"C:\VMs\test.vmx";
+        other.HwVersion = 22;
+        other.MemSize = 8;
+        other.DisplayName = "Updated name";
+        other.DirectorySizeGb = 42;
+        other.ParsedGuestInfoDetailedData = new Dictionary<string, string>
+                                           {
+                                               ["distroName"] = "Windows 11"
+                                           };
+
+        using var monitoredMachine = sut.Monitor();
+
+        sut.ApplyFrom(other);
+
+        sut.HwVersion.Should().Be(22);
+        sut.MemSize.Should().Be(8);
+        sut.DisplayName.Should().Be("Updated name");
+        sut.DirectorySizeGb.Should().Be(42);
+        sut.ParsedGuestInfoDetailedData.Should().ContainKey("distroName").WhoseValue.Should().Be("Windows 11");
+        monitoredMachine.Should().RaisePropertyChangeFor(machine => machine.DirectorySizeGb);
+        monitoredMachine.Should().RaisePropertyChangeFor(machine => machine.ParsedGuestInfoDetailedData);
+        updateMachineVersion.DidNotReceive().RunFor(Arg.Any<string>(), Arg.Any<int>());
+        updateMachineMemSize.DidNotReceive().RunFor(Arg.Any<string>(), Arg.Any<int>());
+        toggleToolsSyncTime.DidNotReceive().RunFor(Arg.Any<string>(), Arg.Any<bool>());
+        toggleToolsUpgradePolicy.DidNotReceive().RunFor(Arg.Any<string>(), Arg.Any<bool>());
+        toggleMksEnable3D.DidNotReceive().RunFor(Arg.Any<string>(), Arg.Any<bool>());
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ApplyFrom_WhenValuesAreUnchanged_DoesNotRaisePropertyChanged(Machine sut, Machine other)
+    {
+        var propertyChanges = new List<string>();
+        sut.PropertyChanged += (_, args) => propertyChanges.Add(args.PropertyName);
+
+        sut.ApplyFrom(other);
+
+        propertyChanges.Should().BeEmpty();
+    }
 }

@@ -18,7 +18,7 @@ public class UpdateMachineVersionTests
     public void Methods_HaveNullGuards(GuardClauseAssertion assertion)
     {
         assertion.Verify(typeof(UpdateMachineVersion).GetMethods().Where(method => !method.IsAbstract
-                                                                                  & method.Name != nameof(UpdateMachineVersion.RunFor)));
+                                                                                   & (method.Name != nameof(UpdateMachineVersion.RunFor))));
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]

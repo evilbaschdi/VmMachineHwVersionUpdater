@@ -50,14 +50,22 @@ flowchart LR
 ### Parsing Strategy
 
 - MachineParserStrategy chooses parser by file extension (.vmx/.vbox).
-- ParseVmxFile uses IVmxLineStartsWith and ILineStartActions to quickly map line prefixes to property setters (parallel per line for performance).
+- ParseVmxFile uses IVmxLineStartsWith and ILineStartActions to map line prefixes to property setters in file order. Processing sequentially keeps repeated keys deterministic (the last value in the file wins) and avoids concurrent writes to one RawMachine.
 - LineStartActions centralizes the mapping of vmx keys to RawMachine mutations (annotation, guestos, memsize, encryption, etc.).
 - ParseVboxFile loads XDocument, navigates VirtualBox namespace, and reads attributes (name, version, OSType) and nodes (Description, Memory, CPU).
 
 ### Discovery & Loading
 
-- MachinesFromPath builds a list of VM files (vmx/vbox) from configured pools and archive paths, then handles them via IHandleMachineFromPath to produce Machine instances. Uses filtering via FileListFromPathFilter and can run in parallel.
+- MachinesFromPath builds a list of VM files (vmx/vbox) from configured pools and archive paths, then handles them via IHandleMachineFromPath to produce Machine instances. Uses filtering via FileListFromPathFilter and can run in parallel. Recoverable per-directory and per-file I/O or parsing failures are traced and do not abort loading other machines.
 - Load orchestrates fetching, transforming, and exposing collections for the UI, with filtering helpers (FilterItemSource, GuestOsesInUse, LoadSearchOsItems).
+
+### Periodic Refresh and UI State
+
+- The current application uses the configured `AutoRefreshMinutes` interval (five minutes by default) to poll the VM pools; it does not currently use a `FileSystemWatcher`.
+- A refresh builds a fresh machine snapshot on a worker thread. Only after that succeeds does the UI reconcile the snapshot on the UI thread.
+- Machines are matched by normalized file path. Existing `Machine` instances and the `DataGridCollectionView` are retained; changed properties are applied in place, new machines are added, and confirmed deletions are removed.
+- This keeps the active filter, sort descriptions, selected machine, and collection-view state intact. If a file is temporarily unavailable but still exists, its last successfully loaded row is retained for the next refresh.
+- A failed full refresh keeps the current UI snapshot and writes a diagnostic trace. Recoverable per-file failures keep that file's last good row while other machines continue to refresh.
 
 ### Commands
 
@@ -104,13 +112,13 @@ sequenceDiagram
 ## Error Handling & Robustness
 
 - Null guards on constructors and methods (ArgumentNullException.ThrowIfNull).
-- TryParse patterns for ints when reading VMX/VBOX.
+- VMX and VBOX parsing errors are isolated to the affected file during pool discovery.
 - Parallel loops use safe collections (e.g., ConcurrentBag) when aggregating.
 
 ## Performance Notes
 
-- ParseVmxFile processes lines in parallel with a dictionary-like action lookup for O(1) key testing, short-circuiting when possible (e.g., detailed data only first hit).
-- MachinesFromPath can parallelize both directory and file scanning; ensure logging/exception handling so one bad path doesn’t break the load.
+- VM-pool discovery and machine-detail loading still scan configured paths and calculate directory sizes, but periodic scans run off the UI thread.
+- MachinesFromPath parallelizes directory and file scanning and traces recoverable path/file failures so one unreadable VM does not cancel the rest of the snapshot.
 
 ## Extensibility
 

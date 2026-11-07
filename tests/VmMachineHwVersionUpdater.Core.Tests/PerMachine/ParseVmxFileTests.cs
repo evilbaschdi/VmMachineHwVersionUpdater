@@ -142,6 +142,32 @@ public class ParseVmxFileTests
     }
 
     [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
+    public void ValueFor_WithDuplicateKeys_UsesLastValueInFileOrder(
+        VmxLineStartsWith vmxLineStartsWith,
+        ReturnValueFromVmxLine returnValueFromVmxLine,
+        ConvertAnnotationLineBreaks convertAnnotationLineBreaks)
+    {
+        var sut = new ParseVmxFile(vmxLineStartsWith, new LineStartActions(returnValueFromVmxLine, convertAnnotationLineBreaks));
+        var tempFile = Path.GetTempFileName();
+
+        try
+        {
+            File.WriteAllText(tempFile, """
+                                        virtualhw.version = "17"
+                                        virtualhw.version = "22"
+                                        """);
+
+            var result = sut.ValueFor(tempFile);
+
+            result.HwVersion.Should().Be(22);
+        }
+        finally
+        {
+            File.Delete(tempFile);
+        }
+    }
+
+    [Theory, NSubstituteOmitAutoPropertiesTrueAutoData]
     public void ValueFor_WithNullFile_ThrowsArgumentNullException(
         VmxLineStartsWith vmxLineStartsWith,
         ReturnValueFromVmxLine returnValueFromVmxLine,

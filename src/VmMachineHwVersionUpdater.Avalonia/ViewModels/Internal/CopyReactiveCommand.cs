@@ -1,6 +1,7 @@
 using Avalonia.Threading;
 using EvilBaschdi.Core.Internal.Copy;
 using FluentAvalonia.UI.Controls;
+using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 
 //using FluentAvalonia.UI.Controls;
 
@@ -12,13 +13,11 @@ public class CopyReactiveCommand(
     [NotNull] ICopyMachine copyMachine,
     [NotNull] ICopyProgress copyProgress,
     [NotNull] ICurrentMachine currentMachine,
-    [NotNull] IReloadReactiveCommand reloadReactiveCommand,
     [NotNull] IMainWindowByApplicationLifetime mainWindowByApplicationLifetime) : ReactiveCommandRxVoidTask, ICopyReactiveCommand
 {
     private readonly ICopyMachine _copyMachine = copyMachine ?? throw new ArgumentNullException(nameof(copyMachine));
     private readonly ICopyProgress _copyProgress = copyProgress ?? throw new ArgumentNullException(nameof(copyProgress));
     private readonly ICurrentMachine _currentMachine = currentMachine ?? throw new ArgumentNullException(nameof(currentMachine));
-    private readonly IReloadReactiveCommand _reloadReactiveCommand = reloadReactiveCommand ?? throw new ArgumentNullException(nameof(reloadReactiveCommand));
 
     private readonly IMainWindowByApplicationLifetime _mainWindowByApplicationLifetime =
         mainWindowByApplicationLifetime ?? throw new ArgumentNullException(nameof(mainWindowByApplicationLifetime));
@@ -142,6 +141,11 @@ public class CopyReactiveCommand(
             await exceptionDialog.ShowAsync();
         }
 
-        await _reloadReactiveCommand.RunAsync(cancellationToken);
+        if (mainWindow?.DataContext is not IMainWindowViewModel mainWindowViewModel)
+        {
+            throw new InvalidOperationException("The main window view model is not available.");
+        }
+
+        await mainWindowViewModel.RefreshMachineDataAsync();
     }
 }

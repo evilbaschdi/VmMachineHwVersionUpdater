@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using EvilBaschdi.Core.Extensions;
 using EvilBaschdi.Core.Internal;
 using EvilBaschdi.Core.Model;
@@ -37,26 +38,55 @@ public class MachinesFromPath(
             Parallel.ForEach(existingMachinePoolPaths,
                 machinePoolPath =>
                 {
-                    var fileList = _fileListFromPath.ValueFor(machinePoolPath, fileListFromPathFilter);
+                    IEnumerable<string> fileList;
+                    try
+                    {
+                        fileList = _fileListFromPath.ValueFor(machinePoolPath, fileListFromPathFilter).ToArray();
+                    }
+                    catch (Exception exception) when (IsRecoverableLoadException(exception))
+                    {
+                        Trace.TraceError("Failed to enumerate VM files under '{0}': {1}", machinePoolPath, exception);
+                        return;
+                    }
+
                     Parallel.ForEach(fileList,
                         machineFilePath =>
                         {
-                            var machinePath = new MachinePath
-                                              {
-                                                  MachinePoolPath = machinePoolPath,
-                                                  MachineFilePath = machineFilePath,
-                                              };
-                            var machine = _handleMachineFromPath.ValueFor(machinePath);
-                            if (machine is null)
+                            try
                             {
-                                return;
-                            }
+                                var machinePath = new MachinePath
+                                                  {
+                                                      MachinePoolPath = machinePoolPath,
+                                                      MachineFilePath = machineFilePath,
+                                                  };
+                                var machine = _handleMachineFromPath.ValueFor(machinePath);
+                                if (machine is null)
+                                {
+                                    return;
+                                }
 
-                            machineBag.Add(machine);
+                                machineBag.Add(machine);
+                            }
+                            catch (Exception exception) when (IsRecoverableLoadException(exception))
+                            {
+                                Trace.TraceError("Failed to load VM file '{0}': {1}", machineFilePath, exception);
+                            }
                         });
                 });
 
             return machineBag;
         }
+    }
+
+    private static bool IsRecoverableLoadException(Exception exception)
+    {
+        return exception is IOException
+               or UnauthorizedAccessException
+               or System.Security.SecurityException
+               or ArgumentException
+               or NotSupportedException
+               or FormatException
+               or OverflowException
+               or System.Xml.XmlException;
     }
 }
