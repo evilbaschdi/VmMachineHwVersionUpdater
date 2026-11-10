@@ -7,24 +7,24 @@
     <PackageVersion Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.3" />
     <PackageVersion Include="Avalonia.AvaloniaEdit" Version="12.0.0" />
     <PackageVersion Include="AvaloniaEdit.TextMate" Version="12.0.0" />
-    <PackageVersion Include="EvilBaschdi.About.Avalonia" Version="2026.10.4.7" />
-    <PackageVersion Include="EvilBaschdi.Core" Version="2026.8.21.10" />
-    <PackageVersion Include="EvilBaschdi.Core.Avalonia" Version="2026.11.3.17" />
-    <PackageVersion Include="EvilBaschdi.Core.DependencyInjection" Version="2026.10.25.18" />
-    <PackageVersion Include="EvilBaschdi.Core.Logging" Version="2026.10.25.18" />
-    <PackageVersion Include="EvilBaschdi.Core.Settings" Version="2026.10.25.18" />
+    <PackageVersion Include="SWalter.About.Avalonia" Version="2026.11.10.19" />
+    <PackageVersion Include="SWalter.Core" Version="2026.11.10.18" />
+    <PackageVersion Include="SWalter.Core.Avalonia" Version="2026.11.10.19" />
+    <PackageVersion Include="SWalter.Core.DependencyInjection" Version="2026.11.10.18" />
+    <PackageVersion Include="SWalter.Core.Logging" Version="2026.11.10.19" />
+    <PackageVersion Include="SWalter.Core.Settings" Version="2026.11.10.19" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="Avalonia.Headless.XUnit" Version="12.1.5" />
+    <PackageVersion Include="Avalonia.Headless.XUnit" Version="12.1.6" />
     <PackageVersion Include="coverlet.collector" Version="10.1.0" />
-    <PackageVersion Include="EvilBaschdi.Testing" Version="2026.10.13.18" />
-    <PackageVersion Include="EvilBaschdi.Testing.Avalonia" Version="2026.11.3.17" />
+    <PackageVersion Include="SWalter.Testing" Version="2026.11.10.17" />
+    <PackageVersion Include="SWalter.Testing.Avalonia" Version="2026.11.10.19" />
     <PackageVersion Include="AwesomeAssertions.Analyzers" Version="9.0.8" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.11.1" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-    <PackageVersion Include="xunit.analyzers" Version="2.2.0" />
+    <PackageVersion Include="xunit.analyzers" Version="2.3.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="4.0.1" />
-    <PackageVersion Include="xunit.v3" Version="4.0.2" />
-    <PackageVersion Include="xunit.v3.runner.utility" Version="4.0.2" />
+    <PackageVersion Include="xunit.v3" Version="4.0.3" />
+    <PackageVersion Include="xunit.v3.runner.utility" Version="4.0.3" />
   </ItemGroup>
 </Project>

@@ -17,7 +17,7 @@
 		<PublishSingleFile>true</PublishSingleFile>
 		<RepositoryUrl>https://github.com/evilbaschdi/VmMachineHwVersionUpdater</RepositoryUrl>
 		<SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFramework>net11.0</TargetFramework>
 		<Version>$([System.DateTime]::UtcNow.ToString(yyyy.M.d.H))</Version>
 	</PropertyGroup>
 
@@ -30,10 +30,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Using Include="EvilBaschdi.Core" />
-		<Using Include="EvilBaschdi.Core.AppHelpers" />
-		<Using Include="EvilBaschdi.Core.DependencyInjection" />
-		<Using Include="EvilBaschdi.Core.Settings" />
+		<Using Include="SWalter.Core" />
+		<Using Include="SWalter.Core.AppHelpers" />
+		<Using Include="SWalter.Core.DependencyInjection" />
+		<Using Include="SWalter.Core.Settings" />
 		<Using Include="JetBrains.Annotations" />
 		<Using Include="Microsoft.Extensions.DependencyInjection" />
 		<Using Include="System.Linq" />
@@ -48,22 +48,22 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia'))">
-		<Using Include="EvilBaschdi.Core.Avalonia.Controls" />
-		<Using Include="EvilBaschdi.Core.Avalonia.Lifetime" />
-		<Using Include="EvilBaschdi.Core.Avalonia.Mvvm" />
+		<Using Include="SWalter.Core.Avalonia.Controls" />
+		<Using Include="SWalter.Core.Avalonia.Lifetime" />
+		<Using Include="SWalter.Core.Avalonia.Mvvm" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia.Tests'))">
 		<Using Include="Avalonia.Controls" />
 		<Using Include="Avalonia.Headless" />
-		<Using Include="EvilBaschdi.Testing.Avalonia" />
+		<Using Include="SWalter.Testing.Avalonia" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EvilBaschdi.Core" />
-		<PackageReference Include="EvilBaschdi.Core.DependencyInjection" />
-		<PackageReference Include="EvilBaschdi.Core.Logging" />
-		<PackageReference Include="EvilBaschdi.Core.Settings" />
+		<PackageReference Include="SWalter.Core" />
+		<PackageReference Include="SWalter.Core.DependencyInjection" />
+		<PackageReference Include="SWalter.Core.Logging" />
+		<PackageReference Include="SWalter.Core.Settings" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia'))">
@@ -73,7 +73,7 @@
 
 	<!-- ReSharper disable once UnknownProperty -->
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-		<PackageReference Include="EvilBaschdi.Testing" />
+		<PackageReference Include="SWalter.Testing" />
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.v3.runner.utility" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -100,7 +100,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('.Avalonia.Tests'))">
-		<PackageReference Include="EvilBaschdi.Testing.Avalonia" />
+		<PackageReference Include="SWalter.Testing.Avalonia" />
 		<PackageReference Include="Avalonia.Headless.XUnit" />
 	</ItemGroup>
 

@@ -261,7 +261,7 @@ public void Constructor_ReturnsInterfaceName()
 
 ## Dependency Injection Tests
 
-For testing DI service registration (static extension method classes), use the fluent `ServiceCollection` assertions from `EvilBaschdi.Testing` (available via global using `EvilBaschdi.Testing.Assertions.Microsoft.Extensions.DependencyInjection`).
+For testing DI service registration (static extension method classes), use the fluent `ServiceCollection` assertions from `SWalter.Testing` (available via global using `SWalter.Testing.Assertions.Microsoft.Extensions.DependencyInjection`).
 
 DI tests MUST use `[Theory, NSubstituteOmitAutoPropertiesTrueAutoData]` with `IServiceCollection` injected by AutoFixture:
 
@@ -347,9 +347,9 @@ public void Dispose_WhenCalled_ImplementsIDisposable(ClassUnderTest sut)
 All test files have access to these global usings from Directory.Build.props:
 - AutoFixture.Idioms
 - AutoFixture.Xunit3
-- EvilBaschdi.Testing
+- SWalter.Testing
 - AwesomeAssertions
-- EvilBaschdi.Testing.Assertions.Microsoft.Extensions.DependencyInjection
+- SWalter.Testing.Assertions.Microsoft.Extensions.DependencyInjection
 - NSubstitute
 - NSubstitute.ReturnsExtensions
 - Xunit

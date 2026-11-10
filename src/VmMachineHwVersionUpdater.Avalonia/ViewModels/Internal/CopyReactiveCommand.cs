@@ -1,5 +1,5 @@
 using Avalonia.Threading;
-using EvilBaschdi.Core.Internal.Copy;
+using SWalter.Core.Internal.Copy;
 using FluentAvalonia.UI.Controls;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 

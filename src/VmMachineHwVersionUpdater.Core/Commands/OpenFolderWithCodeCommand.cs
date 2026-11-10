@@ -1,4 +1,4 @@
-using EvilBaschdi.Core.Extensions;
+using SWalter.Core.Extensions;
 
 namespace VmMachineHwVersionUpdater.Core.Commands;
 

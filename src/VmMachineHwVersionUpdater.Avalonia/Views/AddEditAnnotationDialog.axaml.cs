@@ -1,5 +1,5 @@
-using EvilBaschdi.Core.Avalonia.DependencyInjection;
-using EvilBaschdi.Core.Avalonia.Themes;
+using SWalter.Core.Avalonia.DependencyInjection;
+using SWalter.Core.Avalonia.Themes;
 using FluentAvalonia.UI.Windowing;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 

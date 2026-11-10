@@ -1,5 +1,5 @@
 using System.Globalization;
-using EvilBaschdi.Core.Extensions;
+using SWalter.Core.Extensions;
 using VmMachineHwVersionUpdater.Core.Extensions;
 
 namespace VmMachineHwVersionUpdater.Core.PerMachine;

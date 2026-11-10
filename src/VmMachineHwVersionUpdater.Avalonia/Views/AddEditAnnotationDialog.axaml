@@ -1,4 +1,4 @@
-﻿<!-- ReSharper disable once Xaml.PathError -->
+<!-- ReSharper disable once Xaml.PathError -->
 <windowing:FAAppWindow xmlns="https://github.com/avaloniaui"
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,8 @@
                        xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
                        xmlns:viewModels="clr-namespace:VmMachineHwVersionUpdater.Avalonia.ViewModels"
                        xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
-                       xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
-                       xmlns:mvvm="clr-namespace:EvilBaschdi.Core.Avalonia.Mvvm;assembly=EvilBaschdi.Core.Avalonia"
+                       xmlns:evilBaschdi="clr-namespace:SWalter.Core.Avalonia.Controls;assembly=SWalter.Core.Avalonia"
+                       xmlns:mvvm="clr-namespace:SWalter.Core.Avalonia.Mvvm;assembly=SWalter.Core.Avalonia"
                        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.AddEditAnnotationDialog"
                        x:DataType="viewModels:AddEditAnnotationDialogViewModel" mc:Ignorable="d"
                        d:DesignWidth="450" d:DesignHeight="450" Width="450" Height="450" ShowAsDialog="True"

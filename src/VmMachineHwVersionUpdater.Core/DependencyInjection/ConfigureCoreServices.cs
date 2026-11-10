@@ -1,5 +1,5 @@
-using EvilBaschdi.Core.Internal;
-using EvilBaschdi.Core.Internal.Copy;
+using SWalter.Core.Internal;
+using SWalter.Core.Internal.Copy;
 
 namespace VmMachineHwVersionUpdater.Core.DependencyInjection;
 

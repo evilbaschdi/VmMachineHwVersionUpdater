@@ -1,6 +1,6 @@
 using Avalonia;
-using EvilBaschdi.About.Avalonia.DependencyInjection;
-using EvilBaschdi.Core.Avalonia.AppBuilderImplementations;
+using SWalter.About.Avalonia.DependencyInjection;
+using SWalter.Core.Avalonia.AppBuilderImplementations;
 using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 
 // ReSharper disable once ClassNeverInstantiated.Global

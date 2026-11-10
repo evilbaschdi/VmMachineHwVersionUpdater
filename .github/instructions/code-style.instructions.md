@@ -53,9 +53,9 @@ public class ParseVmxFile : IParseVmxFile
 ## Global Usings Available
 
 These usings are available globally across all projects:
-- EvilBaschdi.Core
-- EvilBaschdi.Core.DependencyInjection
-- EvilBaschdi.Core.Settings
+- SWalter.Core
+- SWalter.Core.DependencyInjection
+- SWalter.Core.Settings
 - JetBrains.Annotations
 - Microsoft.Extensions.DependencyInjection
 - System.Linq

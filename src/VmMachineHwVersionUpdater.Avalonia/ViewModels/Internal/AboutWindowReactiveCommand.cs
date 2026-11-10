@@ -1,5 +1,5 @@
-using EvilBaschdi.About.Avalonia;
-using EvilBaschdi.Core.Avalonia.DependencyInjection;
+using SWalter.About.Avalonia;
+using SWalter.Core.Avalonia.DependencyInjection;
 
 namespace VmMachineHwVersionUpdater.Avalonia.ViewModels.Internal;
 

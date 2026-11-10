@@ -1,8 +1,8 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using EvilBaschdi.Core.Extensions;
-using EvilBaschdi.Core.Internal;
-using EvilBaschdi.Core.Model;
+using SWalter.Core.Extensions;
+using SWalter.Core.Internal;
+using SWalter.Core.Model;
 
 namespace VmMachineHwVersionUpdater.Core.BasicApplication;
 

@@ -1,8 +1,8 @@
 using System.Reflection;
 using Avalonia;
-using EvilBaschdi.About.Avalonia.DependencyInjection;
-using EvilBaschdi.Core.Avalonia.DependencyInjection;
-using EvilBaschdi.Core.Avalonia.Lifetime;
+using SWalter.About.Avalonia.DependencyInjection;
+using SWalter.Core.Avalonia.DependencyInjection;
+using SWalter.Core.Avalonia.Lifetime;
 using VmMachineHwVersionUpdater.Avalonia.DependencyInjection;
 using VmMachineHwVersionUpdater.Avalonia.ViewModels;
 using VmMachineHwVersionUpdater.Avalonia.Views;

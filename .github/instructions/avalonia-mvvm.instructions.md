@@ -65,7 +65,7 @@ public class MyReactiveCommand(
 
 **Key imports for reactive commands:**
 ```csharp
-using EvilBaschdi.Core.Avalonia;
+using SWalter.Core.Avalonia;
 using FluentAvalonia.UI.Controls;
 ```
 
@@ -127,5 +127,5 @@ Most commands that show dialogs need `IMainWindowByApplicationLifetime` to acces
 
 ## Avalonia Test Considerations
 - Use `Avalonia.Headless` for UI testing
-- Additional global using: `EvilBaschdi.Testing.Avalonia`
+- Additional global using: `SWalter.Testing.Avalonia`
 - Avalonia test project has conditional package references in `Directory.Build.props`

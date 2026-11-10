@@ -50,7 +50,7 @@ The DI is split across two projects:
 ### Wiring in Program.cs
 ```csharp
 serviceCollection.AddCoreServices();
-serviceCollection.AddAboutServices();       // From EvilBaschdi.About.Avalonia
+serviceCollection.AddAboutServices();       // From SWalter.About.Avalonia
 serviceCollection.AddCommandServices();
 serviceCollection.AddAvaloniaServices();
 serviceCollection.AddReactiveCommandServices();
@@ -65,11 +65,11 @@ When adding a new service:
 3. Insert the registration line in alphabetical order
 4. Add a corresponding test in the DI test class verifying the registration
 
-## External Dependencies from EvilBaschdi.Core
+## External Dependencies from SWalter.Core
 
 These are registered in `ConfigureCoreServices`:
 - `ICopyDirectoryWithFilesWithProgress`, `ICopyDirectoryWithProgress`, `ICopyProgress` — File copy operations
 - `IFileListFromPath` — File discovery
 - `IProcessByPath` — Process launching
 
-Import them from: `using EvilBaschdi.Core.Internal;` and `using EvilBaschdi.Core.Internal.Copy;`
+Import them from: `using SWalter.Core.Internal;` and `using SWalter.Core.Internal.Copy;`

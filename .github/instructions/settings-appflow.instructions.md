@@ -27,7 +27,7 @@ Located in `VmMachineHwVersionUpdater.Core/Settings/`:
 **GuestOsStringMapping.json** — OS ID to display name mapping (sourced from VMware open-vm-tools).
 
 ### Settings Classes Pattern
-Settings files use `SettingsFromJsonFile` base class from EvilBaschdi.Core:
+Settings files use `SettingsFromJsonFile` base class from SWalter.Core:
 
 ```csharp
 // Interface inherits from ISettingsFromJsonFile

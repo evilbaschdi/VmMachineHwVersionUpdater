@@ -1,4 +1,4 @@
-using EvilBaschdi.Core.Internal;
+using SWalter.Core.Internal;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.DependencyInjection;
 

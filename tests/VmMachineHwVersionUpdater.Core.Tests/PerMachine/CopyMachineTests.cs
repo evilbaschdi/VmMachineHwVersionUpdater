@@ -1,5 +1,5 @@
-using EvilBaschdi.Core.Internal.Copy;
-using EvilBaschdi.Testing.Extensions;
+using SWalter.Core.Internal.Copy;
+using SWalter.Testing.Extensions;
 
 namespace VmMachineHwVersionUpdater.Core.Tests.PerMachine;
 

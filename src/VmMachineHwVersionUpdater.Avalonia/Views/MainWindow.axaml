@@ -7,7 +7,7 @@
                        xmlns:viewModels="clr-namespace:VmMachineHwVersionUpdater.Avalonia.ViewModels"
                        xmlns:models="clr-namespace:VmMachineHwVersionUpdater.Core.Models;assembly=VmMachineHwVersionUpdater.Core"
                        xmlns:windowing="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
-                       xmlns:evilBaschdi="clr-namespace:EvilBaschdi.Core.Avalonia.Controls;assembly=EvilBaschdi.Core.Avalonia"
+                       xmlns:evilBaschdi="clr-namespace:SWalter.Core.Avalonia.Controls;assembly=SWalter.Core.Avalonia"
                        xmlns:converters="clr-namespace:VmMachineHwVersionUpdater.Avalonia.Converters"
                        x:Class="VmMachineHwVersionUpdater.Avalonia.Views.MainWindow"
                        x:DataType="viewModels:MainWindowViewModel" mc:Ignorable="d"

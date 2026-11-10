@@ -31,28 +31,28 @@ Central configuration for ALL projects:
 
 **Global usings** (all projects):
 ```
-EvilBaschdi.Core, EvilBaschdi.Core.AppHelpers, EvilBaschdi.Core.DependencyInjection,
-EvilBaschdi.Core.Settings, JetBrains.Annotations, Microsoft.Extensions.DependencyInjection,
+SWalter.Core, SWalter.Core.AppHelpers, SWalter.Core.DependencyInjection,
+SWalter.Core.Settings, JetBrains.Annotations, Microsoft.Extensions.DependencyInjection,
 System.Linq, and all VmMachineHwVersionUpdater.Core.* namespaces
 ```
 
 **Test-only global usings:**
 ```
-AutoFixture.Idioms, AutoFixture.Xunit3, EvilBaschdi.Testing,
-AwesomeAssertions, EvilBaschdi.Testing.Assertions.Microsoft.Extensions.DependencyInjection,
+AutoFixture.Idioms, AutoFixture.Xunit3, SWalter.Testing,
+AwesomeAssertions, SWalter.Testing.Assertions.Microsoft.Extensions.DependencyInjection,
 NSubstitute, NSubstitute.ReturnsExtensions, Xunit
 ```
 
 **Avalonia.Tests-only global usings:**
 ```
-Avalonia.Controls, Avalonia.Headless, EvilBaschdi.Testing.Avalonia
+Avalonia.Controls, Avalonia.Headless, SWalter.Testing.Avalonia
 ```
 
 **Shared package references** (all projects):
-- `EvilBaschdi.Core`, `EvilBaschdi.Core.DependencyInjection`,`EvilBaschdi.Core.Logging`, `EvilBaschdi.Core.Settings`
+- `SWalter.Core`, `SWalter.Core.DependencyInjection`,`SWalter.Core.Logging`, `SWalter.Core.Settings`
 
 **Test-only packages** (auto-added for `.Tests` projects):
-- `EvilBaschdi.Testing`, `xunit.v3`, `xunit.v3.runner.utility`, `Microsoft.NET.Test.Sdk`
+- `SWalter.Testing`, `xunit.v3`, `xunit.v3.runner.utility`, `Microsoft.NET.Test.Sdk`
 - `coverlet.collector`, `AwesomeAssertions.Analyzers`
 - `NSubstitute.Analyzers.CSharp`, `xunit.analyzers`, `xunit.runner.visualstudio`
 
